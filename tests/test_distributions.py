@@ -86,7 +86,7 @@ class SetupTestCase(unittest.TestCase):
         # Test the cdf functionality for both eval and integrations
         cdf1    = self._d_.cdf(0.1)
         cdf     = self._d_.cdf(0.3)
-        cdf2    = self._d_.cdf(Dmax = 0.3, Dmin = 0.1)
+        cdf2    = self._d_.cdf(dmax = 0.3, dmin = 0.1)
         cdf_s   = self._d_.cdf(0.1, weight = 'surface')
         cdf_v   = self._d_.cdf(0.1, weight = 'volume')
 

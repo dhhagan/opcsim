@@ -1,0 +1,129 @@
+import numpy as np
+import pandas as pd
+import math
+
+from .distributions import AerosolDistribution
+
+_avail_params = [
+    'nm',
+    'na',
+    'vm',
+    'va',
+    'nm_total',
+    'na_total',
+    'vm_total',
+    'va_total',
+    'nm_na',
+    'nm_va',
+    'vm_va'
+]
+
+def _set_bins(dmin, dmax, num_bins):
+    """
+        Create and return a list of bins that are equally spaced (in log space)
+        between dmin and dmax assuming num_bins bins.
+    """
+    bins    = np.zeros(( num_bins, 3 )) * np.nan
+
+    bins[0, 0]      = dmin
+    bins[-1, -1]    = dmax
+
+    mult = 1. / (( np.log10(dmax) - np.log10(dmin) ) / num_bins )
+
+    for i in range(num_bins):
+        bins[i, 2]  = math.pow(10, np.log10( bins[i, 0])) + ( 1. / mult )
+        bins[i, 1]  = math.pow(10, np.mean([np.log10(bins[i, 0]), np.log10(bins[i, 2])]))
+
+        if i < num_bins - 1:
+            bins[i + 1, 0]  = bins[i, 2]
+
+    return bins
+
+class OPC(object):
+    """
+        Build a generic Optical Particle Counter (OPC) as defined by the following
+        parameters:
+
+            1. An OPC has N Bins
+            2. An OPC has a minimum size cutoff (Dmin)
+            3. An OPC has a maximum size cutoff (Dmax)
+
+        Alternatively, you can set the bins exactly by providing a 3xn array
+    """
+    def __init__(self, num_bins = 1, dmin = 0.5, dmax = 2.5, ce = None, bins = None, **kwargs):
+        """
+        """
+        self.num_bins   = num_bins
+        self.dmin       = dmin
+        self.dmax       = dmax
+
+        if bins is None:
+            self.bins       = _set_bins(dmin, dmax, num_bins)
+        else:
+            # Make sure that the bins are in the desired format
+            assert (bins.shape[1] == 2 or bins.shape[1] == 3), "Bins must be a 3xn array"
+
+            # If the shape is 2, then add in the middle bin using the log mean
+            if bins.shape[1] == 2:
+                self.bins = np.zeros(( bins.shape[0], 3 )) * np.nan
+
+                self.bins[:, 0] = bins[:, 0]
+                self.bins[:, 2] = bins[:, -1]
+
+                for i in range(bins.shape[0]):
+                    self.bins[i, 1]  = math.pow(10, np.mean([np.log10(self.bins[i, 0]), np.log10(self.bins[i, 2])]))
+            else:
+                self.bins       = bins
+
+            self.num_bins   = self.bins.shape[0]
+            self.dmin       = self.bins[0, 0]
+            self.dmax       = self.bins[-1, -1]
+
+        self.dlogdp     = np.log10(self.bins[:, 2]) - np.log10(self.bins[:, 0])
+
+    def histogram(self, distribution, weight = 'number', base = 'log10'):
+        """
+            Accept a valid AerosolDistribution and return the histogram for this
+            OPC based on its parameters and counting efficiency.
+
+            Add in support for CE soon!
+
+        """
+        assert isinstance(distribution, AerosolDistribution), "Invalid AerosolDistribution"
+
+        return distribution.pdf(self.bins[:, 1] , base = base, weight = weight)
+
+    def evaluate(self, distribution, param = 'nm', **kwargs):
+        """
+            Evaluate an individual parameter
+        """
+        dmax = kwargs.pop('dmax', 100.)
+
+        data = self.histogram(distribution, weight = 'number', base = 'log10')
+
+        if param == 'nm':
+            res = data * self.dlogdp
+        elif param == 'na':
+            res = [distribution.cdf(dmin = self.bins[i, 0], dmax = self.bins[i, 2]) for i in range(self.num_bins)]
+        elif param == 'vm':
+            res = data * self.dlogdp * ( self.bins[:, 1] ** 3 * np.pi / 6. )
+        elif param == 'va':
+            res = [distribution.cdf(dmin = self.bins[i, 0], dmax = self.bins[i, 2], weight = 'volume') for i in range(self.num_bins)]
+        elif param == 'nm_total':
+            res = np.sum(self.evaluate(distribution, param = 'nm'))
+        elif param == 'na_total':
+            res = distribution.cdf(dmax = dmax, weight = 'number')
+        elif param == 'vm_total':
+            res = np.sum(self.evaluate(distribution, param = 'vm'))
+        elif param == 'va_total':
+            res = distribution.cdf(dmax = dmax, weight = 'volume')
+        elif param == 'nm_na':
+            res = round(self.evaluate(distribution, param = 'nm_total') / self.evaluate(distribution, param = 'na_total'), 3)
+        elif param == 'nm_va':
+            res = round(self.evaluate(distribution, param = 'nm_total') / self.evaluate(distribution, param = 'va_total'), 3)
+        elif param == 'vm_va':
+            res = round(self.evaluate(distribution, param = 'vm_total') / self.evaluate(distribution, param = 'va_total'), 3)
+        else:
+            raise Exception("Invalid param: [{}]".format(_avail_params))
+
+        return res

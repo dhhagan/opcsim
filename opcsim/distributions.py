@@ -95,12 +95,12 @@ class AerosolDistribution(object):
 
         return total
 
-    def cdf(self, Dmax, weight = 'number', Dmin = 0.0, mode = None):
+    def cdf(self, dmax, weight = 'number', dmin = 0.0, mode = None):
         """
             Return the cumulative distribution function (CDF) as a sum of all
             individual CDF's.
         """
-        assert (Dmin < Dmax), "Dmin must be less than Dmax"
+        assert (dmin < dmax), "Dmin must be less than Dmax"
 
         total = 0.0
 
@@ -110,10 +110,10 @@ class AerosolDistribution(object):
             modes = self.modes
 
         for mode in modes:
-            total = total + _get_cdf_func(weight, Dmax, mode['N'], mode['GM'], mode['GSD'])
+            total = total + _get_cdf_func(weight, dmax, mode['N'], mode['GM'], mode['GSD'])
 
-            if Dmin > 0.0:
-                total = total - _get_cdf_func(weight, Dmin, mode['N'], mode['GM'], mode['GSD'])
+            if dmin > 0.0:
+                total = total - _get_cdf_func(weight, dmin, mode['N'], mode['GM'], mode['GSD'])
 
         return total
 
