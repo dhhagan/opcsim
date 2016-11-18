@@ -112,3 +112,21 @@ class SetupTestCase(unittest.TestCase):
         # Force error
         with self.assertRaises(Exception):
             res.evaluate(self._d_, param = 'asda')
+
+        # Test errant CE equation
+        def bad():
+            return 1
+
+        new = OPC(num_bins = 3, ce = bad)
+
+    def test_set_bins(self):
+        res = OPC(dmin = 0.5, dmax = 2.5, num_bins = 1)
+
+        self.assertEqual(res.bins[0, 2] - res.bins[0, 0], 2.0)
+
+    def test_bins(self):
+        res = OPC(dmin = 0.5, dmax = 2.5, num_bins = 1)
+
+        a, b, c   = res.boxes(self._d_)
+
+        self.assertEqual(b[0], 2.0)

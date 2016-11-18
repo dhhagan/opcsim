@@ -26,18 +26,25 @@ def _set_bins(dmin, dmax, num_bins):
     bins    = np.zeros(( num_bins, 3 )) * np.nan
 
     bins[0, 0]      = dmin
-    bins[-1, -1]    = dmax
+    bins[-1, 2]     = dmax
 
-    mult = 1. / (( np.log10(dmax) - np.log10(dmin) ) / num_bins )
+    if num_bins > 1:
+        mult = 1. / (( np.log10(dmax) - np.log10(dmin) ) / num_bins )
 
-    for i in range(num_bins):
-        bins[i, 2]  = math.pow(10, np.log10( bins[i, 0])) + ( 1. / mult )
-        bins[i, 1]  = math.pow(10, np.mean([np.log10(bins[i, 0]), np.log10(bins[i, 2])]))
+        for i in range(num_bins):
+            bins[i, 2]  = math.pow(10, np.log10( bins[i, 0])) + ( 1. / mult )
+            bins[i, 1]  = math.pow(10, np.mean([np.log10(bins[i, 0]), np.log10(bins[i, 2])]))
 
-        if i < num_bins - 1:
-            bins[i + 1, 0]  = bins[i, 2]
+            if i < num_bins - 1:
+                bins[i + 1, 0]  = bins[i, 2]
 
     return bins
+
+def constant(x):
+    """
+        Define an efficiency curve for the OPC
+    """
+    return x * 0.0 + 1.
 
 class OPC(object):
     """
@@ -49,8 +56,10 @@ class OPC(object):
             3. An OPC has a maximum size cutoff (Dmax)
 
         Alternatively, you can set the bins exactly by providing a 3xn array
+
+        ce can be any function that accepts x as an argument
     """
-    def __init__(self, num_bins = 1, dmin = 0.5, dmax = 2.5, ce = None, bins = None, **kwargs):
+    def __init__(self, num_bins = 1, dmin = 0.5, dmax = 2.5, ce = constant, bins = None, **kwargs):
         """
         """
         self.num_bins   = num_bins
@@ -79,6 +88,11 @@ class OPC(object):
             self.dmin       = self.bins[0, 0]
             self.dmax       = self.bins[-1, -1]
 
+        try:
+            self.ce         = ce(self.bins[:, 1])
+        except:
+            self.ce         = 1.
+
         self.dlogdp     = np.log10(self.bins[:, 2]) - np.log10(self.bins[:, 0])
 
     def histogram(self, distribution, weight = 'number', base = 'log10'):
@@ -92,6 +106,21 @@ class OPC(object):
         assert isinstance(distribution, AerosolDistribution), "Invalid AerosolDistribution"
 
         return distribution.pdf(self.bins[:, 1] , base = base, weight = weight)
+
+    def boxes(self, distribution, weight = 'number', base = 'log10'):
+        """
+            Return the bins as a 3xn array for the given distribution. Should
+            be in a format that can be easily plotted as a bar chart (left, height, width)
+
+            `left` is the left hand side of bins
+            `width` is dlogdp
+            `height` is the histogram evaluated at the correct spots
+        """
+        left    = self.bins[:, 0]
+        width   = self.bins[:, 2] - self.bins[:, 0]
+        height  = self.histogram(distribution, weight = weight, base = base)
+
+        return left, width, height
 
     def evaluate(self, distribution, param = 'nm', **kwargs):
         """

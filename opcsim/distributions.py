@@ -79,7 +79,7 @@ class AerosolDistribution(object):
 
         return
 
-    def pdf(self, Dp, base = 'none', weight = 'number'):
+    def pdf(self, Dp, base = 'none', weight = 'number', mode = None):
         """
             Return the probability distribution function (PDF) as a sum of the
             individual PDF's.
@@ -90,7 +90,12 @@ class AerosolDistribution(object):
         """
         total = 0.0
 
-        for mode in self.modes:
+        if mode is not None:
+            modes = [self._get_mode(mode)]
+        else:
+            modes = self.modes
+
+        for mode in modes:
             total = total + _get_pdf_func(base, weight, Dp, mode['N'], mode['GM'], mode['GSD'])
 
         return total

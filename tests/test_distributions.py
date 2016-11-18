@@ -76,6 +76,8 @@ class SetupTestCase(unittest.TestCase):
         pdf_s   = self._d_.pdf(0.1, weight = 'surface', base = 'log10')
         pdf_v   = self._d_.pdf(0.1, weight = 'volume', base = 'log10')
 
+        pdf     = self._d_.pdf(0.1, weight = 'surface', base = 'log10', mode = _mode_label)
+
         with self.assertRaises(Exception):
             self._d_.pdf(0.1, weight = 'error')
 
