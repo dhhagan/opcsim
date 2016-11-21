@@ -8,7 +8,7 @@ from .models import OPC
 
 rc_log = {
     'xtick.major.size':     8.0,
-    'xtick.minior.size':    5.0,
+    'xtick.minor.size':    5.0,
     'ytick.major.size':     8.0
 }
 
@@ -27,13 +27,17 @@ def distplot(distribution, x = np.linspace(0.01, 10., 1000), weight = 'number', 
         if w not in ['number', 'surface', 'volume', 'mass']:
             raise Exception("Invalid weight: ['number', 'surface', 'volume', 'mass']")
 
-    figsize = kwargs.pop('figsize', (14, 7))
+    figsize     = kwargs.pop('figsize', (14, 7))
+    fig         = kwargs.pop('fig', None)
+    ax          = kwargs.pop('ax', None)
+    plot_kws    = kwargs.pop('plot_kws', {'lw': 3.})
 
     with sns.axes_style('white', rc_log):
-        fig, ax = plt.subplots(len(weight), figsize = figsize, sharex = True)
+        if fig is None or ax is None:
+            fig, ax = plt.subplots(len(weight), figsize = figsize, sharex = True)
 
         if len(weight) == 1:
-            ax.plot(x, distribution.pdf(x, base, weight[0]))
+            ax.plot(x, distribution.pdf(x, base, weight[0]), **plot_kws)
 
             if with_modes:
                 for mode in distribution.modes:
@@ -41,7 +45,6 @@ def distplot(distribution, x = np.linspace(0.01, 10., 1000), weight = 'number', 
 
             ax.semilogx()
             ax.xaxis.set_major_formatter(ScalarFormatter())
-            ax.legend( loc = 'best' )
         else:
             i = 0
             for w in weight:
@@ -57,3 +60,8 @@ def distplot(distribution, x = np.linspace(0.01, 10., 1000), weight = 'number', 
         sns.despine()
 
     return fig, ax
+
+
+__all__ = [
+    'distplot'
+]

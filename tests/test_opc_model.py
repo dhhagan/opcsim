@@ -34,7 +34,8 @@ class SetupTestCase(unittest.TestCase):
         self.assertEqual(res.num_bins, 2)
 
         # Make sure the distance in log space is equal for both bins
-        self.assertEqual(np.log10(res.bins[0, 2] - res.bins[0, 0]), np.log10(res.bins[1, 2] - res.bins[1, 0]))
+        self.assertEqual(np.log10(res.bins[0, 2]) - np.log10(res.bins[0, 0]),
+                np.log10(res.bins[1, 2]) - np.log10(res.bins[1, 0]))
 
     def test_2_column_bins(self):
         bins = np.array([[0.5, 2.5]])
@@ -122,11 +123,14 @@ class SetupTestCase(unittest.TestCase):
     def test_set_bins(self):
         res = OPC(dmin = 0.5, dmax = 2.5, num_bins = 1)
 
-        self.assertEqual(res.bins[0, 2] - res.bins[0, 0], 2.0)
+        self.assertEqual(round(res.bins[0, 2] - res.bins[0, 0], 2), 2.0)
+        self.assertEqual(res.bins[0, 0], 0.5)
+        self.assertEqual(round(res.bins[0, 2], 2), 2.5)
 
     def test_bins(self):
         res = OPC(dmin = 0.5, dmax = 2.5, num_bins = 1)
 
-        a, b, c   = res.boxes(self._d_)
+        l, h, w   = res.boxes(self._d_)
 
-        self.assertEqual(b[0], 2.0)
+        self.assertEqual(round(w[0], 2), 2.0)
+        self.assertEqual(round(l[0], 2), 0.5)

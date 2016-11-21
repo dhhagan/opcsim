@@ -28,15 +28,14 @@ def _set_bins(dmin, dmax, num_bins):
     bins[0, 0]      = dmin
     bins[-1, 2]     = dmax
 
-    if num_bins > 1:
-        mult = 1. / (( np.log10(dmax) - np.log10(dmin) ) / num_bins )
+    mult = 1. / (( np.log10(dmax) - np.log10(dmin) ) / num_bins )
 
-        for i in range(num_bins):
-            bins[i, 2]  = math.pow(10, np.log10( bins[i, 0])) + ( 1. / mult )
-            bins[i, 1]  = math.pow(10, np.mean([np.log10(bins[i, 0]), np.log10(bins[i, 2])]))
+    for i in range(num_bins):
+        bins[i, 2]  = math.pow(10, np.log10( bins[i, 0]) + ( 1. / mult ))
+        bins[i, 1]  = math.pow(10, np.mean([np.log10(bins[i, 0]), np.log10(bins[i, 2])]))
 
-            if i < num_bins - 1:
-                bins[i + 1, 0]  = bins[i, 2]
+        if i < num_bins - 1:
+            bins[i + 1, 0]  = bins[i, 2]
 
     return bins
 
@@ -61,6 +60,7 @@ class OPC(object):
     """
     def __init__(self, num_bins = 1, dmin = 0.5, dmax = 2.5, ce = constant, bins = None, **kwargs):
         """
+            num_bins = 1
         """
         self.num_bins   = num_bins
         self.dmin       = dmin
@@ -120,7 +120,7 @@ class OPC(object):
         width   = self.bins[:, 2] - self.bins[:, 0]
         height  = self.histogram(distribution, weight = weight, base = base)
 
-        return left, width, height
+        return left, height, width
 
     def evaluate(self, distribution, param = 'nm', **kwargs):
         """
@@ -156,3 +156,7 @@ class OPC(object):
             raise Exception("Invalid param: [{}]".format(_avail_params))
 
         return res
+
+__all__ = [
+    'OPC'
+]

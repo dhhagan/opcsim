@@ -1,8 +1,20 @@
 # opcsim
 opcsim is a python package for simulating an Optical Particle Counter (OPC).
 
+## Dependencies
 
-## Unittesting
+    1. scipy
+    2. numpy
+    3. seaborn
+    4. pandas
+
+## Installation
+
+To install the development version directly from GitHub using pip:
+
+    >>> pip install git+git://github.com/dhhagan/opcsim.git#egg=opcsim
+
+## Unittests
 
 To run the tests locally:
 
@@ -14,3 +26,7 @@ To run the tests locally with coverage:
 
     # View the report
     coverage report -m
+
+## Documentation
+
+Coming soon...

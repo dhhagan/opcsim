@@ -8,5 +8,6 @@ import os
 
 from .distributions import *
 from .models import *
+from .viz import *
 
 __version__ = get_distribution('opcsim').version
