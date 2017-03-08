@@ -7,6 +7,7 @@ from opcsim.distributions import *
 from opcsim.models import *
 from opcsim.viz import distplot
 
+"""
 _mode_          = (1000, 0.05, 1.25)
 _mode2_         = (1000, 0.1, 1.5)
 
@@ -39,3 +40,4 @@ class SetupTestCase(unittest.TestCase):
 
     def test_multi_plot_distplot(self):
         plt = distplot(self._d_, weight = ['number', 'surface'])
+"""

@@ -29,8 +29,11 @@ if six.PY3:
 RST_TEMPLATE = """
 .. _{sphinx_tag}:
 {docstring}
+
 .. image:: {img_file}
+
 **Python source code:** :download:`[download source: {fname}]<{fname}>`
+
 .. literalinclude:: {fname}
     :lines: {end_line}-
 """
@@ -38,6 +41,7 @@ RST_TEMPLATE = """
 
 INDEX_TEMPLATE = """
 .. raw:: html
+
     <style type="text/css">
     .figure {{
         position: relative;
@@ -94,11 +98,13 @@ INDEX_TEMPLATE = """
     }}
     </style>
 .. _{sphinx_tag}:
+
 Example gallery
 ===============
 {toctree}
 {contents}
 .. raw:: html
+
     <div style="clear: both"></div>
 """
 
@@ -148,12 +154,9 @@ class ExampleGenerator(object):
 
         # Only actually run it if the output RST file doesn't
         # exist or it was modified less recently than the example
-        if (not op.exists(outfilename)
-            or (op.getmtime(outfilename) < op.getmtime(filename))):
-
+        if (not op.exists(outfilename) or (op.getmtime(outfilename) < op.getmtime(filename))):
             self.exec_file()
         else:
-
             print("skipping {0}".format(self.filename))
 
     @property
@@ -215,43 +218,32 @@ class ExampleGenerator(object):
         """ Extract a module-level docstring
         """
         lines = open(self.filename).readlines()
-        start_row = 0
-        if lines[0].startswith('#!'):
-            lines.pop(0)
-            start_row = 1
 
         docstring = ''
         first_par = ''
-        tokens = tokenize.generate_tokens(lambda: next(lines.__iter__()))
-        for tok_type, tok_content, _, (erow, _), _ in tokens:
-            tok_type = token.tok_name[tok_type]
-            if tok_type in ('NEWLINE', 'COMMENT', 'NL', 'INDENT', 'DEDENT'):
-                continue
-            elif tok_type == 'STRING':
-                docstring = eval(tok_content)
-                # If the docstring is formatted with several paragraphs,
-                # extract the first one:
-                paragraphs = '\n'.join(line.rstrip()
-                                       for line in docstring.split('\n')
-                                       ).split('\n\n')
-                if len(paragraphs) > 0:
-                    first_par = paragraphs[0]
-            break
+
+        docstring_lines = lines[1:4]
+        code_lines = lines[5:]
+
+        docstring = ''.join(docstring_lines)
+        code = ''.join(code_lines)
 
         thumbloc = None
-        for i, line in enumerate(docstring.split("\n")):
+
+        for i, line in enumerate(docstring.split('\n')):
             m = re.match(r"^_thumb: (\.\d+),\s*(\.\d+)", line)
             if m:
                 thumbloc = float(m.group(1)), float(m.group(2))
                 break
+
         if thumbloc is not None:
             self.thumbloc = thumbloc
             docstring = "\n".join([l for l in docstring.split("\n")
-                                   if not l.startswith("_thumb")])
+                                       if not l.startswith("_thumb")])
 
         self.docstring = docstring
         self.short_desc = first_par
-        self.end_line = erow + 1 + start_row
+        self.end_line = 6
 
     def exec_file(self):
         print("running {0}".format(self.filename))

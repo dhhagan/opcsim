@@ -6,6 +6,7 @@ import os
 from opcsim.distributions import *
 from opcsim.models import *
 
+"""
 _mode_          = (1000, 0.15, 1.5)
 
 _mode_label     = 'ex_mode'
@@ -134,3 +135,4 @@ class SetupTestCase(unittest.TestCase):
 
         self.assertEqual(round(w[0], 2), 2.0)
         self.assertEqual(round(l[0], 2), 0.5)
+"""

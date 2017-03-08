@@ -40,34 +40,58 @@ def _set_bins(dmin, dmax, num_bins):
     return bins
 
 def constant(x):
-    """
-        Define an efficiency curve for the OPC
-    """
+    """Define an efficiency curve for the OPC. """
     return x * 0.0 + 1.
 
 class OPC(object):
+    """Simulate an Optical Particle Counter (OPC) as defined by key instrument
+    variables.
     """
-        Build a generic Optical Particle Counter (OPC) as defined by the following
-        parameters:
+    def __init__(self, num_bins=1, dmin=0.5, dmax=2.5, ce=constant, bins=None, **kwargs):
+        """Initialize the simulated OPC.
 
-            1. An OPC has N Bins
-            2. An OPC has a minimum size cutoff (Dmin)
-            3. An OPC has a maximum size cutoff (Dmax)
+        Parameters
+        ----------
+        num_bins : int, optional
+            The number of discrete size bins for the OPC
+        dmin : float, optional
+            Minimum particle diameter the OPC can "see" in units of microns.
+        dmax : float, optional
+            Maximum particle diameter the OPC can "see" in units of microns.
+        ce : callable, optional
+            Function to be used to calculate the counting efficiency. Should map
+            bin diameters (Dp) to a single value.
+        bins : 3xn array, optional
+            Array of bin diameters. If not set, the bin diameters will be
+            automatically set by assuming equalivant bins in logspace between
+            dmin and dmax.
+        kwargs : key, value pairings
+            Additional keyword arguments.
 
-        Alternatively, you can set the bins exactly by providing a 3xn array
+        Returns
+        -------
+        Instance of the OPC class.
 
-        ce can be any function that accepts x as an argument
-    """
-    def __init__(self, num_bins = 1, dmin = 0.5, dmax = 2.5, ce = constant, bins = None, **kwargs):
+        Examples
+        --------
+
+        Initialize an OPC with 1 bin (Sharp, Shinyei, etc.)
+
+        >>> opc = opcsim.OPC(n_bins=1)
+
+        Initialize an OPC with 2 bins (0.5-2.5 um, 2.5-10um)
+
+        >>> import numpy as np
+        >>> bins = np.array([])
+        >>> opc = opcsim.OPC(n_bins=2, bins=bins)
+
         """
-            num_bins = 1
-        """
-        self.num_bins   = num_bins
-        self.dmin       = dmin
-        self.dmax       = dmax
+        self.num_bins = num_bins
+        self.dmin = dmin
+        self.dmax = dmax
 
         if bins is None:
-            self.bins       = _set_bins(dmin, dmax, num_bins)
+            self.bins = _set_bins(dmin, dmax, num_bins)
         else:
             # Make sure that the bins are in the desired format
             assert (bins.shape[1] == 2 or bins.shape[1] == 3), "Bins must be a 3xn array"
@@ -95,8 +119,8 @@ class OPC(object):
 
         self.dlogdp     = np.log10(self.bins[:, 2]) - np.log10(self.bins[:, 0])
 
-    def histogram(self, distribution, weight = 'number', base = 'log10'):
-        """
+    def histogram(self, distribution, weight='number', base='log10'):
+        """Return the histogram
             Accept a valid AerosolDistribution and return the histogram for this
             OPC based on its parameters and counting efficiency.
 
@@ -156,6 +180,10 @@ class OPC(object):
             raise Exception("Invalid param: [{}]".format(_avail_params))
 
         return res
+
+    def _set_bins(self):
+        """Calculate bin midpoints."""
+        return
 
 __all__ = [
     'OPC'

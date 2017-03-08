@@ -7,12 +7,12 @@ from .distributions import AerosolDistribution
 from .models import OPC
 
 rc_log = {
-    'xtick.major.size':     8.0,
-    'xtick.minor.size':    5.0,
-    'ytick.major.size':     8.0
+    'xtick.major.size': 8.0,
+    'xtick.minor.size': 5.0,
+    'ytick.major.size': 8.0
 }
 
-def distplot(distribution, x = np.linspace(0.01, 10., 1000), weight = 'number', base = 'log10', with_modes = False, **kwargs):
+def distplot(distribution, x=np.linspace(0.01, 10., 1000), weight='number', base='log10', with_modes=False, **kwargs):
     """
         distplot
 
