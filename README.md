@@ -29,4 +29,4 @@ To run the tests locally with coverage:
 
 ## Documentation
 
-Coming soon...
+Full documentation can be found [here](https://dhhagan.github.io/opcsim/)

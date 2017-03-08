@@ -1,7 +1,6 @@
 
 .. _model_tutorial:
 
-.. current_module:: opcsim
 
 Build a Simulated OPC
 =====================
