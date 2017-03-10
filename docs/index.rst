@@ -19,8 +19,8 @@
 
     </style>
 
-Seaborn: statistical data visualization
-=======================================
+OpcSim: Simulated Optical Particle Counters
+===========================================
 
 .. raw:: html
 

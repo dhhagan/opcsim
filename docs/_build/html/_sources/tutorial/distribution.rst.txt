@@ -47,11 +47,6 @@ class using parameters from Seinfeld and Pandis:
 .. parsed-literal::
 
     AerosolDistribution: Urban
-    
-    Mode	N		GM	GSD
-    Mode I	7.10e+03	0.012	1.706
-    Mode II	6.32e+03	0.037	1.778
-    Mode III	9.60e+02	0.151	1.600
 
 
 
@@ -92,11 +87,6 @@ class using parameters from Seinfeld and Pandis:
 .. parsed-literal::
 
     AerosolDistribution: Urban
-    
-    Mode	N		GM	GSD
-    Mode I	7.10e+03	0.012	1.706
-    Mode II	6.32e+03	0.037	1.778
-    Mode III	9.60e+02	0.151	1.600
 
 
 

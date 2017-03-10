@@ -97,7 +97,11 @@
 <li><a class="reference internal" href="#aerosol-distributions">Aerosol Distributions</a><ul>
 </ul>
 </li>
+<li><a class="reference internal" href="#models">Models</a><ul>
+</ul>
+</li>
 <li><a class="reference internal" href="#visualization">Visualization</a></li>
+<li><a class="reference internal" href="#equations">Equations</a></li>
 <li><a class="reference internal" href="#utility-functions">Utility Functions</a></li>
 </ul>
 </li>
@@ -159,22 +163,111 @@
 <tr class="row-even"><td><a class="reference internal" href="generated/opcsim.AerosolDistribution.pdf.html#opcsim.AerosolDistribution.pdf" title="opcsim.AerosolDistribution.pdf"><code class="xref py py-obj docutils literal"><span class="pre">opcsim.AerosolDistribution.pdf</span></code></a>(dp[,&nbsp;base,&nbsp;...])</td>
 <td>Evaluate and return the probability distribution function at particle diameter <cite>dp</cite>.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="generated/opcsim.AerosolDistribution.cdf.html#opcsim.AerosolDistribution.cdf" title="opcsim.AerosolDistribution.cdf"><code class="xref py py-obj docutils literal"><span class="pre">opcsim.AerosolDistribution.cdf</span></code></a>([dmin,&nbsp;dmax,&nbsp;...])</td>
+<tr class="row-odd"><td><a class="reference internal" href="generated/opcsim.AerosolDistribution.cdf.html#opcsim.AerosolDistribution.cdf" title="opcsim.AerosolDistribution.cdf"><code class="xref py py-obj docutils literal"><span class="pre">opcsim.AerosolDistribution.cdf</span></code></a>(dmax[,&nbsp;dmin,&nbsp;...])</td>
 <td>Evaluate and return the cumulative probability distribution function between dmin and dmax.</td>
 </tr>
 </tbody>
 </table>
 </div>
-<div class="section" id="visualization">
-<span id="viz-api"></span><h2>Visualization<a class="headerlink" href="#visualization" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="models">
+<span id="models-api"></span><h2>Models<a class="headerlink" href="#models" title="Permalink to this headline">¶</a></h2>
+<p class="rubric">OPC Class</p>
 <table border="1" class="longtable docutils">
 <colgroup>
 <col width="10%" />
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="generated/opcsim.viz.distplot.html#opcsim.viz.distplot" title="opcsim.viz.distplot"><code class="xref py py-obj docutils literal"><span class="pre">viz.distplot</span></code></a>(distribution[,&nbsp;x,&nbsp;weight,&nbsp;...])</td>
+<tr class="row-odd"><td><a class="reference internal" href="generated/opcsim.OPC.html#opcsim.OPC" title="opcsim.OPC"><code class="xref py py-obj docutils literal"><span class="pre">opcsim.OPC</span></code></a>([n_bins,&nbsp;dmin,&nbsp;dmax,&nbsp;ce,&nbsp;bins])</td>
+<td>Simulate an Optical Particle Counter (OPC) as defined by key instrument variables.</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">OPC Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="generated/opcsim.OPC.evaluate.html#opcsim.OPC.evaluate" title="opcsim.OPC.evaluate"><code class="xref py py-obj docutils literal"><span class="pre">opcsim.OPC.evaluate</span></code></a>(distribution[,&nbsp;weight,&nbsp;base])</td>
+<td>Evaluate the OPC given the PDF of an aerosol distribution.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="generated/opcsim.OPC.histogram.html#opcsim.OPC.histogram" title="opcsim.OPC.histogram"><code class="xref py py-obj docutils literal"><span class="pre">opcsim.OPC.histogram</span></code></a>(distribution[,&nbsp;weight,&nbsp;...])</td>
+<td>Return a histogram corresponding to how an OPC &#8220;sees&#8221; an aerosol distribution.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="generated/opcsim.OPC.number.html#opcsim.OPC.number" title="opcsim.OPC.number"><code class="xref py py-obj docutils literal"><span class="pre">opcsim.OPC.number</span></code></a>(distribution[,&nbsp;measured])</td>
+<td>Return the total number of particles an OPC &#8216;sees&#8217; in each bin.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="generated/opcsim.OPC.surface_area.html#opcsim.OPC.surface_area" title="opcsim.OPC.surface_area"><code class="xref py py-obj docutils literal"><span class="pre">opcsim.OPC.surface_area</span></code></a>(distribution[,&nbsp;measured])</td>
+<td>Return the total surface area of particles an OPC &#8216;sees&#8217; in each bin.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="generated/opcsim.OPC.volume.html#opcsim.OPC.volume" title="opcsim.OPC.volume"><code class="xref py py-obj docutils literal"><span class="pre">opcsim.OPC.volume</span></code></a>(distribution[,&nbsp;measured])</td>
+<td>Return the total volume of particles an OPC &#8216;sees&#8217; in each bin.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="visualization">
+<span id="plots-api"></span><h2>Visualization<a class="headerlink" href="#visualization" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="generated/opcsim.plots.distplot.html#opcsim.plots.distplot" title="opcsim.plots.distplot"><code class="xref py py-obj docutils literal"><span class="pre">opcsim.plots.distplot</span></code></a>(distribution[,&nbsp;x,&nbsp;...])</td>
 <td>with_modes only works for an individual weight</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="generated/opcsim.plots.histplot.html#opcsim.plots.histplot" title="opcsim.plots.histplot"><code class="xref py py-obj docutils literal"><span class="pre">opcsim.plots.histplot</span></code></a>(data,&nbsp;bins[,&nbsp;ax,&nbsp;...])</td>
+<td>Plot the particle size distribution as a histogram/bar chart.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="equations">
+<span id="equations-api"></span><h2>Equations<a class="headerlink" href="#equations" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="generated/opcsim.equations.pdf.dn_ddp.html#opcsim.equations.pdf.dn_ddp" title="opcsim.equations.pdf.dn_ddp"><code class="xref py py-obj docutils literal"><span class="pre">opcsim.equations.pdf.dn_ddp</span></code></a>(dp,&nbsp;n,&nbsp;gm,&nbsp;gsd)</td>
+<td>Evaluate the lognormal PDF.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="generated/opcsim.equations.pdf.ds_ddp.html#opcsim.equations.pdf.ds_ddp" title="opcsim.equations.pdf.ds_ddp"><code class="xref py py-obj docutils literal"><span class="pre">opcsim.equations.pdf.ds_ddp</span></code></a>(dp,&nbsp;n,&nbsp;gm,&nbsp;gsd)</td>
+<td>The surface-area weighted PDF of a lognormal distribution as calculated using equation 8.4 from Seinfeld and Pandis.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="generated/opcsim.equations.pdf.dv_ddp.html#opcsim.equations.pdf.dv_ddp" title="opcsim.equations.pdf.dv_ddp"><code class="xref py py-obj docutils literal"><span class="pre">opcsim.equations.pdf.dv_ddp</span></code></a>(dp,&nbsp;n,&nbsp;gm,&nbsp;gsd)</td>
+<td>The volume weighted PDF of a lognormal distribution as calculated using equation 8.6 from Seinfeld and Pandis.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="generated/opcsim.equations.pdf.dn_dlndp.html#opcsim.equations.pdf.dn_dlndp" title="opcsim.equations.pdf.dn_dlndp"><code class="xref py py-obj docutils literal"><span class="pre">opcsim.equations.pdf.dn_dlndp</span></code></a>(dp,&nbsp;n,&nbsp;gm,&nbsp;gsd)</td>
+<td>The PDF of a lognormal distribution as calculated using equation 8.33 by way of 8.21 from Seinfeld and Pandis.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="generated/opcsim.equations.pdf.ds_dlndp.html#opcsim.equations.pdf.ds_dlndp" title="opcsim.equations.pdf.ds_dlndp"><code class="xref py py-obj docutils literal"><span class="pre">opcsim.equations.pdf.ds_dlndp</span></code></a>(dp,&nbsp;n,&nbsp;gm,&nbsp;gsd)</td>
+<td>The surface-area weighted PDF of a lognormal distribution as calculated using equation 8.10 from Seinfeld and Pandis.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="generated/opcsim.equations.pdf.dv_dlndp.html#opcsim.equations.pdf.dv_dlndp" title="opcsim.equations.pdf.dv_dlndp"><code class="xref py py-obj docutils literal"><span class="pre">opcsim.equations.pdf.dv_dlndp</span></code></a>(dp,&nbsp;n,&nbsp;gm,&nbsp;gsd)</td>
+<td>The volume weighted PDF of a lognormal distribution as calculated using equation 8.10 from Seinfeld and Pandis.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="generated/opcsim.equations.pdf.dn_dlogdp.html#opcsim.equations.pdf.dn_dlogdp" title="opcsim.equations.pdf.dn_dlogdp"><code class="xref py py-obj docutils literal"><span class="pre">opcsim.equations.pdf.dn_dlogdp</span></code></a>(dp,&nbsp;n,&nbsp;gm,&nbsp;gsd)</td>
+<td>The PDF of a lognormal distribution on a log10 basis as calculated using equation 8.18 from Seinfeld and Pandis.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="generated/opcsim.equations.pdf.ds_dlogdp.html#opcsim.equations.pdf.ds_dlogdp" title="opcsim.equations.pdf.ds_dlogdp"><code class="xref py py-obj docutils literal"><span class="pre">opcsim.equations.pdf.ds_dlogdp</span></code></a>(dp,&nbsp;n,&nbsp;gm,&nbsp;gsd)</td>
+<td>The surface-area weighted PDF of a lognormal distribution as calculated using equation 8.19 from Seinfeld and Pandis.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="generated/opcsim.equations.pdf.dv_dlogdp.html#opcsim.equations.pdf.dv_dlogdp" title="opcsim.equations.pdf.dv_dlogdp"><code class="xref py py-obj docutils literal"><span class="pre">opcsim.equations.pdf.dv_dlogdp</span></code></a>(dp,&nbsp;n,&nbsp;gm,&nbsp;gsd)</td>
+<td>The volume weighted PDF of a lognormal distribution as calculated using equation 8.20 from Seinfeld and Pandis.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="generated/opcsim.equations.cdf.nt.html#opcsim.equations.cdf.nt" title="opcsim.equations.cdf.nt"><code class="xref py py-obj docutils literal"><span class="pre">opcsim.equations.cdf.nt</span></code></a>(n,&nbsp;gm,&nbsp;gsd[,&nbsp;dmin,&nbsp;dmax])</td>
+<td>Evaluate the total number of particles between two diameters.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="generated/opcsim.equations.cdf.st.html#opcsim.equations.cdf.st" title="opcsim.equations.cdf.st"><code class="xref py py-obj docutils literal"><span class="pre">opcsim.equations.cdf.st</span></code></a>(n,&nbsp;gm,&nbsp;gsd[,&nbsp;dmin,&nbsp;dmax])</td>
+<td>Evaluate the total surface area of the particles between dmin and dmax.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="generated/opcsim.equations.cdf.vt.html#opcsim.equations.cdf.vt" title="opcsim.equations.cdf.vt"><code class="xref py py-obj docutils literal"><span class="pre">opcsim.equations.cdf.vt</span></code></a>(n,&nbsp;gm,&nbsp;gsd[,&nbsp;dmin,&nbsp;dmax])</td>
+<td>Evaluate the total volume of the particles between dmin and dmax.</td>
 </tr>
 </tbody>
 </table>
@@ -189,6 +282,12 @@
 <tbody valign="top">
 <tr class="row-odd"><td><a class="reference internal" href="generated/opcsim.load_distribution.html#opcsim.load_distribution" title="opcsim.load_distribution"><code class="xref py py-obj docutils literal"><span class="pre">opcsim.load_distribution</span></code></a>(label)</td>
 <td>Load sample distributions as described by S+P Table 8.3.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="generated/opcsim.utils.make_bins.html#opcsim.utils.make_bins" title="opcsim.utils.make_bins"><code class="xref py py-obj docutils literal"><span class="pre">opcsim.utils.make_bins</span></code></a>(dmin,&nbsp;dmax,&nbsp;n_bins[,&nbsp;...])</td>
+<td>Returns a 3xn array of bin diameters.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="generated/opcsim.utils.midpoints.html#opcsim.utils.midpoints" title="opcsim.utils.midpoints"><code class="xref py py-obj docutils literal"><span class="pre">opcsim.utils.midpoints</span></code></a>(bins[,&nbsp;base])</td>
+<td>Returns a 3xn array of bin diameters.</td>
 </tr>
 </tbody>
 </table>

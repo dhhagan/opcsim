@@ -42,10 +42,9 @@ DISTRIBUTION_DATA = {
         ],
 }
 
-def _get_pdf_func(base, weight, D, N, GM, GSD):
+def _get_pdf_func(base, weight, dp, n, gm, gsd):
     """
     """
-    base    = base.lower()
     weight  = weight.lower()
 
     if weight not in ['number', 'surface', 'volume']:
@@ -56,27 +55,27 @@ def _get_pdf_func(base, weight, D, N, GM, GSD):
 
     if base == 'none' or base == None:
         if weight == 'number':
-            return dn_ddp(D, N, GM, GSD)
+            return dn_ddp(dp, n, gm, gsd)
         elif weight == 'surface':
-            return ds_ddp(D, N, GM, GSD)
+            return ds_ddp(dp, n, gm, gsd)
         elif weight == 'volume':
-            return dv_ddp(D, N, GM, GSD)
+            return dv_ddp(dp, n, gm, gsd)
     elif base == 'log':
         if weight == 'number':
-            return dn_dlndp(D, N, GM, GSD)
+            return dn_dlndp(dp, n, gm, gsd)
         elif weight == 'surface':
-            return ds_dlndp(D, N, GM, GSD)
+            return ds_dlndp(dp, n, gm, gsd)
         elif weight == 'volume':
-            return dv_dlndp(D, N, GM, GSD)
+            return dv_dlndp(dp, n, gm, gsd)
     elif base == 'log10':
         if weight == 'number':
-            return dn_dlogdp(D, N, GM, GSD)
+            return dn_dlogdp(dp, n, gm, gsd)
         elif weight == 'surface':
-            return ds_dlogdp(D, N, GM, GSD)
+            return ds_dlogdp(dp, n, gm, gsd)
         elif weight == 'volume':
-            return dv_dlogdp(D, N, GM, GSD)
+            return dv_dlogdp(dp, n, gm, gsd)
 
-def _get_cdf_func(weight, D, N, GM, GSD):
+def _get_cdf_func(n, gm, gsd, dmin=None, dmax=10., weight='number'):
     """
     """
     weight = weight.lower()
@@ -84,11 +83,11 @@ def _get_cdf_func(weight, D, N, GM, GSD):
         raise Exception("Invalid argument for weight: ['number', 'surface', 'volume']")
 
     if weight == 'number':
-        return Nt(D, N, GM, GSD)
+        return nt(n, gm, gsd, dmin, dmax)
     elif weight == 'surface':
-        return St(D, N, GM, GSD)
+        return st(n, gm, gsd, dmin, dmax)
     elif weight == 'volume':
-        return Vt(D, N, GM, GSD)
+        return vt(n, gm, gsd, dmin, dmax)
 
 def load_distribution(label):
     """Load sample distributions as described by S+P Table 8.3.
@@ -255,7 +254,7 @@ class AerosolDistribution(object):
 
         return value
 
-    def cdf(self, dmin=0.0, dmax=None, weight='number', mode=None):
+    def cdf(self, dmax, dmin=None, weight='number', mode=None):
         """Evaluate and return the cumulative probability distribution function
         between dmin and dmax.
 
@@ -265,12 +264,6 @@ class AerosolDistribution(object):
         range will return the total number of particles in that size range. If
         weighted by surface area or volume, it will return the integrated
         surface area or volume respectively.
-
-        Mathematically, it is represented as:
-
-        .. math::
-
-            Σ
 
         Parameters
         ----------
@@ -308,8 +301,9 @@ class AerosolDistribution(object):
         >>> d.cdf(dmax=2.5, weight='volume')
 
         """
-        if not dmin < dmax:
-            raise ValueError("dmin must be less than dmax")
+        if dmin is not None:
+            if not dmin < dmax:
+                raise ValueError("dmin must be less than dmax")
 
         value = 0.0
 
@@ -318,83 +312,10 @@ class AerosolDistribution(object):
         else:
             modes = self.modes
 
-        for mode in modes:
-            value += _get_cdf_func(weight, dmax, mode['N'], mode['GM'], mode['GSD'])
-
-            if dmin > 0.0:
-                value -= _get_cdf_func(weight, dmin, mode['N'], mode['GM'], mode['GSD'])
+        for m in modes:
+            value += _get_cdf_func(m['N'], m['GM'], m['GSD'], dmin, dmax, weight)
 
         return value
 
-    def mean(self, mode = None, weight = 'number', diameter = True):
-        """
-            Calculate the mean diameter, surface area, or volume weighted by
-            number, surface area, or volume.
-
-            weight = 'number',  diameter = True     Mean Diameter               S+P 8.44
-            weight = 'number',  diameter = False    Mean Diameter               S+P 8.44
-            weight = 'surface', diameter = True     Surface Area Mean Diameter  S+P T8.2
-            weight = 'surface', diameter = False    Mean Surface Area           S+P T8.2
-            weight = 'volume',  diameter = True     Volume Mean Diameter        S+P T8.2
-            weight = 'volume',  diameter = False    Mean Volume                 S+P T8.2
-        """
-        # Get the mode
-        if len(self.modes) > 1:
-            _m_ = self._get_mode(mode)
-        else:
-            _m_ = self.modes[0]
-
-        if weight == 'number':
-            res = _m_['GM'] * np.exp( np.log( _m_['GSD'] ) ** 2 / 2. )
-
-        elif weight == 'surface':
-            res = (1. / _m_['N']) * self.cdf(1000., weight = 'surface', mode = _m_['label'])
-
-            if diameter == True:
-                res = np.sqrt( res / np.pi )
-
-        elif weight == 'volume':
-            res = (1. / _m_['N']) * self.cdf(1000., weight = 'volume', mode = _m_['label'])
-
-            if diameter == True:
-                res = ( (6. / np.pi) * res ) ** ( 1. / 3. )
-
-        else:
-            raise Exception("Invalid weight: ['number', 'surface', 'volume']")
-
-        return res
-
-    def median(self, mode = None, weight = 'number'):
-        """
-            Calculate the weighted median diameter
-
-            weight = 'number'   Median Particle Diameter        argument
-            weight = 'surface'  Surface Area Median Diameter    S+P 8.50
-            weight = 'volume'   Volume Median Diameter          S+P 8.53
-
-        """
-        # Get the mode
-        if len(self.modes) > 1:
-            _m_ = self._get_mode(mode)
-        else:
-            _m_ = self.modes[0]
-
-        if weight == 'number':
-            res = _m_['GM']
-        elif weight == 'surface':
-            res = np.exp( np.log(_m_['GM']) + 2 * np.log( _m_['GSD'] ) ** 2 )
-        elif weight == 'volume':
-            res = np.exp( np.log(_m_['GM']) + 3 * np.log( _m_['GSD'] ) ** 2 )
-        else:
-            raise Exception("Invalid weight: ['number', 'surface', 'volume']")
-
-        return res
-
     def __repr__(self):
-        res = "AerosolDistribution: {}\n\n".format(self.label)
-        res = res + "Mode\tN\t\tGM\tGSD\n"
-
-        for mode in self.modes:
-            res = res + "{}\t{:.2e}\t{:.3f}\t{:.3f}\n".format(mode['label'], mode['N'], mode['GM'], mode['GSD'])
-
-        return res
+        return "AerosolDistribution: {}".format(self.label)

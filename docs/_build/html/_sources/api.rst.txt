@@ -26,8 +26,30 @@ Aerosol Distributions
     opcsim.AerosolDistribution.pdf
     opcsim.AerosolDistribution.cdf
 
+.. _models_api:
 
-.. _viz_api:
+Models
+------
+
+.. rubric:: OPC Class
+
+.. autosummary::
+    :toctree: generated/
+
+    opcsim.OPC
+
+.. rubric:: OPC Methods
+
+.. autosummary::
+    :toctree: generated/
+
+    opcsim.OPC.evaluate
+    opcsim.OPC.histogram
+    opcsim.OPC.number
+    opcsim.OPC.surface_area
+    opcsim.OPC.volume
+
+.. _plots_api:
 
 Visualization
 -------------
@@ -35,7 +57,33 @@ Visualization
 .. autosummary::
     :toctree: generated/
 
-    viz.distplot
+    opcsim.plots.distplot
+    opcsim.plots.histplot
+
+
+.. _equations_api:
+
+Equations
+---------
+
+.. autosummary::
+    :toctree: generated/
+
+    opcsim.equations.pdf.dn_ddp
+    opcsim.equations.pdf.ds_ddp
+    opcsim.equations.pdf.dv_ddp
+
+    opcsim.equations.pdf.dn_dlndp
+    opcsim.equations.pdf.ds_dlndp
+    opcsim.equations.pdf.dv_dlndp
+
+    opcsim.equations.pdf.dn_dlogdp
+    opcsim.equations.pdf.ds_dlogdp
+    opcsim.equations.pdf.dv_dlogdp
+
+    opcsim.equations.cdf.nt
+    opcsim.equations.cdf.st
+    opcsim.equations.cdf.vt
 
 
 .. _utils_api:
@@ -47,3 +95,6 @@ Utility Functions
     :toctree: generated/
 
     opcsim.load_distribution
+
+    opcsim.utils.make_bins
+    opcsim.utils.midpoints
