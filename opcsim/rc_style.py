@@ -3,6 +3,6 @@
 import matplotlib as mpl
 
 def set(**kwargs):
-    mpl.rcParams['figure.autolayout'] = kwargs.pop('figure.autolayout', True)
+    mpl.rcParams['figure.autolayout'] = kwargs.pop('figure.autolayout', False)
 
     return

@@ -14,6 +14,30 @@ rc_log = {
     'ytick.minor.size': 5.0
 }
 
+YLABEL = {
+    'none': {
+        'number': "$dN/dD_p \; [\mu m^{-1} cm^{-3}]$",
+        'surface': "$dS/dD_p \; [\mu m cm^{-3}]$",
+        'volume': "$dV/dD_p \; [\mu m^2 cm^{-3}]$"
+    },
+    'log': {
+        'number': "$dN/dlnD_p \; [# cm^{-3}]$",
+        'surface': "$dS/dlnD_p \; [\mu m^2 cm^{-3}]$",
+        'volume': "$dV/dlnD_p \; [\mu m^3 cm^{-3}]$"
+    },
+    'log10': {
+        'number': "$dN/dlogD_p \; [cm^{-3}]$",
+        'surface': "$dS/dlogD_p \; [\mu m^2 cm^{-3}]$",
+        'volume': "$dV/dlogD_p \; [\mu m^3 cm^{-3}]$"
+    }
+}
+
+YLABEL_CDF = {
+    'number': 'Total Number [$cm^{-3}$]',
+    'surface': 'Total Surface Area [$\mu m^2cm^{-3}$]',
+    'volume': 'Total Volume [$\mu m^3 cm^{-3}$]'
+}
+
 def histplot(data, bins, ax=None, plot_kws={}, fig_kws={}, **kwargs):
     """Plot the particle size distribution as a histogram/bar chart.
 
@@ -122,55 +146,234 @@ def histplot(data, bins, ax=None, plot_kws={}, fig_kws={}, **kwargs):
 
     return ax
 
-"""
-def distplot(distribution, x=np.linspace(0.01, 10., 1000), weight='number', base='log10', with_modes=False, **kwargs):
-    #distplot
+def pdfplot(distribution, ax=None, weight='number', base='log10', with_modes=False,
+            plot_kws={}, fig_kws={}, **kwargs):
+    """Plot the PDF of a particle size distribution.
 
-    #with_modes only works for an individual weight
-    assert hasattr(distribution, 'pdf'), "Invalid AerosolDistribution"
+    Parameters
+    ----------
+    distribution : valid `AerosolDistribution`
+        An aerosol distribution with the method `pdf` that can be evaluated at
+        an array of particle diameters.
+    weight : {'number' | 'surface' | 'volume'}
+        Choose how to weight the pdf. Default is `number`.
+    base : {'none' | 'log' | 'log10'}
+        Base algorithm to use. Default is 'log10'.
+    ax : matplotlib axis
+        If an axis is provided, the histogram will be plotted on this axis.
+        Otherwise, a new axis object will be created.
+    with_modes : bool
+        If true, all modes of a given distribution will be plotted along with
+        their sum. If false, only the sum will be plotted.
+    plot_kws : dict
+        Optional keyword arguments to include. They are sent as an argument to
+        the matplotlib bar plot.
+    fig_kws : dict
+        Optional keyword arguments to include for the figure.
 
-    if type(weight) is not list:
-        weight = [weight]
+    Returns
+    -------
+    ax : matplotlib axis object
 
-    for w in weight:
-        if w not in ['number', 'surface', 'volume', 'mass']:
-            raise Exception("Invalid weight: ['number', 'surface', 'volume', 'mass']")
+    Examples
+    --------
 
-    figsize     = kwargs.pop('figsize', (14, 7))
-    fig         = kwargs.pop('fig', None)
-    ax          = kwargs.pop('ax', None)
-    plot_kws    = kwargs.pop('plot_kws', {'lw': 3.})
+    Plot the number-weighted Urban aerosol distribution
 
-    with sns.axes_style('white', rc_log):
-        if fig is None or ax is None:
-            fig, ax = plt.subplots(len(weight), figsize = figsize, sharex = True)
+    .. plot::
+        :context: close-figs
 
-        if len(weight) == 1:
-            ax.plot(x, distribution.pdf(x, base, weight[0]), **plot_kws)
+        >>> import opcsim, seaborn as sns
+        >>> d = opcsim.load_distribution("Urban")
+        >>> ax = opcsim.plots.pdfplot(d)
+        >>> ax.set_title("Urban Aerosol Distribution", fontsize=16)
+        >>> sns.despine()
 
-            if with_modes:
-                for mode in distribution.modes:
-                    ax.plot(x, distribution.pdf(x, base, weight[0], mode = mode['label']), label = mode['label'], linestyle = '--')
+    Let's take a look at the individual modes as well
 
-            ax.semilogx()
-            ax.xaxis.set_major_formatter(ScalarFormatter())
-        else:
-            i = 0
-            for w in weight:
-                ax[i].plot(x, distribution.pdf(x, base, w))
+    .. plot::
+        :context: close-figs
 
-                ax[i].set_ylabel(w)
-                ax[i].semilogx()
+        >>> ax = opcsim.plots.pdfplot(d, with_modes=True)
+        >>> ax.set_title("Urban Aerosol Distribution", fontsize=16)
+        >>> ax.legend(loc='best')
+        >>> sns.despine()
 
-                i = i + 1
+    Let's plot the volume weighted version
 
-            ax[0].xaxis.set_major_formatter(ScalarFormatter())
+    .. plot::
+        :context: close-figs
 
-        sns.despine()
+        >>> ax = opcsim.plots.pdfplot(d, weight='volume', with_modes=True)
+        >>> ax.set_title("Volume Weighted Urban Aerosol Distribution", fontsize=16)
+        >>> ax.legend(loc='best')
+        >>> sns.despine()
 
-    return fig, ax
-"""
+    Let's plot a few different distributions together
+
+    .. plot::
+        :context: close-figs
+
+        >>> d2 = opcsim.load_distribution("Marine")
+        >>> d3 = opcsim.load_distribution("Rural")
+        >>> ax = opcsim.plots.pdfplot(d)
+        >>> ax = opcsim.plots.pdfplot(d2, ax=ax)
+        >>> ax = opcsim.plots.pdfplot(d3, ax=ax)
+        >>> ax.set_title("Various Aerosol Distributions", fontsize=16)
+        >>> ax.legend(loc='best')
+        >>> sns.despine()
+
+    """
+    if not hasattr(distribution, 'pdf'):
+        raise Exception("Invalid AerosolDistribution.")
+
+    if weight not in ['number', 'surface', 'volume']:
+        raise ValueError("Invalid weight: ['number', 'surface', 'volume']")
+
+    # Set the default dp values to plot against
+    dp = kwargs.get('dp', np.logspace(np.log10(.001), np.log10(10), 1000))
+
+    # Set the default figure kws
+    default_fig_kws = dict()
+    fig_kws = dict(default_fig_kws, **fig_kws)
+
+    # Make a new axis object if one wasnt' set
+    if ax is None:
+        plt.figure(**fig_kws)
+        ax = plt.gca()
+
+    # Set the plot_kws as a mapping of default and kwargs
+    default_plot_kws = dict(
+                        alpha=1,
+                        linewidth=5
+                        )
+
+    # Set the plot_kws
+    plot_kws = dict(default_plot_kws, **plot_kws)
+
+    # Get data
+    if with_modes is True:
+        for m in distribution.modes:
+            nc = next(ax._get_lines.prop_cycler)['color']
+
+            data = distribution.pdf(dp, base=base, weight=weight, mode=m['label'])
+
+            ax.plot(dp, data, label=m['label'], c=nc, **plot_kws)
+
+    # Plot the compete distribution
+    nc = next(ax._get_lines.prop_cycler)['color']
+
+    # If label kwarg is present, use -> otherwise use default
+    label = kwargs.pop('label', distribution.label)
+
+    data = distribution.pdf(dp, base=base, weight=weight)
+    ax.plot(dp, data, c=nc, label=label, **plot_kws)
+
+    if base is not ('none' or None):
+        ax.semilogx()
+        ax.xaxis.set_major_formatter(ScalarFormatter())
+
+    ax.set_xlabel("$D_p \; [\mu m]$")
+    ax.set_ylabel(YLABEL[base][weight])
+
+    return ax
+
+def cdfplot(distribution, ax=None, weight='number', plot_kws={},
+            fig_kws={}, **kwargs):
+    """Plot the CDF of a particle size distribution.
+
+    Parameters
+    ----------
+    distribution : valid `AerosolDistribution`
+        An aerosol distribution with the method `pdf` that can be evaluated at
+        an array of particle diameters.
+    weight : {'number' | 'surface' | 'volume'}
+        Choose how to weight the pdf. Default is `number`.
+    ax : matplotlib axis
+        If an axis is provided, the histogram will be plotted on this axis.
+        Otherwise, a new axis object will be created.
+    plot_kws : dict
+        Optional keyword arguments to include. They are sent as an argument to
+        the matplotlib bar plot.
+    fig_kws : dict
+        Optional keyword arguments to include for the figure.
+
+    Returns
+    -------
+    ax : matplotlib axis object
+
+    Examples
+    --------
+
+    Plot the number-weighted Urban aerosol distribution
+
+    .. plot::
+        :context: close-figs
+
+        >>> import opcsim, seaborn as sns
+        >>> d = opcsim.load_distribution("Urban")
+        >>> ax = opcsim.plots.cdfplot(d)
+        >>> ax.set_title("Urban Aerosol Distribution", fontsize=16)
+        >>> sns.despine()
+
+    Let's plot the volume weighted version
+
+    .. plot::
+        :context: close-figs
+
+        >>> ax = opcsim.plots.cdfplot(d, weight='volume')
+        >>> ax.set_title("Volume Weighted Urban Aerosol Distribution", fontsize=16)
+        >>> ax.legend(loc='best')
+        >>> sns.despine()
+
+    """
+    if not hasattr(distribution, 'cdf'):
+        raise Exception("Invalid AerosolDistribution.")
+
+    if weight not in ['number', 'surface', 'volume']:
+        raise ValueError("Invalid weight: ['number', 'surface', 'volume']")
+
+    # Set the default dp values to plot against
+    dp = kwargs.pop('dp', np.logspace(-3, 1, 1000))
+
+    # Set the default figure kws
+    default_fig_kws = dict()
+    fig_kws = dict(default_fig_kws, **fig_kws)
+
+    # Make a new axis object if one wasnt' set
+    if ax is None:
+        plt.figure(**fig_kws)
+        ax = plt.gca()
+
+    # Set the plot_kws as a mapping of default and kwargs
+    default_plot_kws = dict(
+                        alpha=1,
+                        linewidth=5
+                        )
+
+    # Set the plot_kws
+    plot_kws = dict(default_plot_kws, **plot_kws)
+
+    # Plot the compete distribution
+    nc = next(ax._get_lines.prop_cycler)['color']
+
+    # If label kwarg is present, use -> otherwise use default
+    label = kwargs.pop('label', distribution.label)
+
+    data = distribution.cdf(dp, weight=weight)
+
+    ax.plot(dp, data, c=nc, label=label, **plot_kws)
+
+    ax.semilogx()
+    ax.xaxis.set_major_formatter(ScalarFormatter())
+
+    ax.set_xlabel("$D_p \; [\mu m]$")
+    ax.set_ylabel(YLABEL_CDF[weight])
+
+    return ax
 
 __all__ = [
-    'histplot'
+    'histplot',
+    'pdfplot',
+    'cdfplot'
 ]

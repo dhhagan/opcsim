@@ -65,7 +65,17 @@ Example gallery
 .. toctree::
    :hidden:
 
-   ./example_example
+   ./build_your_own_distribution
+
+   ./opc_with_dist
+
+   ./opc_with_dist_number_and_vol
+
+   ./ten_bin_opc
+
+   ./three_weights
+
+   ./urban_distribution_pdf
 
 
 
@@ -73,10 +83,75 @@ Example gallery
 .. raw:: html
 
     <div class='figure align-center'>
-    <a href=./example_example.html>
-    <img src=../_static/example_example_thumb.png>
+    <a href=./build_your_own_distribution.html>
+    <img src=../_static/build_your_own_distribution_thumb.png>
     <span class='figure-label'>
-    <p>lmplot</p>
+    <p>pdfplot</p>
+    </span>
+    </a>
+    </div>
+
+
+
+.. raw:: html
+
+    <div class='figure align-center'>
+    <a href=./opc_with_dist.html>
+    <img src=../_static/opc_with_dist_thumb.png>
+    <span class='figure-label'>
+    <p>histplot</p>
+    </span>
+    </a>
+    </div>
+
+
+
+.. raw:: html
+
+    <div class='figure align-center'>
+    <a href=./opc_with_dist_number_and_vol.html>
+    <img src=../_static/opc_with_dist_number_and_vol_thumb.png>
+    <span class='figure-label'>
+    <p>histplot</p>
+    </span>
+    </a>
+    </div>
+
+
+
+.. raw:: html
+
+    <div class='figure align-center'>
+    <a href=./ten_bin_opc.html>
+    <img src=../_static/ten_bin_opc_thumb.png>
+    <span class='figure-label'>
+    <p>histplot</p>
+    </span>
+    </a>
+    </div>
+
+
+
+.. raw:: html
+
+    <div class='figure align-center'>
+    <a href=./three_weights.html>
+    <img src=../_static/three_weights_thumb.png>
+    <span class='figure-label'>
+    <p>pdfplot</p>
+    </span>
+    </a>
+    </div>
+
+
+
+.. raw:: html
+
+    <div class='figure align-center'>
+    <a href=./urban_distribution_pdf.html>
+    <img src=../_static/urban_distribution_pdf_thumb.png>
+    <span class='figure-label'>
+    <p>pdfplot</p>
     </span>
     </a>
     </div>

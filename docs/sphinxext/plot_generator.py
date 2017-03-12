@@ -19,6 +19,9 @@ import matplotlib.pyplot as plt
 
 from matplotlib import image
 
+# Set autofigure to true
+matplotlib.rcParams['figure.autolayout'] = True
+
 if six.PY3:
     # Python 3 has no execfile
     def execfile(filename, globals=None, locals=None):
@@ -203,14 +206,16 @@ class ExampleGenerator(object):
 
     @property
     def plotfunc(self):
-        match = re.search(r"sns\.(.+plot)\(", self.filetext)
+        match = re.search(r"opcsim\.(.+plot)\(", self.filetext)
         if match:
+            return match.group(1).split('.')[-1]
+        match = re.search(r"opcsim\.(.+map)\(", self.filetext)
+        if match:
+            print (match)
             return match.group(1)
-        match = re.search(r"sns\.(.+map)\(", self.filetext)
+        match = re.search(r"opcsim\.(.+Grid)\(", self.filetext)
         if match:
-            return match.group(1)
-        match = re.search(r"sns\.(.+Grid)\(", self.filetext)
-        if match:
+            print (match)
             return match.group(1)
         return ""
 

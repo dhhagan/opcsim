@@ -8,11 +8,43 @@ __version__ = '0.1.0'
 AUTHOR          = 'David H Hagan'
 AUTHOR_EMAIL    = 'dhagan@mit.edu'
 
+DESCRIPTION = "OpcSim: simulating low-cost optical particle counters"
+
+# Check dependencies
+def check_dependencies():
+    install_requires = []
+    try:
+        import numpy
+    except ImportError:
+        install_requires.append('numpy')
+
+    try:
+        import scipy
+    except ImportError:
+        install_requires.append('scipy')
+
+    try:
+        import matplotlib
+    except ImportError:
+        install_requires.append('matplotlib')
+
+    try:
+        import pandas
+    except ImportError:
+        install_requires.append('pandas')
+
+    try:
+        import seaborn
+    except ImportError:
+        install_requires.append('seaborn')
+
+    return install_requires
+
 setup(
     name = 'opcsim',
     version = __version__,
     packages = ['opcsim'],
-    description = "Python package for ...",
+    description = DESCRIPTION,
     author = AUTHOR,
     author_email = AUTHOR_EMAIL,
     maintainer = AUTHOR,
@@ -21,12 +53,7 @@ setup(
     url = 'https://github.com/dhhagan/opcsim',
     keywords = ['atmospheric chemistry'],
     test_suite = 'tests',
-    install_requires = [
-        'pandas',
-        'numpy',
-        'seaborn',
-        'scipy'
-    ],
+    install_requires = check_dependencies(),
     classifiers = [
         'Development Status :: 3 - Alpha',
         'Operating System :: OS Independent',
@@ -34,7 +61,9 @@ setup(
         'Intended Audience :: Developers',
 		'Intended Audience :: Education',
         'Programming Language :: Python :: 2.7',
+        'Programming Language :: Python :: 3.3',
         'Programming Language :: Python :: 3.5',
+        'Programming Language :: Python :: 3.6',
 		'Topic :: Scientific/Engineering :: Atmospheric Science',
 		'Topic :: Software Development',
         'Topic :: Software Development :: Libraries :: Python Modules'

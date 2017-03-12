@@ -57,8 +57,9 @@ Visualization
 .. autosummary::
     :toctree: generated/
 
-    opcsim.plots.distplot
     opcsim.plots.histplot
+    opcsim.plots.pdfplot
+    opcsim.plots.cdfplot
 
 
 .. _equations_api:

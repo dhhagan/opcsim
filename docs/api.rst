@@ -58,6 +58,8 @@ Visualization
     :toctree: generated/
 
     opcsim.plots.histplot
+    opcsim.plots.pdfplot
+    opcsim.plots.cdfplot
 
 
 .. _equations_api:
