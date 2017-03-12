@@ -34,8 +34,8 @@
     <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Build an Aerosol Distribution" href="tutorial/distribution.html" />
-    <link rel="prev" title="opcsim.load_distribution" href="generated/opcsim.load_distribution.html" />
+    <link rel="next" title="The Aerosol Distribution" href="tutorial/distribution.html" />
+    <link rel="prev" title="opcsim.utils.midpoints" href="generated/opcsim.utils.midpoints.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
@@ -76,7 +76,8 @@
       role="menu"
       aria-labelledby="dLabelGlobalToc"><ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">An Introduction to OpcSim</a></li>
-<li class="toctree-l1"><a class="reference internal" href="installing.html">Installing and Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installing.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installing.html#installation">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api.html">API Reference</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">OpcSim Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="examples/index.html">Example gallery</a></li>
@@ -94,7 +95,9 @@
       role="menu"
       aria-labelledby="dLabelLocalToc"><ul>
 <li><a class="reference internal" href="#">OpcSim Tutorial</a><ul>
-<li><a class="reference internal" href="#examples">Examples</a></li>
+<li><a class="reference internal" href="#aerosol-distributions">Aerosol Distributions</a></li>
+<li><a class="reference internal" href="#modeling-an-opc">Modeling an OPC</a></li>
+<li><a class="reference internal" href="#modifying-figures-with-seaborn-and-matplotlib">Modifying Figures with Seaborn and Matplotlib</a></li>
 </ul>
 </li>
 </ul>
@@ -128,17 +131,43 @@
       
   <div class="section" id="opcsim-tutorial">
 <span id="tutorial"></span><h1>OpcSim Tutorial<a class="headerlink" href="#opcsim-tutorial" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="examples">
-<h2>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="aerosol-distributions">
+<h2>Aerosol Distributions<a class="headerlink" href="#aerosol-distributions" title="Permalink to this headline">¶</a></h2>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="tutorial/distribution.html">Build an Aerosol Distribution</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="tutorial/distribution.html#urban-aerosol-distribution">Urban Aerosol Distribution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/distribution.html">The Aerosol Distribution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/distribution.html#probability-distribution-function">Probability Distribution Function</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tutorial/distribution.html#number-distribution">Number Distribution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial/distribution.html#surface-area-distribution">Surface Area Distribution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial/distribution.html#volume-distribution">Volume Distribution</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="tutorial/model.html">Build a Simulated OPC</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/distribution.html#visualizing-the-distribution">Visualizing the Distribution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/distribution.html#cumulative-distribution-function">Cumulative Distribution Function</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tutorial/distribution.html#number-cdf">Number CDF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial/distribution.html#surface-area-cdf">Surface Area CDF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial/distribution.html#volume-cdf">Volume CDF</a></li>
+</ul>
+</li>
 </ul>
 </div>
+</div>
+<div class="section" id="modeling-an-opc">
+<h2>Modeling an OPC<a class="headerlink" href="#modeling-an-opc" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/model.html">The OPC Model</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tutorial/model.html#building-an-opc">Building an OPC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial/model.html#evaluating-an-opc">Evaluating an OPC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial/model.html#plotting-opc-response-to-the-urban-distribution">Plotting OPC Response to the Urban Distribution</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/model.html#scoring-an-opc-model">Scoring an OPC Model</a></li>
+</ul>
+</div>
+</div>
+<div class="section" id="modifying-figures-with-seaborn-and-matplotlib">
+<h2>Modifying Figures with Seaborn and Matplotlib<a class="headerlink" href="#modifying-figures-with-seaborn-and-matplotlib" title="Permalink to this headline">¶</a></h2>
 </div>
 </div>
 

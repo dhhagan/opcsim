@@ -5,7 +5,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Test Example 1 &#8212; opcsim 0.1.0 documentation</title>
+    <title>opcsim.equations.pdf.dv_dlndp &#8212; opcsim 0.1.0 documentation</title>
     
     <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -34,7 +34,8 @@
     <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="prev" title="Example gallery" href="index.html" />
+    <link rel="next" title="opcsim.equations.pdf.dn_dlogdp" href="opcsim.equations.pdf.dn_dlogdp.html" />
+    <link rel="prev" title="opcsim.equations.pdf.ds_dlndp" href="opcsim.equations.pdf.ds_dlndp.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
@@ -62,7 +63,7 @@
             
                 <li><a href="../api.html">API</a></li>
                 <li><a href="../tutorial.html">Tutorial</a></li>
-                <li><a href="index.html">Gallery</a></li>
+                <li><a href="../examples/index.html">Gallery</a></li>
             
             
               <li class="dropdown globaltoc-container">
@@ -75,10 +76,11 @@
       role="menu"
       aria-labelledby="dLabelGlobalToc"><ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../introduction.html">An Introduction to OpcSim</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../installing.html">Installing and Getting Started</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../api.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installing.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installing.html#installation">Installation</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../api.html">API Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorial.html">OpcSim Tutorial</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="index.html">Example gallery</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/index.html">Example gallery</a></li>
 </ul>
 </ul>
 </li>
@@ -92,7 +94,7 @@
   <ul class="dropdown-menu localtoc"
       role="menu"
       aria-labelledby="dLabelLocalToc"><ul>
-<li><a class="reference internal" href="#">Test Example 1</a></li>
+<li><a class="reference internal" href="#">opcsim.equations.pdf.dv_dlndp</a></li>
 </ul>
 </ul>
 </li>
@@ -122,22 +124,52 @@
   <div class="row">
     <div class="col-md-12 content">
       
-  <div class="section" id="test-example-1">
-<h1>Test Example 1<a class="headerlink" href="#test-example-1" title="Permalink to this headline">¶</a></h1>
-<img alt="../_images/example_example.png" src="../_images/example_example.png" />
-<p><strong>Python source code:</strong> <a class="reference download internal" href="../_downloads/example_example.py" download=""><code class="xref download docutils literal"><span class="pre">[download</span> <span class="pre">source:</span> <span class="pre">example_example.py]</span></code></a></p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
-<span class="n">sns</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="s2">&quot;ticks&quot;</span><span class="p">)</span>
-
-<span class="c1"># Load the example dataset for Anscombe&#39;s quartet</span>
-<span class="n">df</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">load_dataset</span><span class="p">(</span><span class="s2">&quot;anscombe&quot;</span><span class="p">)</span>
-
-<span class="c1"># Show the results of a linear regression within each dataset</span>
-<span class="n">sns</span><span class="o">.</span><span class="n">lmplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="n">col</span><span class="o">=</span><span class="s2">&quot;dataset&quot;</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="s2">&quot;dataset&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">,</span>
-           <span class="n">col_wrap</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">ci</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">palette</span><span class="o">=</span><span class="s2">&quot;muted&quot;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
-           <span class="n">scatter_kws</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;s&quot;</span><span class="p">:</span> <span class="mi">50</span><span class="p">,</span> <span class="s2">&quot;alpha&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">})</span>
-</pre></div>
+  <div class="section" id="opcsim-equations-pdf-dv-dlndp">
+<h1>opcsim.equations.pdf.dv_dlndp<a class="headerlink" href="#opcsim-equations-pdf-dv-dlndp" title="Permalink to this headline">¶</a></h1>
+<dl class="function">
+<dt id="opcsim.equations.pdf.dv_dlndp">
+<code class="descclassname">opcsim.equations.pdf.</code><code class="descname">dv_dlndp</code><span class="sig-paren">(</span><em>dp</em>, <em>n</em>, <em>gm</em>, <em>gsd</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/opcsim/equations/pdf.html#dv_dlndp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#opcsim.equations.pdf.dv_dlndp" title="Permalink to this definition">¶</a></dt>
+<dd><p>The volume weighted PDF of a lognormal distribution as calculated
+using equation 8.10 from Seinfeld and Pandis.</p>
+<div class="math">
+\[n_V^e(ln D_p)=\frac{π}{6}D_p^3 n_N^e(ln D_p)\]</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>dp</strong> : float or array of floats</p>
+<blockquote>
+<div><p>Particle diameter in microns.</p>
+</div></blockquote>
+<p><strong>n</strong> : float</p>
+<blockquote>
+<div><p>Total aerosol number concentration in units of #/cc</p>
+</div></blockquote>
+<p><strong>gm</strong> : float</p>
+<blockquote>
+<div><p>Median particle diameter (geometric mean) in units of microns.</p>
+</div></blockquote>
+<p><strong>gsd</strong> : float</p>
+<blockquote>
+<div><p>Geometric Standard Deviation of the distribution.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">dV/dlndp | float</p>
+<blockquote class="last">
+<div><p>Returns the volume of particles at diameter dp on a log basis
+in units of [um3 cm-3]</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><a class="reference internal" href="opcsim.equations.pdf.dv_ddp.html#opcsim.equations.pdf.dv_ddp" title="opcsim.equations.pdf.dv_ddp"><code class="xref py py-obj docutils literal"><span class="pre">opcsim.equations.pdf.dv_ddp</span></code></a>, <a class="reference internal" href="opcsim.equations.pdf.dv_dlogdp.html#opcsim.equations.pdf.dv_dlogdp" title="opcsim.equations.pdf.dv_dlogdp"><code class="xref py py-obj docutils literal"><span class="pre">opcsim.equations.pdf.dv_dlogdp</span></code></a>, <a class="reference internal" href="opcsim.equations.cdf.vt.html#opcsim.equations.cdf.vt" title="opcsim.equations.cdf.vt"><code class="xref py py-obj docutils literal"><span class="pre">opcsim.equations.cdf.vt</span></code></a></p>
 </div>
+</dd></dl>
+
 </div>
 
 
@@ -153,7 +185,7 @@
         <br/>
         
 <div id="sourcelink">
-  <a href="../_sources/examples/example_example.rst.txt"
+  <a href="../_sources/generated/opcsim.equations.pdf.dv_dlndp.rst.txt"
      rel="nofollow">Source</a>
 </div>
       

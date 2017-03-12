@@ -5,7 +5,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Installing and Getting Started &#8212; opcsim 0.1.0 documentation</title>
+    <title>Getting Started &#8212; opcsim 0.1.0 documentation</title>
     
     <link rel="stylesheet" href="_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -76,7 +76,8 @@
       role="menu"
       aria-labelledby="dLabelGlobalToc"><ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">An Introduction to OpcSim</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Installing and Getting Started</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#installation">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api.html">API Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tutorial.html">OpcSim Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="examples/index.html">Example gallery</a></li>
@@ -93,7 +94,15 @@
   <ul class="dropdown-menu localtoc"
       role="menu"
       aria-labelledby="dLabelLocalToc"><ul>
-<li><a class="reference internal" href="#">Installing and Getting Started</a></li>
+<li><a class="reference internal" href="#">Getting Started</a><ul>
+<li><a class="reference internal" href="#dependencies">Dependencies</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#installation">Installation</a><ul>
+<li><a class="reference internal" href="#testing">Testing</a></li>
+<li><a class="reference internal" href="#bugs-and-issues">Bugs and Issues</a></li>
+</ul>
+</li>
 </ul>
 </ul>
 </li>
@@ -123,8 +132,49 @@
   <div class="row">
     <div class="col-md-12 content">
       
-  <div class="section" id="installing-and-getting-started">
-<span id="installing"></span><h1>Installing and Getting Started<a class="headerlink" href="#installing-and-getting-started" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="getting-started">
+<span id="installing"></span><h1>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h1>
+<p>If you are familiar with Python and Python installations, feel free to skip
+below to the installation section.</p>
+<p><code class="docutils literal"><span class="pre">opcsim</span></code> requires python2.7+ or python3.3+ to be installed on your computer. If
+you do not have an existing installation, I would recommend checking out the
+<a class="reference external" href="https://www.continuum.io/downloads">Anaconda Python distribution</a>. If you
+encounter issues installing Anaconda, check out StackOverflow or a simple
+Google query. Once you have python installed, you can go ahead and install the
+<code class="docutils literal"><span class="pre">opcsim</span></code> python library.</p>
+<div class="section" id="dependencies">
+<h2>Dependencies<a class="headerlink" href="#dependencies" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Python2.7 or Python3.3+</li>
+<li><a class="reference external" href="http://www.numpy.org/">numpy</a></li>
+<li><a class="reference external" href="https://www.scipy.org/">scipy</a></li>
+<li><a class="reference external" href="http://pandas.pydata.org/">pandas</a></li>
+<li><a class="reference external" href="http://matplotlib.org/">matplotlib</a></li>
+<li><a class="reference external" href="http://seaborn.pydata.org/api.html">seaborn</a></li>
+</ul>
+</div>
+</div>
+<div class="section" id="installation">
+<h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
+<p>To install the most up-to-date version of <code class="docutils literal"><span class="pre">opcsim</span></code>, you can use <code class="docutils literal"><span class="pre">pip</span></code>:</p>
+<p><code class="docutils literal"><span class="pre">&gt;&gt;&gt;</span> <span class="pre">pip</span> <span class="pre">install</span> <span class="pre">git+https://github.com/dhhagan/opcsim.git</span></code></p>
+<p>You can also clone the directory and install from source:</p>
+<p><code class="docutils literal"><span class="pre">&gt;&gt;&gt;</span> <span class="pre">git</span> <span class="pre">clone</span> <span class="pre">https://github.com/dhhagan/opcsim.git</span></code></p>
+<p><code class="docutils literal"><span class="pre">&gt;&gt;&gt;</span> <span class="pre">cd</span> <span class="pre">/opcsim</span></code></p>
+<p><code class="docutils literal"><span class="pre">&gt;&gt;&gt;</span> <span class="pre">python3</span> <span class="pre">setup.py</span> <span class="pre">install</span></code></p>
+<div class="section" id="testing">
+<h2>Testing<a class="headerlink" href="#testing" title="Permalink to this headline">¶</a></h2>
+<p>Testing is automated using unittests. To run the unittests with coverage
+reporting, run the following command from the main directory:</p>
+<p><code class="docutils literal"><span class="pre">&gt;&gt;&gt;</span> <span class="pre">coverage</span> <span class="pre">run</span> <span class="pre">--source</span> <span class="pre">opcsim</span> <span class="pre">setup.py</span> <span class="pre">test</span></code></p>
+<p>You can then view the coverage report with:</p>
+<p><code class="docutils literal"><span class="pre">&gt;&gt;&gt;</span> <span class="pre">coverage</span> <span class="pre">report</span> <span class="pre">-m</span></code></p>
+</div>
+<div class="section" id="bugs-and-issues">
+<h2>Bugs and Issues<a class="headerlink" href="#bugs-and-issues" title="Permalink to this headline">¶</a></h2>
+<p>Please report any bugs or issues you find through the <a class="reference external" href="https://github.com/dhhagan/opcsim/issues/new">GitHub issues tracker</a>. Please provide as much
+information as possible that will make it easier to solve/fix the problem.</p>
+</div>
 </div>
 
 

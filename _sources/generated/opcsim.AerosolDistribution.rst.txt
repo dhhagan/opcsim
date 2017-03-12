@@ -16,8 +16,6 @@ opcsim.AerosolDistribution
       ~AerosolDistribution.__init__
       ~AerosolDistribution.add_mode
       ~AerosolDistribution.cdf
-      ~AerosolDistribution.mean
-      ~AerosolDistribution.median
       ~AerosolDistribution.pdf
    
    
