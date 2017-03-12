@@ -3,56 +3,23 @@ import pandas as pd
 import math
 
 from .distributions import AerosolDistribution
+from .utils import make_bins
 
-_avail_params = [
-    'nm',
-    'na',
-    'vm',
-    'va',
-    'nm_total',
-    'na_total',
-    'vm_total',
-    'va_total',
-    'nm_na',
-    'nm_va',
-    'vm_va'
-]
-
-def _set_bins(dmin, dmax, num_bins):
-    """
-        Create and return a list of bins that are equally spaced (in log space)
-        between dmin and dmax assuming num_bins bins.
-    """
-    bins    = np.zeros(( num_bins, 3 )) * np.nan
-
-    bins[0, 0]      = dmin
-    bins[-1, 2]     = dmax
-
-    mult = 1. / (( np.log10(dmax) - np.log10(dmin) ) / num_bins )
-
-    for i in range(num_bins):
-        bins[i, 2]  = math.pow(10, np.log10( bins[i, 0]) + ( 1. / mult ))
-        bins[i, 1]  = math.pow(10, np.mean([np.log10(bins[i, 0]), np.log10(bins[i, 2])]))
-
-        if i < num_bins - 1:
-            bins[i + 1, 0]  = bins[i, 2]
-
-    return bins
-
-def constant(x):
+def constant(dp, x=1.):
     """Define an efficiency curve for the OPC. """
-    return x * 0.0 + 1.
+    return dp * 0.0 + x
 
 class OPC(object):
     """Simulate an Optical Particle Counter (OPC) as defined by key instrument
     variables.
     """
-    def __init__(self, num_bins=1, dmin=0.5, dmax=2.5, ce=constant, bins=None, **kwargs):
+    def __init__(self, n_bins=1, dmin=0.5, dmax=2.5, ce=constant,
+                    bins=None, **kwargs):
         """Initialize the simulated OPC.
 
         Parameters
         ----------
-        num_bins : int, optional
+        n_bins : int, optional
             The number of discrete size bins for the OPC
         dmin : float, optional
             Minimum particle diameter the OPC can "see" in units of microns.
@@ -70,7 +37,8 @@ class OPC(object):
 
         Returns
         -------
-        Instance of the OPC class.
+        OPC : class instance
+            Instance of the OPC class.
 
         Examples
         --------
@@ -82,108 +50,276 @@ class OPC(object):
         Initialize an OPC with 2 bins (0.5-2.5 um, 2.5-10um)
 
         >>> import numpy as np
-        >>> bins = np.array([])
-        >>> opc = opcsim.OPC(n_bins=2, bins=bins)
+        >>> bins = np.array([[0.5, 2.5], [2.5, 10]])
+        >>> opc = opcsim.OPC(bins=bins)
 
         """
-        self.num_bins = num_bins
+        self.n_bins = n_bins
         self.dmin = dmin
         self.dmax = dmax
+        self.bins = bins
+        self.ce = ce
 
+        # Make sure the bins are set
         if bins is None:
-            self.bins = _set_bins(dmin, dmax, num_bins)
+            self.bins = make_bins(self.dmin, self.dmax, self.n_bins)
         else:
-            # Make sure that the bins are in the desired format
-            assert (bins.shape[1] == 2 or bins.shape[1] == 3), "Bins must be a 3xn array"
+            if self.bins.shape[1] != 3:
+                raise Exception("Bins must be a 3xn array.")
 
-            # If the shape is 2, then add in the middle bin using the log mean
-            if bins.shape[1] == 2:
-                self.bins = np.zeros(( bins.shape[0], 3 )) * np.nan
+            # Set the number of bins based on the array
+            self.n_bins = self.bins.shape[0]
+            self.dmin = self.bins[0, 0]
+            self.dmax = self.bins[-1, -1]
 
-                self.bins[:, 0] = bins[:, 0]
-                self.bins[:, 2] = bins[:, -1]
+    @property
+    def dlogdp(self):
+        return np.log10(self.bins[:, -1]) - np.log10(self.bins[:, 0])
 
-                for i in range(bins.shape[0]):
-                    self.bins[i, 1]  = math.pow(10, np.mean([np.log10(self.bins[i, 0]), np.log10(self.bins[i, 2])]))
-            else:
-                self.bins       = bins
+    @property
+    def midpoints(self):
+        return self.bins[:, 1]
 
-            self.num_bins   = self.bins.shape[0]
-            self.dmin       = self.bins[0, 0]
-            self.dmax       = self.bins[-1, -1]
+    def evaluate(self, distribution, weight='number', base='log10'):
+        """Evaluate the OPC given the PDF of an aerosol distribution.
 
-        try:
-            self.ce         = ce(self.bins[:, 1])
-        except:
-            self.ce         = 1.
+        In the future, we should account for intra-bin counting efficiency
+        errors.
 
-        self.dlogdp     = np.log10(self.bins[:, 2]) - np.log10(self.bins[:, 0])
+        Parameters
+        ----------
+        distribution : AerosolDistribution
+            A valid AerosolDistribution instance that can be evaluated.
+        weight : {'number' | 'surface' | 'volume'}
+            Choose how to weight the pdf. Default is `number`.
+        base : {'none' | 'log' | 'log10'}
+            Base algorithm to use. Default is 'log10'.
+
+        Returns
+        -------
+        d[weight]/d[base]Dp : array
+            An array containing the evaluated AerosolDistribution PDF at all
+            midpoint particle diameters.
+
+        See Also
+        --------
+        opcsim.AerosolDistribution
+
+        Examples
+        --------
+
+        Evaluate the Urban Aerosol Distribution using a 2-bin OPC:
+
+        >>> d = opcsim.load_distribution("Urban")
+        >>> opc = opcsim.OPC()
+        >>> dNdlogDp = opc.evaluate(d)
+
+        Evaluate the same OPC, but weight by volume/mass:
+
+        >>> d = opcsim.load_distribution("Urban")
+        >>> opc = opcsim.OPC()
+        >>> dVdlogDp = opc.evaluate(d, weight='volume')
+
+        """
+        if not isinstance(distribution, AerosolDistribution):
+            raise Exception("Invalid AerosolDistribution")
+
+        return self.ce(self.midpoints) * distribution.pdf(self.midpoints, base=base, weight=weight)
 
     def histogram(self, distribution, weight='number', base='log10'):
-        """Return the histogram
-            Accept a valid AerosolDistribution and return the histogram for this
-            OPC based on its parameters and counting efficiency.
+        """Return a histogram corresponding to how an OPC "sees" an aerosol
+        distribution.
 
-            Add in support for CE soon!
+        Parameters
+        ----------
+        distribution : AerosolDistribution
+            A valid AerosolDistribution instance that can be evaluated.
+        weight : {'number' | 'surface' | 'volume'}
+            Choose how to weight the pdf. Default is `number`.
+        base : {'none' | 'log' | 'log10'}
+            Base algorithm to use. Default is 'log10'.
+
+        Returns
+        -------
+        left_bin, d[weight]/d[base]Dp, bin_width : arrays
+            Returns three arrays containing the left bin boundary, the evaluated
+            PDF, and the width of the bin (dDp). This data can be
+            directly plotted as a histogram using matplotlib bar plots.
+
+
+        Examples
+        --------
+
+        Evaluate the Urban Aerosol Distribution using a 2-bin OPC:
+
+        >>> d = opcsim.load_distribution("Urban")
+        >>> opc = opcsim.OPC()
+        >>> bb, h, bw = opc.histogram(d)
+
+        Evaluate the same OPC, but weight by volume/mass:
+
+        >>> d = opcsim.load_distribution("Urban")
+        >>> opc = opcsim.OPC()
+        >>> bb, h, bw = opc.histogram(d, weight='volume')
 
         """
-        assert isinstance(distribution, AerosolDistribution), "Invalid AerosolDistribution"
+        bb = self.bins[:, 0]
+        dDp = self.bins[:, 2] - self.bins[:, 0]
+        pdf = self.evaluate(distribution, weight, base)
 
-        return distribution.pdf(self.bins[:, 1] , base = base, weight = weight)
+        return bb, pdf, dDp
 
-    def boxes(self, distribution, weight = 'number', base = 'log10'):
+    def number(self, distribution, measured=True):
+        """Return the total number of particles an OPC 'sees' in each bin.
+
+        Parameters
+        ----------
+        distribution : AerosolDistribution
+            A valid AerosolDistribution instance that can be evaluated.
+        measured: bool
+            If true, the result returns the value as "seen" by the OPC. If false,
+            the true integrated CDF for each bin is returned.
+
+        Returns
+        -------
+        number : array of floats
+            Returns the total number of particles seen in each bin. Units are #/cc.
+
+        See Also
+        --------
+
+        opcsim.equations.cdf.nt
+
+
+        Examples
+        --------
+
+        Determine the number of particles a basic OPC sees in the Urban
+        Distribution
+
+        >>> d = opcsim.load_distribution("Urban")
+        >>> opc = opcsim.OPC()
+        >>> nt = opc.number(d)
+
+        What if we want to know how many particles were actually in each bin by
+        integrating the underlying distribution?
+
+        >>> d = opcsim.load_distribution("Urban")
+        >>> opc = opcsim.OPC()
+        >>> nt = opc.number(d, measured=False)
+
         """
-            Return the bins as a 3xn array for the given distribution. Should
-            be in a format that can be easily plotted as a bar chart (left, height, width)
-
-            `left` is the left hand side of bins
-            `width` is dlogdp
-            `height` is the histogram evaluated at the correct spots
-        """
-        left    = self.bins[:, 0]
-        width   = self.bins[:, 2] - self.bins[:, 0]
-        height  = self.histogram(distribution, weight = weight, base = base)
-
-        return left, height, width
-
-    def evaluate(self, distribution, param = 'nm', **kwargs):
-        """
-            Evaluate an individual parameter
-        """
-        dmax = kwargs.pop('dmax', 100.)
-
-        data = self.histogram(distribution, weight = 'number', base = 'log10')
-
-        if param == 'nm':
-            res = data * self.dlogdp
-        elif param == 'na':
-            res = [distribution.cdf(dmin = self.bins[i, 0], dmax = self.bins[i, 2]) for i in range(self.num_bins)]
-        elif param == 'vm':
-            res = data * self.dlogdp * ( self.bins[:, 1] ** 3 * np.pi / 6. )
-        elif param == 'va':
-            res = [distribution.cdf(dmin = self.bins[i, 0], dmax = self.bins[i, 2], weight = 'volume') for i in range(self.num_bins)]
-        elif param == 'nm_total':
-            res = np.sum(self.evaluate(distribution, param = 'nm'))
-        elif param == 'na_total':
-            res = distribution.cdf(dmax = dmax, weight = 'number')
-        elif param == 'vm_total':
-            res = np.sum(self.evaluate(distribution, param = 'vm'))
-        elif param == 'va_total':
-            res = distribution.cdf(dmax = dmax, weight = 'volume')
-        elif param == 'nm_na':
-            res = round(self.evaluate(distribution, param = 'nm_total') / self.evaluate(distribution, param = 'na_total'), 3)
-        elif param == 'nm_va':
-            res = round(self.evaluate(distribution, param = 'nm_total') / self.evaluate(distribution, param = 'va_total'), 3)
-        elif param == 'vm_va':
-            res = round(self.evaluate(distribution, param = 'vm_total') / self.evaluate(distribution, param = 'va_total'), 3)
+        if measured == True:
+            vals = self.evaluate(distribution) * self.dlogdp
         else:
-            raise Exception("Invalid param: [{}]".format(_avail_params))
+            vals = [distribution.cdf(dmin=self.bins[i, 0],
+                    dmax=self.bins[i, -1]) for i in range(self.n_bins)]
 
-        return res
+        return vals
 
-    def _set_bins(self):
-        """Calculate bin midpoints."""
-        return
+    def surface_area(self, distribution, measured=True):
+        """Return the total surface area of particles an OPC 'sees' in each bin.
+
+        Parameters
+        ----------
+        distribution : AerosolDistribution
+            A valid AerosolDistribution instance that can be evaluated.
+        measured: bool
+            If true, the result returns the value as "seen" by the OPC. If false,
+            the true integrated CDF for each bin is returned.
+
+        Returns
+        -------
+        surface_area : array of floats
+            Returns the total surface area of particles seen in each bin.
+            Units are um2 cm-3.
+
+        See Also
+        --------
+
+        opcsim.equations.cdf.st
+
+
+        Examples
+        --------
+
+        Determine the surface area of particles a basic OPC sees in the Urban
+        Distribution
+
+        >>> d = opcsim.load_distribution("Urban")
+        >>> opc = opcsim.OPC()
+        >>> st = opc.surface_area(d)
+
+        What if we want to know how many particles were actually in each bin by
+        integrating the underlying distribution?
+
+        >>> d = opcsim.load_distribution("Urban")
+        >>> opc = opcsim.OPC()
+        >>> st = opc.surface_area(d, measured=False)
+
+        """
+        if measured == True:
+            vals = self.evaluate(distribution, weight='surface') * self.dlogdp
+        else:
+            vals = [distribution.cdf(dmin=self.bins[i, 0],
+                    dmax=self.bins[i, -1], weight='surface') for i in range(self.n_bins)]
+
+        return vals
+
+    def volume(self, distribution, measured=True):
+        """Return the total volume of particles an OPC 'sees' in each bin.
+
+        Parameters
+        ----------
+        distribution : AerosolDistribution
+            A valid AerosolDistribution instance that can be evaluated.
+        measured: bool
+            If true, the result returns the value as "seen" by the OPC. If false,
+            the true integrated CDF for each bin is returned.
+
+        Returns
+        -------
+        surface_area : array of floats
+            Returns the total volume of particles seen in each bin.
+            Units are um3 cm-3.
+
+        See Also
+        --------
+
+        opcsim.equations.cdf.vt
+
+
+        Examples
+        --------
+
+        Determine the volume of particles a basic OPC sees in the Urban
+        Distribution
+
+        >>> d = opcsim.load_distribution("Urban")
+        >>> opc = opcsim.OPC()
+        >>> vt = opc.volume(d)
+
+        What if we want to know the total volume of particles that were
+        actually in each bin by integrating the underlying distribution?
+
+        >>> d = opcsim.load_distribution("Urban")
+        >>> opc = opcsim.OPC()
+        >>> vt = opc.volume(d, measured=False)
+
+        What if we want to know the total volume across all bins?
+
+        >>> d = opcsim.load_distribution("Urban")
+        >>> opc = opcsim.OPC()
+        >>> vt = opc.volume(d).sum()
+
+        """
+        if measured == True:
+            vals = self.evaluate(distribution, weight='volume') * self.dlogdp
+        else:
+            vals = [distribution.cdf(dmin=self.bins[i, 0],
+                    dmax=self.bins[i, -1], weight='volume') for i in range(self.n_bins)]
+
+        return vals
 
 __all__ = [
     'OPC'

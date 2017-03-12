@@ -8,6 +8,10 @@ import os
 
 from .distributions import *
 from .models import *
-from .viz import *
+from .plots import *
+from .utils import *
+from .rc_style import set
+
+set()
 
 __version__ = get_distribution('opcsim').version

@@ -74,7 +74,8 @@
       role="menu"
       aria-labelledby="dLabelGlobalToc"><ul>
 <li class="toctree-l1"><a class="reference internal" href="../../introduction.html">An Introduction to OpcSim</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../installing.html">Installing and Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../installing.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../installing.html#installation">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../api.html">API Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tutorial.html">OpcSim Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../examples/index.html">Example gallery</a></li>
@@ -163,10 +164,9 @@
         <span class="p">],</span>
 <span class="p">}</span>
 
-<span class="k">def</span> <span class="nf">_get_pdf_func</span><span class="p">(</span><span class="n">base</span><span class="p">,</span> <span class="n">weight</span><span class="p">,</span> <span class="n">D</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">GM</span><span class="p">,</span> <span class="n">GSD</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">_get_pdf_func</span><span class="p">(</span><span class="n">base</span><span class="p">,</span> <span class="n">weight</span><span class="p">,</span> <span class="n">dp</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">gm</span><span class="p">,</span> <span class="n">gsd</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">base</span>    <span class="o">=</span> <span class="n">base</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
     <span class="n">weight</span>  <span class="o">=</span> <span class="n">weight</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
 
     <span class="k">if</span> <span class="n">weight</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;number&#39;</span><span class="p">,</span> <span class="s1">&#39;surface&#39;</span><span class="p">,</span> <span class="s1">&#39;volume&#39;</span><span class="p">]:</span>
@@ -177,27 +177,27 @@
 
     <span class="k">if</span> <span class="n">base</span> <span class="o">==</span> <span class="s1">&#39;none&#39;</span> <span class="ow">or</span> <span class="n">base</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">weight</span> <span class="o">==</span> <span class="s1">&#39;number&#39;</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">dn_ddp</span><span class="p">(</span><span class="n">D</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">GM</span><span class="p">,</span> <span class="n">GSD</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">dn_ddp</span><span class="p">(</span><span class="n">dp</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">gm</span><span class="p">,</span> <span class="n">gsd</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">weight</span> <span class="o">==</span> <span class="s1">&#39;surface&#39;</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">ds_ddp</span><span class="p">(</span><span class="n">D</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">GM</span><span class="p">,</span> <span class="n">GSD</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">ds_ddp</span><span class="p">(</span><span class="n">dp</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">gm</span><span class="p">,</span> <span class="n">gsd</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">weight</span> <span class="o">==</span> <span class="s1">&#39;volume&#39;</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">dv_ddp</span><span class="p">(</span><span class="n">D</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">GM</span><span class="p">,</span> <span class="n">GSD</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">dv_ddp</span><span class="p">(</span><span class="n">dp</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">gm</span><span class="p">,</span> <span class="n">gsd</span><span class="p">)</span>
     <span class="k">elif</span> <span class="n">base</span> <span class="o">==</span> <span class="s1">&#39;log&#39;</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">weight</span> <span class="o">==</span> <span class="s1">&#39;number&#39;</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">dn_dlndp</span><span class="p">(</span><span class="n">D</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">GM</span><span class="p">,</span> <span class="n">GSD</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">dn_dlndp</span><span class="p">(</span><span class="n">dp</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">gm</span><span class="p">,</span> <span class="n">gsd</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">weight</span> <span class="o">==</span> <span class="s1">&#39;surface&#39;</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">ds_dlndp</span><span class="p">(</span><span class="n">D</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">GM</span><span class="p">,</span> <span class="n">GSD</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">ds_dlndp</span><span class="p">(</span><span class="n">dp</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">gm</span><span class="p">,</span> <span class="n">gsd</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">weight</span> <span class="o">==</span> <span class="s1">&#39;volume&#39;</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">dv_dlndp</span><span class="p">(</span><span class="n">D</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">GM</span><span class="p">,</span> <span class="n">GSD</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">dv_dlndp</span><span class="p">(</span><span class="n">dp</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">gm</span><span class="p">,</span> <span class="n">gsd</span><span class="p">)</span>
     <span class="k">elif</span> <span class="n">base</span> <span class="o">==</span> <span class="s1">&#39;log10&#39;</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">weight</span> <span class="o">==</span> <span class="s1">&#39;number&#39;</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">dn_dlogdp</span><span class="p">(</span><span class="n">D</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">GM</span><span class="p">,</span> <span class="n">GSD</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">dn_dlogdp</span><span class="p">(</span><span class="n">dp</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">gm</span><span class="p">,</span> <span class="n">gsd</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">weight</span> <span class="o">==</span> <span class="s1">&#39;surface&#39;</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">ds_dlogdp</span><span class="p">(</span><span class="n">D</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">GM</span><span class="p">,</span> <span class="n">GSD</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">ds_dlogdp</span><span class="p">(</span><span class="n">dp</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">gm</span><span class="p">,</span> <span class="n">gsd</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">weight</span> <span class="o">==</span> <span class="s1">&#39;volume&#39;</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">dv_dlogdp</span><span class="p">(</span><span class="n">D</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">GM</span><span class="p">,</span> <span class="n">GSD</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">dv_dlogdp</span><span class="p">(</span><span class="n">dp</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">gm</span><span class="p">,</span> <span class="n">gsd</span><span class="p">)</span>
 
-<span class="k">def</span> <span class="nf">_get_cdf_func</span><span class="p">(</span><span class="n">weight</span><span class="p">,</span> <span class="n">D</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">GM</span><span class="p">,</span> <span class="n">GSD</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">_get_cdf_func</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">gm</span><span class="p">,</span> <span class="n">gsd</span><span class="p">,</span> <span class="n">dmin</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dmax</span><span class="o">=</span><span class="mf">10.</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="s1">&#39;number&#39;</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">weight</span> <span class="o">=</span> <span class="n">weight</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
@@ -205,11 +205,11 @@
         <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Invalid argument for weight: [&#39;number&#39;, &#39;surface&#39;, &#39;volume&#39;]&quot;</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">weight</span> <span class="o">==</span> <span class="s1">&#39;number&#39;</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">Nt</span><span class="p">(</span><span class="n">D</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">GM</span><span class="p">,</span> <span class="n">GSD</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">nt</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">gm</span><span class="p">,</span> <span class="n">gsd</span><span class="p">,</span> <span class="n">dmin</span><span class="p">,</span> <span class="n">dmax</span><span class="p">)</span>
     <span class="k">elif</span> <span class="n">weight</span> <span class="o">==</span> <span class="s1">&#39;surface&#39;</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">St</span><span class="p">(</span><span class="n">D</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">GM</span><span class="p">,</span> <span class="n">GSD</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">st</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">gm</span><span class="p">,</span> <span class="n">gsd</span><span class="p">,</span> <span class="n">dmin</span><span class="p">,</span> <span class="n">dmax</span><span class="p">)</span>
     <span class="k">elif</span> <span class="n">weight</span> <span class="o">==</span> <span class="s1">&#39;volume&#39;</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">Vt</span><span class="p">(</span><span class="n">D</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">GM</span><span class="p">,</span> <span class="n">GSD</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">vt</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">gm</span><span class="p">,</span> <span class="n">gsd</span><span class="p">,</span> <span class="n">dmin</span><span class="p">,</span> <span class="n">dmax</span><span class="p">)</span>
 
 <div class="viewcode-block" id="load_distribution"><a class="viewcode-back" href="../../generated/opcsim.load_distribution.html#opcsim.load_distribution">[docs]</a><span class="k">def</span> <span class="nf">load_distribution</span><span class="p">(</span><span class="n">label</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Load sample distributions as described by S+P Table 8.3.</span>
@@ -376,7 +376,7 @@
 
         <span class="k">return</span> <span class="n">value</span></div>
 
-<div class="viewcode-block" id="AerosolDistribution.cdf"><a class="viewcode-back" href="../../generated/opcsim.AerosolDistribution.cdf.html#opcsim.AerosolDistribution.cdf">[docs]</a>    <span class="k">def</span> <span class="nf">cdf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dmin</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">dmax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="s1">&#39;number&#39;</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="AerosolDistribution.cdf"><a class="viewcode-back" href="../../generated/opcsim.AerosolDistribution.cdf.html#opcsim.AerosolDistribution.cdf">[docs]</a>    <span class="k">def</span> <span class="nf">cdf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dmax</span><span class="p">,</span> <span class="n">dmin</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="s1">&#39;number&#39;</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Evaluate and return the cumulative probability distribution function</span>
 <span class="sd">        between dmin and dmax.</span>
 
@@ -386,12 +386,6 @@
 <span class="sd">        range will return the total number of particles in that size range. If</span>
 <span class="sd">        weighted by surface area or volume, it will return the integrated</span>
 <span class="sd">        surface area or volume respectively.</span>
-
-<span class="sd">        Mathematically, it is represented as:</span>
-
-<span class="sd">        .. math::</span>
-
-<span class="sd">            Σ</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -429,8 +423,9 @@
 <span class="sd">        &gt;&gt;&gt; d.cdf(dmax=2.5, weight=&#39;volume&#39;)</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">dmin</span> <span class="o">&lt;</span> <span class="n">dmax</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;dmin must be less than dmax&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">dmin</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">dmin</span> <span class="o">&lt;</span> <span class="n">dmax</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;dmin must be less than dmax&quot;</span><span class="p">)</span>
 
         <span class="n">value</span> <span class="o">=</span> <span class="mf">0.0</span>
 
@@ -439,86 +434,13 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="n">modes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">modes</span>
 
-        <span class="k">for</span> <span class="n">mode</span> <span class="ow">in</span> <span class="n">modes</span><span class="p">:</span>
-            <span class="n">value</span> <span class="o">+=</span> <span class="n">_get_cdf_func</span><span class="p">(</span><span class="n">weight</span><span class="p">,</span> <span class="n">dmax</span><span class="p">,</span> <span class="n">mode</span><span class="p">[</span><span class="s1">&#39;N&#39;</span><span class="p">],</span> <span class="n">mode</span><span class="p">[</span><span class="s1">&#39;GM&#39;</span><span class="p">],</span> <span class="n">mode</span><span class="p">[</span><span class="s1">&#39;GSD&#39;</span><span class="p">])</span>
-
-            <span class="k">if</span> <span class="n">dmin</span> <span class="o">&gt;</span> <span class="mf">0.0</span><span class="p">:</span>
-                <span class="n">value</span> <span class="o">-=</span> <span class="n">_get_cdf_func</span><span class="p">(</span><span class="n">weight</span><span class="p">,</span> <span class="n">dmin</span><span class="p">,</span> <span class="n">mode</span><span class="p">[</span><span class="s1">&#39;N&#39;</span><span class="p">],</span> <span class="n">mode</span><span class="p">[</span><span class="s1">&#39;GM&#39;</span><span class="p">],</span> <span class="n">mode</span><span class="p">[</span><span class="s1">&#39;GSD&#39;</span><span class="p">])</span>
+        <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">modes</span><span class="p">:</span>
+            <span class="n">value</span> <span class="o">+=</span> <span class="n">_get_cdf_func</span><span class="p">(</span><span class="n">m</span><span class="p">[</span><span class="s1">&#39;N&#39;</span><span class="p">],</span> <span class="n">m</span><span class="p">[</span><span class="s1">&#39;GM&#39;</span><span class="p">],</span> <span class="n">m</span><span class="p">[</span><span class="s1">&#39;GSD&#39;</span><span class="p">],</span> <span class="n">dmin</span><span class="p">,</span> <span class="n">dmax</span><span class="p">,</span> <span class="n">weight</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">value</span></div>
 
-    <span class="k">def</span> <span class="nf">mean</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mode</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">weight</span> <span class="o">=</span> <span class="s1">&#39;number&#39;</span><span class="p">,</span> <span class="n">diameter</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">            Calculate the mean diameter, surface area, or volume weighted by</span>
-<span class="sd">            number, surface area, or volume.</span>
-
-<span class="sd">            weight = &#39;number&#39;,  diameter = True     Mean Diameter               S+P 8.44</span>
-<span class="sd">            weight = &#39;number&#39;,  diameter = False    Mean Diameter               S+P 8.44</span>
-<span class="sd">            weight = &#39;surface&#39;, diameter = True     Surface Area Mean Diameter  S+P T8.2</span>
-<span class="sd">            weight = &#39;surface&#39;, diameter = False    Mean Surface Area           S+P T8.2</span>
-<span class="sd">            weight = &#39;volume&#39;,  diameter = True     Volume Mean Diameter        S+P T8.2</span>
-<span class="sd">            weight = &#39;volume&#39;,  diameter = False    Mean Volume                 S+P T8.2</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c1"># Get the mode</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">modes</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="n">_m_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_mode</span><span class="p">(</span><span class="n">mode</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">_m_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">modes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-
-        <span class="k">if</span> <span class="n">weight</span> <span class="o">==</span> <span class="s1">&#39;number&#39;</span><span class="p">:</span>
-            <span class="n">res</span> <span class="o">=</span> <span class="n">_m_</span><span class="p">[</span><span class="s1">&#39;GM&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span> <span class="n">_m_</span><span class="p">[</span><span class="s1">&#39;GSD&#39;</span><span class="p">]</span> <span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">/</span> <span class="mf">2.</span> <span class="p">)</span>
-
-        <span class="k">elif</span> <span class="n">weight</span> <span class="o">==</span> <span class="s1">&#39;surface&#39;</span><span class="p">:</span>
-            <span class="n">res</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1.</span> <span class="o">/</span> <span class="n">_m_</span><span class="p">[</span><span class="s1">&#39;N&#39;</span><span class="p">])</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="mf">1000.</span><span class="p">,</span> <span class="n">weight</span> <span class="o">=</span> <span class="s1">&#39;surface&#39;</span><span class="p">,</span> <span class="n">mode</span> <span class="o">=</span> <span class="n">_m_</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">])</span>
-
-            <span class="k">if</span> <span class="n">diameter</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
-                <span class="n">res</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span> <span class="n">res</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="p">)</span>
-
-        <span class="k">elif</span> <span class="n">weight</span> <span class="o">==</span> <span class="s1">&#39;volume&#39;</span><span class="p">:</span>
-            <span class="n">res</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1.</span> <span class="o">/</span> <span class="n">_m_</span><span class="p">[</span><span class="s1">&#39;N&#39;</span><span class="p">])</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="mf">1000.</span><span class="p">,</span> <span class="n">weight</span> <span class="o">=</span> <span class="s1">&#39;volume&#39;</span><span class="p">,</span> <span class="n">mode</span> <span class="o">=</span> <span class="n">_m_</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">])</span>
-
-            <span class="k">if</span> <span class="n">diameter</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
-                <span class="n">res</span> <span class="o">=</span> <span class="p">(</span> <span class="p">(</span><span class="mf">6.</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span> <span class="o">*</span> <span class="n">res</span> <span class="p">)</span> <span class="o">**</span> <span class="p">(</span> <span class="mf">1.</span> <span class="o">/</span> <span class="mf">3.</span> <span class="p">)</span>
-
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Invalid weight: [&#39;number&#39;, &#39;surface&#39;, &#39;volume&#39;]&quot;</span><span class="p">)</span>
-
-        <span class="k">return</span> <span class="n">res</span>
-
-    <span class="k">def</span> <span class="nf">median</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mode</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">weight</span> <span class="o">=</span> <span class="s1">&#39;number&#39;</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">            Calculate the weighted median diameter</span>
-
-<span class="sd">            weight = &#39;number&#39;   Median Particle Diameter        argument</span>
-<span class="sd">            weight = &#39;surface&#39;  Surface Area Median Diameter    S+P 8.50</span>
-<span class="sd">            weight = &#39;volume&#39;   Volume Median Diameter          S+P 8.53</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c1"># Get the mode</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">modes</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="n">_m_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_mode</span><span class="p">(</span><span class="n">mode</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">_m_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">modes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-
-        <span class="k">if</span> <span class="n">weight</span> <span class="o">==</span> <span class="s1">&#39;number&#39;</span><span class="p">:</span>
-            <span class="n">res</span> <span class="o">=</span> <span class="n">_m_</span><span class="p">[</span><span class="s1">&#39;GM&#39;</span><span class="p">]</span>
-        <span class="k">elif</span> <span class="n">weight</span> <span class="o">==</span> <span class="s1">&#39;surface&#39;</span><span class="p">:</span>
-            <span class="n">res</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">_m_</span><span class="p">[</span><span class="s1">&#39;GM&#39;</span><span class="p">])</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span> <span class="n">_m_</span><span class="p">[</span><span class="s1">&#39;GSD&#39;</span><span class="p">]</span> <span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="p">)</span>
-        <span class="k">elif</span> <span class="n">weight</span> <span class="o">==</span> <span class="s1">&#39;volume&#39;</span><span class="p">:</span>
-            <span class="n">res</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">_m_</span><span class="p">[</span><span class="s1">&#39;GM&#39;</span><span class="p">])</span> <span class="o">+</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span> <span class="n">_m_</span><span class="p">[</span><span class="s1">&#39;GSD&#39;</span><span class="p">]</span> <span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Invalid weight: [&#39;number&#39;, &#39;surface&#39;, &#39;volume&#39;]&quot;</span><span class="p">)</span>
-
-        <span class="k">return</span> <span class="n">res</span>
-
     <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">res</span> <span class="o">=</span> <span class="s2">&quot;AerosolDistribution: </span><span class="si">{}</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="p">)</span>
-        <span class="n">res</span> <span class="o">=</span> <span class="n">res</span> <span class="o">+</span> <span class="s2">&quot;Mode</span><span class="se">\t</span><span class="s2">N</span><span class="se">\t\t</span><span class="s2">GM</span><span class="se">\t</span><span class="s2">GSD</span><span class="se">\n</span><span class="s2">&quot;</span>
-
-        <span class="k">for</span> <span class="n">mode</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">modes</span><span class="p">:</span>
-            <span class="n">res</span> <span class="o">=</span> <span class="n">res</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="se">\t</span><span class="si">{:.2e}</span><span class="se">\t</span><span class="si">{:.3f}</span><span class="se">\t</span><span class="si">{:.3f}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">mode</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">],</span> <span class="n">mode</span><span class="p">[</span><span class="s1">&#39;N&#39;</span><span class="p">],</span> <span class="n">mode</span><span class="p">[</span><span class="s1">&#39;GM&#39;</span><span class="p">],</span> <span class="n">mode</span><span class="p">[</span><span class="s1">&#39;GSD&#39;</span><span class="p">])</span>
-
-        <span class="k">return</span> <span class="n">res</span></div>
+        <span class="k">return</span> <span class="s2">&quot;AerosolDistribution: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="p">)</span></div>
 </pre></div>
 
     </div>

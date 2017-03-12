@@ -19,42 +19,42 @@
 
     </style>
 
-Seaborn: statistical data visualization
-=======================================
+OpcSim: Simulating Optical Particle Counters
+============================================
 
 .. raw:: html
 
     <div style="clear: both"></div>
         <div class="container-fluid hidden-xs hidden-sm">
           <div class="row">
-            <a href="#">
+            <a href="examples/three_weights.html">
               <div class="col-md-2 thumbnail">
-                <img src="_static/anscombes_quartet_thumb.png">
+                <img src="_static/three_weights_thumb.png">
               </div>
             </a>
-            <a href="#">
+            <a href="examples/urban_distribution_pdf.html">
               <div class="col-md-2 thumbnail">
-                <img src="_static/many_pairwise_correlations_thumb.png">
+                <img src="_static/urban_distribution_pdf_thumb.png">
               </div>
             </a>
-            <a href="#">
+            <a href="examples/ten_bin_opc.html">
               <div class="col-md-2 thumbnail">
-                <img src="_static/many_facets_thumb.png">
+                <img src="_static/ten_bin_opc_thumb.png">
               </div>
             </a>
-            <a href="#">
+            <a href="examples/opc_with_dist_number_and_vol.html">
               <div class="col-md-2 thumbnail">
-                <img src="_static/scatterplot_matrix_thumb.png">
+                <img src="_static/opc_with_dist_number_and_vol_thumb.png">
               </div>
             </a>
-            <a href="#">
+            <a href="examples/opc_with_dist.html">
               <div class="col-md-2 thumbnail">
-                <img src="_static/hexbin_marginals_thumb.png">
+                <img src="_static/opc_with_dist_thumb.png">
               </div>
             </a>
-            <a href="#">
+            <a href="examples/build_your_own_distribution.html">
               <div class="col-md-2 thumbnail">
-                <img src="_static/scatterplot_categorical_thumb.png">
+                <img src="_static/build_your_own_distribution_thumb.png">
               </div>
             </a>
           </div>
@@ -66,10 +66,14 @@ Seaborn: statistical data visualization
        <div class="col-md-6">
        <br>
 
-Seaborn is a Python visualization library based on matplotlib. It provides a
-high-level interface for drawing attractive statistical graphics.
+OpcSim is a Python library for simulating the response of low-cost optical
+particle counters (OPC's) to various aerosol distributions to better understand
+the sources of error and limitations of these devices. It provides an
+easy-to-use interface for building simple OPC models as well as model aerosol
+distributions.
 
 For a brief introduction to the ideas behind the package, you can read the
+introduction :ref:`here <introduction>`.
 
 To see the code or report a bug, please visit the `github repository
 <https://github.com/dhhagan/opcsim>`_.

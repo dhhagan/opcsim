@@ -1,8 +1,6 @@
 import unittest
 import opcsim
-import pandas as pd
 import numpy as np
-import os
 import random
 
 class SetupTestCase(unittest.TestCase):
@@ -43,110 +41,93 @@ class SetupTestCase(unittest.TestCase):
         # Use a sample Urban distribution
         d = opcsim.load_distribution("Urban")
 
+        dp = 0.1
+
         dps = np.linspace(0.01, 1., 100)
 
         # Test to make sure the evaluation works for an individual diameter
         # Number-Weighted
-        # Evaluate at 0.1 microns
-        pdf     = d.pdf(0.1)
+        pdf = d.pdf(dp, base=None)
 
         # Evaluate an array
         pdf_arr = d.pdf(dps)
 
         # Evaluate for a single mode
-        pdf_1   = d.pdf(0.1, mode="Mode I")
+        pdf_1   = d.pdf(dp, mode="Mode I")
 
         self.assertGreaterEqual(pdf, 0.0)
         self.assertGreaterEqual(pdf, pdf_1)
         self.assertEqual(len(pdf_arr), len(dps))
 
-        #lnpdf   = self._d_.pdf(0.1, base = 'log')
-        #logpdf  = self._d_.pdf(0.1, base = 'log10')
+        # Check the log and log10 weighted versions
+        pdf_log = d.pdf(dp, base='log')
+        pdf_log10 = d.pdf(dp, base='log10')
 
-        #self.assertEqual(pdf * 0.1, lnpdf)
-        #self.assertEqual(pdf * 0.1 * np.log(10), logpdf)
+        # Make sure the pdf functions of various weights are correct
+        self.assertEqual(round(pdf * dp, 3), round(pdf_log, 3))
+        self.assertEqual(round(pdf * dp * np.log(10), 3), round(pdf_log10, 3))
 
         # Various Weights for Number-Weighted
-        #pdf_s   = self._d_.pdf(0.1, weight = 'surface')
-        #pdf_v   = self._d_.pdf(0.1, weight = 'volume')
+        pdf_s = d.pdf(dp, weight='surface', base=None)
+        pdf_v = d.pdf(dp, weight='volume', base=None)
 
         # Various Weights for log-weighted
-        #pdf_s   = self._d_.pdf(0.1, weight = 'surface', base = 'log')
-        #pdf_v   = self._d_.pdf(0.1, weight = 'volume', base = 'log')
+        pdf_s = d.pdf(dp, weight='surface', base='log')
+        pdf_v = d.pdf(dp, weight='volume', base='log')
 
         # Various Weights for log10-weighted
-        #pdf_s   = self._d_.pdf(0.1, weight = 'surface', base = 'log10')
-        #pdf_v   = self._d_.pdf(0.1, weight = 'volume', base = 'log10')
+        pdf_s = d.pdf(dp, weight='surface', base='log10')
+        pdf_v = d.pdf(dp, weight='volume', base='log10')
 
-        #pdf     = self._d_.pdf(0.1, weight = 'surface', base = 'log10', mode = _mode_label)
+        with self.assertRaises(Exception):
+            d.pdf(dp, weight='error')
 
-        #with self.assertRaises(Exception):
-        #    self._d_.pdf(0.1, weight = 'error')
+        with self.assertRaises(Exception):
+            d.pdf(dp, base='error')
 
-        #with self.assertRaises(Exception):
-        #    self._d_.pdf(0.1, base = 'error')
-
-    """
     def test_cdf(self):
-        # Test the cdf functionality for both eval and integrations
-        cdf1    = self._d_.cdf(0.1)
-        cdf     = self._d_.cdf(0.3)
-        cdf2    = self._d_.cdf(dmax = 0.3, dmin = 0.1)
-        cdf_s   = self._d_.cdf(0.1, weight = 'surface')
-        cdf_v   = self._d_.cdf(0.1, weight = 'volume')
+        # Use a sample Urban distribution
+        d = opcsim.load_distribution("Urban")
 
-        self.assertEqual(cdf2, cdf - cdf1)
-        self.assertGreater(cdf, cdf2)
+        cdf_1 = d.cdf(dmax=1.0)
+        cdf_25 = d.cdf(dmax=2.5)
+        cdf_diff = d.cdf(dmin=1.0, dmax=2.5)
+
+        self.assertGreaterEqual(cdf_25, cdf_1)
+        self.assertEqual(round(cdf_diff, 3), round(cdf_25 - cdf_1, 3))
 
         with self.assertRaises(Exception):
-            self._d_.cdf(0.1, weight = 'error')
+            d.cdf(0.1, weight='error')
 
-        res = self._d_.__repr__()
+        # Test the surface area weighted versions
+        cdf_sa = d.cdf(dmax=1.0, weight='surface')
+        cdf_sa2 = d.cdf(dmax=2.5, weight='surface')
+        cdf_sa_diff = d.cdf(dmin=1.0, dmax=2.5, weight='surface')
 
-        # Test an individual mode
-        cdf     = self._d_.cdf(0.1, mode = _mode_label)
+        self.assertGreaterEqual(cdf_sa2, cdf_sa)
+        self.assertEqual(round(cdf_sa_diff, 3), round(cdf_sa2 - cdf_sa, 3))
 
-        self.assertEqual(cdf, cdf1)
-    """
-    """
+        # Test the surface area weighted versions
+        cdf_v = d.cdf(dmax=1.0, weight='volume')
+        cdf_v2 = d.cdf(dmax=2.5, weight='volume')
+        cdf_v_diff = d.cdf(dmin=1.0, dmax=2.5, weight='volume')
 
-    def test_dist_mean(self):
-        # Test the mean diameter
-        mean_d  = self._d_.mean(weight = 'number', diameter = True)
-        mean_db = self._d_.mean(weight = 'number', diameter = False)
+        self.assertGreaterEqual(cdf_v2, cdf_v)
+        self.assertEqual(round(cdf_v_diff, 3), round(cdf_v2 - cdf_v, 3))
 
-        mean_sd = self._d_.mean(weight = 'surface', diameter = True)
-        mean_s  = self._d_.mean(weight = 'surface', diameter = False)
+        with self.assertRaises(ValueError):
+            d.cdf(dmin=2.5, dmax=1.)
 
-        mean_vd = self._d_.mean(weight = 'volume', diameter = True)
-        mean_v  = self._d_.mean(weight = 'volume', diameter = False)
+        # Test a single mode
+        cdf = d.cdf(dmax=2.5, mode='Mode I')
 
-        self.assertEqual(mean_d, mean_db)
+        self.assertIsNotNone(cdf)
 
-        # Test bad weight
-        with self.assertRaises(Exception):
-            self._d_.mean(weight = 'error')
+    def test_bad_distribution(self):
+        with self.assertRaises(ValueError):
+            d = opcsim.load_distribution("None")
 
-        # Test getting just one node
-        mean    = self._d2_.mean(weight = 'number', mode = _mode_label)
+    def test_repr(self):
+        d = opcsim.load_distribution("Urban")
 
-        self.assertEqual(mean, mean_d)
-
-    def test_dist_median(self):
-        med     = self._d_.median(weight = 'number')
-        med_s   = self._d_.median(weight = 'surface')
-        med_v   = self._d_.median(weight = 'volume')
-
-        self.assertGreater(med_s, med)
-        self.assertGreater(med_v, med_s)
-
-        # Test bad weighting
-        with self.assertRaises(Exception):
-            self._d_.median(weight = 'error')
-
-        # Test first mode
-        med2    = self._d2_.median(weight = 'number', mode = _mode_label)
-
-        self.assertEqual(med2, med)
-
-    """
+        self.assertTrue(repr(d) == "AerosolDistribution: Urban")
