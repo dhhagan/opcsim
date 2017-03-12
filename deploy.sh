@@ -24,7 +24,7 @@ rm -rf ./docs
 
 git add -A
 git commit -m "publish new docs"
-git push gh-pages
+git push origin gh-pages
 
 # switch back to docs
 git checkout master
