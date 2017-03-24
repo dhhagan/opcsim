@@ -67,6 +67,8 @@ Example gallery
 
    ./build_your_own_distribution
 
+   ./cumulative_mass
+
    ./opc_with_dist
 
    ./opc_with_dist_number_and_vol
@@ -76,6 +78,8 @@ Example gallery
    ./three_weights
 
    ./urban_distribution_pdf
+
+   ./volume_mass_comparison
 
 
 
@@ -87,6 +91,19 @@ Example gallery
     <img src=../_static/build_your_own_distribution_thumb.png>
     <span class='figure-label'>
     <p>pdfplot</p>
+    </span>
+    </a>
+    </div>
+
+
+
+.. raw:: html
+
+    <div class='figure align-center'>
+    <a href=./cumulative_mass.html>
+    <img src=../_static/cumulative_mass_thumb.png>
+    <span class='figure-label'>
+    <p>cdfplot</p>
     </span>
     </a>
     </div>
@@ -150,6 +167,19 @@ Example gallery
     <div class='figure align-center'>
     <a href=./urban_distribution_pdf.html>
     <img src=../_static/urban_distribution_pdf_thumb.png>
+    <span class='figure-label'>
+    <p>pdfplot</p>
+    </span>
+    </a>
+    </div>
+
+
+
+.. raw:: html
+
+    <div class='figure align-center'>
+    <a href=./volume_mass_comparison.html>
+    <img src=../_static/volume_mass_comparison_thumb.png>
     <span class='figure-label'>
     <p>pdfplot</p>
     </span>

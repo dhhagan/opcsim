@@ -70,14 +70,17 @@ class SetupTestCase(unittest.TestCase):
         # Various Weights for Number-Weighted
         pdf_s = d.pdf(dp, weight='surface', base=None)
         pdf_v = d.pdf(dp, weight='volume', base=None)
+        pdf_m = d.pdf(dp, weight='mass', base=None)
 
         # Various Weights for log-weighted
         pdf_s = d.pdf(dp, weight='surface', base='log')
         pdf_v = d.pdf(dp, weight='volume', base='log')
+        pdf_m = d.pdf(dp, weight='mass', base='log')
 
         # Various Weights for log10-weighted
         pdf_s = d.pdf(dp, weight='surface', base='log10')
         pdf_v = d.pdf(dp, weight='volume', base='log10')
+        pdf_m = d.pdf(dp, weight='mass', base='log10')
 
         with self.assertRaises(Exception):
             d.pdf(dp, weight='error')
@@ -123,6 +126,14 @@ class SetupTestCase(unittest.TestCase):
 
         self.assertIsNotNone(cdf)
 
+        # Test the mass weighted versions
+        cdf_m = d.cdf(dmax=1.0, weight='mass')
+        cdf_m2 = d.cdf(dmax=2.5, weight='mass')
+        cdf_m_diff = d.cdf(dmin=1.0, dmax=2.5, weight='mass')
+
+        self.assertGreaterEqual(cdf_m2, cdf_m)
+        self.assertEqual(round(cdf_m_diff, 3), round(cdf_m2 - cdf_m, 3))
+
     def test_bad_distribution(self):
         with self.assertRaises(ValueError):
             d = opcsim.load_distribution("None")
@@ -130,4 +141,4 @@ class SetupTestCase(unittest.TestCase):
     def test_repr(self):
         d = opcsim.load_distribution("Urban")
 
-        self.assertTrue(repr(d) == "AerosolDistribution: Urban")
+        self.assertTrue(repr(d) == "AerosolDistribution: urban")

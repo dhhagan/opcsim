@@ -1,41 +1,51 @@
 import seaborn as sns
 import numpy as np
 import matplotlib.pyplot as plt
-from matplotlib.ticker import ScalarFormatter
+import matplotlib.ticker as mtick
 import itertools
 
 from .distributions import AerosolDistribution
 from .models import OPC
 
+lrg_number_fmt = mtick.ScalarFormatter()
+lrg_number_fmt.set_powerlimits((-3, 4))
+
 rc_log = {
-    'xtick.major.size': 8.0,
-    'xtick.minor.size': 5.0,
-    'ytick.major.size': 8.0,
-    'ytick.minor.size': 5.0
+    'xtick.major.size': 10.0,
+    'xtick.minor.size': 8.0,
+    'ytick.major.size': 10.0,
+    'ytick.minor.size': 8.0,
+    'xtick.color': '0.5',
+    'ytick.color': '0.5',
+    'axes.linewidth': 1.75
 }
 
 YLABEL = {
     'none': {
         'number': "$dN/dD_p \; [\mu m^{-1} cm^{-3}]$",
         'surface': "$dS/dD_p \; [\mu m cm^{-3}]$",
-        'volume': "$dV/dD_p \; [\mu m^2 cm^{-3}]$"
+        'volume': "$dV/dD_p \; [\mu m^2 cm^{-3}]$",
+        'mass': "$dM/dD_p$"
     },
     'log': {
         'number': "$dN/dlnD_p \; [# cm^{-3}]$",
         'surface': "$dS/dlnD_p \; [\mu m^2 cm^{-3}]$",
-        'volume': "$dV/dlnD_p \; [\mu m^3 cm^{-3}]$"
+        'volume': "$dV/dlnD_p \; [\mu m^3 cm^{-3}]$",
+        'mass': "$dM/dlnD_p \; [\mu g m^{-3}]$"
     },
     'log10': {
         'number': "$dN/dlogD_p \; [cm^{-3}]$",
         'surface': "$dS/dlogD_p \; [\mu m^2 cm^{-3}]$",
-        'volume': "$dV/dlogD_p \; [\mu m^3 cm^{-3}]$"
+        'volume': "$dV/dlogD_p \; [\mu m^3 cm^{-3}]$",
+        'mass': "$dM/dlogD_p \; [\mu g m^{-3}]$"
     }
 }
 
 YLABEL_CDF = {
     'number': 'Total Number [$cm^{-3}$]',
     'surface': 'Total Surface Area [$\mu m^2cm^{-3}$]',
-    'volume': 'Total Volume [$\mu m^3 cm^{-3}$]'
+    'volume': 'Total Volume [$\mu m^3 cm^{-3}$]',
+    'mass': "Total Mass [$\mu g m^{-3}$]"
 }
 
 def histplot(data, bins, ax=None, plot_kws={}, fig_kws={}, **kwargs):
@@ -142,7 +152,7 @@ def histplot(data, bins, ax=None, plot_kws={}, fig_kws={}, **kwargs):
         # Set the xlabel
         ax.set_xlabel("$D_p \; [\mu m]$")
 
-        ax.xaxis.set_major_formatter(ScalarFormatter())
+        ax.xaxis.set_major_formatter(mtick.FormatStrFormatter("%.3g"))
 
     return ax
 
@@ -155,7 +165,7 @@ def pdfplot(distribution, ax=None, weight='number', base='log10', with_modes=Fal
     distribution : valid `AerosolDistribution`
         An aerosol distribution with the method `pdf` that can be evaluated at
         an array of particle diameters.
-    weight : {'number' | 'surface' | 'volume'}
+    weight : {'number' | 'surface' | 'volume' | 'mass'}
         Choose how to weight the pdf. Default is `number`.
     base : {'none' | 'log' | 'log10'}
         Base algorithm to use. Default is 'log10'.
@@ -227,8 +237,8 @@ def pdfplot(distribution, ax=None, weight='number', base='log10', with_modes=Fal
     if not hasattr(distribution, 'pdf'):
         raise Exception("Invalid AerosolDistribution.")
 
-    if weight not in ['number', 'surface', 'volume']:
-        raise ValueError("Invalid weight: ['number', 'surface', 'volume']")
+    if weight not in ['number', 'surface', 'volume', 'mass']:
+        raise ValueError("Invalid weight: ['number', 'surface', 'volume', 'mass']")
 
     # Set the default dp values to plot against
     dp = kwargs.get('dp', np.logspace(np.log10(.001), np.log10(10), 1000))
@@ -245,20 +255,11 @@ def pdfplot(distribution, ax=None, weight='number', base='log10', with_modes=Fal
     # Set the plot_kws as a mapping of default and kwargs
     default_plot_kws = dict(
                         alpha=1,
-                        linewidth=5
+                        linewidth=4
                         )
 
     # Set the plot_kws
     plot_kws = dict(default_plot_kws, **plot_kws)
-
-    # Get data
-    if with_modes is True:
-        for m in distribution.modes:
-            nc = next(ax._get_lines.prop_cycler)['color']
-
-            data = distribution.pdf(dp, base=base, weight=weight, mode=m['label'])
-
-            ax.plot(dp, data, label=m['label'], c=nc, **plot_kws)
 
     # Plot the compete distribution
     nc = next(ax._get_lines.prop_cycler)['color']
@@ -267,14 +268,27 @@ def pdfplot(distribution, ax=None, weight='number', base='log10', with_modes=Fal
     label = kwargs.pop('label', distribution.label)
 
     data = distribution.pdf(dp, base=base, weight=weight)
+
     ax.plot(dp, data, c=nc, label=label, **plot_kws)
+
+    # Get data
+    if with_modes is True:
+        for m in distribution.modes:
+            nc = next(ax._get_lines.prop_cycler)['color']
+
+            data = distribution.pdf(dp, base=base, weight=weight, mode=m['label'])
+
+            ax.plot(dp, data, label=m['label'], c=nc, ls='--', **plot_kws)
 
     if base is not ('none' or None):
         ax.semilogx()
-        ax.xaxis.set_major_formatter(ScalarFormatter())
+        ax.xaxis.set_major_formatter(mtick.FormatStrFormatter("%.3g"))
 
     ax.set_xlabel("$D_p \; [\mu m]$")
     ax.set_ylabel(YLABEL[base][weight])
+
+    # Set the yaxis to show scientific notation when numbers > 1e4
+    ax.yaxis.set_major_formatter(lrg_number_fmt)
 
     return ax
 
@@ -287,7 +301,7 @@ def cdfplot(distribution, ax=None, weight='number', plot_kws={},
     distribution : valid `AerosolDistribution`
         An aerosol distribution with the method `pdf` that can be evaluated at
         an array of particle diameters.
-    weight : {'number' | 'surface' | 'volume'}
+    weight : {'number' | 'surface' | 'volume' | 'mass'}
         Choose how to weight the pdf. Default is `number`.
     ax : matplotlib axis
         If an axis is provided, the histogram will be plotted on this axis.
@@ -330,8 +344,8 @@ def cdfplot(distribution, ax=None, weight='number', plot_kws={},
     if not hasattr(distribution, 'cdf'):
         raise Exception("Invalid AerosolDistribution.")
 
-    if weight not in ['number', 'surface', 'volume']:
-        raise ValueError("Invalid weight: ['number', 'surface', 'volume']")
+    if weight not in ['number', 'surface', 'volume', 'mass']:
+        raise ValueError("Invalid weight: ['number', 'surface', 'volume', 'mass']")
 
     # Set the default dp values to plot against
     dp = kwargs.pop('dp', np.logspace(-3, 1, 1000))
@@ -360,15 +374,18 @@ def cdfplot(distribution, ax=None, weight='number', plot_kws={},
     # If label kwarg is present, use -> otherwise use default
     label = kwargs.pop('label', distribution.label)
 
-    data = distribution.cdf(dp, weight=weight)
+    data = distribution.cdf(dp, weight=weight, **kwargs)
 
     ax.plot(dp, data, c=nc, label=label, **plot_kws)
 
     ax.semilogx()
-    ax.xaxis.set_major_formatter(ScalarFormatter())
+    ax.xaxis.set_major_formatter(mtick.FormatStrFormatter("%.3g"))
 
     ax.set_xlabel("$D_p \; [\mu m]$")
     ax.set_ylabel(YLABEL_CDF[weight])
+
+    # Set the yaxis to show scientific notation when numbers > 1e4
+    ax.yaxis.set_major_formatter(lrg_number_fmt)
 
     return ax
 

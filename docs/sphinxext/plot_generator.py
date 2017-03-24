@@ -31,6 +31,7 @@ if six.PY3:
 
 RST_TEMPLATE = """
 .. _{sphinx_tag}:
+
 {docstring}
 
 .. image:: {img_file}

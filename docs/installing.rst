@@ -10,7 +10,9 @@ below to the installation section.
 you do not have an existing installation, I would recommend checking out the
 `Anaconda Python distribution <https://www.continuum.io/downloads>`_. If you
 encounter issues installing Anaconda, check out StackOverflow or a simple
-Google query. Once you have python installed, you can go ahead and install the
+Google search.
+
+Once you have python installed, you can go ahead and install the
 ``opcsim`` python library.
 
 
@@ -27,29 +29,53 @@ Dependencies
 Installation
 ------------
 
-To install the most up-to-date version of ``opcsim``, you can use ``pip``:
+There are several ways to install the package from source depending on your
+local dev environment and familiarity with installing python packages. If you
+are new to python (and don't have `git` installed), install using the `Install
+from Source` option.
 
-``>>> pip install git+https://github.com/dhhagan/opcsim.git``
+Install using `pip`
+~~~~~~~~~~~~~~~~~~~
 
-You can also clone the directory and install from source:
+Note: must have git installed
 
-``>>> git clone https://github.com/dhhagan/opcsim.git``
+.. code-block:: shell
 
-``>>> cd /opcsim``
+    $ pip install --upgrade git+git://github.com/dhhagan/opcsim.git
 
-``>>> python3 setup.py install``
+
+Clone Repository and Install from GitHub
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: shell
+
+    $ git clone https://github.com/dhhagan/opcsim.git
+    $ cd opcsim
+    $ python3 setup.py install
+
+
+Install from Source
+~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: shell
+
+    $ wget https://github.com/dhhagan/opcsim/archive/master.zip
+    $ unzip master.zip
+    $ cd opcsim-master
+    $ python3 setup.py install
+
 
 Testing
 ~~~~~~~
 
-Testing is automated using unittests. To run the unittests with coverage
-reporting, run the following command from the main directory:
+Testing is automated using `unittests`. To run the unittests with coverage
+reporting, run the following commands from the main directory:
 
-``>>> coverage run --source opcsim setup.py test``
+.. code-block:: shell
 
-You can then view the coverage report with:
+    $ coverage run --source opcsim setup.py test
+    $ coverage report -m
 
-``>>> coverage report -m``
 
 Bugs and Issues
 ~~~~~~~~~~~~~~~

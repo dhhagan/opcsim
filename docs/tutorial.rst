@@ -1,6 +1,6 @@
 .. _tutorial:
 
-OpcSim Tutorial
+opcsim Tutorial
 ===============
 
 Aerosol Distributions
@@ -12,14 +12,11 @@ Aerosol Distributions
     tutorial/distribution
 
 
-Modeling an OPC
----------------
+Simulating and Evaluating an OPC
+--------------------------------
 
 .. toctree::
     :maxdepth: 2
 
     tutorial/model
-
-
-Modifying Figures with Seaborn and Matplotlib
----------------------------------------------
+    tutorial/scoring

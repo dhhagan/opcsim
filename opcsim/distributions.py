@@ -5,50 +5,50 @@ from .equations.pdf import *
 from .equations.cdf import *
 
 DISTRIBUTION_DATA = {
-    'Urban': [
+    'urban': [
         (7100, 0.0117, 0.232, "Mode I"),
         (6320, 0.0373, 0.250, "Mode II"),
         (960, 0.151, 0.204, "Mode III")
         ],
-    'Marine': [
+    'marine': [
         (133, 0.008, 0.657, "Mode I"),
         (66.6, 0.266, 0.210, "Mode II"),
         (3.1, 0.58, 0.396, "Mode III")
         ],
-    'Rural': [
+    'rural': [
         (6650, 0.015, 0.225, "Mode I"),
         (147, 0.054, 0.557, "Mode II"),
         (1990, 0.084, 0.266, "Mode III")
         ],
-    'Remote Continental': [
+    'remote continental': [
         (3200, 0.02, 0.161, "Mode I"),
         (2900, 0.116, 0.217, "Mode II"),
         (0.3, 1.8, 0.380, "Mode III")
         ],
-    'Free Troposphere': [
+    'free troposphere': [
         (129, 0.007, 0.645, "Mode I"),
         (59.7, 0.250, 0.253, "Mode II"),
         (63.5, 0.52, 0.425, "Mode III")
         ],
-    'Polar': [
+    'polar': [
         (21.7, 0.138, 0.245, "Mode I"),
         (0.186, 0.75, 0.300, "Mode II"),
         (3e-4, 8.6, 0.291, "Mode III")
         ],
-    'Desert': [
+    'desert': [
         (726, 0.002, 0.247, "Mode I"),
         (114, 0.038, 0.770, "Mode II"),
         (0.178, 21.6, 0.438, "Mode III")
         ],
 }
 
-def _get_pdf_func(base, weight, dp, n, gm, gsd):
+def _get_pdf_func(base, weight, dp, n, gm, gsd, rho=1.):
     """
     """
     weight  = weight.lower()
 
-    if weight not in ['number', 'surface', 'volume']:
-        raise Exception("Invalid argument for weight: ['number', 'surface', 'volume']")
+    if weight not in ['number', 'surface', 'volume', 'mass']:
+        raise Exception("Invalid argument for weight: ['number', 'surface', 'volume', 'mass']")
 
     if base not in [None, 'none', 'log', 'log10']:
         raise Exception("Invalid argument for base: ['none', 'log', 'log10']")
@@ -60,6 +60,8 @@ def _get_pdf_func(base, weight, dp, n, gm, gsd):
             return ds_ddp(dp, n, gm, gsd)
         elif weight == 'volume':
             return dv_ddp(dp, n, gm, gsd)
+        elif weight == 'mass':
+            return dv_ddp(dp, n, gm, gsd) * rho * 1e-6
     elif base == 'log':
         if weight == 'number':
             return dn_dlndp(dp, n, gm, gsd)
@@ -67,6 +69,8 @@ def _get_pdf_func(base, weight, dp, n, gm, gsd):
             return ds_dlndp(dp, n, gm, gsd)
         elif weight == 'volume':
             return dv_dlndp(dp, n, gm, gsd)
+        elif weight == 'mass':
+            return dv_dlndp(dp, n, gm, gsd) * rho *1e-6
     elif base == 'log10':
         if weight == 'number':
             return dn_dlogdp(dp, n, gm, gsd)
@@ -74,13 +78,15 @@ def _get_pdf_func(base, weight, dp, n, gm, gsd):
             return ds_dlogdp(dp, n, gm, gsd)
         elif weight == 'volume':
             return dv_dlogdp(dp, n, gm, gsd)
+        elif weight == 'mass':
+            return dv_dlogdp(dp, n, gm, gsd) * rho * 1e-6
 
-def _get_cdf_func(n, gm, gsd, dmin=None, dmax=10., weight='number'):
+def _get_cdf_func(n, gm, gsd, dmin=None, dmax=10., weight='number', rho=1.):
     """
     """
     weight = weight.lower()
-    if weight not in ['number', 'surface', 'volume']:
-        raise Exception("Invalid argument for weight: ['number', 'surface', 'volume']")
+    if weight not in ['number', 'surface', 'volume', 'mass']:
+        raise Exception("Invalid argument for weight: ['number', 'surface', 'volume', 'mass']")
 
     if weight == 'number':
         return nt(n, gm, gsd, dmin, dmax)
@@ -88,6 +94,8 @@ def _get_cdf_func(n, gm, gsd, dmin=None, dmax=10., weight='number'):
         return st(n, gm, gsd, dmin, dmax)
     elif weight == 'volume':
         return vt(n, gm, gsd, dmin, dmax)
+    elif weight == 'mass':
+        return vt(n, gm, gsd, dmin, dmax) * rho
 
 def load_distribution(label):
     """Load sample distributions as described by S+P Table 8.3.
@@ -108,6 +116,8 @@ def load_distribution(label):
     >>> d = opcsim.load_distribution("Urban")
 
     """
+    label = label.lower()
+
     if label not in DISTRIBUTION_DATA.keys():
         raise ValueError("Invalid label.")
 
@@ -195,7 +205,7 @@ class AerosolDistribution(object):
 
         return
 
-    def pdf(self, dp, base='log10', weight='number', mode=None):
+    def pdf(self, dp, base='log10', weight='number', mode=None, rho=1.):
         """Evaluate and return the probability distribution function at
         particle diameter `dp`.
 
@@ -209,12 +219,15 @@ class AerosolDistribution(object):
             Particle diameter(s) to evaluate the pdf (um)
         base : {None | 'none' | 'log' | 'log10'}
             Base algorithm to use. Default is 'log10'
-        weight : {'number' | 'surface' | 'volume'}
+        weight : {'number' | 'surface' | 'volume' | 'mass'}
             Choose how to weight the pdf. Default is `number`.
         mode : string or None
             Choose to only evaluate the pdf for a single mode
             of the entire distribution. If set to `None`, the entire
             distribution will be evaluated.
+        rho : float
+            If evaluating the mass-weighted distribution, you can set the
+            density. Default is 1. Units should be micro-g/cm3.
 
         Returns
         -------
@@ -250,11 +263,12 @@ class AerosolDistribution(object):
             modes = self.modes
 
         for mode in modes:
-            value += _get_pdf_func(base, weight, dp, mode['N'], mode['GM'], mode['GSD'])
+            value += _get_pdf_func(base, weight, dp, mode['N'], mode['GM'],
+                                    mode['GSD'], rho)
 
         return value
 
-    def cdf(self, dmax, dmin=None, weight='number', mode=None):
+    def cdf(self, dmax, dmin=None, weight='number', mode=None, rho=1.):
         """Evaluate and return the cumulative probability distribution function
         between dmin and dmax.
 
@@ -271,12 +285,15 @@ class AerosolDistribution(object):
             The minimum particle diameter in the integration (um)
         dmax : float
             The maximum particle diameter in the integration (um)
-        weight : {'number' | 'surface' | 'volume'}
+        weight : {'number' | 'surface' | 'volume' | 'mass'}
             Choose how to weight the pdf. Default is `number`
         mode : string or None
             Choose to only evaluate the pdf for a single mode
             of the entire distribution. If set to `None`, the entire
             distribution will be evaluated.
+        rho : float
+            If evaluating the mass-weighted distribution, you can set the
+            density. Default is 1. Units should be micro-g/cm3.
 
         Returns
         -------
@@ -313,7 +330,8 @@ class AerosolDistribution(object):
             modes = self.modes
 
         for m in modes:
-            value += _get_cdf_func(m['N'], m['GM'], m['GSD'], dmin, dmax, weight)
+            value += _get_cdf_func(m['N'], m['GM'], m['GSD'], dmin, dmax,
+                                    weight, rho)
 
         return value
 
