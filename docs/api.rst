@@ -62,6 +62,18 @@ Visualization
     opcsim.plots.cdfplot
 
 
+.. _scoring_api:
+
+Evaluation and Scoring
+----------------------
+
+.. autosummary::
+    :toctree: generated/
+
+    opcsim.metrics.nv_score
+    opcsim.metrics.vv_score
+
+
 .. _equations_api:
 
 Equations

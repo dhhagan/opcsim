@@ -77,14 +77,32 @@ class OPC(object):
         return np.log10(self.bins[:, -1]) - np.log10(self.bins[:, 0])
 
     @property
+    def dlndp(self):
+        return np.log(self.bins[:, -1] - np.log(self.bins[:, 0]))
+
+    @property
+    def ddp(self):
+        return self.bins[:, -1] - self.bins[:, 0]
+
+    @property
     def midpoints(self):
         return self.bins[:, 1]
 
-    def evaluate(self, distribution, weight='number', base='log10'):
+    def evaluate(self, distribution, weight='number', base='log10', **kwargs):
         """Evaluate the OPC given the PDF of an aerosol distribution.
 
-        In the future, we should account for intra-bin counting efficiency
-        errors.
+        Two methods of evaluation: 'simple' and 'subint'. The 'simple' method
+        evaluates the PDF at each given bin midpoint, setting this value to be
+        the number of particles the OPC senses in that bin.
+
+        The 'subint' method performs an integration across each bin, taking into
+        account the change in counting efficiency within the bin. This becomes
+        much more important with wider bins, where the PDF can span orders of
+        magnitude.
+
+        The default is to perform the integration, as we feel this is the most
+        accurate and honest way to evaluate what an OPC truly 'sees' at any given
+        particle diameter.
 
         Parameters
         ----------
@@ -94,6 +112,9 @@ class OPC(object):
             Choose how to weight the pdf. Default is `number`.
         base : {'none' | 'log' | 'log10'}
             Base algorithm to use. Default is 'log10'.
+        method : {'subint' | 'simple'}
+            Details the mechanism used for integrating the PDF/CDF. Default is
+            'subint'.
 
         Returns
         -------
@@ -124,7 +145,55 @@ class OPC(object):
         if not isinstance(distribution, AerosolDistribution):
             raise Exception("Invalid AerosolDistribution")
 
-        return self.ce(self.midpoints) * distribution.pdf(self.midpoints, base=base, weight=weight)
+        iters = kwargs.pop('iters', 50)
+        method = kwargs.pop('method', 'subint')
+
+        if method == 'simple':
+            res = self.ce(self.midpoints) * distribution.pdf(
+                                                self.midpoints,
+                                                base=base,
+                                                weight=weight)
+        elif method == 'subint':
+            # Iterate over each mode in the distribution
+            # return an array of values (one for each bin)
+            # account for number, surface area, volume, mass
+            res = []
+
+            for b in self.bins:
+                _bins = make_bins(b[0], b[-1], iters)
+
+                # Calculate CE at each subbin midpoint
+                _eff = self.ce(_bins[:, 1])
+
+                # Calculate the integrated total [W] within each bin
+                # Always calculate number and then convert to SA or V if needed
+                _vals = np.array([
+                    distribution.cdf(
+                                    dmin=_bins[k,0],
+                                    dmax=_bins[k,-1],
+                                    weight='number') for k in range(iters)])
+
+                res.append((_vals*_eff).sum())
+
+            res = np.array(res)
+
+            # We calculate N here because that's what the OPC sees
+            if weight == 'surface':
+                res = (np.pi * self.midpoints**2) * res
+            elif weight == 'volume':
+                res = (self.midpoints**3*np.pi/6.) * res # dp3 * pi/6*N
+
+            # Divide by appropriate width of bins
+            if base == 'log':
+                res = res / self.dlndp
+            elif base == 'log10':
+                res = res / self.dlogdp
+            else:
+                res = res / self.ddp
+        else:
+            raise Exception("Invalid method: {'subint' | 'simple'}")
+
+        return res
 
     def histogram(self, distribution, weight='number', base='log10'):
         """Return a histogram corresponding to how an OPC "sees" an aerosol
@@ -169,7 +238,7 @@ class OPC(object):
 
         return bb, pdf, dDp
 
-    def number(self, distribution, measured=True):
+    def number(self, distribution, measured=True, **kwargs):
         """Return the total number of particles an OPC 'sees' in each bin.
 
         Parameters
@@ -210,14 +279,14 @@ class OPC(object):
 
         """
         if measured == True:
-            vals = self.evaluate(distribution) * self.dlogdp
+            vals = self.evaluate(distribution, **kwargs) * self.dlogdp
         else:
             vals = [distribution.cdf(dmin=self.bins[i, 0],
                     dmax=self.bins[i, -1]) for i in range(self.n_bins)]
 
-        return vals
+        return np.array(vals)
 
-    def surface_area(self, distribution, measured=True):
+    def surface_area(self, distribution, measured=True, **kwargs):
         """Return the total surface area of particles an OPC 'sees' in each bin.
 
         Parameters
@@ -259,14 +328,14 @@ class OPC(object):
 
         """
         if measured == True:
-            vals = self.evaluate(distribution, weight='surface') * self.dlogdp
+            vals = self.evaluate(distribution, weight='surface', **kwargs) * self.dlogdp
         else:
             vals = [distribution.cdf(dmin=self.bins[i, 0],
                     dmax=self.bins[i, -1], weight='surface') for i in range(self.n_bins)]
 
-        return vals
+        return np.array(vals)
 
-    def volume(self, distribution, measured=True):
+    def volume(self, distribution, measured=True, **kwargs):
         """Return the total volume of particles an OPC 'sees' in each bin.
 
         Parameters
@@ -314,12 +383,12 @@ class OPC(object):
 
         """
         if measured == True:
-            vals = self.evaluate(distribution, weight='volume') * self.dlogdp
+            vals = self.evaluate(distribution, weight='volume', **kwargs) * self.dlogdp
         else:
             vals = [distribution.cdf(dmin=self.bins[i, 0],
                     dmax=self.bins[i, -1], weight='volume') for i in range(self.n_bins)]
 
-        return vals
+        return np.array(vals)
 
 __all__ = [
     'OPC'

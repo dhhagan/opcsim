@@ -71,7 +71,8 @@ class SetupTestCase(unittest.TestCase):
         vm = opc.number(d)
         va = opc.number(d, measured=False)
 
-        self.assertNotEqual(vm, va)
+        # They should be equal because we have 100% efficiency
+        self.assertEqual(vm, va)
         self.assertEqual(len(vm), opc.n_bins)
 
     def test_opc_sa(self):
@@ -93,3 +94,143 @@ class SetupTestCase(unittest.TestCase):
 
         self.assertNotEqual(vm, va)
         self.assertEqual(len(vm), opc.n_bins)
+
+    def test_counting_efficiency_simple(self):
+        # Function to return 50% CE at all Dp
+        eff50 = lambda dp: dp*0 + 0.5
+
+        m100 = opcsim.models.OPC(n_bins=3)
+        m50 = opcsim.models.OPC(n_bins=3, ce=eff50)
+
+        urban = opcsim.load_distribution("Urban")
+
+        # Test with 100% efficiency
+        n_100 = m100.evaluate(
+                        urban,
+                        weight='number',
+                        method='simple',
+                        base='log10')
+
+        # Test with 50% efficiency
+        n_50 = m50.evaluate(
+                        urban,
+                        weight='number',
+                        method='simple',
+                        base='log10')
+
+        self.assertTrue(len(n_100) == 3)
+
+        for pair in zip(n_50*2, n_100):
+            self.assertEqual(round(pair[0], 2), round(pair[1], 2))
+
+        # Test with 100% efficiency
+        v_100 = m100.evaluate(
+                        urban,
+                        weight='volume',
+                        method='simple',
+                        base='log10')
+
+        # Test with 50% efficiency
+        v_50 = m50.evaluate(
+                        urban,
+                        weight='volume',
+                        method='simple',
+                        base='log10')
+
+        self.assertTrue(len(v_100) == 3)
+
+        for pair in zip(v_50*2, v_100):
+            self.assertEqual(round(pair[0], 2), round(pair[1], 2))
+
+    def test_efficiency_subint(self):
+        # Function to return 50% CE at all Dp
+        eff50 = lambda dp: dp*0 + 0.5
+
+        m100 = opcsim.models.OPC(n_bins=3)
+        m50 = opcsim.models.OPC(n_bins=3, ce=eff50)
+
+        urban = opcsim.load_distribution("Urban")
+
+        # Test with 100% efficiency
+        n_100 = m100.evaluate(
+                        urban,
+                        weight='number',
+                        method='subint',
+                        base='log10')
+
+        # Test with 50% efficiency
+        n_50 = m50.evaluate(
+                        urban,
+                        weight='number',
+                        method='subint',
+                        base='log10')
+
+        self.assertTrue(len(n_100) == 3)
+
+        for pair in zip(n_50*2, n_100):
+            self.assertEqual(round(pair[0], 2), round(pair[1], 2))
+
+        # Test with 100% efficiency
+        v_100 = m100.evaluate(
+                        urban,
+                        weight='volume',
+                        method='subint',
+                        base='log10')
+
+        # Test with 50% efficiency
+        v_50 = m50.evaluate(
+                        urban,
+                        weight='volume',
+                        method='subint',
+                        base='log10')
+
+        self.assertTrue(len(n_100) == 3)
+
+        for pair in zip(v_50*2, v_100):
+            self.assertEqual(round(pair[0], 2), round(pair[1], 2))
+
+        # Test with 100% efficiency
+        n_100 = m100.evaluate(
+                        urban,
+                        weight='number',
+                        method='subint',
+                        base='log')
+
+        # Test with 50% efficiency
+        n_50 = m50.evaluate(
+                        urban,
+                        weight='number',
+                        method='subint',
+                        base='log')
+
+        self.assertTrue(len(n_100) == 3)
+
+        for pair in zip(n_50*2, n_100):
+            self.assertEqual(round(pair[0], 2), round(pair[1], 2))
+
+        # Test with 100% efficiency
+        n_100 = m100.evaluate(
+                        urban,
+                        weight='number',
+                        method='subint',
+                        base='none')
+
+        # Test with 50% efficiency
+        n_50 = m50.evaluate(
+                        urban,
+                        weight='number',
+                        method='subint',
+                        base='none')
+
+        self.assertTrue(len(n_100) == 3)
+
+        for pair in zip(n_50*2, n_100):
+            self.assertEqual(round(pair[0], 2), round(pair[1], 2))
+
+    def test_false_model_method(self):
+        model = opcsim.models.OPC(n_bins=3)
+
+        urban = opcsim.load_distribution("Urban")
+
+        with self.assertRaises(Exception):
+            model.evaluate(urban, method='fake')

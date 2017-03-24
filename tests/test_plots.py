@@ -41,7 +41,7 @@ class SetupTestCase(unittest.TestCase):
 
         # Test invalid weight
         with self.assertRaises(ValueError):
-            ax = opcsim.plots.pdfplot(d, weight='mass')
+            ax = opcsim.plots.pdfplot(d, weight='mass2')
 
         # Test with_modes
         ax = opcsim.plots.pdfplot(d, with_modes=True)
@@ -65,6 +65,4 @@ class SetupTestCase(unittest.TestCase):
 
         # Test invalid weight
         with self.assertRaises(ValueError):
-            ax = opcsim.plots.cdfplot(d, weight='mass')
-
-        
+            ax = opcsim.plots.cdfplot(d, weight='mass2')

@@ -28,6 +28,8 @@ opcsim.OPC
 
    .. autosummary::
    
+      ~OPC.ddp
+      ~OPC.dlndp
       ~OPC.dlogdp
       ~OPC.midpoints
    

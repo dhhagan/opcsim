@@ -51,7 +51,7 @@ def nt(n, gm, gsd, dmin=None, dmax=10.):
     """
     res = (n/2.) * (1 + erf((np.log(dmax/gm)) / (np.sqrt(2) * np.log(gsd))))
 
-    if dmin is not None:
+    if dmin is not None and dmin > 0.0:
         res -= (n/2.) * (1 + erf((np.log(dmin/gm)) / (np.sqrt(2) * np.log(gsd))))
 
     return res
@@ -106,7 +106,7 @@ def st(n, gm, gsd, dmin=None, dmax=10.):
     res = (np.pi/2.)*n*(gm**2) * np.exp(2*(np.log(gsd)** 2)) * \
                 erfc((np.sqrt(2) * np.log(gsd)) - (np.log(dmax/gm) / (np.sqrt(2) * np.log(gsd))))
 
-    if dmin is not None:
+    if dmin is not None and dmin > 0.0:
         res -= (np.pi/2.)*n*(gm**2) * np.exp(2*(np.log(gsd)** 2)) * \
                     erfc((np.sqrt(2) * np.log(gsd)) - (np.log(dmin/gm) / (np.sqrt(2) * np.log(gsd))))
 
@@ -163,7 +163,7 @@ def vt(n, gm, gsd, dmin=None, dmax=10.):
     res = (np.pi/12.)*n*(gm**3) * np.exp(9./2.*(np.log(gsd)**2)) * \
                 erfc((1.5*np.sqrt(2) * np.log(gsd)) - (np.log(dmax/gm) / (np.sqrt(2) * np.log(gsd))))
 
-    if dmin is not None:
+    if dmin is not None and dmin > 0.0:
         res -= (np.pi/12.)*n*(gm**3) * np.exp(9./2.*(np.log(gsd)**2)) * \
                     erfc((1.5*np.sqrt(2) * np.log(gsd)) - (np.log(dmin/gm) / (np.sqrt(2) * np.log(gsd))))
 

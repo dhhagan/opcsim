@@ -19,7 +19,7 @@
 
     </style>
 
-OpcSim: Simulating Optical Particle Counters
+opcsim: Simulating Optical Particle Counters
 ============================================
 
 .. raw:: html
@@ -66,7 +66,7 @@ OpcSim: Simulating Optical Particle Counters
        <div class="col-md-6">
        <br>
 
-OpcSim is a Python library for simulating the response of low-cost optical
+`opcsim` is a Python library for simulating the response of low-cost optical
 particle counters (OPC's) to various aerosol distributions to better understand
 the sources of error and limitations of these devices. It provides an
 easy-to-use interface for building simple OPC models as well as model aerosol
