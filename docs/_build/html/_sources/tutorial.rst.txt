@@ -20,7 +20,3 @@ Simulating and Evaluating an OPC
 
     tutorial/model
     tutorial/scoring
-
-
-Modifying Figures with Seaborn and Matplotlib
----------------------------------------------
