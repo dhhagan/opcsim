@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.com/dhhagan/opcsim.svg?token=h93DryaPQEsWsPpUCPym&branch=master)](https://travis-ci.com/dhhagan/opcsim)
+
 # opcsim
 opcsim is a python package for simulating low-cost Optical Particle Counters.
 
