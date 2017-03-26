@@ -13,7 +13,7 @@ opcsim is a python package for simulating low-cost Optical Particle Counters.
 
 To install the development version directly from GitHub using pip:
 
-    >>> pip install git+git://github.com/dhhagan/opcsim.git
+    >>> pip install git+https://github.com/dhhagan/opcsim.git
 
 ## Unittests
 
