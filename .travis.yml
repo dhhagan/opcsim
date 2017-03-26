@@ -11,7 +11,18 @@ python:
   - "3.7-dev" # 3.7 development branch
   - "nightly" # currently points to 3.7-dev
 
-install: "pip install -r requirements.txt"
+ before_script: # configure a headless display to test plot generation
+    - "export DISPLAY=:99.0"
+    - "sh -e /etc/init.d/xvfb start"
+    - sleep 3 # give xvfb some time to start
+
+before_install:
+    - sudo apt-get install -qq python-numpy python-scipy python-matplotlib
+
+install:
+    "pip install coverage"
+    "pip install coveralls"
+    "pip install -r requirements.txt"
 
 script:
     - "coverage run --source=opcsim setup.py test"
