@@ -17,13 +17,13 @@ class SetupTestCase(unittest.TestCase):
         pass
 
     def test_nv_score(self):
-        η50 = lambda dp: dp*0 + 0.5
-        η100 = lambda dp: dp*0 + 1
+        eta_50 = lambda dp: dp*0 + 0.5
+        eta_100 = lambda dp: dp*0 + 1
 
         urban = opcsim.load_distribution("Urban")
 
-        opc50 = opcsim.models.OPC(n_bins=5, ce=η50)
-        opc100 = opcsim.models.OPC(n_bins=5, ce=η100)
+        opc50 = opcsim.models.OPC(n_bins=5, ce=eta_50)
+        opc100 = opcsim.models.OPC(n_bins=5, ce=eta_100)
 
         nv50 = opcsim.metrics.nv_score(opc50, urban)
         nv100 = opcsim.metrics.nv_score(opc100, urban)
@@ -49,13 +49,13 @@ class SetupTestCase(unittest.TestCase):
         self.assertLess(nv_1, nv_2)
 
     def test_nv_score(self):
-        η50 = lambda dp: dp*0 + 0.5
-        η100 = lambda dp: dp*0 + 1
+        eta_50 = lambda dp: dp*0 + 0.5
+        eta_100 = lambda dp: dp*0 + 1
 
         urban = opcsim.load_distribution("Urban")
 
-        opc50 = opcsim.models.OPC(n_bins=5, ce=η50)
-        opc100 = opcsim.models.OPC(n_bins=5, ce=η100)
+        opc50 = opcsim.models.OPC(n_bins=5, ce=eta_50)
+        opc100 = opcsim.models.OPC(n_bins=5, ce=eta_100)
 
         vv50 = opcsim.metrics.vv_score(opc50, urban)
         vv100 = opcsim.metrics.vv_score(opc100, urban)
