@@ -3,7 +3,7 @@ try:
 except ImportError:
     from distutils.core import setup
 
-__version__ = '0.1.0'
+__version__ = '0.1.1'
 
 AUTHOR          = 'David H Hagan'
 AUTHOR_EMAIL    = 'dhagan@mit.edu'
@@ -43,7 +43,7 @@ def check_dependencies():
 setup(
     name = 'opcsim',
     version = __version__,
-    packages = ['opcsim'],
+    packages = ['opcsim', 'opcsim.equations'],
     description = DESCRIPTION,
     author = AUTHOR,
     author_email = AUTHOR_EMAIL,
