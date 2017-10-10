@@ -3,12 +3,12 @@ try:
 except ImportError:
     from distutils.core import setup
 
-__version__ = '0.1.1'
+__version__ = '0.1.2'
 
 AUTHOR          = 'David H Hagan'
 AUTHOR_EMAIL    = 'dhagan@mit.edu'
 
-DESCRIPTION = "OpcSim: simulating low-cost optical particle counters"
+DESCRIPTION = "OPCSIM: simulating low-cost optical particle counters"
 
 # Check dependencies
 def check_dependencies():
