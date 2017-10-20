@@ -108,7 +108,7 @@ class OPC(object):
         ----------
         distribution : AerosolDistribution
             A valid AerosolDistribution instance that can be evaluated.
-        weight : {'number' | 'surface' | 'volume'}
+        weight : {'number' | 'surface' | 'volume', 'mass'}
             Choose how to weight the pdf. Default is `number`.
         base : {'none' | 'log' | 'log10'}
             Base algorithm to use. Default is 'log10'.
@@ -145,8 +145,9 @@ class OPC(object):
         if not isinstance(distribution, AerosolDistribution):
             raise Exception("Invalid AerosolDistribution")
 
-        iters = kwargs.pop('iters', 50)
+        iters = kwargs.pop('n_iter', 50)
         method = kwargs.pop('method', 'subint')
+        rho = kwargs.pop('rho', 1.)
 
         if method == 'simple':
             res = self.ce(self.midpoints) * distribution.pdf(
@@ -182,6 +183,8 @@ class OPC(object):
                 res = (np.pi * self.midpoints**2) * res
             elif weight == 'volume':
                 res = (self.midpoints**3*np.pi/6.) * res # dp3 * pi/6*N
+            elif weight == 'mass':
+                pass
 
             # Divide by appropriate width of bins
             if base == 'log':

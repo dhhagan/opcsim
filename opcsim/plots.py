@@ -143,21 +143,22 @@ def histplot(data, bins, ax=None, plot_kws={}, fig_kws={}, **kwargs):
     # Set the plot_kws
     plot_kws = dict(default_plot_kws, **plot_kws)
 
-    with sns.axes_style('ticks', rc_log):
+    # Plot the bar plot
+    ax.bar(left=bins[:, 0], height=data, width=bins[:, -1] - bins[:, 0],
+            align='edge', **plot_kws)
 
-        ax.bar(bins[:, 0], data, bins[:, -1] - bins[:, 0], **plot_kws)
+    # Set the xaxis to be log10
+    ax.semilogx()
 
-        ax.semilogx()
+    # Set the xlabel
+    ax.set_xlabel("$D_p \; [\mu m]$")
 
-        # Set the xlabel
-        ax.set_xlabel("$D_p \; [\mu m]$")
-
-        ax.xaxis.set_major_formatter(mtick.FormatStrFormatter("%.3g"))
+    ax.xaxis.set_major_formatter(mtick.FormatStrFormatter("%.3g"))
 
     return ax
 
 def pdfplot(distribution, ax=None, weight='number', base='log10', with_modes=False,
-            plot_kws={}, fig_kws={}, **kwargs):
+            fill=False, plot_kws={}, fig_kws={}, fill_kws={}, **kwargs):
     """Plot the PDF of a particle size distribution.
 
     Parameters
@@ -175,11 +176,17 @@ def pdfplot(distribution, ax=None, weight='number', base='log10', with_modes=Fal
     with_modes : bool
         If true, all modes of a given distribution will be plotted along with
         their sum. If false, only the sum will be plotted.
+    fill : bool
+        If true, the area under the PDF will be filled. Cannot be used while
+        plotting individual modes (with_modes=True).
     plot_kws : dict
         Optional keyword arguments to include. They are sent as an argument to
         the matplotlib bar plot.
     fig_kws : dict
         Optional keyword arguments to include for the figure.
+    fill_kws : dict
+        Optional keyword arguments to include for the fill. Sent to
+        matplotlib.axes.fill_between.
 
     Returns
     -------
@@ -241,7 +248,8 @@ def pdfplot(distribution, ax=None, weight='number', base='log10', with_modes=Fal
         raise ValueError("Invalid weight: ['number', 'surface', 'volume', 'mass']")
 
     # Set the default dp values to plot against
-    dp = kwargs.get('dp', np.logspace(np.log10(.001), np.log10(10), 1000))
+    dp = kwargs.get('dp', np.logspace(-2, 1, 1000))
+    rho = kwargs.get('rho', 1.)
 
     # Set the default figure kws
     default_fig_kws = dict()
@@ -267,9 +275,14 @@ def pdfplot(distribution, ax=None, weight='number', base='log10', with_modes=Fal
     # If label kwarg is present, use -> otherwise use default
     label = kwargs.pop('label', distribution.label)
 
-    data = distribution.pdf(dp, base=base, weight=weight)
+    # Get the data to plot
+    data = distribution.pdf(dp, base=base, weight=weight, rho=rho)
 
+    # If fill is selected, fill the gap, otherwise just plot a line
     ax.plot(dp, data, c=nc, label=label, **plot_kws)
+
+    if fill:
+        ax.fill_between(dp, 0, data, label=label, **fill_kws)
 
     # Get data
     if with_modes is True:
@@ -282,7 +295,7 @@ def pdfplot(distribution, ax=None, weight='number', base='log10', with_modes=Fal
 
     if base is not ('none' or None):
         ax.semilogx()
-        ax.xaxis.set_major_formatter(mtick.FormatStrFormatter("%.3g"))
+        ax.xaxis.set_major_formatter(mtick.FormatStrFormatter("%.4g"))
 
     ax.set_xlabel("$D_p \; [\mu m]$")
     ax.set_ylabel(YLABEL[base][weight])
