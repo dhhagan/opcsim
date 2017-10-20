@@ -143,16 +143,17 @@ def histplot(data, bins, ax=None, plot_kws={}, fig_kws={}, **kwargs):
     # Set the plot_kws
     plot_kws = dict(default_plot_kws, **plot_kws)
 
-    with sns.axes_style('ticks', rc_log):
+    # Plot the bar plot
+    ax.bar(left=bins[:, 0], height=data, width=bins[:, -1] - bins[:, 0],
+            align='edge', **plot_kws)
 
-        ax.bar(bins[:, 0], data, bins[:, -1] - bins[:, 0], **plot_kws)
+    # Set the xaxis to be log10
+    ax.semilogx()
 
-        ax.semilogx()
+    # Set the xlabel
+    ax.set_xlabel("$D_p \; [\mu m]$")
 
-        # Set the xlabel
-        ax.set_xlabel("$D_p \; [\mu m]$")
-
-        ax.xaxis.set_major_formatter(mtick.FormatStrFormatter("%.3g"))
+    ax.xaxis.set_major_formatter(mtick.FormatStrFormatter("%.3g"))
 
     return ax
 
