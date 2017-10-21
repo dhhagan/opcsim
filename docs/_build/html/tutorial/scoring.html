@@ -1,22 +1,16 @@
 <!DOCTYPE html>
 
-
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>Evaluating the Results of a Simulated OPC &#8212; opcsim 0.1.0 documentation</title>
-    
-    <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
+    <title>Evaluating the Results of a Simulated OPC &#8212; opcsim 0.1.3 documentation</title>
+    <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../_static/style.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/bootswatch-3.3.6/flatly/bootstrap.min.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
-    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.1.0',
+        VERSION:     '0.1.3',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -27,10 +21,10 @@
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <script type="text/javascript" src="../_static/copybutton.js"></script>
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/javascript" src="../_static/js/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
-    <script type="text/javascript" src="../_static/bootstrap-3.3.6/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../_static/bootstrap-3.3.7/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -42,7 +36,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 
   </head>
-  <body role="document">
+  <body>
 
   <div id="navbar" class="navbar navbar-default navbar-fixed-top">
     <div class="container">
@@ -55,7 +49,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           opcsim</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.1.0</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.1.3</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -139,8 +133,8 @@
 </div>
 <div class="section" id="evaluating-the-results-of-a-simulated-opc">
 <h1>Evaluating the Results of a Simulated OPC<a class="headerlink" href="#evaluating-the-results-of-a-simulated-opc" title="Permalink to this headline">¶</a></h1>
-<p>To determine the efficacy of our simulated OPC&#8217;s, we must derive some
-sort of metric to use to compare to other modeled OPC&#8217;s and other
+<p>To determine the efficacy of our simulated OPC’s, we must derive some
+sort of metric to use to compare to other modeled OPC’s and other
 distributions. Perusing through the current literature, you will find
 two primary methods that encapsulate how this is done.</p>
 <div class="section" id="number-volume-correlation-method-opcsim-metrics-nv-score">
@@ -161,7 +155,7 @@ function which requires just the <code class="docutils literal"><span class="pre
 <code class="docutils literal"><span class="pre">opcsim.AerosolDistribution</span></code>. Optionally, you can limit the minimum
 and maximum diameters to evaluate the volume CDF under; however, this
 will not change the number calculation from the OPC.</p>
-<p>For example, let&#8217;s compute the <code class="docutils literal"><span class="pre">nv_score</span></code> for the 1-bin OPC that is
+<p>For example, let’s compute the <code class="docutils literal"><span class="pre">nv_score</span></code> for the 1-bin OPC that is
 default against the urban distribution.</p>
 <div class="code ipython3 highlight-default"><div class="highlight"><pre><span></span><span class="c1"># Build the OPC</span>
 <span class="n">opc</span> <span class="o">=</span> <span class="n">opcsim</span><span class="o">.</span><span class="n">OPC</span><span class="p">()</span>
@@ -176,10 +170,10 @@ default against the urban distribution.</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="mf">0.95435396966129893</span>
 </pre></div>
 </div>
-<p>What is the meaning of this number? Nothing, really. On it&#8217;s own, this
+<p>What is the meaning of this number? Nothing, really. On it’s own, this
 value is pretty useless. It is the slope between the number of particles
-your OPC &#8220;sees&#8221; and the total volume under 2.5 microns in the urban
-distribution. Now, if we change the distribution, what happens? Let&#8217;s
+your OPC “sees” and the total volume under 2.5 microns in the urban
+distribution. Now, if we change the distribution, what happens? Let’s
 try computing the same score for the rural distribution:</p>
 <div class="code ipython3 highlight-default"><div class="highlight"><pre><span></span><span class="n">rural</span> <span class="o">=</span> <span class="n">opcsim</span><span class="o">.</span><span class="n">load_distribution</span><span class="p">(</span><span class="s2">&quot;Rural&quot;</span><span class="p">)</span>
 
@@ -211,7 +205,7 @@ function which requires just the <code class="docutils literal"><span class="pre
 <code class="docutils literal"><span class="pre">opcsim.AerosolDistribution</span></code>. Optionally, you can limit the minimum
 and maximum diameters to evaluate the volume CDF under; however, this
 will not change the volume calculation from the OPC.</p>
-<p>For example, let&#8217;s compute the <code class="docutils literal"><span class="pre">vv_score</span></code> for the 1-bin OPC that is
+<p>For example, let’s compute the <code class="docutils literal"><span class="pre">vv_score</span></code> for the 1-bin OPC that is
 default against the urban distribution.</p>
 <div class="code ipython3 highlight-default"><div class="highlight"><pre><span></span><span class="n">opcsim</span><span class="o">.</span><span class="n">metrics</span><span class="o">.</span><span class="n">vv_score</span><span class="p">(</span><span class="n">opc</span><span class="p">,</span> <span class="n">urban</span><span class="p">)</span>
 </pre></div>
@@ -286,7 +280,7 @@ happens when we score this method for a variety of different OPCs?</p>
 </div>
 <p>The number correlation method stayed the same for all OPCs! Why? Well,
 right now we have simulated each of these with a counting efficiency of
-1 which means they see 100% of the particles. While this doesn&#8217;t change
+1 which means they see 100% of the particles. While this doesn’t change
 the number of particles we see in total, it does change the volume!</p>
 <p>This ends the introduction to using the metrics to score your
 OPC/Distribution model.</p>
@@ -313,7 +307,7 @@ OPC/Distribution model.</p>
     </p>
     <p>
         &copy; Copyright 2017, David H Hagan.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.3.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.4.<br/>
     </p>
   </div>
 </footer>

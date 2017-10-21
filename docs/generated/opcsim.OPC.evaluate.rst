@@ -1,5 +1,5 @@
-opcsim.OPC.evaluate
-===================
+opcsim\.OPC\.evaluate
+=====================
 
 .. currentmodule:: opcsim
 

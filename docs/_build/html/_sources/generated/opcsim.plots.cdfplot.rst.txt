@@ -1,5 +1,5 @@
-opcsim.plots.cdfplot
-====================
+opcsim\.plots\.cdfplot
+======================
 
 .. currentmodule:: opcsim.plots
 

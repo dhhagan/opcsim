@@ -69,13 +69,13 @@ opcsim: Simulating Optical Particle Counters
 `opcsim` is a Python library for simulating the response of low-cost optical
 particle counters (OPC's) to various aerosol distributions to better understand
 the sources of error and limitations of these devices. It provides an
-easy-to-use interface for building simple OPC models as well as model aerosol
+easy-to-use API for building simple OPC models as well as model and visualize aerosol
 distributions.
 
 For a brief introduction to the ideas behind the package, you can read the
 introduction :ref:`here <introduction>`.
 
-To see the code or report a bug, please visit the `github repository
+To view the source code or report a bug, please visit the `github repository
 <https://github.com/dhhagan/opcsim>`_.
 
 
@@ -100,8 +100,8 @@ To see the code or report a bug, please visit the `github repository
    <div class="col-md-3">
    <h2>Features</h2>
 
-* Feature 1
-* Feature 2
+* Model OPCs
+* Visualize Aerosol Distributions
 
 .. raw:: html
 

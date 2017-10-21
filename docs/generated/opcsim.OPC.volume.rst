@@ -1,5 +1,5 @@
-opcsim.OPC.volume
-=================
+opcsim\.OPC\.volume
+===================
 
 .. currentmodule:: opcsim
 

@@ -122,9 +122,10 @@ html_theme_path = sphinx_bootstrap_theme.get_html_theme_path()
 # further.  For a list of options available for each theme, see the
 # documentation.
 #
+
 html_theme_options = {
     'source_link_position': 'footer',
-    'bootswatch_theme': 'flatly',
+    'bootswatch_theme': 'paper',
     'navbar_sidebarrel': False,
     'bootstrap_version': "3",
     'navbar_links': [
@@ -184,7 +185,6 @@ man_pages = [
      [author], 1)
 ]
 
-
 # -- Options for Texinfo output -------------------------------------------
 
 # Grouping the document tree into Texinfo files. List of tuples
@@ -195,9 +195,6 @@ texinfo_documents = [
      author, 'opcsim', 'One line description of project.',
      'Miscellaneous'),
 ]
-
-
-
 
 # Example configuration for intersphinx: refer to the Python standard library.
 intersphinx_mapping = {'https://docs.python.org/': None}

@@ -1,5 +1,5 @@
-opcsim.metrics.vv_score
-=======================
+opcsim\.metrics\.vv\_score
+==========================
 
 .. currentmodule:: opcsim.metrics
 

@@ -1,5 +1,5 @@
-opcsim.AerosolDistribution.pdf
-==============================
+opcsim\.AerosolDistribution\.pdf
+================================
 
 .. currentmodule:: opcsim
 

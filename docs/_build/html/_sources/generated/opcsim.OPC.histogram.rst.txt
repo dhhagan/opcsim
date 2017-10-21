@@ -1,5 +1,5 @@
-opcsim.OPC.histogram
-====================
+opcsim\.OPC\.histogram
+======================
 
 .. currentmodule:: opcsim
 

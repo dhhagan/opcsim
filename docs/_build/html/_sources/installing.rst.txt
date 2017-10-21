@@ -76,6 +76,8 @@ reporting, run the following commands from the main directory:
     $ coverage run --source opcsim setup.py test
     $ coverage report -m
 
+Unittests are also run automatically through continuous integration via TravisCI
+upon every pull request and code coverage is tracked via code climate.
 
 Bugs and Issues
 ~~~~~~~~~~~~~~~

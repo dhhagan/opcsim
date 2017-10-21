@@ -4,6 +4,7 @@
 # You can set these variables from the command line.
 SPHINXOPTS    =
 SPHINXBUILD   = sphinx-build
+PAPER 		  =
 SPHINXPROJ    = opcsim
 SOURCEDIR     = .
 BUILDDIR      = _build
@@ -29,6 +30,6 @@ clean:
 	-rm -rf generated/*
 
 notebooks:
-	
+
 	@echo "Making Notebooks"
 	make -C tutorial notebooks

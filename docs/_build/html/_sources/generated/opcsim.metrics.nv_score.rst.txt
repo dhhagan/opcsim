@@ -1,5 +1,5 @@
-opcsim.metrics.nv_score
-=======================
+opcsim\.metrics\.nv\_score
+==========================
 
 .. currentmodule:: opcsim.metrics
 

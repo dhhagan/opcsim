@@ -1,5 +1,5 @@
-opcsim.OPC.number
-=================
+opcsim\.OPC\.number
+===================
 
 .. currentmodule:: opcsim
 
