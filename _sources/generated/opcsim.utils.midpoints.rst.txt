@@ -1,5 +1,5 @@
-opcsim.utils.midpoints
-======================
+opcsim\.utils\.midpoints
+========================
 
 .. currentmodule:: opcsim.utils
 

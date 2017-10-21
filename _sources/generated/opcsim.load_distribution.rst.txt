@@ -1,5 +1,5 @@
-opcsim.load_distribution
-========================
+opcsim\.load\_distribution
+==========================
 
 .. currentmodule:: opcsim
 

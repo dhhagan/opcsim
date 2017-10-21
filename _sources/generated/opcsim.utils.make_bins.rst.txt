@@ -1,5 +1,5 @@
-opcsim.utils.make_bins
-======================
+opcsim\.utils\.make\_bins
+=========================
 
 .. currentmodule:: opcsim.utils
 

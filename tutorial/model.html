@@ -1,22 +1,16 @@
 <!DOCTYPE html>
 
-
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>The OPC Model &#8212; opcsim 0.1.0 documentation</title>
-    
-    <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
+    <title>The OPC Model &#8212; opcsim 0.1.3 documentation</title>
+    <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../_static/style.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/bootswatch-3.3.6/flatly/bootstrap.min.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
-    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.1.0',
+        VERSION:     '0.1.3',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -27,10 +21,10 @@
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <script type="text/javascript" src="../_static/copybutton.js"></script>
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/javascript" src="../_static/js/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
-    <script type="text/javascript" src="../_static/bootstrap-3.3.6/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../_static/bootstrap-3.3.7/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -42,7 +36,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 
   </head>
-  <body role="document">
+  <body>
 
   <div id="navbar" class="navbar navbar-default navbar-fixed-top">
     <div class="container">
@@ -55,7 +49,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           opcsim</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.1.0</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.1.3</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -226,7 +220,7 @@ you may only have the bin boundary information and not the midpoints.
 Typically, we use the logarithmic mean rather than the arithmetic mean,
 though we have made both available through the <code class="docutils literal"><span class="pre">opcsim.midpoints</span></code>
 utility function.</p>
-<p>For example, let&#8217;s calculate the bins for an OPC like the Dylos DC1100
+<p>For example, let’s calculate the bins for an OPC like the Dylos DC1100
 Pro. This OPC has two bins (0.5-2.5, 2.5-10). How do we build the bins?</p>
 <div class="code ipython3 highlight-default"><div class="highlight"><pre><span></span><span class="n">bins</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">],</span> <span class="p">[</span><span class="mf">2.5</span><span class="p">,</span> <span class="mi">10</span><span class="p">]])</span>
 
@@ -239,7 +233,7 @@ Pro. This OPC has two bins (0.5-2.5, 2.5-10). How do we build the bins?</p>
        <span class="p">[</span>  <span class="mf">2.5</span>       <span class="p">,</span>   <span class="mf">5.</span>        <span class="p">,</span>  <span class="mf">10.</span>        <span class="p">]])</span>
 </pre></div>
 </div>
-<p>If we build bins from &#8216;scratch&#8217; as above, when we initiate the OPC
+<p>If we build bins from ‘scratch’ as above, when we initiate the OPC
 model, we need to only include the bins as an argument:</p>
 <div class="code ipython3 highlight-default"><div class="highlight"><pre><span></span><span class="n">dylos</span> <span class="o">=</span> <span class="n">opcsim</span><span class="o">.</span><span class="n">OPC</span><span class="p">(</span><span class="n">bins</span><span class="o">=</span><span class="n">bins</span><span class="p">)</span>
 </pre></div>
@@ -252,7 +246,7 @@ efficiency (<code class="docutils literal"><span class="pre">ce</span></code>). 
 function that accepts the particle diameter and returns a float. By
 default, counting efficiency is set to return <span class="math">\(\eta=1\)</span> at all
 diameters. You can provide any function you want.</p>
-<p>Let&#8217;s define some counting efficiency functions that we can then
+<p>Let’s define some counting efficiency functions that we can then
 incorporate into various simulated OPCs:</p>
 <div class="code ipython3 highlight-default"><div class="highlight"><pre><span></span><span class="c1"># Define efficiency based on an exponential function</span>
 <span class="n">η_exp</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">dp</span><span class="p">:</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="o">*</span><span class="n">dp</span><span class="p">)</span>
@@ -264,7 +258,7 @@ incorporate into various simulated OPCs:</p>
 <span class="n">η_linear</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">dp</span><span class="p">:</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">piecewise</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="p">[</span><span class="n">i</span> <span class="o">&lt;</span> <span class="mf">1.</span><span class="p">,</span> <span class="n">i</span> <span class="o">&gt;=</span> <span class="mf">1.</span><span class="p">],</span> <span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">dp</span><span class="p">]</span>
 </pre></div>
 </div>
-<p>Let&#8217;s go ahead and visualize these functions really quick to get a
+<p>Let’s go ahead and visualize these functions really quick to get a
 better idea</p>
 <div class="code ipython3 highlight-default"><div class="highlight"><pre><span></span><span class="c1"># Create an array of diameters</span>
 <span class="n">diams</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
@@ -288,21 +282,21 @@ better idea</p>
 </div>
 <img alt="../_images/model_18_0.png" src="../_images/model_18_0.png" />
 <p>Now that we have a better understanding of what the counting efficiency
-function looks like (and how you can define your own), let&#8217;s go ahead
+function looks like (and how you can define your own), let’s go ahead
 and show how to build an OPC that uses one of these functions.</p>
-<p>Let&#8217;s go ahead and build a 10-bin OPC that uses the tanh counting
+<p>Let’s go ahead and build a 10-bin OPC that uses the tanh counting
 efficiency from above:</p>
 <div class="code ipython3 highlight-default"><div class="highlight"><pre><span></span><span class="n">opc_tanh</span> <span class="o">=</span> <span class="n">opcsim</span><span class="o">.</span><span class="n">OPC</span><span class="p">(</span><span class="n">n_bins</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">ce</span><span class="o">=</span><span class="n">η_tanh</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>That more or less covers how we build an OPC. Next, how do we determine
-what an OPC &#8220;sees&#8221; given an aerosol distribution?</p>
+what an OPC “sees” given an aerosol distribution?</p>
 </div>
 </div>
 <div class="section" id="evaluate-the-opc-for-a-given-aerosoldistribution">
 <h1>Evaluate the OPC for a Given <code class="docutils literal"><span class="pre">AerosolDistribution</span></code><a class="headerlink" href="#evaluate-the-opc-for-a-given-aerosoldistribution" title="Permalink to this headline">¶</a></h1>
 <p>To evaluate the OPC, we need to determine how many particles the OPC
-&#8216;sees&#8217; in each size bin. Once we have this value, we can convert to
+‘sees’ in each size bin. Once we have this value, we can convert to
 surface area, volume, or mass in order to compare to the true amount of
 mass present in the underlying aerosol distribution.</p>
 <p>There are two methods we use to do this:</p>
@@ -322,12 +316,12 @@ Mathematically, this would be represented as:</p>
 <p>The subintegration method takes a more continuous approach; the total
 number of particles in each bin is calculated by integrating the
 product of the CDF and the counting efficiency function within each
-individual bin. This provides a more &#8220;accurate&#8221; result. Essentially,
+individual bin. This provides a more “accurate” result. Essentially,
 if you assume the OPC has 100% counting efficiency, this would return
 the actual number of particles present in the given bin.</p>
 </li>
 </ol>
-<p>We assume that an OPC &#8220;sees&#8221; particle number concentration, and not some
+<p>We assume that an OPC “sees” particle number concentration, and not some
 correlation to particle volume. Thus, each evaluation is completed by
 first evaluating the aerosol distribution in number-weighted space, and
 then converting to number, surface area, or volume by multiplying by the
@@ -386,11 +380,11 @@ particles, surface area, or volume within each bin. To get this data, we
 could either multiply the above results by the log difference of the
 bins, or we can use one of the other methods made available.</p>
 <p>The <code class="docutils literal"><span class="pre">opcsim.OPC.number</span></code> method returns the total number of particles
-the OPC &#8220;sees&#8221; in each bin per a given distribution. You can also access
-the &#8220;True&#8221; number of particles in each bin (i.e. the integrated CDF of
+the OPC “sees” in each bin per a given distribution. You can also access
+the “True” number of particles in each bin (i.e. the integrated CDF of
 the underyling aerosol distribution) by changing the <code class="docutils literal"><span class="pre">measured</span></code>
 argument to be <code class="docutils literal"><span class="pre">False</span></code>.</p>
-<p>For example, let&#8217;s grab the total number of particles/cc in each bin of
+<p>For example, let’s grab the total number of particles/cc in each bin of
 the previous OPC per the Urban distribution:</p>
 <div class="code ipython3 highlight-default"><div class="highlight"><pre><span></span><span class="n">opc</span><span class="o">.</span><span class="n">number</span><span class="p">(</span><span class="n">urban</span><span class="p">)</span>
 </pre></div>
@@ -399,7 +393,7 @@ the previous OPC per the Urban distribution:</p>
          <span class="mf">1.44635364e-02</span><span class="p">,</span>   <span class="mf">1.87471533e-04</span><span class="p">])</span>
 </pre></div>
 </div>
-<p>The &#8220;True&#8221; number of particles in each bin can be calculated as follows:</p>
+<p>The “True” number of particles in each bin can be calculated as follows:</p>
 <div class="code ipython3 highlight-default"><div class="highlight"><pre><span></span><span class="n">opc</span><span class="o">.</span><span class="n">number</span><span class="p">(</span><span class="n">urban</span><span class="p">,</span> <span class="n">measured</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -407,7 +401,7 @@ the previous OPC per the Urban distribution:</p>
          <span class="mf">1.44635364e-02</span><span class="p">,</span>   <span class="mf">1.87471533e-04</span><span class="p">])</span>
 </pre></div>
 </div>
-<p>These look the same! Well, that&#8217;s because we have set the counting
+<p>These look the same! Well, that’s because we have set the counting
 efficiency for this OPC simulation to be 100%. If we were to set it to
 something else, we would see a different result.</p>
 </div>
@@ -443,7 +437,7 @@ the same for volume.</p>
 distribution, how can we easily visualize it? Well, we have the handy
 function <code class="docutils literal"><span class="pre">opcsim.plots.histplot</span></code> to do that! All we need is the data
 to plot (evaluated PDF) and the OPC bins.</p>
-<p>Let&#8217;s go ahead and plot the response of a 10-bin OPC to the Urban
+<p>Let’s go ahead and plot the response of a 10-bin OPC to the Urban
 Aerosol Distribution:</p>
 <div class="code ipython3 highlight-default"><div class="highlight"><pre><span></span><span class="c1"># Set the 10-bin OPC</span>
 <span class="n">opc</span> <span class="o">=</span> <span class="n">opcsim</span><span class="o">.</span><span class="n">OPC</span><span class="p">(</span><span class="n">n_bins</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">dmin</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">dmax</span><span class="o">=</span><span class="mf">2.5</span><span class="p">)</span>
@@ -461,7 +455,7 @@ Aerosol Distribution:</p>
 </pre></div>
 </div>
 <img alt="../_images/model_37_0.png" src="../_images/model_37_0.png" />
-<p>Why don&#8217;t we go ahead and overlay the distribution itself:</p>
+<p>Why don’t we go ahead and overlay the distribution itself:</p>
 <div class="code ipython3 highlight-default"><div class="highlight"><pre><span></span><span class="c1"># Plot</span>
 <span class="n">ax</span> <span class="o">=</span> <span class="n">opcsim</span><span class="o">.</span><span class="n">plots</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">opc</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">urban</span><span class="p">),</span> <span class="n">opc</span><span class="o">.</span><span class="n">bins</span><span class="p">)</span>
 
@@ -475,7 +469,7 @@ Aerosol Distribution:</p>
 </div>
 <img alt="../_images/model_39_0.png" src="../_images/model_39_0.png" />
 <p>The above plots are in number-space. The primary use of these low-cost
-sensors is to estimate mass, so why don&#8217;t we go ahead and plot this in
+sensors is to estimate mass, so why don’t we go ahead and plot this in
 volume space?</p>
 <div class="code ipython3 highlight-default"><div class="highlight"><pre><span></span><span class="c1"># Plot</span>
 <span class="n">ax</span> <span class="o">=</span> <span class="n">opcsim</span><span class="o">.</span><span class="n">plots</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">opc</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">urban</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="s1">&#39;volume&#39;</span><span class="p">),</span> <span class="n">opc</span><span class="o">.</span><span class="n">bins</span><span class="p">)</span>
@@ -506,7 +500,7 @@ does it change if we use the <code class="docutils literal"><span class="pre">si
 </pre></div>
 </div>
 <img alt="../_images/model_43_0.png" src="../_images/model_43_0.png" />
-<p>So it doesn&#8217;t look too different from this picture, but it can have
+<p>So it doesn’t look too different from this picture, but it can have
 reasonable impacts. That should be a fairly in depth introduction to
 setting up, evaluating, and visualizing a simulated OPC.</p>
 </div>
@@ -532,7 +526,7 @@ setting up, evaluating, and visualizing a simulated OPC.</p>
     </p>
     <p>
         &copy; Copyright 2017, David H Hagan.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.3.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.4.<br/>
     </p>
   </div>
 </footer>

@@ -1,5 +1,5 @@
-opcsim.AerosolDistribution.cdf
-==============================
+opcsim\.AerosolDistribution\.cdf
+================================
 
 .. currentmodule:: opcsim
 
