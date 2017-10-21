@@ -1,5 +1,5 @@
-opcsim.AerosolDistribution.add_mode
-===================================
+opcsim\.AerosolDistribution\.add\_mode
+======================================
 
 .. currentmodule:: opcsim
 

@@ -1,5 +1,5 @@
-opcsim.OPC.surface_area
-=======================
+opcsim\.OPC\.surface\_area
+==========================
 
 .. currentmodule:: opcsim
 

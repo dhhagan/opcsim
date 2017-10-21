@@ -1,5 +1,5 @@
-opcsim.plots.histplot
-=====================
+opcsim\.plots\.histplot
+=======================
 
 .. currentmodule:: opcsim.plots
 

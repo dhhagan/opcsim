@@ -1,5 +1,5 @@
-opcsim.equations.cdf.nt
-=======================
+opcsim\.equations\.cdf\.nt
+==========================
 
 .. currentmodule:: opcsim.equations.cdf
 

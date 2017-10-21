@@ -1,5 +1,5 @@
-opcsim.equations.pdf.dn_dlndp
-=============================
+opcsim\.equations\.pdf\.dn\_dlndp
+=================================
 
 .. currentmodule:: opcsim.equations.pdf
 
