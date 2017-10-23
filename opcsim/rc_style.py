@@ -4,5 +4,6 @@ import matplotlib as mpl
 
 def set(**kwargs):
     mpl.rcParams['figure.autolayout'] = kwargs.pop('figure.autolayout', False)
+    mpl.rcParams['mathtext.default'] = kwargs.pop('mathtext.default', 'regular')
 
     return

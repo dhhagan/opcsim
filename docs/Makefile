@@ -9,6 +9,13 @@ SPHINXPROJ    = opcsim
 SOURCEDIR     = .
 BUILDDIR      = _build
 
+# Internal Variables
+PAPEROPT_a4 	= -D latex_paper_size=a4
+PAPEROPT_letter	= -D latex_paper_size=letter
+ALLSPHINXOPTS 	= -d $(BUILDDIR)/doctrees $(PAPEROPT_$(PAPER)) $(SPHINXOPTS) .
+
+I18NSPHINXOPTS  = $(PAPEROPT_$(PAPER)) $(SPHINXOPTS) .
+
 # Put it first so that "make" without argument is like "make help".
 help:
 	@$(SPHINXBUILD) -M help "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
@@ -33,3 +40,11 @@ notebooks:
 
 	@echo "Making Notebooks"
 	make -C tutorial notebooks
+
+html:
+	$(SPHINXBUILD) -b html $(ALLSPHINXOPTS) $(BUILDDIR)/html
+	@echo
+	@echo "Build finished. The HTML pages are in $(BUILDDIR)/html."
+
+upload:
+	@echo "Uploading to github@gh-pages"

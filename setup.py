@@ -3,7 +3,7 @@ try:
 except ImportError:
     from distutils.core import setup
 
-__version__ = '0.1.3'
+__version__ = '0.2.0'
 
 AUTHOR          = 'David H Hagan'
 AUTHOR_EMAIL    = 'dhagan@mit.edu'
