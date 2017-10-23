@@ -20,6 +20,9 @@ for plotting throughout this tutorial.
     
     %matplotlib inline
     
+    # Set mathtext to display equations without italics
+    plt.rcParams.update({'mathtext.default': 'regular'})
+    
     # turn off warnings temporarily
     import warnings
     warnings.simplefilter('ignore')
@@ -219,6 +222,12 @@ Let's plot the urban distribution we built earlier.
 .. code:: ipython3
 
     ax = opcsim.plots.pdfplot(urban)
+    
+    # Set the y-lim to start at 0
+    ax.set_ylim(0, None)
+    
+    # Remove the right and top spines
+    sns.despine();
 
 
 
@@ -234,7 +243,11 @@ distribution using the ``with_modes`` argument:
     
     ax.legend(loc='best')
     
-    sns.despine()
+    # Set the y-lim to start at 0
+    ax.set_ylim(0, None)
+    
+    # Remove the right and top spines
+    sns.despine();
 
 
 
@@ -262,6 +275,9 @@ are!
     # Add a legend
     ax.legend(loc='best')
     
+    # Set the y-lim
+    ax.set_ylim(0, None)
+    
     # remove the spine
     sns.despine()
 
@@ -286,6 +302,8 @@ surface area, and volume weighted views:
     ax[0].set_ylabel("Number")
     ax[1].set_ylabel("Surface Area")
     ax[2].set_ylabel("Volume")
+    
+    sns.despine()
     
     plt.tight_layout(h_pad=0)
     plt.show()
