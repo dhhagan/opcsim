@@ -1,8 +1,8 @@
 
 .. _cumulative_mass:
 
-Compare Mass Loading Distributions for Several Samples
-======================================================
+Cumulative Mass Loading for Various Distributions
+=================================================
 
 
 .. image:: _images/cumulative_mass.png

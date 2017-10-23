@@ -248,7 +248,7 @@ def pdfplot(distribution, ax=None, weight='number', base='log10', with_modes=Fal
         raise ValueError("Invalid weight: ['number', 'surface', 'volume', 'mass']")
 
     # Set the default dp values to plot against
-    dp = kwargs.get('dp', np.logspace(-2, 1, 1000))
+    dp = kwargs.get('dp', np.logspace(-3, 1, 1000))
     rho = kwargs.get('rho', 1.)
 
     # Set the default figure kws
