@@ -132,8 +132,8 @@ account the change in counting efficiency within the bin. This becomes
 much more important with wider bins, where the PDF can span orders of
 magnitude.</p>
 <p>The default is to perform the integration, as we feel this is the most
-accurate and honest way to evaluate what an OPC truly ‘sees’ at any given
-particle diameter.</p>
+accurate and honest way to evaluate what an OPC truly ‘sees’ within a
+given size bin.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -142,7 +142,7 @@ particle diameter.</p>
 <blockquote>
 <div><p>A valid AerosolDistribution instance that can be evaluated.</p>
 </div></blockquote>
-<p><strong>weight</strong> : {‘number’ | ‘surface’ | ‘volume’, ‘mass’}</p>
+<p><strong>weight</strong> : {‘number’ | ‘surface’ | ‘volume’ | ‘mass’}</p>
 <blockquote>
 <div><p>Choose how to weight the pdf. Default is <cite>number</cite>.</p>
 </div></blockquote>

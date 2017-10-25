@@ -125,18 +125,18 @@
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
 <div class="viewcode-block" id="dn_ddp"><a class="viewcode-back" href="../../../generated/opcsim.equations.pdf.dn_ddp.html#opcsim.equations.pdf.dn_ddp">[docs]</a><span class="k">def</span> <span class="nf">dn_ddp</span><span class="p">(</span><span class="n">dp</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">gm</span><span class="p">,</span> <span class="n">gsd</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Evaluate the lognormal PDF.</span>
+    <span class="sd">&quot;&quot;&quot;Evaluate the number distribution as a lognormal PDF.</span>
 
-<span class="sd">    The PDF of a lognormal distribution as calculated using equation 8.34</span>
+<span class="sd">    The PDF of a lognormal distribution is calculated using equation 8.34</span>
 <span class="sd">    from Seinfeld and Pandis.</span>
 
 <span class="sd">    .. math::</span>
 
-<span class="sd">        n_N(D_p)=\\frac{dN}{dD_p}=\\frac{N_t}{\sqrt{2π}D_p lnσ_g}exp(-\\frac{(lnD_p - lnD̄_{pg})^2}{2ln^2σ_g})</span>
+<span class="sd">        n_N(D_p)=\\frac{dN}{dD_p}=\\frac{N_t}{\sqrt{2π}D_p lnσ_g}exp\Big(-\\frac{(lnD_p - lnD̄_{pg})^2}{2ln^2σ_g}\Big)</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    dp : float or array of floats</span>
+<span class="sd">    dp : float or an array of floats</span>
 <span class="sd">        Particle diameter in microns.</span>
 <span class="sd">    n : float</span>
 <span class="sd">        Total aerosol number concentration in units of #/cc</span>
@@ -147,9 +147,9 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    dn/ddp | float</span>
+<span class="sd">    n(Dp) | float or an array of floats</span>
 <span class="sd">        Returns the total number of particles at diameter dp in units of</span>
-<span class="sd">        [um-1 cm-3]</span>
+<span class="sd">        :math:`\mu m^{-1} cm^{-3}`.</span>
 
 <span class="sd">    See Also</span>
 <span class="sd">    --------</span>
@@ -174,7 +174,7 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    dp : float or array of floats</span>
+<span class="sd">    dp : float or an array of floats</span>
 <span class="sd">        Particle diameter in microns.</span>
 <span class="sd">    n : float</span>
 <span class="sd">        Total aerosol number concentration in units of #/cc</span>

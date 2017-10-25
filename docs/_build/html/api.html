@@ -154,13 +154,13 @@
 </colgroup>
 <tbody valign="top">
 <tr class="row-odd"><td><a class="reference internal" href="generated/opcsim.AerosolDistribution.add_mode.html#opcsim.AerosolDistribution.add_mode" title="opcsim.AerosolDistribution.add_mode"><code class="xref py py-obj docutils literal"><span class="pre">opcsim.AerosolDistribution.add_mode</span></code></a>(n,&nbsp;gm,&nbsp;gsd)</td>
-<td>Add a mode to the distribution.</td>
+<td>Add a mode to the distribution as defined using N, GM, and GSD.</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="generated/opcsim.AerosolDistribution.pdf.html#opcsim.AerosolDistribution.pdf" title="opcsim.AerosolDistribution.pdf"><code class="xref py py-obj docutils literal"><span class="pre">opcsim.AerosolDistribution.pdf</span></code></a>(dp[,&nbsp;base,&nbsp;…])</td>
 <td>Evaluate and return the probability distribution function at particle diameter <cite>dp</cite>.</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="generated/opcsim.AerosolDistribution.cdf.html#opcsim.AerosolDistribution.cdf" title="opcsim.AerosolDistribution.cdf"><code class="xref py py-obj docutils literal"><span class="pre">opcsim.AerosolDistribution.cdf</span></code></a>(dmax[,&nbsp;dmin,&nbsp;…])</td>
-<td>Evaluate and return the cumulative probability distribution function between dmin and dmax.</td>
+<td>Evaluate and return the cumulative probability distribution function between <cite>dmin</cite> and <cite>dmax</cite>.</td>
 </tr>
 </tbody>
 </table>
@@ -175,7 +175,7 @@
 </colgroup>
 <tbody valign="top">
 <tr class="row-odd"><td><a class="reference internal" href="generated/opcsim.OPC.html#opcsim.OPC" title="opcsim.OPC"><code class="xref py py-obj docutils literal"><span class="pre">opcsim.OPC</span></code></a>([n_bins,&nbsp;dmin,&nbsp;dmax,&nbsp;ce,&nbsp;bins])</td>
-<td>Simulate an Optical Particle Counter (OPC) as defined by key instrument variables.</td>
+<td>Define an Optical Particle Counter (OPC) using key instrument parameters.</td>
 </tr>
 </tbody>
 </table>
@@ -192,10 +192,10 @@
 <tr class="row-even"><td><a class="reference internal" href="generated/opcsim.OPC.histogram.html#opcsim.OPC.histogram" title="opcsim.OPC.histogram"><code class="xref py py-obj docutils literal"><span class="pre">opcsim.OPC.histogram</span></code></a>(distribution[,&nbsp;weight,&nbsp;…])</td>
 <td>Return a histogram corresponding to how an OPC “sees” an aerosol distribution.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="generated/opcsim.OPC.number.html#opcsim.OPC.number" title="opcsim.OPC.number"><code class="xref py py-obj docutils literal"><span class="pre">opcsim.OPC.number</span></code></a>(distribution[,&nbsp;measured])</td>
+<tr class="row-odd"><td><a class="reference internal" href="generated/opcsim.OPC.number.html#opcsim.OPC.number" title="opcsim.OPC.number"><code class="xref py py-obj docutils literal"><span class="pre">opcsim.OPC.number</span></code></a>(distribution,&nbsp;**kwargs)</td>
 <td>Return the total number of particles an OPC ‘sees’ in each bin.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="generated/opcsim.OPC.surface_area.html#opcsim.OPC.surface_area" title="opcsim.OPC.surface_area"><code class="xref py py-obj docutils literal"><span class="pre">opcsim.OPC.surface_area</span></code></a>(distribution[,&nbsp;measured])</td>
+<tr class="row-even"><td><a class="reference internal" href="generated/opcsim.OPC.surface_area.html#opcsim.OPC.surface_area" title="opcsim.OPC.surface_area"><code class="xref py py-obj docutils literal"><span class="pre">opcsim.OPC.surface_area</span></code></a>(distribution,&nbsp;**kwargs)</td>
 <td>Return the total surface area of particles an OPC ‘sees’ in each bin.</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="generated/opcsim.OPC.volume.html#opcsim.OPC.volume" title="opcsim.OPC.volume"><code class="xref py py-obj docutils literal"><span class="pre">opcsim.OPC.volume</span></code></a>(distribution[,&nbsp;measured])</td>
@@ -250,7 +250,7 @@
 </colgroup>
 <tbody valign="top">
 <tr class="row-odd"><td><a class="reference internal" href="generated/opcsim.equations.pdf.dn_ddp.html#opcsim.equations.pdf.dn_ddp" title="opcsim.equations.pdf.dn_ddp"><code class="xref py py-obj docutils literal"><span class="pre">opcsim.equations.pdf.dn_ddp</span></code></a>(dp,&nbsp;n,&nbsp;gm,&nbsp;gsd)</td>
-<td>Evaluate the lognormal PDF.</td>
+<td>Evaluate the number distribution as a lognormal PDF.</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="generated/opcsim.equations.pdf.ds_ddp.html#opcsim.equations.pdf.ds_ddp" title="opcsim.equations.pdf.ds_ddp"><code class="xref py py-obj docutils literal"><span class="pre">opcsim.equations.pdf.ds_ddp</span></code></a>(dp,&nbsp;n,&nbsp;gm,&nbsp;gsd)</td>
 <td>The surface-area weighted PDF of a lognormal distribution as calculated using equation 8.4 from Seinfeld and Pandis.</td>
@@ -280,10 +280,10 @@
 <td>Evaluate the total number of particles between two diameters.</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="generated/opcsim.equations.cdf.st.html#opcsim.equations.cdf.st" title="opcsim.equations.cdf.st"><code class="xref py py-obj docutils literal"><span class="pre">opcsim.equations.cdf.st</span></code></a>(n,&nbsp;gm,&nbsp;gsd[,&nbsp;dmin,&nbsp;dmax])</td>
-<td>Evaluate the total surface area of the particles between dmin and dmax.</td>
+<td>Evaluate the total surface area of the particles between two diameters.</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="generated/opcsim.equations.cdf.vt.html#opcsim.equations.cdf.vt" title="opcsim.equations.cdf.vt"><code class="xref py py-obj docutils literal"><span class="pre">opcsim.equations.cdf.vt</span></code></a>(n,&nbsp;gm,&nbsp;gsd[,&nbsp;dmin,&nbsp;dmax])</td>
-<td>Evaluate the total volume of the particles between dmin and dmax.</td>
+<td>Evaluate the total volume of the particles between two diameters.</td>
 </tr>
 </tbody>
 </table>

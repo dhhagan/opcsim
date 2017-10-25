@@ -124,15 +124,14 @@
 <dt id="opcsim.AerosolDistribution">
 <em class="property">class </em><code class="descclassname">opcsim.</code><code class="descname">AerosolDistribution</code><span class="sig-paren">(</span><em>label=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/opcsim/distributions.html#AerosolDistribution"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#opcsim.AerosolDistribution" title="Permalink to this definition">¶</a></dt>
 <dd><p>Define an aerosol distribution.</p>
-<p>We are operating on the assumption that any aerosol distribution can be
-described as the sum of n lognormal modes following Seinfeld and Pandis
-equation 8.54.</p>
+<p>Assuming an aerosol distribution can be described as the sum of n lognormal
+modes, define as (Seinfeld and Pandis equation 8.54):</p>
 <div class="math">
-\[n_N^o(logD_p)=Σ_{i=1}^{n}\frac{N_i}{\sqrt{2π} logσ_i}exp(-\frac{(logD_p - logD̄_p)^2}{2log^2σ_i})\]</div>
+\[n_N^o(logD_p)=Σ_{i=1}^{n}\frac{N_i}{\sqrt{2π} logσ_i}exp(-\frac{(logD_p - logD̄_{pi})^2}{2log^2σ_i})\]</div>
 <dl class="method">
 <dt id="opcsim.AerosolDistribution.__init__">
 <code class="descname">__init__</code><span class="sig-paren">(</span><em>label=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/opcsim/distributions.html#AerosolDistribution.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#opcsim.AerosolDistribution.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Initialize the Aerosol Distribution.</p>
+<dd><p>Initialize an Aerosol Distribution.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -165,13 +164,13 @@ equation 8.54.</p>
 </colgroup>
 <tbody valign="top">
 <tr class="row-odd"><td><a class="reference internal" href="#opcsim.AerosolDistribution.__init__" title="opcsim.AerosolDistribution.__init__"><code class="xref py py-obj docutils literal"><span class="pre">__init__</span></code></a>([label])</td>
-<td>Initialize the Aerosol Distribution.</td>
+<td>Initialize an Aerosol Distribution.</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="opcsim.AerosolDistribution.add_mode.html#opcsim.AerosolDistribution.add_mode" title="opcsim.AerosolDistribution.add_mode"><code class="xref py py-obj docutils literal"><span class="pre">add_mode</span></code></a>(n,&nbsp;gm,&nbsp;gsd[,&nbsp;label])</td>
-<td>Add a mode to the distribution.</td>
+<td>Add a mode to the distribution as defined using N, GM, and GSD.</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="opcsim.AerosolDistribution.cdf.html#opcsim.AerosolDistribution.cdf" title="opcsim.AerosolDistribution.cdf"><code class="xref py py-obj docutils literal"><span class="pre">cdf</span></code></a>(dmax[,&nbsp;dmin,&nbsp;weight,&nbsp;mode,&nbsp;rho])</td>
-<td>Evaluate and return the cumulative probability distribution function between dmin and dmax.</td>
+<td>Evaluate and return the cumulative probability distribution function between <cite>dmin</cite> and <cite>dmax</cite>.</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="opcsim.AerosolDistribution.pdf.html#opcsim.AerosolDistribution.pdf" title="opcsim.AerosolDistribution.pdf"><code class="xref py py-obj docutils literal"><span class="pre">pdf</span></code></a>(dp[,&nbsp;base,&nbsp;weight,&nbsp;mode,&nbsp;rho])</td>
 <td>Evaluate and return the probability distribution function at particle diameter <cite>dp</cite>.</td>

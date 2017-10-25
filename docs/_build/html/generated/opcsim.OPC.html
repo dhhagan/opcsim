@@ -123,8 +123,12 @@
 <dl class="class">
 <dt id="opcsim.OPC">
 <em class="property">class </em><code class="descclassname">opcsim.</code><code class="descname">OPC</code><span class="sig-paren">(</span><em>n_bins=1</em>, <em>dmin=0.5</em>, <em>dmax=2.5</em>, <em>ce=&lt;function constant&gt;</em>, <em>bins=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/opcsim/models.html#OPC"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#opcsim.OPC" title="Permalink to this definition">¶</a></dt>
-<dd><p>Simulate an Optical Particle Counter (OPC) as defined by key instrument
-variables.</p>
+<dd><p>Define an Optical Particle Counter (OPC) using key instrument parameters.</p>
+<dl class="docutils">
+<dt>Key instrument parameters are defined as: the number of discrete size bins,</dt>
+<dd>the minimum particle diameter, the maximum particle diameter, and optionaly,
+the counting efficiency as a function of particle diameter.</dd>
+</dl>
 <dl class="method">
 <dt id="opcsim.OPC.__init__">
 <code class="descname">__init__</code><span class="sig-paren">(</span><em>n_bins=1</em>, <em>dmin=0.5</em>, <em>dmax=2.5</em>, <em>ce=&lt;function constant&gt;</em>, <em>bins=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/opcsim/models.html#OPC.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#opcsim.OPC.__init__" title="Permalink to this definition">¶</a></dt>
@@ -135,7 +139,7 @@ variables.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>n_bins</strong> : int, optional</p>
 <blockquote>
-<div><p>The number of discrete size bins for the OPC</p>
+<div><p>The number of discrete size bins</p>
 </div></blockquote>
 <p><strong>dmin</strong> : float, optional</p>
 <blockquote>
@@ -164,7 +168,7 @@ dmin and dmax.</p>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>OPC</strong> : class instance</p>
 <blockquote class="last">
-<div><p>Instance of the OPC class.</p>
+<div><p>An instance of the OPC class.</p>
 </div></blockquote>
 </td>
 </tr>
@@ -199,10 +203,10 @@ dmin and dmax.</p>
 <tr class="row-odd"><td><a class="reference internal" href="opcsim.OPC.histogram.html#opcsim.OPC.histogram" title="opcsim.OPC.histogram"><code class="xref py py-obj docutils literal"><span class="pre">histogram</span></code></a>(distribution[,&nbsp;weight,&nbsp;base])</td>
 <td>Return a histogram corresponding to how an OPC “sees” an aerosol distribution.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="opcsim.OPC.number.html#opcsim.OPC.number" title="opcsim.OPC.number"><code class="xref py py-obj docutils literal"><span class="pre">number</span></code></a>(distribution[,&nbsp;measured])</td>
+<tr class="row-even"><td><a class="reference internal" href="opcsim.OPC.number.html#opcsim.OPC.number" title="opcsim.OPC.number"><code class="xref py py-obj docutils literal"><span class="pre">number</span></code></a>(distribution,&nbsp;**kwargs)</td>
 <td>Return the total number of particles an OPC ‘sees’ in each bin.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="opcsim.OPC.surface_area.html#opcsim.OPC.surface_area" title="opcsim.OPC.surface_area"><code class="xref py py-obj docutils literal"><span class="pre">surface_area</span></code></a>(distribution[,&nbsp;measured])</td>
+<tr class="row-odd"><td><a class="reference internal" href="opcsim.OPC.surface_area.html#opcsim.OPC.surface_area" title="opcsim.OPC.surface_area"><code class="xref py py-obj docutils literal"><span class="pre">surface_area</span></code></a>(distribution,&nbsp;**kwargs)</td>
 <td>Return the total surface area of particles an OPC ‘sees’ in each bin.</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="opcsim.OPC.volume.html#opcsim.OPC.volume" title="opcsim.OPC.volume"><code class="xref py py-obj docutils literal"><span class="pre">volume</span></code></a>(distribution[,&nbsp;measured])</td>

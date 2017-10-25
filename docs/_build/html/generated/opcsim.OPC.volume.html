@@ -132,11 +132,6 @@
 <blockquote>
 <div><p>A valid AerosolDistribution instance that can be evaluated.</p>
 </div></blockquote>
-<p><strong>measured: bool</strong></p>
-<blockquote>
-<div><p>If true, the result returns the value as “seen” by the OPC. If false,
-the true integrated CDF for each bin is returned.</p>
-</div></blockquote>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>surface_area</strong> : array of floats</p>
@@ -158,13 +153,6 @@ Distribution</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="n">opcsim</span><span class="o">.</span><span class="n">load_distribution</span><span class="p">(</span><span class="s2">&quot;Urban&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">opc</span> <span class="o">=</span> <span class="n">opcsim</span><span class="o">.</span><span class="n">OPC</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">vt</span> <span class="o">=</span> <span class="n">opc</span><span class="o">.</span><span class="n">volume</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>What if we want to know the total volume of particles that were
-actually in each bin by integrating the underlying distribution?</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="n">opcsim</span><span class="o">.</span><span class="n">load_distribution</span><span class="p">(</span><span class="s2">&quot;Urban&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">opc</span> <span class="o">=</span> <span class="n">opcsim</span><span class="o">.</span><span class="n">OPC</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">vt</span> <span class="o">=</span> <span class="n">opc</span><span class="o">.</span><span class="n">volume</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">measured</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>What if we want to know the total volume across all bins?</p>

@@ -123,23 +123,23 @@
 <dl class="function">
 <dt id="opcsim.equations.cdf.st">
 <code class="descclassname">opcsim.equations.cdf.</code><code class="descname">st</code><span class="sig-paren">(</span><em>n</em>, <em>gm</em>, <em>gsd</em>, <em>dmin=None</em>, <em>dmax=10.0</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/opcsim/equations/cdf.html#st"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#opcsim.equations.cdf.st" title="Permalink to this definition">¶</a></dt>
-<dd><p>Evaluate the total surface area of the particles between dmin and dmax.</p>
-<p>The CDF of a lognormal distribution as calculated using equation 8.11
+<dd><p>Evaluate the total surface area of the particles between two diameters.</p>
+<p>The CDF of the lognormal distribution is calculated using equation 8.11
 from Seinfeld and Pandis.</p>
 <p>Mathematically, it is represented as:</p>
 <div class="math">
-\[S_t=π∫_{-∞}^{∞}D_p^2n_N^e(ln D_p)d lnD_p\]</div>
+\[S_t=π∫_{-∞}^{∞}D_p^2n_N^e(ln D_p)d lnD_p \;\;(\mu m^2 cm^{-3})\]</div>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>n</strong> : float</p>
 <blockquote>
-<div><p>Total aerosol number concentration in units of #/cc</p>
+<div><p>Total number of particles in units of #/cc</p>
 </div></blockquote>
 <p><strong>gm</strong> : float</p>
 <blockquote>
-<div><p>Median particle diameter (geometric mean) in units of microns.</p>
+<div><p>Median particle diameter (geometric mean) in units of <span class="math">\(\mu m\)</span>.</p>
 </div></blockquote>
 <p><strong>gsd</strong> : float</p>
 <blockquote>
@@ -147,18 +147,18 @@ from Seinfeld and Pandis.</p>
 </div></blockquote>
 <p><strong>dmin</strong> : float</p>
 <blockquote>
-<div><p>The minimum particle diameter in microns. Default value is 0.</p>
+<div><p>The minimum particle diameter in microns. Default value is 0 <span class="math">\(\mu m\)</span>.</p>
 </div></blockquote>
 <p><strong>dmax</strong> : float</p>
 <blockquote>
-<div><p>The maximum particle diameter in microns. Default value is 10.</p>
+<div><p>The maximum particle diameter in microns. Default value is 10 <span class="math">\(\mu m\)</span>.</p>
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">SA | float</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Surface Area | float</p>
 <blockquote class="last">
-<div><p>Returns the total surface area of particles between dmin and dmax in
-units of [um2 cm-3]</p>
+<div><p>Returns the total surface area of particles between <span class="math">\(D_{min}\)</span>
+and <span class="math">\(D_{max}\)</span> in units of <span class="math">\(\mu m^2 \; cm^{-3}\)</span></p>
 </div></blockquote>
 </td>
 </tr>

@@ -124,11 +124,11 @@
 <dt id="opcsim.equations.cdf.nt">
 <code class="descclassname">opcsim.equations.cdf.</code><code class="descname">nt</code><span class="sig-paren">(</span><em>n</em>, <em>gm</em>, <em>gsd</em>, <em>dmin=None</em>, <em>dmax=10.0</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/opcsim/equations/cdf.html#nt"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#opcsim.equations.cdf.nt" title="Permalink to this definition">¶</a></dt>
 <dd><p>Evaluate the total number of particles between two diameters.</p>
-<p>The CDF of a lognormal distribution as calculated using equations 8.2 and
+<p>The CDF of a lognormal distribution is calculated using equation
 8.39 from Seinfeld and Pandis.</p>
 <p>Mathematically, it is represented as:</p>
 <div class="math">
-\[N_t(D_p)=∫_{dmin}^{dmax}n_N(D_p^*)dD^*_p\]</div>
+\[N_t(D_p)=∫_{D_{min}}^{D_{max}}n_N(D_p^*)dD^*_p=\frac{N_t}{2}+\frac{N_t}{2}*erf\Big(\frac{ln(D_p/D_{pg})}{\sqrt{2} lnσ_g}\Big) \;\;(cm^{-3})\]</div>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -147,18 +147,18 @@
 </div></blockquote>
 <p><strong>dmin</strong> : float</p>
 <blockquote>
-<div><p>The minimum particle diameter in microns. Default value is 0.</p>
+<div><p>The minimum particle diameter in microns. Default value is 0 <span class="math">\(\mu m\)</span>.</p>
 </div></blockquote>
 <p><strong>dmax</strong> : float</p>
 <blockquote>
-<div><p>The maximum particle diameter in microns. Default value is 10.</p>
+<div><p>The maximum particle diameter in microns. Default value is 10 <span class="math">\(\mu m\)</span>.</p>
 </div></blockquote>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">N | float</p>
 <blockquote class="last">
 <div><p>Returns the total number of particles between dmin and dmax in units of
-[particles cm-3]</p>
+[<span class="math">\(particles*cm^{-3}\)</span>]</p>
 </div></blockquote>
 </td>
 </tr>
@@ -169,7 +169,8 @@
 <p class="last"><a class="reference internal" href="opcsim.equations.pdf.dn_ddp.html#opcsim.equations.pdf.dn_ddp" title="opcsim.equations.pdf.dn_ddp"><code class="xref py py-obj docutils literal"><span class="pre">opcsim.equations.pdf.dn_ddp</span></code></a>, <a class="reference internal" href="opcsim.equations.pdf.dn_dlndp.html#opcsim.equations.pdf.dn_dlndp" title="opcsim.equations.pdf.dn_dlndp"><code class="xref py py-obj docutils literal"><span class="pre">opcsim.equations.pdf.dn_dlndp</span></code></a>, <a class="reference internal" href="opcsim.equations.pdf.dn_dlogdp.html#opcsim.equations.pdf.dn_dlogdp" title="opcsim.equations.pdf.dn_dlogdp"><code class="xref py py-obj docutils literal"><span class="pre">opcsim.equations.pdf.dn_dlogdp</span></code></a></p>
 </div>
 <p class="rubric">Examples</p>
-<p>Integrate a sample distribution between 0 and 2.5 microns:</p>
+<p>Evaluate the number of particles in a simple distribution between 0 and
+2.5 <span class="math">\(\mu m\)</span>:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="n">opcsim</span><span class="o">.</span><span class="n">AerosolDistribution</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">d</span><span class="o">.</span><span class="n">add_mode</span><span class="p">(</span><span class="mf">1e3</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="s2">&quot;mode 1&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">n</span> <span class="o">=</span> <span class="n">opcsim</span><span class="o">.</span><span class="n">equations</span><span class="o">.</span><span class="n">cdf</span><span class="o">.</span><span class="n">nt</span><span class="p">(</span><span class="mf">1e3</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="n">dmax</span><span class="o">=</span><span class="mf">2.5</span><span class="p">)</span>

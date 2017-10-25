@@ -123,16 +123,16 @@
 <dl class="function">
 <dt id="opcsim.equations.pdf.dn_ddp">
 <code class="descclassname">opcsim.equations.pdf.</code><code class="descname">dn_ddp</code><span class="sig-paren">(</span><em>dp</em>, <em>n</em>, <em>gm</em>, <em>gsd</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/opcsim/equations/pdf.html#dn_ddp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#opcsim.equations.pdf.dn_ddp" title="Permalink to this definition">¶</a></dt>
-<dd><p>Evaluate the lognormal PDF.</p>
-<p>The PDF of a lognormal distribution as calculated using equation 8.34
+<dd><p>Evaluate the number distribution as a lognormal PDF.</p>
+<p>The PDF of a lognormal distribution is calculated using equation 8.34
 from Seinfeld and Pandis.</p>
 <div class="math">
-\[n_N(D_p)=\frac{dN}{dD_p}=\frac{N_t}{\sqrt{2π}D_p lnσ_g}exp(-\frac{(lnD_p - lnD̄_{pg})^2}{2ln^2σ_g})\]</div>
+\[n_N(D_p)=\frac{dN}{dD_p}=\frac{N_t}{\sqrt{2π}D_p lnσ_g}exp\Big(-\frac{(lnD_p - lnD̄_{pg})^2}{2ln^2σ_g}\Big)\]</div>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>dp</strong> : float or array of floats</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>dp</strong> : float or an array of floats</p>
 <blockquote>
 <div><p>Particle diameter in microns.</p>
 </div></blockquote>
@@ -150,10 +150,10 @@ from Seinfeld and Pandis.</p>
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">dn/ddp | float</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">n(Dp) | float or an array of floats</p>
 <blockquote class="last">
 <div><p>Returns the total number of particles at diameter dp in units of
-[um-1 cm-3]</p>
+<span class="math">\(\mu m^{-1} cm^{-3}\)</span>.</p>
 </div></blockquote>
 </td>
 </tr>

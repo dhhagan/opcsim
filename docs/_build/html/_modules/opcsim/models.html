@@ -126,8 +126,11 @@
     <span class="k">return</span> <span class="n">dp</span> <span class="o">*</span> <span class="mf">0.0</span> <span class="o">+</span> <span class="n">x</span>
 
 <div class="viewcode-block" id="OPC"><a class="viewcode-back" href="../../generated/opcsim.OPC.html#opcsim.OPC">[docs]</a><span class="k">class</span> <span class="nc">OPC</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Simulate an Optical Particle Counter (OPC) as defined by key instrument</span>
-<span class="sd">    variables.</span>
+    <span class="sd">&quot;&quot;&quot;Define an Optical Particle Counter (OPC) using key instrument parameters.</span>
+
+<span class="sd">    Key instrument parameters are defined as: the number of discrete size bins,</span>
+<span class="sd">     the minimum particle diameter, the maximum particle diameter, and optionaly,</span>
+<span class="sd">     the counting efficiency as a function of particle diameter.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 <div class="viewcode-block" id="OPC.__init__"><a class="viewcode-back" href="../../generated/opcsim.OPC.html#opcsim.OPC.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_bins</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">dmin</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">dmax</span><span class="o">=</span><span class="mf">2.5</span><span class="p">,</span> <span class="n">ce</span><span class="o">=</span><span class="n">constant</span><span class="p">,</span>
                     <span class="n">bins</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
@@ -136,7 +139,7 @@
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        n_bins : int, optional</span>
-<span class="sd">            The number of discrete size bins for the OPC</span>
+<span class="sd">            The number of discrete size bins</span>
 <span class="sd">        dmin : float, optional</span>
 <span class="sd">            Minimum particle diameter the OPC can &quot;see&quot; in units of microns.</span>
 <span class="sd">        dmax : float, optional</span>
@@ -154,7 +157,7 @@
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        OPC : class instance</span>
-<span class="sd">            Instance of the OPC class.</span>
+<span class="sd">            An instance of the OPC class.</span>
 
 <span class="sd">        Examples</span>
 <span class="sd">        --------</span>
@@ -217,14 +220,14 @@
 <span class="sd">        magnitude.</span>
 
 <span class="sd">        The default is to perform the integration, as we feel this is the most</span>
-<span class="sd">        accurate and honest way to evaluate what an OPC truly &#39;sees&#39; at any given</span>
-<span class="sd">        particle diameter.</span>
+<span class="sd">        accurate and honest way to evaluate what an OPC truly &#39;sees&#39; within a</span>
+<span class="sd">        given size bin.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        distribution : AerosolDistribution</span>
 <span class="sd">            A valid AerosolDistribution instance that can be evaluated.</span>
-<span class="sd">        weight : {&#39;number&#39; | &#39;surface&#39; | &#39;volume&#39;, &#39;mass&#39;}</span>
+<span class="sd">        weight : {&#39;number&#39; | &#39;surface&#39; | &#39;volume&#39; | &#39;mass&#39;}</span>
 <span class="sd">            Choose how to weight the pdf. Default is `number`.</span>
 <span class="sd">        base : {&#39;none&#39; | &#39;log&#39; | &#39;log10&#39;}</span>
 <span class="sd">            Base algorithm to use. Default is &#39;log10&#39;.</span>
@@ -357,16 +360,13 @@
 
         <span class="k">return</span> <span class="n">bb</span><span class="p">,</span> <span class="n">pdf</span><span class="p">,</span> <span class="n">dDp</span></div>
 
-<div class="viewcode-block" id="OPC.number"><a class="viewcode-back" href="../../generated/opcsim.OPC.number.html#opcsim.OPC.number">[docs]</a>    <span class="k">def</span> <span class="nf">number</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">distribution</span><span class="p">,</span> <span class="n">measured</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="OPC.number"><a class="viewcode-back" href="../../generated/opcsim.OPC.number.html#opcsim.OPC.number">[docs]</a>    <span class="k">def</span> <span class="nf">number</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">distribution</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Return the total number of particles an OPC &#39;sees&#39; in each bin.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        distribution : AerosolDistribution</span>
 <span class="sd">            A valid AerosolDistribution instance that can be evaluated.</span>
-<span class="sd">        measured: bool</span>
-<span class="sd">            If true, the result returns the value as &quot;seen&quot; by the OPC. If false,</span>
-<span class="sd">            the true integrated CDF for each bin is returned.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -389,32 +389,18 @@
 <span class="sd">        &gt;&gt;&gt; opc = opcsim.OPC()</span>
 <span class="sd">        &gt;&gt;&gt; nt = opc.number(d)</span>
 
-<span class="sd">        What if we want to know how many particles were actually in each bin by</span>
-<span class="sd">        integrating the underlying distribution?</span>
-
-<span class="sd">        &gt;&gt;&gt; d = opcsim.load_distribution(&quot;Urban&quot;)</span>
-<span class="sd">        &gt;&gt;&gt; opc = opcsim.OPC()</span>
-<span class="sd">        &gt;&gt;&gt; nt = opc.number(d, measured=False)</span>
-
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">measured</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
-            <span class="n">vals</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">distribution</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">dlogdp</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">vals</span> <span class="o">=</span> <span class="p">[</span><span class="n">distribution</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">dmin</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">bins</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
-                    <span class="n">dmax</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">bins</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_bins</span><span class="p">)]</span>
+        <span class="n">vals</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">distribution</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="s1">&#39;number&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">dlogdp</span>
 
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">vals</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="OPC.surface_area"><a class="viewcode-back" href="../../generated/opcsim.OPC.surface_area.html#opcsim.OPC.surface_area">[docs]</a>    <span class="k">def</span> <span class="nf">surface_area</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">distribution</span><span class="p">,</span> <span class="n">measured</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="OPC.surface_area"><a class="viewcode-back" href="../../generated/opcsim.OPC.surface_area.html#opcsim.OPC.surface_area">[docs]</a>    <span class="k">def</span> <span class="nf">surface_area</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">distribution</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Return the total surface area of particles an OPC &#39;sees&#39; in each bin.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        distribution : AerosolDistribution</span>
 <span class="sd">            A valid AerosolDistribution instance that can be evaluated.</span>
-<span class="sd">        measured: bool</span>
-<span class="sd">            If true, the result returns the value as &quot;seen&quot; by the OPC. If false,</span>
-<span class="sd">            the true integrated CDF for each bin is returned.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -438,19 +424,8 @@
 <span class="sd">        &gt;&gt;&gt; opc = opcsim.OPC()</span>
 <span class="sd">        &gt;&gt;&gt; st = opc.surface_area(d)</span>
 
-<span class="sd">        What if we want to know how many particles were actually in each bin by</span>
-<span class="sd">        integrating the underlying distribution?</span>
-
-<span class="sd">        &gt;&gt;&gt; d = opcsim.load_distribution(&quot;Urban&quot;)</span>
-<span class="sd">        &gt;&gt;&gt; opc = opcsim.OPC()</span>
-<span class="sd">        &gt;&gt;&gt; st = opc.surface_area(d, measured=False)</span>
-
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">measured</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
-            <span class="n">vals</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">distribution</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="s1">&#39;surface&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">dlogdp</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">vals</span> <span class="o">=</span> <span class="p">[</span><span class="n">distribution</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">dmin</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">bins</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
-                    <span class="n">dmax</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">bins</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">weight</span><span class="o">=</span><span class="s1">&#39;surface&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_bins</span><span class="p">)]</span>
+        <span class="n">vals</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">distribution</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="s1">&#39;surface&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">dlogdp</span>
 
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">vals</span><span class="p">)</span></div>
 
@@ -461,9 +436,6 @@
 <span class="sd">        ----------</span>
 <span class="sd">        distribution : AerosolDistribution</span>
 <span class="sd">            A valid AerosolDistribution instance that can be evaluated.</span>
-<span class="sd">        measured: bool</span>
-<span class="sd">            If true, the result returns the value as &quot;seen&quot; by the OPC. If false,</span>
-<span class="sd">            the true integrated CDF for each bin is returned.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -487,12 +459,6 @@
 <span class="sd">        &gt;&gt;&gt; opc = opcsim.OPC()</span>
 <span class="sd">        &gt;&gt;&gt; vt = opc.volume(d)</span>
 
-<span class="sd">        What if we want to know the total volume of particles that were</span>
-<span class="sd">        actually in each bin by integrating the underlying distribution?</span>
-
-<span class="sd">        &gt;&gt;&gt; d = opcsim.load_distribution(&quot;Urban&quot;)</span>
-<span class="sd">        &gt;&gt;&gt; opc = opcsim.OPC()</span>
-<span class="sd">        &gt;&gt;&gt; vt = opc.volume(d, measured=False)</span>
 
 <span class="sd">        What if we want to know the total volume across all bins?</span>
 
@@ -501,11 +467,7 @@
 <span class="sd">        &gt;&gt;&gt; vt = opc.volume(d).sum()</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">measured</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
-            <span class="n">vals</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">distribution</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="s1">&#39;volume&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">dlogdp</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">vals</span> <span class="o">=</span> <span class="p">[</span><span class="n">distribution</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">dmin</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">bins</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
-                    <span class="n">dmax</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">bins</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">weight</span><span class="o">=</span><span class="s1">&#39;volume&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_bins</span><span class="p">)]</span>
+        <span class="n">vals</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">distribution</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="s1">&#39;volume&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">dlogdp</span>
 
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">vals</span><span class="p">)</span></div></div>
 

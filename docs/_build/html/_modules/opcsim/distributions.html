@@ -216,6 +216,9 @@
 <div class="viewcode-block" id="load_distribution"><a class="viewcode-back" href="../../generated/opcsim.load_distribution.html#opcsim.load_distribution">[docs]</a><span class="k">def</span> <span class="nf">load_distribution</span><span class="p">(</span><span class="n">label</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Load sample distributions as described by S+P Table 8.3.</span>
 
+<span class="sd">    There are currently 7 options including: Urban, Marine, Rural, Remote</span>
+<span class="sd">    continental, Free troposphere, Polar, and Desert.</span>
+
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 
@@ -224,7 +227,7 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    Instance of the AerosolDistribution class</span>
+<span class="sd">    An instance of the AerosolDistribution class</span>
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
@@ -247,17 +250,16 @@
 <div class="viewcode-block" id="AerosolDistribution"><a class="viewcode-back" href="../../generated/opcsim.AerosolDistribution.html#opcsim.AerosolDistribution">[docs]</a><span class="k">class</span> <span class="nc">AerosolDistribution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Define an aerosol distribution.</span>
 
-<span class="sd">    We are operating on the assumption that any aerosol distribution can be</span>
-<span class="sd">    described as the sum of n lognormal modes following Seinfeld and Pandis</span>
-<span class="sd">    equation 8.54.</span>
+<span class="sd">    Assuming an aerosol distribution can be described as the sum of n lognormal</span>
+<span class="sd">    modes, define as (Seinfeld and Pandis equation 8.54):</span>
 
 <span class="sd">    .. math::</span>
 
-<span class="sd">        n_N^o(logD_p)=Σ_{i=1}^{n}\\frac{N_i}{\sqrt{2π} logσ_i}exp(-\\frac{(logD_p - logD̄_p)^2}{2log^2σ_i})</span>
+<span class="sd">        n_N^o(logD_p)=Σ_{i=1}^{n}\\frac{N_i}{\sqrt{2π} logσ_i}exp(-\\frac{(logD_p - logD̄_{pi})^2}{2log^2σ_i})</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
 <div class="viewcode-block" id="AerosolDistribution.__init__"><a class="viewcode-back" href="../../generated/opcsim.AerosolDistribution.html#opcsim.AerosolDistribution.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Initialize the Aerosol Distribution.</span>
+        <span class="sd">&quot;&quot;&quot;Initialize an Aerosol Distribution.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -287,14 +289,14 @@
         <span class="k">return</span> <span class="kc">None</span>
 
 <div class="viewcode-block" id="AerosolDistribution.add_mode"><a class="viewcode-back" href="../../generated/opcsim.AerosolDistribution.add_mode.html#opcsim.AerosolDistribution.add_mode">[docs]</a>    <span class="k">def</span> <span class="nf">add_mode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">gm</span><span class="p">,</span> <span class="n">gsd</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Add a mode to the distribution.</span>
+        <span class="sd">&quot;&quot;&quot;Add a mode to the distribution as defined using N, GM, and GSD.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        n : float</span>
 <span class="sd">            Total number of particles (#/cc)</span>
 <span class="sd">        gm : float</span>
-<span class="sd">            Geometric Mean particle diameter (um)</span>
+<span class="sd">            Median particle diameter (Geometric Mean) in units of microns.</span>
 <span class="sd">        gsd : float</span>
 <span class="sd">            Geometric Standard Deviation</span>
 <span class="sd">        label : string, optional</span>
@@ -326,12 +328,12 @@
 <span class="sd">        particle diameter `dp`.</span>
 
 <span class="sd">        Using equation 8.54 from Seinfeld and Pandis, we can evaluate the</span>
-<span class="sd">        probability distribution function for the multi-modal aerosol</span>
-<span class="sd">        distribution by summing the individual pdfs.</span>
+<span class="sd">        probability distribution function for a multi-modal aerosol</span>
+<span class="sd">        distribution by summing the individual pdf&#39;s.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        dp : float or array of floats</span>
+<span class="sd">        dp : float or an array of floats</span>
 <span class="sd">            Particle diameter(s) to evaluate the pdf (um)</span>
 <span class="sd">        base : {None | &#39;none&#39; | &#39;log&#39; | &#39;log10&#39;}</span>
 <span class="sd">            Base algorithm to use. Default is &#39;log10&#39;</span>
@@ -386,7 +388,7 @@
 
 <div class="viewcode-block" id="AerosolDistribution.cdf"><a class="viewcode-back" href="../../generated/opcsim.AerosolDistribution.cdf.html#opcsim.AerosolDistribution.cdf">[docs]</a>    <span class="k">def</span> <span class="nf">cdf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dmax</span><span class="p">,</span> <span class="n">dmin</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="s1">&#39;number&#39;</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">rho</span><span class="o">=</span><span class="mf">1.</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Evaluate and return the cumulative probability distribution function</span>
-<span class="sd">        between dmin and dmax.</span>
+<span class="sd">        between `dmin` and `dmax`.</span>
 
 <span class="sd">        Using equation _ from Seinfeld and Pandis, we can evaluate the cdf of a</span>
 <span class="sd">        a multi-modal particle size distribution by summing the individual</span>

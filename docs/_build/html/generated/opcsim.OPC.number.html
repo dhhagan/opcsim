@@ -122,7 +122,7 @@
 <h1>opcsim.OPC.number<a class="headerlink" href="#opcsim-opc-number" title="Permalink to this headline">¶</a></h1>
 <dl class="method">
 <dt id="opcsim.OPC.number">
-<code class="descclassname">OPC.</code><code class="descname">number</code><span class="sig-paren">(</span><em>distribution</em>, <em>measured=True</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/opcsim/models.html#OPC.number"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#opcsim.OPC.number" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">OPC.</code><code class="descname">number</code><span class="sig-paren">(</span><em>distribution</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/opcsim/models.html#OPC.number"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#opcsim.OPC.number" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the total number of particles an OPC ‘sees’ in each bin.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -131,11 +131,6 @@
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>distribution</strong> : AerosolDistribution</p>
 <blockquote>
 <div><p>A valid AerosolDistribution instance that can be evaluated.</p>
-</div></blockquote>
-<p><strong>measured: bool</strong></p>
-<blockquote>
-<div><p>If true, the result returns the value as “seen” by the OPC. If false,
-the true integrated CDF for each bin is returned.</p>
 </div></blockquote>
 </td>
 </tr>
@@ -157,13 +152,6 @@ Distribution</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="n">opcsim</span><span class="o">.</span><span class="n">load_distribution</span><span class="p">(</span><span class="s2">&quot;Urban&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">opc</span> <span class="o">=</span> <span class="n">opcsim</span><span class="o">.</span><span class="n">OPC</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">nt</span> <span class="o">=</span> <span class="n">opc</span><span class="o">.</span><span class="n">number</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>What if we want to know how many particles were actually in each bin by
-integrating the underlying distribution?</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="n">opcsim</span><span class="o">.</span><span class="n">load_distribution</span><span class="p">(</span><span class="s2">&quot;Urban&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">opc</span> <span class="o">=</span> <span class="n">opcsim</span><span class="o">.</span><span class="n">OPC</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">nt</span> <span class="o">=</span> <span class="n">opc</span><span class="o">.</span><span class="n">number</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">measured</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
 </dd></dl>
