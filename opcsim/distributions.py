@@ -100,6 +100,9 @@ def _get_cdf_func(n, gm, gsd, dmin=None, dmax=10., weight='number', rho=1.):
 def load_distribution(label):
     """Load sample distributions as described by S+P Table 8.3.
 
+    There are currently 7 options including: Urban, Marine, Rural, Remote
+    continental, Free troposphere, Polar, and Desert.
+
     Parameters
     ----------
 
@@ -108,7 +111,7 @@ def load_distribution(label):
 
     Returns
     -------
-    Instance of the AerosolDistribution class
+    An instance of the AerosolDistribution class
 
     Examples
     --------
@@ -131,17 +134,16 @@ def load_distribution(label):
 class AerosolDistribution(object):
     """Define an aerosol distribution.
 
-    We are operating on the assumption that any aerosol distribution can be
-    described as the sum of n lognormal modes following Seinfeld and Pandis
-    equation 8.54.
+    Assuming an aerosol distribution can be described as the sum of n lognormal
+    modes, define as (Seinfeld and Pandis equation 8.54):
 
     .. math::
 
-        n_N^o(logD_p)=Σ_{i=1}^{n}\\frac{N_i}{\sqrt{2π} logσ_i}exp(-\\frac{(logD_p - logD̄_p)^2}{2log^2σ_i})
+        n_N^o(logD_p)=Σ_{i=1}^{n}\\frac{N_i}{\sqrt{2π} logσ_i}exp(-\\frac{(logD_p - logD̄_{pi})^2}{2log^2σ_i})
 
     """
     def __init__(self, label=None):
-        """Initialize the Aerosol Distribution.
+        """Initialize an Aerosol Distribution.
 
         Parameters
         ----------
@@ -171,14 +173,14 @@ class AerosolDistribution(object):
         return None
 
     def add_mode(self, n, gm, gsd, label=None):
-        """Add a mode to the distribution.
+        """Add a mode to the distribution as defined using N, GM, and GSD.
 
         Parameters
         ----------
         n : float
             Total number of particles (#/cc)
         gm : float
-            Geometric Mean particle diameter (um)
+            Median particle diameter (Geometric Mean) in units of microns.
         gsd : float
             Geometric Standard Deviation
         label : string, optional
@@ -210,12 +212,12 @@ class AerosolDistribution(object):
         particle diameter `dp`.
 
         Using equation 8.54 from Seinfeld and Pandis, we can evaluate the
-        probability distribution function for the multi-modal aerosol
-        distribution by summing the individual pdfs.
+        probability distribution function for a multi-modal aerosol
+        distribution by summing the individual pdf's.
 
         Parameters
         ----------
-        dp : float or array of floats
+        dp : float or an array of floats
             Particle diameter(s) to evaluate the pdf (um)
         base : {None | 'none' | 'log' | 'log10'}
             Base algorithm to use. Default is 'log10'
@@ -270,7 +272,7 @@ class AerosolDistribution(object):
 
     def cdf(self, dmax, dmin=None, weight='number', mode=None, rho=1.):
         """Evaluate and return the cumulative probability distribution function
-        between dmin and dmax.
+        between `dmin` and `dmax`.
 
         Using equation _ from Seinfeld and Pandis, we can evaluate the cdf of a
         a multi-modal particle size distribution by summing the individual

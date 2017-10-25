@@ -31,7 +31,7 @@ def make_bins(dmin, dmax, n_bins, base='log'):
     --------
 
     Build a set of bins for an OPC with dmin=0.5, dmax=2.5, and 3 bins:
-    
+
     >>> bins = opcsim.utils.make_bins(0.5, 2.5, 3)
 
     """
