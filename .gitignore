@@ -2,6 +2,8 @@
 /docs/tutorial/*.rst
 docs/*_files/
 docs/_build/
+docs/build
+docs/build/*
 docs/generated/
 docs/examples/
 docs/example_thumbs/
