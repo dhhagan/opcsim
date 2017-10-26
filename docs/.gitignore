@@ -1,5 +1,5 @@
 *_files/
-_build/
-generated/
-examples/
-example_thumbs/
+#_build/
+#generated/
+#examples/
+#example_thumbs/
