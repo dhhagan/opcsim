@@ -1,4 +1,9 @@
 /docs/tutorial/garbage*
+docs/*_files/
+docs/_build/
+docs/generated/
+docs/examples/
+docs/example_thumbs/
 
 README-PVT.md
 # deploy.sh
