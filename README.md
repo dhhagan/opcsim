@@ -46,7 +46,7 @@ To run the tests locally using coverage:
 ## Development
 
 Opcsim development takes place on GitHub. Issues and bugs can be submitted and
-tracked via the [GitHub Issue Tracker] for this repository.
+tracked via the [GitHub Issue Tracker][10] for this repository.
 
 
 [1]: https://dhhagan.github.io/opcsim/
