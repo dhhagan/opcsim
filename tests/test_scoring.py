@@ -61,6 +61,7 @@ class SetupTestCase(unittest.TestCase):
         vv100 = opcsim.metrics.vv_score(opc100, urban)
 
         self.assertNotEqual(vv50, vv100)
+        self.assertLess(vv50, vv100)
 
     def test_vv_2_sensors(self):
         urban = opcsim.load_distribution("Urban")

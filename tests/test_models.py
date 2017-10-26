@@ -79,8 +79,8 @@ class SetupTestCase(unittest.TestCase):
         opc = opcsim.models.OPC()
         d = opcsim.load_distribution("Urban")
 
-        vm = opc.surface_area(d)
-        va = opc.surface_area(d, measured=False)
+        vm = opc.surface_area(d, dmax=5)
+        va = d.cdf(dmin=0, dmax=5, weight='surface')
 
         self.assertNotEqual(vm, va)
         self.assertEqual(len(vm), opc.n_bins)
@@ -90,7 +90,7 @@ class SetupTestCase(unittest.TestCase):
         d = opcsim.load_distribution("Urban")
 
         vm = opc.volume(d)
-        va = opc.volume(d, measured=False)
+        va = d.cdf(dmin=0, dmax=5, weight='volume')
 
         self.assertNotEqual(vm, va)
         self.assertEqual(len(vm), opc.n_bins)

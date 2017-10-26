@@ -18,7 +18,8 @@ opc = opcsim.OPC(n_bins=10, dmin=0.3)
 ax = opcsim.plots.histplot(opc.evaluate(d), bins=opc.bins)
 
 # Overlay the distribution
-ax = opcsim.plots.pdfplot(d, ax=ax, fill=True, fill_kws=dict(alpha=.3))
+ax = opcsim.plots.pdfplot(d, ax=ax, fill=True, fill_kws=dict(alpha=.2),
+                            plot_kws=dict(linewidth=1))
 
 # Remove the top and right spines
 sns.despine()

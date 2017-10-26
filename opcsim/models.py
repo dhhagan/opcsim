@@ -10,8 +10,11 @@ def constant(dp, x=1.):
     return dp * 0.0 + x
 
 class OPC(object):
-    """Simulate an Optical Particle Counter (OPC) as defined by key instrument
-    variables.
+    """Define an Optical Particle Counter (OPC) using key instrument parameters.
+
+    Key instrument parameters are defined as: the number of discrete size bins,
+     the minimum particle diameter, the maximum particle diameter, and optionaly,
+     the counting efficiency as a function of particle diameter.
     """
     def __init__(self, n_bins=1, dmin=0.5, dmax=2.5, ce=constant,
                     bins=None, **kwargs):
@@ -20,7 +23,7 @@ class OPC(object):
         Parameters
         ----------
         n_bins : int, optional
-            The number of discrete size bins for the OPC
+            The number of discrete size bins
         dmin : float, optional
             Minimum particle diameter the OPC can "see" in units of microns.
         dmax : float, optional
@@ -38,7 +41,7 @@ class OPC(object):
         Returns
         -------
         OPC : class instance
-            Instance of the OPC class.
+            An instance of the OPC class.
 
         Examples
         --------
@@ -101,14 +104,14 @@ class OPC(object):
         magnitude.
 
         The default is to perform the integration, as we feel this is the most
-        accurate and honest way to evaluate what an OPC truly 'sees' at any given
-        particle diameter.
+        accurate and honest way to evaluate what an OPC truly 'sees' within a
+        given size bin.
 
         Parameters
         ----------
         distribution : AerosolDistribution
             A valid AerosolDistribution instance that can be evaluated.
-        weight : {'number' | 'surface' | 'volume', 'mass'}
+        weight : {'number' | 'surface' | 'volume' | 'mass'}
             Choose how to weight the pdf. Default is `number`.
         base : {'none' | 'log' | 'log10'}
             Base algorithm to use. Default is 'log10'.
@@ -241,16 +244,13 @@ class OPC(object):
 
         return bb, pdf, dDp
 
-    def number(self, distribution, measured=True, **kwargs):
+    def number(self, distribution, **kwargs):
         """Return the total number of particles an OPC 'sees' in each bin.
 
         Parameters
         ----------
         distribution : AerosolDistribution
             A valid AerosolDistribution instance that can be evaluated.
-        measured: bool
-            If true, the result returns the value as "seen" by the OPC. If false,
-            the true integrated CDF for each bin is returned.
 
         Returns
         -------
@@ -273,32 +273,18 @@ class OPC(object):
         >>> opc = opcsim.OPC()
         >>> nt = opc.number(d)
 
-        What if we want to know how many particles were actually in each bin by
-        integrating the underlying distribution?
-
-        >>> d = opcsim.load_distribution("Urban")
-        >>> opc = opcsim.OPC()
-        >>> nt = opc.number(d, measured=False)
-
         """
-        if measured == True:
-            vals = self.evaluate(distribution, **kwargs) * self.dlogdp
-        else:
-            vals = [distribution.cdf(dmin=self.bins[i, 0],
-                    dmax=self.bins[i, -1]) for i in range(self.n_bins)]
+        vals = self.evaluate(distribution, weight='number', **kwargs) * self.dlogdp
 
         return np.array(vals)
 
-    def surface_area(self, distribution, measured=True, **kwargs):
+    def surface_area(self, distribution, **kwargs):
         """Return the total surface area of particles an OPC 'sees' in each bin.
 
         Parameters
         ----------
         distribution : AerosolDistribution
             A valid AerosolDistribution instance that can be evaluated.
-        measured: bool
-            If true, the result returns the value as "seen" by the OPC. If false,
-            the true integrated CDF for each bin is returned.
 
         Returns
         -------
@@ -322,19 +308,8 @@ class OPC(object):
         >>> opc = opcsim.OPC()
         >>> st = opc.surface_area(d)
 
-        What if we want to know how many particles were actually in each bin by
-        integrating the underlying distribution?
-
-        >>> d = opcsim.load_distribution("Urban")
-        >>> opc = opcsim.OPC()
-        >>> st = opc.surface_area(d, measured=False)
-
         """
-        if measured == True:
-            vals = self.evaluate(distribution, weight='surface', **kwargs) * self.dlogdp
-        else:
-            vals = [distribution.cdf(dmin=self.bins[i, 0],
-                    dmax=self.bins[i, -1], weight='surface') for i in range(self.n_bins)]
+        vals = self.evaluate(distribution, weight='surface', **kwargs) * self.dlogdp
 
         return np.array(vals)
 
@@ -345,9 +320,6 @@ class OPC(object):
         ----------
         distribution : AerosolDistribution
             A valid AerosolDistribution instance that can be evaluated.
-        measured: bool
-            If true, the result returns the value as "seen" by the OPC. If false,
-            the true integrated CDF for each bin is returned.
 
         Returns
         -------
@@ -371,12 +343,6 @@ class OPC(object):
         >>> opc = opcsim.OPC()
         >>> vt = opc.volume(d)
 
-        What if we want to know the total volume of particles that were
-        actually in each bin by integrating the underlying distribution?
-
-        >>> d = opcsim.load_distribution("Urban")
-        >>> opc = opcsim.OPC()
-        >>> vt = opc.volume(d, measured=False)
 
         What if we want to know the total volume across all bins?
 
@@ -385,11 +351,7 @@ class OPC(object):
         >>> vt = opc.volume(d).sum()
 
         """
-        if measured == True:
-            vals = self.evaluate(distribution, weight='volume', **kwargs) * self.dlogdp
-        else:
-            vals = [distribution.cdf(dmin=self.bins[i, 0],
-                    dmax=self.bins[i, -1], weight='volume') for i in range(self.n_bins)]
+        vals = self.evaluate(distribution, weight='volume', **kwargs) * self.dlogdp
 
         return np.array(vals)
 

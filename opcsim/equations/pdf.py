@@ -9,18 +9,18 @@ import math
 import numpy as np
 
 def dn_ddp(dp, n, gm, gsd):
-    """Evaluate the lognormal PDF.
+    """Evaluate the number distribution as a lognormal PDF.
 
-    The PDF of a lognormal distribution as calculated using equation 8.34
+    The PDF of a lognormal distribution is calculated using equation 8.34
     from Seinfeld and Pandis.
 
     .. math::
 
-        n_N(D_p)=\\frac{dN}{dD_p}=\\frac{N_t}{\sqrt{2π}D_p lnσ_g}exp(-\\frac{(lnD_p - lnD̄_{pg})^2}{2ln^2σ_g})
+        n_N(D_p)=\\frac{dN}{dD_p}=\\frac{N_t}{\sqrt{2π}D_p lnσ_g}exp\Big(-\\frac{(lnD_p - lnD̄_{pg})^2}{2ln^2σ_g}\Big)
 
     Parameters
     ----------
-    dp : float or array of floats
+    dp : float or an array of floats
         Particle diameter in microns.
     n : float
         Total aerosol number concentration in units of #/cc
@@ -31,9 +31,9 @@ def dn_ddp(dp, n, gm, gsd):
 
     Returns
     -------
-    dn/ddp | float
+    n(Dp) | float or an array of floats
         Returns the total number of particles at diameter dp in units of
-        [um-1 cm-3]
+        :math:`\mu m^{-1} cm^{-3}`.
 
     See Also
     --------
@@ -58,7 +58,7 @@ def dn_dlndp(dp, n, gm, gsd):
 
     Parameters
     ----------
-    dp : float or array of floats
+    dp : float or an array of floats
         Particle diameter in microns.
     n : float
         Total aerosol number concentration in units of #/cc

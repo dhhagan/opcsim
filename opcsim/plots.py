@@ -12,11 +12,11 @@ lrg_number_fmt.set_powerlimits((-3, 4))
 
 rc_log = {
     'xtick.major.size': 10.0,
-    'xtick.minor.size': 8.0,
+    'xtick.minor.size': 6.0,
     'ytick.major.size': 10.0,
     'ytick.minor.size': 8.0,
-    'xtick.color': '0.5',
-    'ytick.color': '0.5',
+    'xtick.color': '0.1',
+    'ytick.color': '0.1',
     'axes.linewidth': 1.75
 }
 
@@ -181,7 +181,7 @@ def pdfplot(distribution, ax=None, weight='number', base='log10', with_modes=Fal
         plotting individual modes (with_modes=True).
     plot_kws : dict
         Optional keyword arguments to include. They are sent as an argument to
-        the matplotlib bar plot.
+        the matplotlib plot call.
     fig_kws : dict
         Optional keyword arguments to include for the figure.
     fill_kws : dict
@@ -260,17 +260,22 @@ def pdfplot(distribution, ax=None, weight='number', base='log10', with_modes=Fal
         plt.figure(**fig_kws)
         ax = plt.gca()
 
+    # Plot the compete distribution
+    nc = next(ax._get_lines.prop_cycler)['color']
+
     # Set the plot_kws as a mapping of default and kwargs
     default_plot_kws = dict(
                         alpha=1,
-                        linewidth=4
+                        linewidth=4,
+                        color=nc
                         )
 
     # Set the plot_kws
     plot_kws = dict(default_plot_kws, **plot_kws)
 
-    # Plot the compete distribution
-    nc = next(ax._get_lines.prop_cycler)['color']
+    # Set the default fill_kws
+    default_fill_kws = dict(color=plot_kws['color'])
+    fill_kws = dict(default_fill_kws, **fill_kws)
 
     # If label kwarg is present, use -> otherwise use default
     label = kwargs.pop('label', distribution.label)

@@ -134,6 +134,10 @@ class SetupTestCase(unittest.TestCase):
         self.assertGreaterEqual(cdf_m2, cdf_m)
         self.assertEqual(round(cdf_m_diff, 3), round(cdf_m2 - cdf_m, 3))
 
+        # Make sure the mass is roughly correct
+        self.assertGreaterEqual(cdf_m, 3.)
+        self.assertLessEqual(cdf_m, 20.)
+
     def test_bad_distribution(self):
         with self.assertRaises(ValueError):
             d = opcsim.load_distribution("None")
