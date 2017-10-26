@@ -29,7 +29,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Example gallery" href="../examples/index.html" />
-    <link rel="prev" title="The OPC Model" href="model.html" />
+    <link rel="prev" title="Using OPCSIM to Build a Simulated OPC" href="model.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
@@ -122,17 +122,8 @@
   <div class="row">
     <div class="col-md-12 content">
       
-  <div class="code ipython3 highlight-default" id="scoring-tutorial"><div class="highlight"><pre><span></span><span class="c1"># Make imports</span>
-<span class="kn">import</span> <span class="nn">opcsim</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-
-<span class="c1"># turn off warnings temporarily</span>
-<span class="kn">import</span> <span class="nn">warnings</span>
-<span class="n">warnings</span><span class="o">.</span><span class="n">simplefilter</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-<div class="section" id="evaluating-the-results-of-a-simulated-opc">
-<h1>Evaluating the Results of a Simulated OPC<a class="headerlink" href="#evaluating-the-results-of-a-simulated-opc" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="evaluating-the-results-of-a-simulated-opc">
+<span id="scoring-tutorial"></span><h1>Evaluating the Results of a Simulated OPC<a class="headerlink" href="#evaluating-the-results-of-a-simulated-opc" title="Permalink to this headline">¶</a></h1>
 <p>To determine the efficacy of our simulated OPC’s, we must derive some
 sort of metric to use to compare to other modeled OPC’s and other
 distributions. Perusing through the current literature, you will find
@@ -157,6 +148,15 @@ and maximum diameters to evaluate the volume CDF under; however, this
 will not change the number calculation from the OPC.</p>
 <p>For example, let’s compute the <code class="docutils literal"><span class="pre">nv_score</span></code> for the 1-bin OPC that is
 default against the urban distribution.</p>
+<div class="code ipython3 highlight-default"><div class="highlight"><pre><span></span><span class="c1"># Make imports</span>
+<span class="kn">import</span> <span class="nn">opcsim</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="c1"># turn off warnings temporarily</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">simplefilter</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
 <div class="code ipython3 highlight-default"><div class="highlight"><pre><span></span><span class="c1"># Build the OPC</span>
 <span class="n">opc</span> <span class="o">=</span> <span class="n">opcsim</span><span class="o">.</span><span class="n">OPC</span><span class="p">()</span>
 

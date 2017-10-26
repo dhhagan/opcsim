@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>The OPC Model &#8212; opcsim 0.2.0 documentation</title>
+    <title>Using OPCSIM to Build a Simulated OPC &#8212; opcsim 0.2.0 documentation</title>
     <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../_static/style.css" type="text/css" />
@@ -29,7 +29,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Evaluating the Results of a Simulated OPC" href="scoring.html" />
-    <link rel="prev" title="The Aerosol Distribution" href="distribution.html" />
+    <link rel="prev" title="The Aerosol Distribution Tutorial" href="distribution.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
@@ -88,7 +88,8 @@
   <ul class="dropdown-menu localtoc"
       role="menu"
       aria-labelledby="dLabelLocalToc"><ul>
-<li><a class="reference internal" href="#">The OPC Model</a><ul>
+<li><a class="reference internal" href="#">Using OPCSIM to Build a Simulated OPC</a></li>
+<li><a class="reference internal" href="#the-opc-model">The OPC Model</a><ul>
 <li><a class="reference internal" href="#building-an-opc">Building an OPC</a></li>
 <li><a class="reference internal" href="#define-opc-counting-efficiency">Define OPC Counting Efficiency</a></li>
 </ul>
@@ -130,7 +131,9 @@
   <div class="row">
     <div class="col-md-12 content">
       
-  <p id="model-tutorial">The following tutorial will show you how we represent a low-cost optical
+  <div class="section" id="using-opcsim-to-build-a-simulated-opc">
+<span id="model-tutorial"></span><h1>Using OPCSIM to Build a Simulated OPC<a class="headerlink" href="#using-opcsim-to-build-a-simulated-opc" title="Permalink to this headline">¶</a></h1>
+<p>The following tutorial will show you how we represent a low-cost optical
 particle counter in the opcsim software. You will learn how to build a
 model OPC and evaluate it against a simulated aerosol distribution.
 Visualization tools will also be discussed.</p>
@@ -150,8 +153,10 @@ for plotting throughout this tutorial.</p>
 <span class="n">warnings</span><span class="o">.</span><span class="n">simplefilter</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
 
 <span class="c1"># Let&#39;s set some default seaborn settings</span>
-<span class="n">sns</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">context</span><span class="o">=</span><span class="s1">&#39;notebook&#39;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s1">&#39;ticks&#39;</span><span class="p">,</span> <span class="n">palette</span><span class="o">=</span><span class="s1">&#39;dark&#39;</span><span class="p">,</span> <span class="n">font_scale</span><span class="o">=</span><span class="mf">1.75</span><span class="p">,</span> <span class="n">rc</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;figure.figsize&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">6</span><span class="p">)})</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">context</span><span class="o">=</span><span class="s1">&#39;notebook&#39;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s1">&#39;ticks&#39;</span><span class="p">,</span> <span class="n">palette</span><span class="o">=</span><span class="s1">&#39;dark&#39;</span><span class="p">,</span> <span class="n">font_scale</span><span class="o">=</span><span class="mf">1.75</span><span class="p">,</span>
+        <span class="n">rc</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;figure.figsize&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">6</span><span class="p">),</span> <span class="o">**</span><span class="n">opcsim</span><span class="o">.</span><span class="n">plots</span><span class="o">.</span><span class="n">rc_log</span><span class="p">})</span>
 </pre></div>
+</div>
 </div>
 <div class="section" id="the-opc-model">
 <h1>The OPC Model<a class="headerlink" href="#the-opc-model" title="Permalink to this headline">¶</a></h1>
@@ -393,17 +398,6 @@ the previous OPC per the Urban distribution:</p>
          <span class="mf">1.44635364e-02</span><span class="p">,</span>   <span class="mf">1.87471533e-04</span><span class="p">])</span>
 </pre></div>
 </div>
-<p>The “True” number of particles in each bin can be calculated as follows:</p>
-<div class="code ipython3 highlight-default"><div class="highlight"><pre><span></span><span class="n">opc</span><span class="o">.</span><span class="n">number</span><span class="p">(</span><span class="n">urban</span><span class="p">,</span> <span class="n">measured</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-</pre></div>
-</div>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">array</span><span class="p">([</span>  <span class="mf">6.12744230e+01</span><span class="p">,</span>   <span class="mf">8.19047626e+00</span><span class="p">,</span>   <span class="mf">5.08145402e-01</span><span class="p">,</span>
-         <span class="mf">1.44635364e-02</span><span class="p">,</span>   <span class="mf">1.87471533e-04</span><span class="p">])</span>
-</pre></div>
-</div>
-<p>These look the same! Well, that’s because we have set the counting
-efficiency for this OPC simulation to be 100%. If we were to set it to
-something else, we would see a different result.</p>
 </div>
 <div class="section" id="opcsim-opc-surface-area">
 <h2><code class="docutils literal"><span class="pre">opcsim.OPC.surface_area</span></code><a class="headerlink" href="#opcsim-opc-surface-area" title="Permalink to this headline">¶</a></h2>
@@ -454,7 +448,7 @@ Aerosol Distribution:</p>
 <span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">()</span>
 </pre></div>
 </div>
-<img alt="../_images/model_37_0.png" src="../_images/model_37_0.png" />
+<img alt="../_images/model_34_0.png" src="../_images/model_34_0.png" />
 <p>Why don’t we go ahead and overlay the distribution itself:</p>
 <div class="code ipython3 highlight-default"><div class="highlight"><pre><span></span><span class="c1"># Plot</span>
 <span class="n">ax</span> <span class="o">=</span> <span class="n">opcsim</span><span class="o">.</span><span class="n">plots</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">opc</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">urban</span><span class="p">),</span> <span class="n">opc</span><span class="o">.</span><span class="n">bins</span><span class="p">)</span>
@@ -462,12 +456,10 @@ Aerosol Distribution:</p>
 <span class="c1"># Add the distribution to the plot</span>
 <span class="n">ax</span> <span class="o">=</span> <span class="n">opcsim</span><span class="o">.</span><span class="n">plots</span><span class="o">.</span><span class="n">pdfplot</span><span class="p">(</span><span class="n">urban</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
 
-<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;$dN/dlogD_p$&quot;</span><span class="p">)</span>
-
 <span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">()</span>
 </pre></div>
 </div>
-<img alt="../_images/model_39_0.png" src="../_images/model_39_0.png" />
+<img alt="../_images/model_36_0.png" src="../_images/model_36_0.png" />
 <p>The above plots are in number-space. The primary use of these low-cost
 sensors is to estimate mass, so why don’t we go ahead and plot this in
 volume space?</p>
@@ -477,12 +469,12 @@ volume space?</p>
 <span class="c1"># Add the distribution to the plot</span>
 <span class="n">ax</span> <span class="o">=</span> <span class="n">opcsim</span><span class="o">.</span><span class="n">plots</span><span class="o">.</span><span class="n">pdfplot</span><span class="p">(</span><span class="n">urban</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="s1">&#39;volume&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
 
-<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;$dV/dlogD_p$&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="mf">0.01</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
 
 <span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">()</span>
 </pre></div>
 </div>
-<img alt="../_images/model_41_0.png" src="../_images/model_41_0.png" />
+<img alt="../_images/model_38_0.png" src="../_images/model_38_0.png" />
 <p>Each of these plots uses the <code class="docutils literal"><span class="pre">method='subint'</span></code> integration method. How
 does it change if we use the <code class="docutils literal"><span class="pre">simple</span></code> method instead?</p>
 <div class="code ipython3 highlight-default"><div class="highlight"><pre><span></span><span class="c1"># Plot</span>
@@ -492,14 +484,13 @@ does it change if we use the <code class="docutils literal"><span class="pre">si
 <span class="c1"># Add the distribution to the plot</span>
 <span class="n">ax</span> <span class="o">=</span> <span class="n">opcsim</span><span class="o">.</span><span class="n">plots</span><span class="o">.</span><span class="n">pdfplot</span><span class="p">(</span><span class="n">urban</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="s1">&#39;volume&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
 
-<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;$dV/dlogD_p$&quot;</span><span class="p">)</span>
-
 <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">([</span><span class="s2">&quot;Urban PDF&quot;</span><span class="p">,</span> <span class="s2">&quot;subint&quot;</span><span class="p">,</span> <span class="s2">&quot;simple&quot;</span><span class="p">],</span> <span class="n">loc</span><span class="o">=</span><span class="s1">&#39;best&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="mf">0.01</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
 
 <span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">()</span>
 </pre></div>
 </div>
-<img alt="../_images/model_43_0.png" src="../_images/model_43_0.png" />
+<img alt="../_images/model_40_0.png" src="../_images/model_40_0.png" />
 <p>So it doesn’t look too different from this picture, but it can have
 reasonable impacts. That should be a fairly in depth introduction to
 setting up, evaluating, and visualizing a simulated OPC.</p>

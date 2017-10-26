@@ -128,11 +128,11 @@
 
 <span class="n">rc_log</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s1">&#39;xtick.major.size&#39;</span><span class="p">:</span> <span class="mf">10.0</span><span class="p">,</span>
-    <span class="s1">&#39;xtick.minor.size&#39;</span><span class="p">:</span> <span class="mf">8.0</span><span class="p">,</span>
+    <span class="s1">&#39;xtick.minor.size&#39;</span><span class="p">:</span> <span class="mf">6.0</span><span class="p">,</span>
     <span class="s1">&#39;ytick.major.size&#39;</span><span class="p">:</span> <span class="mf">10.0</span><span class="p">,</span>
     <span class="s1">&#39;ytick.minor.size&#39;</span><span class="p">:</span> <span class="mf">8.0</span><span class="p">,</span>
-    <span class="s1">&#39;xtick.color&#39;</span><span class="p">:</span> <span class="s1">&#39;0.5&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;ytick.color&#39;</span><span class="p">:</span> <span class="s1">&#39;0.5&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;xtick.color&#39;</span><span class="p">:</span> <span class="s1">&#39;0.1&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;ytick.color&#39;</span><span class="p">:</span> <span class="s1">&#39;0.1&#39;</span><span class="p">,</span>
     <span class="s1">&#39;axes.linewidth&#39;</span><span class="p">:</span> <span class="mf">1.75</span>
 <span class="p">}</span>
 
@@ -297,7 +297,7 @@
 <span class="sd">        plotting individual modes (with_modes=True).</span>
 <span class="sd">    plot_kws : dict</span>
 <span class="sd">        Optional keyword arguments to include. They are sent as an argument to</span>
-<span class="sd">        the matplotlib bar plot.</span>
+<span class="sd">        the matplotlib plot call.</span>
 <span class="sd">    fig_kws : dict</span>
 <span class="sd">        Optional keyword arguments to include for the figure.</span>
 <span class="sd">    fill_kws : dict</span>
@@ -376,17 +376,22 @@
         <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="o">**</span><span class="n">fig_kws</span><span class="p">)</span>
         <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
 
+    <span class="c1"># Plot the compete distribution</span>
+    <span class="n">nc</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">ax</span><span class="o">.</span><span class="n">_get_lines</span><span class="o">.</span><span class="n">prop_cycler</span><span class="p">)[</span><span class="s1">&#39;color&#39;</span><span class="p">]</span>
+
     <span class="c1"># Set the plot_kws as a mapping of default and kwargs</span>
     <span class="n">default_plot_kws</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
                         <span class="n">alpha</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-                        <span class="n">linewidth</span><span class="o">=</span><span class="mi">4</span>
+                        <span class="n">linewidth</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+                        <span class="n">color</span><span class="o">=</span><span class="n">nc</span>
                         <span class="p">)</span>
 
     <span class="c1"># Set the plot_kws</span>
     <span class="n">plot_kws</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">default_plot_kws</span><span class="p">,</span> <span class="o">**</span><span class="n">plot_kws</span><span class="p">)</span>
 
-    <span class="c1"># Plot the compete distribution</span>
-    <span class="n">nc</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">ax</span><span class="o">.</span><span class="n">_get_lines</span><span class="o">.</span><span class="n">prop_cycler</span><span class="p">)[</span><span class="s1">&#39;color&#39;</span><span class="p">]</span>
+    <span class="c1"># Set the default fill_kws</span>
+    <span class="n">default_fill_kws</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="n">plot_kws</span><span class="p">[</span><span class="s1">&#39;color&#39;</span><span class="p">])</span>
+    <span class="n">fill_kws</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">default_fill_kws</span><span class="p">,</span> <span class="o">**</span><span class="n">fill_kws</span><span class="p">)</span>
 
     <span class="c1"># If label kwarg is present, use -&gt; otherwise use default</span>
     <span class="n">label</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;label&#39;</span><span class="p">,</span> <span class="n">distribution</span><span class="o">.</span><span class="n">label</span><span class="p">)</span>

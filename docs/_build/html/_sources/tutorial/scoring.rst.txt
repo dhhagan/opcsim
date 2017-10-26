@@ -1,16 +1,6 @@
 
 .. _scoring_tutorial:
 
-.. code:: ipython3
-
-    # Make imports
-    import opcsim
-    import numpy as np
-    
-    # turn off warnings temporarily
-    import warnings
-    warnings.simplefilter('ignore')
-
 Evaluating the Results of a Simulated OPC
 =========================================
 
@@ -43,6 +33,16 @@ will not change the number calculation from the OPC.
 
 For example, let's compute the ``nv_score`` for the 1-bin OPC that is
 default against the urban distribution.
+
+.. code:: ipython3
+
+    # Make imports
+    import opcsim
+    import numpy as np
+    
+    # turn off warnings temporarily
+    import warnings
+    warnings.simplefilter('ignore')
 
 .. code:: ipython3
 

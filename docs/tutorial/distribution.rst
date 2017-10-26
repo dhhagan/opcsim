@@ -2,10 +2,13 @@
 .. _distribution_tutorial:
 
 
+The Aerosol Distribution Tutorial
+=================================
+
 The following tutorial will show you how an aerosol distribution is
-represented in the opcsim software. You will learn how to import sample
-datasets and how to create your own distribution from scratch.
-Additional visualization tools are also discussed.
+represented in the opcsim model. You will learn how to import sample
+datasets and create your own distribution from scratch. Additional
+visualization tools are also discussed.
 
 First, we import the python libraries we need and set the styles used
 for plotting throughout this tutorial.
@@ -41,14 +44,14 @@ distributions (S+P 8.54). Thus, it follows that:
 .. math:: n_N^o(logD_p)=\sum_{i=1}^n \frac{N_i}{\sqrt{2\pi} * log\sigma_i}exp\Big(-\frac{(logD_p - logD_{pi})^2}{2log^2\sigma_i}\Big)
 
 where :math:`N_i` is the number concentration, :math:`D_{pi}` is the
-median particle diameter, and :math:`\sigma` is the standard deviation.
-Thus, we need :math:`3n` parameters to describe a complete aerosol
-distribution.
+median particle diameter (Geometric Mean), and :math:`\sigma_i` is the
+standard deviation. Thus, we need :math:`3n` parameters to describe a
+entire aerosol distribution.
 
 Using the ``opcsim.AerosolDistribution`` class, we can build our own
 distributions by defining each aerosol mode as its own lognormal mode.
 
-Ex: Initialize an Aerosol Distribution with a Single Mode
+Ex: Initialize an Aerosol Distribution with a single mode
 (:math:`N=1000`, :math:`D_{pg}=100\;nm`, :math:`\sigma=1.5`)
 
 .. code:: ipython3
@@ -59,10 +62,10 @@ Ex: Initialize an Aerosol Distribution with a Single Mode
     # Add a mode with N=1000, GM=0.1, GSD=1.5
     sample.add_mode(n=1000, gm=0.1, gsd=1.5, label="Mode I")
 
-Most aerosol distributions are composed of multiple lognormal modes.
-Table 8.3 in Seinfeld and Pandis shows some sample parameters for
-several different distributions. The urban aerosol distribution can be
-described as follows:
+Most aerosol distributions are composed of several lognormal modes.
+Table 8.3 in Seinfeld and Pandis (originally from Jaenicke (1993)) shows
+parameters for several model aerosol distributions. The urban aerosol
+distribution can be described as follows:
 
 +--------+-------------+------------------+-----------------------+
 | Mode   | :math:`N`   | :math:`D_{pg}`   | :math:`log\sigma_i`   |
@@ -75,25 +78,27 @@ described as follows:
 +--------+-------------+------------------+-----------------------+
 
 How would we go about building this distribution? We can add as many
-modes as we would like, just as we did above. Also, if you look at the
-API documentation for the ``opcsim.AerosolDistribution`` class, we see
-that you can add a label for the distribution as an argument upon
-initiation of the class instance.
+modes as we would like, following the same method we used above. Also,
+if you look at the API documentation for the
+``opcsim.AerosolDistribution`` class, we see that you can add a label
+for the distribution as an argument upon initiation of the class
+instance.
 
 .. code:: ipython3
 
+    # Initiate a new aerosol distribution which is names 'Urban'
     urban = opcsim.AerosolDistribution("Urban")
     
+    # Individually add each mode
     urban.add_mode(7100, 0.0117, 10**0.232, "Mode I")
     urban.add_mode(6320, 0.0373, 10**0.25, "Mode II")
     urban.add_mode(960, 0.151, 10**0.204, "Mode III")
 
-To make things even easier, there are several "sample" distributions
-included in the package and can be accessed via the
-``opcsim.load_distribution`` function. The parameters for the
-distributions are taken directly from Seinfeld and Pandis Table 8.3. To
-read in the distribution, simply provide the name of the type of
-distribution you would like to use. Options include:
+To make things even easier, we have included the model distributions
+directly into the package which can be accessed via the
+``opcsim.load_distribution`` function. To import the distribution,
+simply call ``opcsim.load_distribution`` and provide the name of the
+distribution you would like to use as an argument. Options include:
 
 -  Urban
 -  Marine
@@ -116,14 +121,48 @@ Number Distribution
 -------------------
 
 Aerosol distributions are typically depicted using the probabliity
-distribution function. In Seinfeld and Pandis, they refer to it as the
-"Number Distribution Function". When plotted in log-space (i.e.
+distribution function (PDF). In Seinfeld and Pandis, they refer to it as
+the **Number Distribution Function**. When plotted in log-space (i.e.
 :math:`dN/dlogD_p`), the area under the curve is the aerosol number
 concentration.
 
 Mathematically, the PDF in number-space looks like the following:
 
 .. math:: n_N^o(logD_p)=\frac{dN}{dlogD_p}=\frac{N_t}{\sqrt{2\pi} \; log\sigma_g}exp\Big(-\frac{(logD_p - logD_{pg})^2}{2log^2\sigma_g}\Big)
+
+All three representations of the number distribution are available:
+
+-  :math:`dN/dD_p`: ``opcsim.equations.pdf.dn_ddp``
+-  :math:`dN/dlnD_p`: ``opcsim.equations.pdf.dn_dlndp``
+-  :math:`dN/dlogD_p`: ``opcsim.equations.pdf.dn_dlogdp``
+
+While mathematically, representing the aerosol distribution in any base
+{log, log10, none} is equivilant, visually it is not. For this reason,
+when plotting, we use the log10-base so that the area under the curve
+represents the total aerosol number concentration. For example, if we
+were to plot all three bases on the same plot for the Urban
+distribution, we would get:
+
+.. code:: ipython3
+
+    sample = opcsim.AerosolDistribution("Sample")
+    sample.add_mode(1000, 0.8, 2)
+    
+    fig, ax = plt.subplots(1, figsize=(10, 6))
+    
+    ax = opcsim.plots.pdfplot(sample, ax=ax, weight='number', base='none', label='$n_N(D_p)$')
+    ax = opcsim.plots.pdfplot(sample, ax=ax, weight='number', base='log', label='$n_N^e(lnD_p)$')
+    ax = opcsim.plots.pdfplot(sample, ax=ax, weight='number', base='log10', label='$n_N^0(logD_p)$')
+    
+    ax.legend(loc='upper left')
+    ax.set_ylim(0, None)
+    ax.set_xlim(0.01, 10)
+    sns.despine()
+
+
+
+.. image:: distribution_files/distribution_10_0.png
+
 
 Surface Area Distribution
 -------------------------
@@ -135,12 +174,28 @@ following way:
 
 .. math:: n_S^o(logD_p)=\pi D_p^2 n_N^o(logD_p)=\frac{dS}{dlogD_p}=\frac{\pi D_p^2 N_t}{\sqrt{2\pi} \; log\sigma_g}exp\Big(-\frac{(logD_p - logD_{pg})^2}{2log^2\sigma_g}\Big)
 
+All three representations of the surface area distribution are
+available:
+
+-  :math:`dS/dD_p`: ``opcsim.equations.pdf.ds_ddp``
+-  :math:`dS/dlnD_p`: ``opcsim.equations.pdf.ds_dlndp``
+-  :math:`dS/dlogD_p`: ``opcsim.equations.pdf.ds_dlogdp``
+
 Volume Distribution
 -------------------
 
 Likewise, for the volume distribution, we get:
 
 .. math:: n_V^o(logD_p)=\frac{\pi}{6} D_p^3 n_N^o(logD_p)=\frac{dV}{dlogD_p}=\frac{\pi D_p^3 N_t}{6\sqrt{2\pi} \; log\sigma_g}exp\Big(-\frac{(logD_p - logD_{pg})^2}{2log^2\sigma_g}\Big)
+
+All three representations of the volume distribution are available:
+
+-  :math:`dV/dD_p`: ``opcsim.equations.pdf.dv_ddp``
+-  :math:`dV/dlnD_p`: ``opcsim.equations.pdf.dv_dlndp``
+-  :math:`dV/dlogD_p`: ``opcsim.equations.pdf.dv_dlogdp``
+
+Evaluating the PDF
+~~~~~~~~~~~~~~~~~~
 
 ``opcsim`` provides the ``AerosolDistribution.pdf`` method to easily
 calculate the distribution at any particle diameter. The arguments of
@@ -154,7 +209,7 @@ PDF, you can also provide an optional keyword argument ``rho``; the
 default value for particle density is :math:`1\;gcm^{-3}`.
 
 To calculate the number probability for the urban aerosol distribution
-at 0.1 micron, we do the following:
+at :math:`0.1 \; \mu m`, we can do the following:
 
 .. code:: ipython3
 
@@ -231,7 +286,32 @@ Let's plot the urban distribution we built earlier.
 
 
 
-.. image:: distribution_files/distribution_17_0.png
+.. image:: distribution_files/distribution_20_0.png
+
+
+kwargs for the PDF Plot
+~~~~~~~~~~~~~~~~~~~~~~~
+
+We can also send a number of kwargs to the PDF plot to change its
+appearance. We can add ``plot_kws`` to the matplotlib plot call (things
+like linewidth, color, etc). We can add ``fig_kws`` which are sent when
+creating the figure (think figsize, etc). We can set ``fill_kws`` that
+are sent to the matplotlib fill\_between call if and only if
+``fill=True``.
+
+.. code:: ipython3
+
+    ax = opcsim.plots.pdfplot(urban, fill=True, fill_kws=dict(alpha=.3), plot_kws=dict(linewidth=1))
+    
+    # Set the y-lim to start at 0
+    ax.set_ylim(0, None)
+    
+    # Remove the right and top spines
+    sns.despine();
+
+
+
+.. image:: distribution_files/distribution_22_0.png
 
 
 We can also go ahead and plot each individual mode along with the entire
@@ -251,7 +331,7 @@ distribution using the ``with_modes`` argument:
 
 
 
-.. image:: distribution_files/distribution_19_0.png
+.. image:: distribution_files/distribution_24_0.png
 
 
 Still staying in number space, we can go ahead and plot all of the
@@ -270,10 +350,10 @@ are!
         # if we've used more colors than we have available in this palette, change the linestyle
         ls = '-' if i < 6 else '--'
         
-        opcsim.plots.pdfplot(_sample, ax=ax, plot_kws={'linestyle': ls})
+        opcsim.plots.pdfplot(_sample, ax=ax, plot_kws={'linestyle': ls}, dp=np.logspace(-4, 0, 1000))
         
     # Add a legend
-    ax.legend(loc='best')
+    ax.legend(loc='upper left')
     
     # Set the y-lim
     ax.set_ylim(0, None)
@@ -283,7 +363,7 @@ are!
 
 
 
-.. image:: distribution_files/distribution_21_0.png
+.. image:: distribution_files/distribution_26_0.png
 
 
 Finally, we can also go ahead and look at one distribution in number,
@@ -297,7 +377,7 @@ surface area, and volume weighted views:
     opcsim.plots.pdfplot(urban, weight='surface', ax=ax[1])
     opcsim.plots.pdfplot(urban, weight='volume', ax=ax[2])
     
-    #fig.subplots_adjust(hspace=0)
+    fig.subplots_adjust(hspace=0)
     
     ax[0].set_ylabel("Number")
     ax[1].set_ylabel("Surface Area")
@@ -310,7 +390,7 @@ surface area, and volume weighted views:
 
 
 
-.. image:: distribution_files/distribution_23_0.png
+.. image:: distribution_files/distribution_28_0.png
 
 
 Cumulative Distribution Function
@@ -326,7 +406,7 @@ Number CDF
 The total number of particles between two particle diameters can be
 found by completing the following integration
 
-.. math:: N_t=\int_{dmin}^{dmax}n_N(D_p)dD_p
+.. math:: N_t=\int_{D_{min}}^{D_{max}}n_N(D_p)dD_p
 
 Surface Area CDF
 ----------------
@@ -334,7 +414,7 @@ Surface Area CDF
 We can find the total particle surface area between two diameters using
 the following integral:
 
-.. math:: S_t=\pi \int_{dmin}^{dmax}D_p^2 n_N(D_p)dD_p
+.. math:: S_t=\pi \int_{D_{min}}^{D_{max}}D_p^2 n_N(D_p)dD_p
 
 Volume CDF
 ----------
@@ -342,7 +422,7 @@ Volume CDF
 We can find the total particle volume between two diameters using the
 following integral:
 
-.. math:: V_t=\frac{\pi}{6} \int_{dmin}^{dmax}D_p^3 n_N(D_p)dD_p
+.. math:: V_t=\frac{\pi}{6} \int_{D_{min}}^{D_{max}}D_p^3 n_N(D_p)dD_p
 
 To evaluate the CDF, we use the ``opcsim.AerosolDistribution.cdf``
 method. For example, to evaluate the number of particles with diameter
@@ -378,8 +458,8 @@ total number of particles between 1 and 2.5 microns:
 
 
 
-What about the total volume of particles less than
-:math:`D_p=1 \; \mu m`? (i.e. :math:`PM_1`)
+What about the total mass of particles less than :math:`D_p=1 \; \mu m`?
+(i.e. :math:`PM_1`)
 
 .. code:: ipython3
 
@@ -399,14 +479,14 @@ we set the particle density :math:`\rho=1.65\;gcm^{-3}`:
 
 .. code:: ipython3
 
-    urban.cdf(dmax=100, weight='mass', rho=1.65)
+    urban.cdf(dmax=10, weight='mass', rho=1.65)
 
 
 
 
 .. parsed-literal::
 
-    9.0013585563083698
+    9.0013585563081548
 
 
 
@@ -420,7 +500,7 @@ distribution using the ``opcsim.plots.cdfplot`` function:
 
 
 
-.. image:: distribution_files/distribution_33_0.png
+.. image:: distribution_files/distribution_38_0.png
 
 
 Lastly, we can plot the total volume CDF to get an idea of where the
@@ -429,9 +509,12 @@ mass is distributed:
 .. code:: ipython3
 
     ax = opcsim.plots.cdfplot(urban, weight='mass', rho=1.65)
+    
+    ax.set_ylim(0, None)
+    sns.despine()
 
 
 
-.. image:: distribution_files/distribution_35_0.png
+.. image:: distribution_files/distribution_40_0.png
 
 

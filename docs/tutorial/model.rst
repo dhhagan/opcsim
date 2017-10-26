@@ -2,6 +2,9 @@
 .. _model_tutorial:
 
 
+Using OPCSIM to Build a Simulated OPC
+=====================================
+
 The following tutorial will show you how we represent a low-cost optical
 particle counter in the opcsim software. You will learn how to build a
 model OPC and evaluate it against a simulated aerosol distribution.
@@ -26,7 +29,8 @@ for plotting throughout this tutorial.
     warnings.simplefilter('ignore')
     
     # Let's set some default seaborn settings
-    sns.set(context='notebook', style='ticks', palette='dark', font_scale=1.75, rc={'figure.figsize': (12,6)})
+    sns.set(context='notebook', style='ticks', palette='dark', font_scale=1.75, 
+            rc={'figure.figsize': (12,6), **opcsim.plots.rc_log})
 
 The OPC Model
 =============
@@ -359,26 +363,6 @@ the previous OPC per the Urban distribution:
 
 
 
-The "True" number of particles in each bin can be calculated as follows:
-
-.. code:: ipython3
-
-    opc.number(urban, measured=False)
-
-
-
-
-.. parsed-literal::
-
-    array([  6.12744230e+01,   8.19047626e+00,   5.08145402e-01,
-             1.44635364e-02,   1.87471533e-04])
-
-
-
-These look the same! Well, that's because we have set the counting
-efficiency for this OPC simulation to be 100%. If we were to set it to
-something else, we would see a different result.
-
 ``opcsim.OPC.surface_area``
 ---------------------------
 
@@ -452,7 +436,7 @@ Aerosol Distribution:
 
 
 
-.. image:: model_files/model_37_0.png
+.. image:: model_files/model_34_0.png
 
 
 Why don't we go ahead and overlay the distribution itself:
@@ -465,13 +449,11 @@ Why don't we go ahead and overlay the distribution itself:
     # Add the distribution to the plot
     ax = opcsim.plots.pdfplot(urban, ax=ax)
     
-    ax.set_ylabel("$dN/dlogD_p$")
-    
     sns.despine()
 
 
 
-.. image:: model_files/model_39_0.png
+.. image:: model_files/model_36_0.png
 
 
 The above plots are in number-space. The primary use of these low-cost
@@ -486,13 +468,13 @@ volume space?
     # Add the distribution to the plot
     ax = opcsim.plots.pdfplot(urban, weight='volume', ax=ax)
     
-    ax.set_ylabel("$dV/dlogD_p$")
+    ax.set_xlim(0.01, 10)
     
     sns.despine()
 
 
 
-.. image:: model_files/model_41_0.png
+.. image:: model_files/model_38_0.png
 
 
 Each of these plots uses the ``method='subint'`` integration method. How
@@ -507,15 +489,14 @@ does it change if we use the ``simple`` method instead?
     # Add the distribution to the plot
     ax = opcsim.plots.pdfplot(urban, weight='volume', ax=ax)
     
-    ax.set_ylabel("$dV/dlogD_p$")
-    
     ax.legend(["Urban PDF", "subint", "simple"], loc='best')
+    ax.set_xlim(0.01, 10)
     
     sns.despine()
 
 
 
-.. image:: model_files/model_43_0.png
+.. image:: model_files/model_40_0.png
 
 
 So it doesn't look too different from this picture, but it can have
