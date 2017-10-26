@@ -33,6 +33,13 @@ for plotting throughout this tutorial.
     # Let's set some default seaborn settings
     sns.set(context='notebook', style='ticks', palette='dark', font_scale=1.75, rc={'figure.figsize': (10,5)})
 
+
+.. parsed-literal::
+
+    /Users/dh/Documents/GitHub/opcsim/opcsim/opcsim/__init__.py:18: UserWarning: Module opcsim was already imported from /Users/dh/Documents/GitHub/opcsim/opcsim/opcsim/__init__.py, but /usr/local/lib/python3.6/site-packages/opcsim-0.1.0-py3.6.egg is being added to sys.path
+      __version__ = get_distribution('opcsim').version
+
+
 The Aerosol Distribution
 ========================
 
