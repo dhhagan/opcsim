@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>The Aerosol Distribution Tutorial &#8212; opcsim 0.1.0 documentation</title>
+    <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/style.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/copybutton.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../_static/bootstrap-3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Using OPCSIM to Build a Simulated OPC" href="model.html" />
+    <link rel="prev" title="opcsim Tutorial" href="../tutorial.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body>
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../index.html">
+          opcsim</a>
+        <span class="navbar-text navbar-version pull-left"><b>0.1.0</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+                <li><a href="../api.html">API</a></li>
+                <li><a href="../tutorial.html">Tutorial</a></li>
+                <li><a href="../examples/index.html">Gallery</a></li>
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">An Introduction to <cite>opcsim</cite></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installing.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installing.html#installation">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api.html">API Reference</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../tutorial.html">opcsim Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/index.html">Example gallery</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li><a class="reference internal" href="#">The Aerosol Distribution Tutorial</a></li>
+<li><a class="reference internal" href="#the-aerosol-distribution">The Aerosol Distribution</a></li>
+<li><a class="reference internal" href="#probability-distribution-function">Probability Distribution Function</a><ul>
+<li><a class="reference internal" href="#number-distribution">Number Distribution</a></li>
+<li><a class="reference internal" href="#surface-area-distribution">Surface Area Distribution</a></li>
+<li><a class="reference internal" href="#volume-distribution">Volume Distribution</a><ul>
+<li><a class="reference internal" href="#evaluating-the-pdf">Evaluating the PDF</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#visualizing-the-distribution">Visualizing the Distribution</a></li>
+<li><a class="reference internal" href="#cumulative-distribution-function">Cumulative Distribution Function</a><ul>
+<li><a class="reference internal" href="#number-cdf">Number CDF</a></li>
+<li><a class="reference internal" href="#surface-area-cdf">Surface Area CDF</a></li>
+<li><a class="reference internal" href="#volume-cdf">Volume CDF</a></li>
+</ul>
+</li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+            
+            
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12 content">
+      
+  <div class="section" id="the-aerosol-distribution-tutorial">
+<span id="distribution-tutorial"></span><h1>The Aerosol Distribution Tutorial<a class="headerlink" href="#the-aerosol-distribution-tutorial" title="Permalink to this headline">¶</a></h1>
+<p>The following tutorial will show you how an aerosol distribution is
+represented in the opcsim model. You will learn how to import sample
+datasets and create your own distribution from scratch. Additional
+visualization tools are also discussed.</p>
+<p>First, we import the python libraries we need and set the styles used
+for plotting throughout this tutorial.</p>
+<div class="code ipython3 highlight-default"><div class="highlight"><pre><span></span><span class="c1"># Make imports</span>
+<span class="kn">import</span> <span class="nn">opcsim</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+
+<span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
+
+<span class="c1"># Set mathtext to display equations without italics</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;mathtext.default&#39;</span><span class="p">:</span> <span class="s1">&#39;regular&#39;</span><span class="p">})</span>
+
+<span class="c1"># turn off warnings temporarily</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">simplefilter</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
+
+<span class="c1"># Let&#39;s set some default seaborn settings</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">context</span><span class="o">=</span><span class="s1">&#39;notebook&#39;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s1">&#39;ticks&#39;</span><span class="p">,</span> <span class="n">palette</span><span class="o">=</span><span class="s1">&#39;dark&#39;</span><span class="p">,</span> <span class="n">font_scale</span><span class="o">=</span><span class="mf">1.75</span><span class="p">,</span> <span class="n">rc</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;figure.figsize&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">5</span><span class="p">)})</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">/</span><span class="n">Users</span><span class="o">/</span><span class="n">dh</span><span class="o">/</span><span class="n">Documents</span><span class="o">/</span><span class="n">GitHub</span><span class="o">/</span><span class="n">opcsim</span><span class="o">/</span><span class="n">opcsim</span><span class="o">/</span><span class="n">opcsim</span><span class="o">/</span><span class="fm">__init__</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">18</span><span class="p">:</span> <span class="ne">UserWarning</span><span class="p">:</span> <span class="n">Module</span> <span class="n">opcsim</span> <span class="n">was</span> <span class="n">already</span> <span class="n">imported</span> <span class="kn">from</span> <span class="o">/</span><span class="n">Users</span><span class="o">/</span><span class="n">dh</span><span class="o">/</span><span class="n">Documents</span><span class="o">/</span><span class="n">GitHub</span><span class="o">/</span><span class="n">opcsim</span><span class="o">/</span><span class="n">opcsim</span><span class="o">/</span><span class="n">opcsim</span><span class="o">/</span><span class="fm">__init__</span><span class="o">.</span><span class="n">py</span><span class="p">,</span> <span class="n">but</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python3</span><span class="o">.</span><span class="mi">6</span><span class="o">/</span><span class="n">site</span><span class="o">-</span><span class="n">packages</span><span class="o">/</span><span class="n">opcsim</span><span class="o">-</span><span class="mf">0.1</span><span class="o">.</span><span class="mi">0</span><span class="o">-</span><span class="n">py3</span><span class="o">.</span><span class="mf">6.</span><span class="n">egg</span> <span class="ow">is</span> <span class="n">being</span> <span class="n">added</span> <span class="n">to</span> <span class="n">sys</span><span class="o">.</span><span class="n">path</span>
+  <span class="n">__version__</span> <span class="o">=</span> <span class="n">get_distribution</span><span class="p">(</span><span class="s1">&#39;opcsim&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">version</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="the-aerosol-distribution">
+<h1>The Aerosol Distribution<a class="headerlink" href="#the-aerosol-distribution" title="Permalink to this headline">¶</a></h1>
+<p>For the purpose of evaluating the performance of low-cost optical
+particle counters, we are going to assume that every aerosol
+distribution can be described as the sum of <span class="math">\(n\)</span> lognormal
+distributions (S+P 8.54). Thus, it follows that:</p>
+<div class="math">
+\[n_N^o(logD_p)=\sum_{i=1}^n \frac{N_i}{\sqrt{2\pi} * log\sigma_i}exp\Big(-\frac{(logD_p - logD_{pi})^2}{2log^2\sigma_i}\Big)\]</div>
+<p>where <span class="math">\(N_i\)</span> is the number concentration, <span class="math">\(D_{pi}\)</span> is the
+median particle diameter (Geometric Mean), and <span class="math">\(\sigma_i\)</span> is the
+standard deviation. Thus, we need <span class="math">\(3n\)</span> parameters to describe a
+entire aerosol distribution.</p>
+<p>Using the <code class="docutils literal"><span class="pre">opcsim.AerosolDistribution</span></code> class, we can build our own
+distributions by defining each aerosol mode as its own lognormal mode.</p>
+<p>Ex: Initialize an Aerosol Distribution with a single mode
+(<span class="math">\(N=1000\)</span>, <span class="math">\(D_{pg}=100\;nm\)</span>, <span class="math">\(\sigma=1.5\)</span>)</p>
+<div class="code ipython3 highlight-default"><div class="highlight"><pre><span></span><span class="c1"># Initialize a distribution</span>
+<span class="n">sample</span> <span class="o">=</span> <span class="n">opcsim</span><span class="o">.</span><span class="n">AerosolDistribution</span><span class="p">()</span>
+
+<span class="c1"># Add a mode with N=1000, GM=0.1, GSD=1.5</span>
+<span class="n">sample</span><span class="o">.</span><span class="n">add_mode</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">gm</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">gsd</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Mode I&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Most aerosol distributions are composed of several lognormal modes.
+Table 8.3 in Seinfeld and Pandis (originally from Jaenicke (1993)) shows
+parameters for several model aerosol distributions. The urban aerosol
+distribution can be described as follows:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="13%" />
+<col width="21%" />
+<col width="29%" />
+<col width="37%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Mode</th>
+<th class="head"><span class="math">\(N\)</span></th>
+<th class="head"><span class="math">\(D_{pg}\)</span></th>
+<th class="head"><span class="math">\(log\sigma_i\)</span></th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>I</td>
+<td>7100</td>
+<td>0.0117</td>
+<td>0.232</td>
+</tr>
+<tr class="row-odd"><td>II</td>
+<td>6320</td>
+<td>0.0373</td>
+<td>0.250</td>
+</tr>
+<tr class="row-even"><td>III</td>
+<td>960</td>
+<td>0.151</td>
+<td>0.204</td>
+</tr>
+</tbody>
+</table>
+<p>How would we go about building this distribution? We can add as many
+modes as we would like, following the same method we used above. Also,
+if you look at the API documentation for the
+<code class="docutils literal"><span class="pre">opcsim.AerosolDistribution</span></code> class, we see that you can add a label
+for the distribution as an argument upon initiation of the class
+instance.</p>
+<div class="code ipython3 highlight-default"><div class="highlight"><pre><span></span><span class="c1"># Initiate a new aerosol distribution which is names &#39;Urban&#39;</span>
+<span class="n">urban</span> <span class="o">=</span> <span class="n">opcsim</span><span class="o">.</span><span class="n">AerosolDistribution</span><span class="p">(</span><span class="s2">&quot;Urban&quot;</span><span class="p">)</span>
+
+<span class="c1"># Individually add each mode</span>
+<span class="n">urban</span><span class="o">.</span><span class="n">add_mode</span><span class="p">(</span><span class="mi">7100</span><span class="p">,</span> <span class="mf">0.0117</span><span class="p">,</span> <span class="mi">10</span><span class="o">**</span><span class="mf">0.232</span><span class="p">,</span> <span class="s2">&quot;Mode I&quot;</span><span class="p">)</span>
+<span class="n">urban</span><span class="o">.</span><span class="n">add_mode</span><span class="p">(</span><span class="mi">6320</span><span class="p">,</span> <span class="mf">0.0373</span><span class="p">,</span> <span class="mi">10</span><span class="o">**</span><span class="mf">0.25</span><span class="p">,</span> <span class="s2">&quot;Mode II&quot;</span><span class="p">)</span>
+<span class="n">urban</span><span class="o">.</span><span class="n">add_mode</span><span class="p">(</span><span class="mi">960</span><span class="p">,</span> <span class="mf">0.151</span><span class="p">,</span> <span class="mi">10</span><span class="o">**</span><span class="mf">0.204</span><span class="p">,</span> <span class="s2">&quot;Mode III&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>To make things even easier, we have included the model distributions
+directly into the package which can be accessed via the
+<code class="docutils literal"><span class="pre">opcsim.load_distribution</span></code> function. To import the distribution,
+simply call <code class="docutils literal"><span class="pre">opcsim.load_distribution</span></code> and provide the name of the
+distribution you would like to use as an argument. Options include:</p>
+<ul class="simple">
+<li>Urban</li>
+<li>Marine</li>
+<li>Rural</li>
+<li>Remote Continental</li>
+<li>Free Troposphere</li>
+<li>Polar</li>
+<li>Desert</li>
+</ul>
+<p>To read in the urban distribution, we would do the following:</p>
+<div class="code ipython3 highlight-default"><div class="highlight"><pre><span></span><span class="n">urban</span> <span class="o">=</span> <span class="n">opcsim</span><span class="o">.</span><span class="n">load_distribution</span><span class="p">(</span><span class="s2">&quot;Urban&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="probability-distribution-function">
+<h1>Probability Distribution Function<a class="headerlink" href="#probability-distribution-function" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="number-distribution">
+<h2>Number Distribution<a class="headerlink" href="#number-distribution" title="Permalink to this headline">¶</a></h2>
+<p>Aerosol distributions are typically depicted using the probabliity
+distribution function (PDF). In Seinfeld and Pandis, they refer to it as
+the <strong>Number Distribution Function</strong>. When plotted in log-space (i.e.
+<span class="math">\(dN/dlogD_p\)</span>), the area under the curve is the aerosol number
+concentration.</p>
+<p>Mathematically, the PDF in number-space looks like the following:</p>
+<div class="math">
+\[n_N^o(logD_p)=\frac{dN}{dlogD_p}=\frac{N_t}{\sqrt{2\pi} \; log\sigma_g}exp\Big(-\frac{(logD_p - logD_{pg})^2}{2log^2\sigma_g}\Big)\]</div>
+<p>All three representations of the number distribution are available:</p>
+<ul class="simple">
+<li><span class="math">\(dN/dD_p\)</span>: <code class="docutils literal"><span class="pre">opcsim.equations.pdf.dn_ddp</span></code></li>
+<li><span class="math">\(dN/dlnD_p\)</span>: <code class="docutils literal"><span class="pre">opcsim.equations.pdf.dn_dlndp</span></code></li>
+<li><span class="math">\(dN/dlogD_p\)</span>: <code class="docutils literal"><span class="pre">opcsim.equations.pdf.dn_dlogdp</span></code></li>
+</ul>
+<p>While mathematically, representing the aerosol distribution in any base
+{log, log10, none} is equivilant, visually it is not. For this reason,
+when plotting, we use the log10-base so that the area under the curve
+represents the total aerosol number concentration. For example, if we
+were to plot all three bases on the same plot for the Urban
+distribution, we would get:</p>
+<div class="code ipython3 highlight-default"><div class="highlight"><pre><span></span><span class="n">sample</span> <span class="o">=</span> <span class="n">opcsim</span><span class="o">.</span><span class="n">AerosolDistribution</span><span class="p">(</span><span class="s2">&quot;Sample&quot;</span><span class="p">)</span>
+<span class="n">sample</span><span class="o">.</span><span class="n">add_mode</span><span class="p">(</span><span class="mi">1000</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+
+<span class="n">ax</span> <span class="o">=</span> <span class="n">opcsim</span><span class="o">.</span><span class="n">plots</span><span class="o">.</span><span class="n">pdfplot</span><span class="p">(</span><span class="n">sample</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="s1">&#39;number&#39;</span><span class="p">,</span> <span class="n">base</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;$n_N(D_p)$&#39;</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">opcsim</span><span class="o">.</span><span class="n">plots</span><span class="o">.</span><span class="n">pdfplot</span><span class="p">(</span><span class="n">sample</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="s1">&#39;number&#39;</span><span class="p">,</span> <span class="n">base</span><span class="o">=</span><span class="s1">&#39;log&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;$n_N^e(lnD_p)$&#39;</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">opcsim</span><span class="o">.</span><span class="n">plots</span><span class="o">.</span><span class="n">pdfplot</span><span class="p">(</span><span class="n">sample</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="s1">&#39;number&#39;</span><span class="p">,</span> <span class="n">base</span><span class="o">=</span><span class="s1">&#39;log10&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;$n_N^0(logD_p)$&#39;</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper left&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="mf">0.01</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="../_images/distribution_10_0.png" src="../_images/distribution_10_0.png" />
+</div>
+<div class="section" id="surface-area-distribution">
+<h2>Surface Area Distribution<a class="headerlink" href="#surface-area-distribution" title="Permalink to this headline">¶</a></h2>
+<p>It is also quite useful to look at the surface area and volume
+distributions. The surface area probability distribution can easily be
+obtained by relating to the number probability distribution in the
+following way:</p>
+<div class="math">
+\[n_S^o(logD_p)=\pi D_p^2 n_N^o(logD_p)=\frac{dS}{dlogD_p}=\frac{\pi D_p^2 N_t}{\sqrt{2\pi} \; log\sigma_g}exp\Big(-\frac{(logD_p - logD_{pg})^2}{2log^2\sigma_g}\Big)\]</div>
+<p>All three representations of the surface area distribution are
+available:</p>
+<ul class="simple">
+<li><span class="math">\(dS/dD_p\)</span>: <code class="docutils literal"><span class="pre">opcsim.equations.pdf.ds_ddp</span></code></li>
+<li><span class="math">\(dS/dlnD_p\)</span>: <code class="docutils literal"><span class="pre">opcsim.equations.pdf.ds_dlndp</span></code></li>
+<li><span class="math">\(dS/dlogD_p\)</span>: <code class="docutils literal"><span class="pre">opcsim.equations.pdf.ds_dlogdp</span></code></li>
+</ul>
+</div>
+<div class="section" id="volume-distribution">
+<h2>Volume Distribution<a class="headerlink" href="#volume-distribution" title="Permalink to this headline">¶</a></h2>
+<p>Likewise, for the volume distribution, we get:</p>
+<div class="math">
+\[n_V^o(logD_p)=\frac{\pi}{6} D_p^3 n_N^o(logD_p)=\frac{dV}{dlogD_p}=\frac{\pi D_p^3 N_t}{6\sqrt{2\pi} \; log\sigma_g}exp\Big(-\frac{(logD_p - logD_{pg})^2}{2log^2\sigma_g}\Big)\]</div>
+<p>All three representations of the volume distribution are available:</p>
+<ul class="simple">
+<li><span class="math">\(dV/dD_p\)</span>: <code class="docutils literal"><span class="pre">opcsim.equations.pdf.dv_ddp</span></code></li>
+<li><span class="math">\(dV/dlnD_p\)</span>: <code class="docutils literal"><span class="pre">opcsim.equations.pdf.dv_dlndp</span></code></li>
+<li><span class="math">\(dV/dlogD_p\)</span>: <code class="docutils literal"><span class="pre">opcsim.equations.pdf.dv_dlogdp</span></code></li>
+</ul>
+<div class="section" id="evaluating-the-pdf">
+<h3>Evaluating the PDF<a class="headerlink" href="#evaluating-the-pdf" title="Permalink to this headline">¶</a></h3>
+<p><code class="docutils literal"><span class="pre">opcsim</span></code> provides the <code class="docutils literal"><span class="pre">AerosolDistribution.pdf</span></code> method to easily
+calculate the distribution at any particle diameter. The arguments of
+the function are the particle diameter (<code class="docutils literal"><span class="pre">dp</span></code>), the base (<code class="docutils literal"><span class="pre">none</span></code>,
+<code class="docutils literal"><span class="pre">log</span></code>, or <code class="docutils literal"><span class="pre">log10</span></code>), the weight (<code class="docutils literal"><span class="pre">number</span></code>, <code class="docutils literal"><span class="pre">surface</span></code>, <code class="docutils literal"><span class="pre">volume</span></code>,
+or <code class="docutils literal"><span class="pre">mass</span></code>), and an optional <code class="docutils literal"><span class="pre">mode</span></code> parameter in case you would like
+to examine only one of the modes of the distribution at a time. The
+default arguments are set to be the most useful/common ones (i.e.
+<code class="docutils literal"><span class="pre">weight='number'</span></code>, <code class="docutils literal"><span class="pre">base='log10'</span></code>). If calculating the mass-weighted
+PDF, you can also provide an optional keyword argument <code class="docutils literal"><span class="pre">rho</span></code>; the
+default value for particle density is <span class="math">\(1\;gcm^{-3}\)</span>.</p>
+<p>To calculate the number probability for the urban aerosol distribution
+at <span class="math">\(0.1 \; \mu m\)</span>, we can do the following:</p>
+<div class="code ipython3 highlight-default"><div class="highlight"><pre><span></span><span class="n">urban</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="mf">3606.2139576648124</span>
+</pre></div>
+</div>
+<p>This gives us the number concentration probability at 1 micron in units
+of <span class="math">\(particles\;cm^{-3}\)</span>. We can also calculate a whole range of
+values by providing an array for the <code class="docutils literal"><span class="pre">dp</span></code> value:</p>
+<div class="code ipython3 highlight-default"><div class="highlight"><pre><span></span><span class="n">urban</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">]))</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">array</span><span class="p">([</span> <span class="mf">3606.21395766</span><span class="p">,</span>  <span class="mf">1712.82519467</span><span class="p">,</span>   <span class="mf">659.56432207</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>To calculate the volume-weighted PDF at some particle diameter
+(<span class="math">\(dV/dlogD_p\)</span>), we could do the following:</p>
+<div class="code ipython3 highlight-default"><div class="highlight"><pre><span></span><span class="n">urban</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="s1">&#39;volume&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="mf">1.8882092127787917</span>
+</pre></div>
+</div>
+<p>This returns <span class="math">\(dV/dlogDp\)</span> at particle diameter
+<span class="math">\(D_p=0.1\;\mu m\)</span> in units of <span class="math">\(\mu m^3 cm^{-3}\)</span>.</p>
+</div>
+</div>
+</div>
+<div class="section" id="visualizing-the-distribution">
+<h1>Visualizing the Distribution<a class="headerlink" href="#visualizing-the-distribution" title="Permalink to this headline">¶</a></h1>
+<p>Visualizing the PDF for an aerosol distribution is extremely helpful.
+The function <code class="docutils literal"><span class="pre">opcsim.plots.pdfplot</span></code> has been included to make this
+simple.</p>
+<p>To plot the pdf of an aerosol distribution, the only required input is
+the <code class="docutils literal"><span class="pre">opcsim.AerosolDistribution</span></code> object. The function returns a
+matplotlib axis object which makes it extremely easy to add to modify
+the plot using normal matplotlib syntax.</p>
+<p>Let’s plot the urban distribution we built earlier.</p>
+<div class="code ipython3 highlight-default"><div class="highlight"><pre><span></span><span class="n">ax</span> <span class="o">=</span> <span class="n">opcsim</span><span class="o">.</span><span class="n">plots</span><span class="o">.</span><span class="n">pdfplot</span><span class="p">(</span><span class="n">urban</span><span class="p">)</span>
+
+<span class="c1"># Set the y-lim to start at 0</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
+<span class="c1"># Remove the right and top spines</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">();</span>
+</pre></div>
+</div>
+<img alt="../_images/distribution_20_0.png" src="../_images/distribution_20_0.png" />
+<p>We can also send a number of kwargs to the PDF plot to change its
+appearance. We can add <code class="docutils literal"><span class="pre">plot_kws</span></code> to the matplotlib plot call (things
+like linewidth, color, etc). We can add <code class="docutils literal"><span class="pre">fig_kws</span></code> which are sent when
+creating the figure (think figsize, etc). We can set <code class="docutils literal"><span class="pre">fill_kws</span></code> that
+are sent to the matplotlib fill_between call if and only if
+<code class="docutils literal"><span class="pre">fill=True</span></code>.</p>
+<div class="code ipython3 highlight-default"><div class="highlight"><pre><span></span><span class="n">ax</span> <span class="o">=</span> <span class="n">opcsim</span><span class="o">.</span><span class="n">plots</span><span class="o">.</span><span class="n">pdfplot</span><span class="p">(</span><span class="n">urban</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">fill_kws</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">alpha</span><span class="o">=.</span><span class="mi">3</span><span class="p">),</span> <span class="n">plot_kws</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">linewidth</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+
+<span class="c1"># Set the y-lim to start at 0</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
+<span class="c1"># Remove the right and top spines</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">();</span>
+</pre></div>
+</div>
+<img alt="../_images/distribution_22_0.png" src="../_images/distribution_22_0.png" />
+<p>We can also go ahead and plot each individual mode along with the entire
+distribution using the <code class="docutils literal"><span class="pre">with_modes</span></code> argument:</p>
+<div class="code ipython3 highlight-default"><div class="highlight"><pre><span></span><span class="n">ax</span> <span class="o">=</span> <span class="n">opcsim</span><span class="o">.</span><span class="n">plots</span><span class="o">.</span><span class="n">pdfplot</span><span class="p">(</span><span class="n">urban</span><span class="p">,</span> <span class="n">with_modes</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;best&#39;</span><span class="p">)</span>
+
+<span class="c1"># Set the y-lim to start at 0</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
+<span class="c1"># Remove the right and top spines</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">();</span>
+</pre></div>
+</div>
+<img alt="../_images/distribution_24_0.png" src="../_images/distribution_24_0.png" />
+<p>Still staying in number space, we can go ahead and plot all of the
+available sample distributions to get a feel for just how different they
+are!</p>
+<div class="code ipython3 highlight-default"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span><span class="mi">7</span><span class="p">))</span>
+
+<span class="c1"># Iterate over every sample in the library</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">sample</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">opcsim</span><span class="o">.</span><span class="n">distributions</span><span class="o">.</span><span class="n">DISTRIBUTION_DATA</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
+    <span class="c1"># Load the sample dataset</span>
+    <span class="n">_sample</span> <span class="o">=</span> <span class="n">opcsim</span><span class="o">.</span><span class="n">load_distribution</span><span class="p">(</span><span class="n">sample</span><span class="p">)</span>
+
+    <span class="c1"># if we&#39;ve used more colors than we have available in this palette, change the linestyle</span>
+    <span class="n">ls</span> <span class="o">=</span> <span class="s1">&#39;-&#39;</span> <span class="k">if</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">6</span> <span class="k">else</span> <span class="s1">&#39;--&#39;</span>
+
+    <span class="n">opcsim</span><span class="o">.</span><span class="n">plots</span><span class="o">.</span><span class="n">pdfplot</span><span class="p">(</span><span class="n">_sample</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">plot_kws</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;linestyle&#39;</span><span class="p">:</span> <span class="n">ls</span><span class="p">},</span> <span class="n">dp</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span><span class="o">-</span><span class="mi">4</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1000</span><span class="p">))</span>
+
+<span class="c1"># Add a legend</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper left&#39;</span><span class="p">)</span>
+
+<span class="c1"># Set the y-lim</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
+<span class="c1"># remove the spine</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="../_images/distribution_26_0.png" src="../_images/distribution_26_0.png" />
+<p>Finally, we can also go ahead and look at one distribution in number,
+surface area, and volume weighted views:</p>
+<div class="code ipython3 highlight-default"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">9</span><span class="p">),</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">opcsim</span><span class="o">.</span><span class="n">plots</span><span class="o">.</span><span class="n">pdfplot</span><span class="p">(</span><span class="n">urban</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="s1">&#39;number&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">opcsim</span><span class="o">.</span><span class="n">plots</span><span class="o">.</span><span class="n">pdfplot</span><span class="p">(</span><span class="n">urban</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="s1">&#39;surface&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">opcsim</span><span class="o">.</span><span class="n">plots</span><span class="o">.</span><span class="n">pdfplot</span><span class="p">(</span><span class="n">urban</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="s1">&#39;volume&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+
+<span class="n">fig</span><span class="o">.</span><span class="n">subplots_adjust</span><span class="p">(</span><span class="n">hspace</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Number&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Surface Area&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Volume&quot;</span><span class="p">)</span>
+
+<span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">()</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">h_pad</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="../_images/distribution_28_0.png" src="../_images/distribution_28_0.png" />
+</div>
+<div class="section" id="cumulative-distribution-function">
+<h1>Cumulative Distribution Function<a class="headerlink" href="#cumulative-distribution-function" title="Permalink to this headline">¶</a></h1>
+<p>We can easily obtain the integrated value for number of particles, total
+surface area, total volume, or total mass by integrating the correct
+CDF.</p>
+<div class="section" id="number-cdf">
+<h2>Number CDF<a class="headerlink" href="#number-cdf" title="Permalink to this headline">¶</a></h2>
+<p>The total number of particles between two particle diameters can be
+found by completing the following integration</p>
+<div class="math">
+\[N_t=\int_{D_{min}}^{D_{max}}n_N(D_p)dD_p\]</div>
+</div>
+<div class="section" id="surface-area-cdf">
+<h2>Surface Area CDF<a class="headerlink" href="#surface-area-cdf" title="Permalink to this headline">¶</a></h2>
+<p>We can find the total particle surface area between two diameters using
+the following integral:</p>
+<div class="math">
+\[S_t=\pi \int_{D_{min}}^{D_{max}}D_p^2 n_N(D_p)dD_p\]</div>
+</div>
+<div class="section" id="volume-cdf">
+<h2>Volume CDF<a class="headerlink" href="#volume-cdf" title="Permalink to this headline">¶</a></h2>
+<p>We can find the total particle volume between two diameters using the
+following integral:</p>
+<div class="math">
+\[V_t=\frac{\pi}{6} \int_{D_{min}}^{D_{max}}D_p^3 n_N(D_p)dD_p\]</div>
+<p>To evaluate the CDF, we use the <code class="docutils literal"><span class="pre">opcsim.AerosolDistribution.cdf</span></code>
+method. For example, to evaluate the number of particles with diameter
+less than <span class="math">\(D_p=2.5\;\mu m\)</span>, we do the following:</p>
+<div class="code ipython3 highlight-default"><div class="highlight"><pre><span></span><span class="n">urban</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">dmax</span><span class="o">=</span><span class="mf">2.5</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="mf">14379.999998896783</span>
+</pre></div>
+</div>
+<p>If we want to calculate the total number of particles within some size
+range, we can add the <code class="docutils literal"><span class="pre">dmin</span></code> argument. For example, let’s find the
+total number of particles between 1 and 2.5 microns:</p>
+<div class="code ipython3 highlight-default"><div class="highlight"><pre><span></span><span class="n">urban</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">dmin</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">dmax</span><span class="o">=</span><span class="mf">2.5</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="mf">0.027425959342281203</span>
+</pre></div>
+</div>
+<p>What about the total mass of particles less than <span class="math">\(D_p=1 \; \mu m\)</span>?
+(i.e. <span class="math">\(PM_1\)</span>)</p>
+<div class="code ipython3 highlight-default"><div class="highlight"><pre><span></span><span class="n">urban</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">dmax</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="s1">&#39;volume&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="mf">5.4345309918199618</span>
+</pre></div>
+</div>
+<p>Last, how about the total mass of particles in the Urban distribution if
+we set the particle density <span class="math">\(\rho=1.65\;gcm^{-3}\)</span>:</p>
+<div class="code ipython3 highlight-default"><div class="highlight"><pre><span></span><span class="n">urban</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">dmax</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="s1">&#39;mass&#39;</span><span class="p">,</span> <span class="n">rho</span><span class="o">=</span><span class="mf">1.65</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="mf">9.0013585563081548</span>
+</pre></div>
+</div>
+<p>Although we wouldn’t normally plot the CDF, we easily can to visualize
+where most of the [number, surface area, mass] is within the
+distribution using the <code class="docutils literal"><span class="pre">opcsim.plots.cdfplot</span></code> function:</p>
+<div class="code ipython3 highlight-default"><div class="highlight"><pre><span></span><span class="n">ax</span> <span class="o">=</span> <span class="n">opcsim</span><span class="o">.</span><span class="n">plots</span><span class="o">.</span><span class="n">cdfplot</span><span class="p">(</span><span class="n">urban</span><span class="p">)</span>
+</pre></div>
+</div>
+<img alt="../_images/distribution_38_0.png" src="../_images/distribution_38_0.png" />
+<p>Lastly, we can plot the total volume CDF to get an idea of where the
+mass is distributed:</p>
+<div class="code ipython3 highlight-default"><div class="highlight"><pre><span></span><span class="n">ax</span> <span class="o">=</span> <span class="n">opcsim</span><span class="o">.</span><span class="n">plots</span><span class="o">.</span><span class="n">cdfplot</span><span class="p">(</span><span class="n">urban</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="s1">&#39;mass&#39;</span><span class="p">,</span> <span class="n">rho</span><span class="o">=</span><span class="mf">1.65</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="../_images/distribution_40_0.png" src="../_images/distribution_40_0.png" />
+</div>
+</div>
+
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+        <br/>
+        
+<div id="sourcelink">
+  <a href="../_sources/tutorial/distribution.rst.txt"
+     rel="nofollow">Source</a>
+</div>
+      
+    </p>
+    <p>
+        &copy; Copyright 2017, David H Hagan.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.4.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

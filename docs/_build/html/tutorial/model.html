@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Using OPCSIM to Build a Simulated OPC &#8212; opcsim 0.1.0 documentation</title>
+    <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/style.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/copybutton.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../_static/bootstrap-3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Evaluating the Results of a Simulated OPC" href="scoring.html" />
+    <link rel="prev" title="The Aerosol Distribution Tutorial" href="distribution.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body>
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../index.html">
+          opcsim</a>
+        <span class="navbar-text navbar-version pull-left"><b>0.1.0</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+                <li><a href="../api.html">API</a></li>
+                <li><a href="../tutorial.html">Tutorial</a></li>
+                <li><a href="../examples/index.html">Gallery</a></li>
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">An Introduction to <cite>opcsim</cite></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installing.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installing.html#installation">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api.html">API Reference</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../tutorial.html">opcsim Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/index.html">Example gallery</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li><a class="reference internal" href="#">Using OPCSIM to Build a Simulated OPC</a></li>
+<li><a class="reference internal" href="#the-opc-model">The OPC Model</a><ul>
+<li><a class="reference internal" href="#building-an-opc">Building an OPC</a></li>
+<li><a class="reference internal" href="#define-opc-counting-efficiency">Define OPC Counting Efficiency</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#evaluate-the-opc-for-a-given-aerosoldistribution">Evaluate the OPC for a Given <code class="docutils literal"><span class="pre">AerosolDistribution</span></code></a><ul>
+<li><a class="reference internal" href="#opcsim-opc-evaluate"><code class="docutils literal"><span class="pre">opcsim.OPC.evaluate</span></code></a></li>
+<li><a class="reference internal" href="#opcsim-opc-number"><code class="docutils literal"><span class="pre">opcsim.OPC.number</span></code></a></li>
+<li><a class="reference internal" href="#opcsim-opc-surface-area"><code class="docutils literal"><span class="pre">opcsim.OPC.surface_area</span></code></a></li>
+<li><a class="reference internal" href="#opcsim-opc-volume"><code class="docutils literal"><span class="pre">opcsim.OPC.volume</span></code></a></li>
+<li><a class="reference internal" href="#plotting-opc-response-to-the-urban-distribution">Plotting OPC Response to the Urban Distribution</a></li>
+</ul>
+</li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+            
+            
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12 content">
+      
+  <div class="section" id="using-opcsim-to-build-a-simulated-opc">
+<span id="model-tutorial"></span><h1>Using OPCSIM to Build a Simulated OPC<a class="headerlink" href="#using-opcsim-to-build-a-simulated-opc" title="Permalink to this headline">¶</a></h1>
+<p>The following tutorial will show you how we represent a low-cost optical
+particle counter in the opcsim software. You will learn how to build a
+model OPC and evaluate it against a simulated aerosol distribution.
+Visualization tools will also be discussed.</p>
+<p>First, we import the python libraries we need and set the styles used
+for plotting throughout this tutorial.</p>
+<div class="code ipython3 highlight-default"><div class="highlight"><pre><span></span><span class="c1"># Make imports</span>
+<span class="kn">import</span> <span class="nn">opcsim</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">matplotlib.ticker</span> <span class="k">as</span> <span class="nn">mticks</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+
+<span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
+
+<span class="c1"># turn off warnings temporarily</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">simplefilter</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
+
+<span class="c1"># Let&#39;s set some default seaborn settings</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">context</span><span class="o">=</span><span class="s1">&#39;notebook&#39;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s1">&#39;ticks&#39;</span><span class="p">,</span> <span class="n">palette</span><span class="o">=</span><span class="s1">&#39;dark&#39;</span><span class="p">,</span> <span class="n">font_scale</span><span class="o">=</span><span class="mf">1.75</span><span class="p">,</span>
+        <span class="n">rc</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;figure.figsize&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">6</span><span class="p">),</span> <span class="o">**</span><span class="n">opcsim</span><span class="o">.</span><span class="n">plots</span><span class="o">.</span><span class="n">rc_log</span><span class="p">})</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">/</span><span class="n">Users</span><span class="o">/</span><span class="n">dh</span><span class="o">/</span><span class="n">Documents</span><span class="o">/</span><span class="n">GitHub</span><span class="o">/</span><span class="n">opcsim</span><span class="o">/</span><span class="n">opcsim</span><span class="o">/</span><span class="n">opcsim</span><span class="o">/</span><span class="fm">__init__</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">18</span><span class="p">:</span> <span class="ne">UserWarning</span><span class="p">:</span> <span class="n">Module</span> <span class="n">opcsim</span> <span class="n">was</span> <span class="n">already</span> <span class="n">imported</span> <span class="kn">from</span> <span class="o">/</span><span class="n">Users</span><span class="o">/</span><span class="n">dh</span><span class="o">/</span><span class="n">Documents</span><span class="o">/</span><span class="n">GitHub</span><span class="o">/</span><span class="n">opcsim</span><span class="o">/</span><span class="n">opcsim</span><span class="o">/</span><span class="n">opcsim</span><span class="o">/</span><span class="fm">__init__</span><span class="o">.</span><span class="n">py</span><span class="p">,</span> <span class="n">but</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python3</span><span class="o">.</span><span class="mi">6</span><span class="o">/</span><span class="n">site</span><span class="o">-</span><span class="n">packages</span><span class="o">/</span><span class="n">opcsim</span><span class="o">-</span><span class="mf">0.1</span><span class="o">.</span><span class="mi">0</span><span class="o">-</span><span class="n">py3</span><span class="o">.</span><span class="mf">6.</span><span class="n">egg</span> <span class="ow">is</span> <span class="n">being</span> <span class="n">added</span> <span class="n">to</span> <span class="n">sys</span><span class="o">.</span><span class="n">path</span>
+  <span class="n">__version__</span> <span class="o">=</span> <span class="n">get_distribution</span><span class="p">(</span><span class="s1">&#39;opcsim&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">version</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="the-opc-model">
+<h1>The OPC Model<a class="headerlink" href="#the-opc-model" title="Permalink to this headline">¶</a></h1>
+<p>The <code class="docutils literal"><span class="pre">opcsim.OPC</span></code> class provides an easy-to-use interface for
+simulating low-cost optical particle counters. This simple model is
+based on just a few instrument parameters. We define an OPC with the
+following statements:</p>
+<ul class="simple">
+<li>An OPC has <code class="docutils literal"><span class="pre">n_bins</span></code> histogram bins</li>
+<li>An OPC has a lower cutoff at some diameter (<code class="docutils literal"><span class="pre">dmin</span></code>) and upper
+cutoff at some diameter (<code class="docutils literal"><span class="pre">dmax</span></code>)</li>
+<li>An OPC has a counting efficiency that can either be constant or vary
+with particle diameter as defined by the function <code class="docutils literal"><span class="pre">ce</span></code></li>
+</ul>
+<p>To simulate an OPC using the <code class="docutils literal"><span class="pre">opcsim.OPC</span></code> class, we initiate as
+follows:</p>
+<div class="code ipython3 highlight-default"><div class="highlight"><pre><span></span><span class="n">opc</span> <span class="o">=</span> <span class="n">opcsim</span><span class="o">.</span><span class="n">OPC</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>When initiated with no arguments, the default arguments are used. This
+sets <span class="math">\(dmin=0.5\;\mu m\)</span>, <span class="math">\(dmax=2.5\;\mu m\)</span>, and
+<span class="math">\(n_{bins}=1\)</span>. We can view the number of bins using the
+<code class="docutils literal"><span class="pre">OPC.n_bins</span></code> attribute.</p>
+<div class="code ipython3 highlight-default"><div class="highlight"><pre><span></span><span class="n">opc</span><span class="o">.</span><span class="n">n_bins</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="mi">1</span>
+</pre></div>
+</div>
+<p>We can also view the bin boundaries and midpoint diameters using the
+<code class="docutils literal"><span class="pre">OPC.bins</span></code> attribute. Here, we receieve a <code class="docutils literal"><span class="pre">3xn</span></code> array where the
+first entry is the left bin boundary, the middle is the midpoint
+diameter, and the last entry is the right bin boundary.</p>
+<div class="code ipython3 highlight-default"><div class="highlight"><pre><span></span><span class="n">opc</span><span class="o">.</span><span class="n">bins</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">array</span><span class="p">([[</span> <span class="mf">0.5</span>       <span class="p">,</span>  <span class="mf">1.11803399</span><span class="p">,</span>  <span class="mf">2.5</span>       <span class="p">]])</span>
+</pre></div>
+</div>
+<div class="section" id="building-an-opc">
+<h2>Building an OPC<a class="headerlink" href="#building-an-opc" title="Permalink to this headline">¶</a></h2>
+<p>We can build more complex models by increasing the number of bins in a
+couple of ways: (1) we can change the minimum or maximum cutoffs, or the
+total number of bins:</p>
+<div class="code ipython3 highlight-default"><div class="highlight"><pre><span></span><span class="n">opc_10bins</span> <span class="o">=</span> <span class="n">opcsim</span><span class="o">.</span><span class="n">OPC</span><span class="p">(</span><span class="n">n_bins</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">dmin</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">dmax</span><span class="o">=</span><span class="mi">17</span><span class="p">)</span>
+
+<span class="n">opc_10bins</span><span class="o">.</span><span class="n">bins</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">array</span><span class="p">([[</span>  <span class="mf">0.3</span>       <span class="p">,</span>   <span class="mf">0.36710275</span><span class="p">,</span>   <span class="mf">0.44921476</span><span class="p">],</span>
+       <span class="p">[</span>  <span class="mf">0.44921476</span><span class="p">,</span>   <span class="mf">0.54969325</span><span class="p">,</span>   <span class="mf">0.67264635</span><span class="p">],</span>
+       <span class="p">[</span>  <span class="mf">0.67264635</span><span class="p">,</span>   <span class="mf">0.82310108</span><span class="p">,</span>   <span class="mf">1.0072089</span> <span class="p">],</span>
+       <span class="p">[</span>  <span class="mf">1.0072089</span> <span class="p">,</span>   <span class="mf">1.23249719</span><span class="p">,</span>   <span class="mf">1.50817703</span><span class="p">],</span>
+       <span class="p">[</span>  <span class="mf">1.50817703</span><span class="p">,</span>   <span class="mf">1.84551978</span><span class="p">,</span>   <span class="mf">2.25831796</span><span class="p">],</span>
+       <span class="p">[</span>  <span class="mf">2.25831796</span><span class="p">,</span>   <span class="mf">2.76344911</span><span class="p">,</span>   <span class="mf">3.38156589</span><span class="p">],</span>
+       <span class="p">[</span>  <span class="mf">3.38156589</span><span class="p">,</span>   <span class="mf">4.13794047</span><span class="p">,</span>   <span class="mf">5.06349775</span><span class="p">],</span>
+       <span class="p">[</span>  <span class="mf">5.06349775</span><span class="p">,</span>   <span class="mf">6.19607983</span><span class="p">,</span>   <span class="mf">7.58199316</span><span class="p">],</span>
+       <span class="p">[</span>  <span class="mf">7.58199316</span><span class="p">,</span>   <span class="mf">9.2779018</span> <span class="p">,</span>  <span class="mf">11.35314422</span><span class="p">],</span>
+       <span class="p">[</span> <span class="mf">11.35314422</span><span class="p">,</span>  <span class="mf">13.89256822</span><span class="p">,</span>  <span class="mf">17.</span>        <span class="p">]])</span>
+</pre></div>
+</div>
+<p>If we are trying to mimic a specific OPC that has pre-defined bins, we
+can also do that with the help of some utility methods. The bins
+argument in the OPC class requires a <code class="docutils literal"><span class="pre">3xn</span></code> array as seen above. Often,
+you may only have the bin boundary information and not the midpoints.
+Typically, we use the logarithmic mean rather than the arithmetic mean,
+though we have made both available through the <code class="docutils literal"><span class="pre">opcsim.midpoints</span></code>
+utility function.</p>
+<p>For example, let’s calculate the bins for an OPC like the Dylos DC1100
+Pro. This OPC has two bins (0.5-2.5, 2.5-10). How do we build the bins?</p>
+<div class="code ipython3 highlight-default"><div class="highlight"><pre><span></span><span class="n">bins</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">],</span> <span class="p">[</span><span class="mf">2.5</span><span class="p">,</span> <span class="mi">10</span><span class="p">]])</span>
+
+<span class="n">bins</span> <span class="o">=</span> <span class="n">opcsim</span><span class="o">.</span><span class="n">midpoints</span><span class="p">(</span><span class="n">bins</span><span class="p">)</span>
+
+<span class="n">bins</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">array</span><span class="p">([[</span>  <span class="mf">0.5</span>       <span class="p">,</span>   <span class="mf">1.11803399</span><span class="p">,</span>   <span class="mf">2.5</span>       <span class="p">],</span>
+       <span class="p">[</span>  <span class="mf">2.5</span>       <span class="p">,</span>   <span class="mf">5.</span>        <span class="p">,</span>  <span class="mf">10.</span>        <span class="p">]])</span>
+</pre></div>
+</div>
+<p>If we build bins from ‘scratch’ as above, when we initiate the OPC
+model, we need to only include the bins as an argument:</p>
+<div class="code ipython3 highlight-default"><div class="highlight"><pre><span></span><span class="n">dylos</span> <span class="o">=</span> <span class="n">opcsim</span><span class="o">.</span><span class="n">OPC</span><span class="p">(</span><span class="n">bins</span><span class="o">=</span><span class="n">bins</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="define-opc-counting-efficiency">
+<h2>Define OPC Counting Efficiency<a class="headerlink" href="#define-opc-counting-efficiency" title="Permalink to this headline">¶</a></h2>
+<p>The last argument of interest to the OPC model is the counting
+efficiency (<code class="docutils literal"><span class="pre">ce</span></code>). The counting efficiency argument must be a callable
+function that accepts the particle diameter and returns a float. By
+default, counting efficiency is set to return <span class="math">\(\eta=1\)</span> at all
+diameters. You can provide any function you want.</p>
+<p>Let’s define some counting efficiency functions that we can then
+incorporate into various simulated OPCs:</p>
+<div class="code ipython3 highlight-default"><div class="highlight"><pre><span></span><span class="c1"># Define efficiency based on an exponential function</span>
+<span class="n">η_exp</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">dp</span><span class="p">:</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="o">*</span><span class="n">dp</span><span class="p">)</span>
+
+<span class="c1"># Define efficiency based on a tanh function</span>
+<span class="n">η_tanh</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">dp</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">tanh</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">dp</span><span class="p">)</span>
+
+<span class="c1"># Define a function that rises linearly from 100nm to 1um, and then stays at 1</span>
+<span class="n">η_linear</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">dp</span><span class="p">:</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">piecewise</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="p">[</span><span class="n">i</span> <span class="o">&lt;</span> <span class="mf">1.</span><span class="p">,</span> <span class="n">i</span> <span class="o">&gt;=</span> <span class="mf">1.</span><span class="p">],</span> <span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">dp</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Let’s go ahead and visualize these functions really quick to get a
+better idea</p>
+<div class="code ipython3 highlight-default"><div class="highlight"><pre><span></span><span class="c1"># Create an array of diameters</span>
+<span class="n">diams</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">diams</span><span class="p">,</span> <span class="n">η_exp</span><span class="p">(</span><span class="n">diams</span><span class="p">),</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;$\eta=1-exp(-5D_p)$&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">diams</span><span class="p">,</span> <span class="n">η_tanh</span><span class="p">(</span><span class="n">diams</span><span class="p">),</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;*&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;$\eta=tanh(2D_p)$&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">diams</span><span class="p">,</span> <span class="n">η_linear</span><span class="p">(</span><span class="n">diams</span><span class="p">),</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;^&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;$\eta=linear$&quot;</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">semilogx</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;best&#39;</span><span class="p">)</span>
+
+<span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">(</span><span class="n">offset</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Diameter&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Counting Efficiency&quot;</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_major_formatter</span><span class="p">(</span><span class="n">mticks</span><span class="o">.</span><span class="n">FormatStrFormatter</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%.3g</span><span class="s2">&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+<img alt="../_images/model_18_0.png" src="../_images/model_18_0.png" />
+<p>Now that we have a better understanding of what the counting efficiency
+function looks like (and how you can define your own), let’s go ahead
+and show how to build an OPC that uses one of these functions.</p>
+<p>Let’s go ahead and build a 10-bin OPC that uses the tanh counting
+efficiency from above:</p>
+<div class="code ipython3 highlight-default"><div class="highlight"><pre><span></span><span class="n">opc_tanh</span> <span class="o">=</span> <span class="n">opcsim</span><span class="o">.</span><span class="n">OPC</span><span class="p">(</span><span class="n">n_bins</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">ce</span><span class="o">=</span><span class="n">η_tanh</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>That more or less covers how we build an OPC. Next, how do we determine
+what an OPC “sees” given an aerosol distribution?</p>
+</div>
+</div>
+<div class="section" id="evaluate-the-opc-for-a-given-aerosoldistribution">
+<h1>Evaluate the OPC for a Given <code class="docutils literal"><span class="pre">AerosolDistribution</span></code><a class="headerlink" href="#evaluate-the-opc-for-a-given-aerosoldistribution" title="Permalink to this headline">¶</a></h1>
+<p>To evaluate the OPC, we need to determine how many particles the OPC
+‘sees’ in each size bin. Once we have this value, we can convert to
+surface area, volume, or mass in order to compare to the true amount of
+mass present in the underlying aerosol distribution.</p>
+<p>There are two methods we use to do this:</p>
+<ol class="arabic">
+<li><p class="first"><code class="docutils literal"><span class="pre">simple</span></code> method</p>
+<p>The simple method means we evaluate the PDF of the aerosol
+distribution at each bin midpoint. Depending on the <code class="docutils literal"><span class="pre">weight</span></code> and
+<code class="docutils literal"><span class="pre">base</span></code> we are evaluating at, this returns the
+<span class="math">\(d[weight]/d[base]D_p\)</span> value at the given bin. We take into
+account the counting efficiency by multiplying this value by the
+<code class="docutils literal"><span class="pre">ce</span></code> function evaluated at the midpoint diameter for each bin.
+Mathematically, this would be represented as:</p>
+<div class="math">
+\[\frac{d[weight]}{d[base]D_p}=\sum_{i=1}^{n_{bins}}PDF(D_{p,midpoint})*CE(D_{p,midpoint})\]</div>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">subint</span></code> method</p>
+<p>The subintegration method takes a more continuous approach; the total
+number of particles in each bin is calculated by integrating the
+product of the CDF and the counting efficiency function within each
+individual bin. This provides a more “accurate” result. Essentially,
+if you assume the OPC has 100% counting efficiency, this would return
+the actual number of particles present in the given bin.</p>
+</li>
+</ol>
+<p>We assume that an OPC “sees” particle number concentration, and not some
+correlation to particle volume. Thus, each evaluation is completed by
+first evaluating the aerosol distribution in number-weighted space, and
+then converting to number, surface area, or volume by multiplying by the
+respective multiplier. The multiplier is determined at the bin midpoint,
+which is important.</p>
+<p>The <code class="docutils literal"><span class="pre">opcsim</span></code> library provides a few ways to obtain these values.</p>
+<div class="section" id="opcsim-opc-evaluate">
+<h2><code class="docutils literal"><span class="pre">opcsim.OPC.evaluate</span></code><a class="headerlink" href="#opcsim-opc-evaluate" title="Permalink to this headline">¶</a></h2>
+<p>The <code class="docutils literal"><span class="pre">opcsim.OPC.evaluate</span></code> method returns an array of values where each
+value is the number of {particles, surface area, volume} in each bin. It
+will return data in the format <span class="math">\(d[weight]/d[base]D_p\)</span> where the
+default is to return <span class="math">\(dN/dlogD_p\)</span> (<code class="docutils literal"><span class="pre">weight='number'</span></code>,
+<code class="docutils literal"><span class="pre">base='log10'</span></code>). It can also be evaluated with either the <code class="docutils literal"><span class="pre">simple</span></code>
+evaluation method or the <code class="docutils literal"><span class="pre">subint</span></code> evaluation method depending on the
+<code class="docutils literal"><span class="pre">method</span></code> keyword argument provided.</p>
+<p>For example, to evaluate a 5-bin OPC and return <span class="math">\(dN/dlogD_p\)</span>
+values for each bin using the default <code class="docutils literal"><span class="pre">subint</span></code> method, we would do the
+following:</p>
+<div class="code ipython3 highlight-default"><div class="highlight"><pre><span></span><span class="c1"># Build a 5-bin OPC</span>
+<span class="n">opc</span> <span class="o">=</span> <span class="n">opcsim</span><span class="o">.</span><span class="n">OPC</span><span class="p">(</span><span class="n">n_bins</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">dmin</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">dmax</span><span class="o">=</span><span class="mf">2.5</span><span class="p">)</span>
+
+<span class="c1"># load the urban distribution</span>
+<span class="n">urban</span> <span class="o">=</span> <span class="n">opcsim</span><span class="o">.</span><span class="n">load_distribution</span><span class="p">(</span><span class="s2">&quot;Urban&quot;</span><span class="p">)</span>
+
+<span class="c1"># evaluate the number-weighted distribution</span>
+<span class="n">opc</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">distribution</span><span class="o">=</span><span class="n">urban</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">array</span><span class="p">([</span>  <span class="mf">3.32717067e+02</span><span class="p">,</span>   <span class="mf">4.44738784e+01</span><span class="p">,</span>   <span class="mf">2.75920424e+00</span><span class="p">,</span>
+         <span class="mf">7.85362827e-02</span><span class="p">,</span>   <span class="mf">1.01796109e-03</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>To compare to the <code class="docutils literal"><span class="pre">simple</span></code> method, we can grab that data as well:</p>
+<div class="code ipython3 highlight-default"><div class="highlight"><pre><span></span><span class="n">opc</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">urban</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;simple&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">array</span><span class="p">([</span>  <span class="mf">3.04815785e+02</span><span class="p">,</span>   <span class="mf">3.57911500e+01</span><span class="p">,</span>   <span class="mf">1.87041608e+00</span><span class="p">,</span>
+         <span class="mf">4.33304183e-02</span><span class="p">,</span>   <span class="mf">4.44549802e-04</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>As you can see, they are similar, but not exactly the same. What if we
+want to grab <span class="math">\(dV/dlogD_p\)</span>?</p>
+<div class="code ipython3 highlight-default"><div class="highlight"><pre><span></span><span class="n">opc</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">urban</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="s1">&#39;volume&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">array</span><span class="p">([</span>  <span class="mf">8.88552496e+00</span><span class="p">,</span>   <span class="mf">4.23842272e+00</span><span class="p">,</span>   <span class="mf">9.38370544e-01</span><span class="p">,</span>
+         <span class="mf">9.53129938e-02</span><span class="p">,</span>   <span class="mf">4.40863558e-03</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="opcsim-opc-number">
+<h2><code class="docutils literal"><span class="pre">opcsim.OPC.number</span></code><a class="headerlink" href="#opcsim-opc-number" title="Permalink to this headline">¶</a></h2>
+<p>Although the log-weighted values are ideal for visualization, when it
+comes to evaluating the OPC performance, we want the actual number of
+particles, surface area, or volume within each bin. To get this data, we
+could either multiply the above results by the log difference of the
+bins, or we can use one of the other methods made available.</p>
+<p>The <code class="docutils literal"><span class="pre">opcsim.OPC.number</span></code> method returns the total number of particles
+the OPC “sees” in each bin per a given distribution. You can also access
+the “True” number of particles in each bin (i.e. the integrated CDF of
+the underyling aerosol distribution) by changing the <code class="docutils literal"><span class="pre">measured</span></code>
+argument to be <code class="docutils literal"><span class="pre">False</span></code>.</p>
+<p>For example, let’s grab the total number of particles/cc in each bin of
+the previous OPC per the Urban distribution:</p>
+<div class="code ipython3 highlight-default"><div class="highlight"><pre><span></span><span class="n">opc</span><span class="o">.</span><span class="n">number</span><span class="p">(</span><span class="n">urban</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">array</span><span class="p">([</span>  <span class="mf">6.12744230e+01</span><span class="p">,</span>   <span class="mf">8.19047626e+00</span><span class="p">,</span>   <span class="mf">5.08145402e-01</span><span class="p">,</span>
+         <span class="mf">1.44635364e-02</span><span class="p">,</span>   <span class="mf">1.87471533e-04</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="opcsim-opc-surface-area">
+<h2><code class="docutils literal"><span class="pre">opcsim.OPC.surface_area</span></code><a class="headerlink" href="#opcsim-opc-surface-area" title="Permalink to this headline">¶</a></h2>
+<p>Similar to the <code class="docutils literal"><span class="pre">number</span></code> method above, we can do the same for surface
+area.</p>
+<p>To get the surface area within each bin, we do the following:</p>
+<div class="code ipython3 highlight-default"><div class="highlight"><pre><span></span><span class="n">opc</span><span class="o">.</span><span class="n">surface_area</span><span class="p">(</span><span class="n">urban</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">array</span><span class="p">([</span>  <span class="mf">2.64749631e+01</span><span class="p">,</span>   <span class="mf">8.26404722e+00</span><span class="p">,</span>   <span class="mf">1.19728940e+00</span><span class="p">,</span>
+         <span class="mf">7.95816850e-02</span><span class="p">,</span>   <span class="mf">2.40880403e-03</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="opcsim-opc-volume">
+<h2><code class="docutils literal"><span class="pre">opcsim.OPC.volume</span></code><a class="headerlink" href="#opcsim-opc-volume" title="Permalink to this headline">¶</a></h2>
+<p>Similar to the <code class="docutils literal"><span class="pre">number</span></code> and <code class="docutils literal"><span class="pre">surface_area</span></code> methods above, we can do
+the same for volume.</p>
+<p>To get the volume within each bin, we do the following:</p>
+<div class="code ipython3 highlight-default"><div class="highlight"><pre><span></span><span class="n">opc</span><span class="o">.</span><span class="n">volume</span><span class="p">(</span><span class="n">urban</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">array</span><span class="p">([</span>  <span class="mf">1.63639160e+00</span><span class="p">,</span>   <span class="mf">7.80563826e-01</span><span class="p">,</span>   <span class="mf">1.72813839e-01</span><span class="p">,</span>
+         <span class="mf">1.75531984e-02</span><span class="p">,</span>   <span class="mf">8.11910864e-04</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="plotting-opc-response-to-the-urban-distribution">
+<h2>Plotting OPC Response to the Urban Distribution<a class="headerlink" href="#plotting-opc-response-to-the-urban-distribution" title="Permalink to this headline">¶</a></h2>
+<p>Now that we know how to evaluate the response of an OPC to the urban
+distribution, how can we easily visualize it? Well, we have the handy
+function <code class="docutils literal"><span class="pre">opcsim.plots.histplot</span></code> to do that! All we need is the data
+to plot (evaluated PDF) and the OPC bins.</p>
+<p>Let’s go ahead and plot the response of a 10-bin OPC to the Urban
+Aerosol Distribution:</p>
+<div class="code ipython3 highlight-default"><div class="highlight"><pre><span></span><span class="c1"># Set the 10-bin OPC</span>
+<span class="n">opc</span> <span class="o">=</span> <span class="n">opcsim</span><span class="o">.</span><span class="n">OPC</span><span class="p">(</span><span class="n">n_bins</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">dmin</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">dmax</span><span class="o">=</span><span class="mf">2.5</span><span class="p">)</span>
+
+<span class="c1"># Load the urban distribution</span>
+<span class="n">urban</span> <span class="o">=</span> <span class="n">opcsim</span><span class="o">.</span><span class="n">load_distribution</span><span class="p">(</span><span class="s2">&quot;Urban&quot;</span><span class="p">)</span>
+
+<span class="c1"># Plot</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">opcsim</span><span class="o">.</span><span class="n">plots</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">opc</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">urban</span><span class="p">),</span> <span class="n">opc</span><span class="o">.</span><span class="n">bins</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;$dN/dlogD_p$&quot;</span><span class="p">)</span>
+
+<span class="c1"># Remove the spine</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="../_images/model_34_0.png" src="../_images/model_34_0.png" />
+<p>Why don’t we go ahead and overlay the distribution itself:</p>
+<div class="code ipython3 highlight-default"><div class="highlight"><pre><span></span><span class="c1"># Plot</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">opcsim</span><span class="o">.</span><span class="n">plots</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">opc</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">urban</span><span class="p">),</span> <span class="n">opc</span><span class="o">.</span><span class="n">bins</span><span class="p">)</span>
+
+<span class="c1"># Add the distribution to the plot</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">opcsim</span><span class="o">.</span><span class="n">plots</span><span class="o">.</span><span class="n">pdfplot</span><span class="p">(</span><span class="n">urban</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+
+<span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="../_images/model_36_0.png" src="../_images/model_36_0.png" />
+<p>The above plots are in number-space. The primary use of these low-cost
+sensors is to estimate mass, so why don’t we go ahead and plot this in
+volume space?</p>
+<div class="code ipython3 highlight-default"><div class="highlight"><pre><span></span><span class="c1"># Plot</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">opcsim</span><span class="o">.</span><span class="n">plots</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">opc</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">urban</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="s1">&#39;volume&#39;</span><span class="p">),</span> <span class="n">opc</span><span class="o">.</span><span class="n">bins</span><span class="p">)</span>
+
+<span class="c1"># Add the distribution to the plot</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">opcsim</span><span class="o">.</span><span class="n">plots</span><span class="o">.</span><span class="n">pdfplot</span><span class="p">(</span><span class="n">urban</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="s1">&#39;volume&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="mf">0.01</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+
+<span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="../_images/model_38_0.png" src="../_images/model_38_0.png" />
+<p>Each of these plots uses the <code class="docutils literal"><span class="pre">method='subint'</span></code> integration method. How
+does it change if we use the <code class="docutils literal"><span class="pre">simple</span></code> method instead?</p>
+<div class="code ipython3 highlight-default"><div class="highlight"><pre><span></span><span class="c1"># Plot</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">opcsim</span><span class="o">.</span><span class="n">plots</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">opc</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">urban</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="s1">&#39;volume&#39;</span><span class="p">),</span> <span class="n">opc</span><span class="o">.</span><span class="n">bins</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">opcsim</span><span class="o">.</span><span class="n">plots</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">opc</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">urban</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="s1">&#39;volume&#39;</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;simple&#39;</span><span class="p">),</span> <span class="n">opc</span><span class="o">.</span><span class="n">bins</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+
+<span class="c1"># Add the distribution to the plot</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">opcsim</span><span class="o">.</span><span class="n">plots</span><span class="o">.</span><span class="n">pdfplot</span><span class="p">(</span><span class="n">urban</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="s1">&#39;volume&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">([</span><span class="s2">&quot;Urban PDF&quot;</span><span class="p">,</span> <span class="s2">&quot;subint&quot;</span><span class="p">,</span> <span class="s2">&quot;simple&quot;</span><span class="p">],</span> <span class="n">loc</span><span class="o">=</span><span class="s1">&#39;best&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="mf">0.01</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+
+<span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="../_images/model_40_0.png" src="../_images/model_40_0.png" />
+<p>So it doesn’t look too different from this picture, but it can have
+reasonable impacts. That should be a fairly in depth introduction to
+setting up, evaluating, and visualizing a simulated OPC.</p>
+</div>
+</div>
+
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+        <br/>
+        
+<div id="sourcelink">
+  <a href="../_sources/tutorial/model.rst.txt"
+     rel="nofollow">Source</a>
+</div>
+      
+    </p>
+    <p>
+        &copy; Copyright 2017, David H Hagan.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.4.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>
