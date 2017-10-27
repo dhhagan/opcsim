@@ -17,9 +17,12 @@ before_install:
 
 install:
   - "pip install coverage"
-  - "pip install coveralls"
   - "pip install pandas"
   - "pip install seaborn"
+  - "pip install codeclimate-test-reporter"
 
 script:
   - "coverage run --source=opcsim setup.py test"
+
+after_success:
+  - CODECLIMATE_REPO_TOKEN=5b6a9ee40b0e80bc25f525a09c265bf0eb25833bea0b3140efa9b464bdab03cb codeclimate-test-reporter
