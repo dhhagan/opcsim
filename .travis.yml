@@ -16,7 +16,7 @@ before_install:
   - sudo apt-get install -qq python-numpy python-scipy python-matplotlib
 
 install:
-  - "pip install coverage"
+  - "pip install coverage==4.3.4"
   - "pip install pandas"
   - "pip install seaborn"
   - "pip install codeclimate-test-reporter"
