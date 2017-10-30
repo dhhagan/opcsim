@@ -1,10 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 This file contains all of the probability distribution functions
 """
-
 import math
 import numpy as np
 
@@ -42,7 +40,6 @@ def dn_ddp(dp, n, gm, gsd):
     opcsim.equations.cdf.nt
 
     """
-
     res = (n / (np.sqrt(2*np.pi)*dp*np.log(gsd))) * \
             np.exp(-(np.log(dp) - np.log(gm))** 2 / (2*np.log(gsd)** 2))
 

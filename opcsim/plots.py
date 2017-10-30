@@ -284,7 +284,7 @@ def pdfplot(distribution, ax=None, weight='number', base='log10', with_modes=Fal
     data = distribution.pdf(dp, base=base, weight=weight, rho=rho)
 
     # If fill is selected, fill the gap, otherwise just plot a line
-    ax.plot(dp, data, c=nc, label=label, **plot_kws)
+    ax.plot(dp, data, label=label, **plot_kws)
 
     if fill:
         ax.fill_between(dp, 0, data, label=label, **fill_kws)
@@ -296,7 +296,7 @@ def pdfplot(distribution, ax=None, weight='number', base='log10', with_modes=Fal
 
             data = distribution.pdf(dp, base=base, weight=weight, mode=m['label'])
 
-            ax.plot(dp, data, label=m['label'], c=nc, ls='--', **plot_kws)
+            ax.plot(dp, data, label=m['label'], ls='--', **plot_kws)
 
     if base is not ('none' or None):
         ax.semilogx()
@@ -394,7 +394,7 @@ def cdfplot(distribution, ax=None, weight='number', plot_kws={},
 
     data = distribution.cdf(dp, weight=weight, **kwargs)
 
-    ax.plot(dp, data, c=nc, label=label, **plot_kws)
+    ax.plot(dp, data, color=nc, label=label, **plot_kws)
 
     ax.semilogx()
     ax.xaxis.set_major_formatter(mtick.FormatStrFormatter("%.3g"))
