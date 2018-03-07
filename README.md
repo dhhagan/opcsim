@@ -14,6 +14,8 @@ Full online documentation can be found [here][1].
 
 The docs include a [tutorial][2], an [example gallery][3], and an [API Reference][4].
 
+In addition, documentation can be built locally for development purposes. To do so, please check out the complete details in the *contributing to opcsim* section of the documentation.
+
 ## Dependencies
 
 Opcsim supports Python 2.7 and 3.4+.

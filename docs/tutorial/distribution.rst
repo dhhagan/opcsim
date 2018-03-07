@@ -33,13 +33,6 @@ for plotting throughout this tutorial.
     # Let's set some default seaborn settings
     sns.set(context='notebook', style='ticks', palette='dark', font_scale=1.75, rc={'figure.figsize': (10,5)})
 
-
-.. parsed-literal::
-
-    /Users/dh/Documents/GitHub/opcsim/opcsim/opcsim/__init__.py:18: UserWarning: Module opcsim was already imported from /Users/dh/Documents/GitHub/opcsim/opcsim/opcsim/__init__.py, but /usr/local/lib/python3.6/site-packages/opcsim-0.1.0-py3.6.egg is being added to sys.path
-      __version__ = get_distribution('opcsim').version
-
-
 The Aerosol Distribution
 ========================
 
@@ -74,15 +67,15 @@ Table 8.3 in Seinfeld and Pandis (originally from Jaenicke (1993)) shows
 parameters for several model aerosol distributions. The urban aerosol
 distribution can be described as follows:
 
-+--------+-------------+------------------+-----------------------+
-| Mode   | :math:`N`   | :math:`D_{pg}`   | :math:`log\sigma_i`   |
-+========+=============+==================+=======================+
-| I      | 7100        | 0.0117           | 0.232                 |
-+--------+-------------+------------------+-----------------------+
-| II     | 6320        | 0.0373           | 0.250                 |
-+--------+-------------+------------------+-----------------------+
-| III    | 960         | 0.151            | 0.204                 |
-+--------+-------------+------------------+-----------------------+
++------+-----------+----------------+---------------------+
+| Mode | :math:`N` | :math:`D_{pg}` | :math:`log\sigma_i` |
++======+===========+================+=====================+
+| I    | 7100      | 0.0117         | 0.232               |
++------+-----------+----------------+---------------------+
+| II   | 6320      | 0.0373         | 0.250               |
++------+-----------+----------------+---------------------+
+| III  | 960       | 0.151          | 0.204               |
++------+-----------+----------------+---------------------+
 
 How would we go about building this distribution? We can add as many
 modes as we would like, following the same method we used above. Also,
@@ -279,7 +272,7 @@ the ``opcsim.AerosolDistribution`` object. The function returns a
 matplotlib axis object which makes it extremely easy to add to modify
 the plot using normal matplotlib syntax.
 
-Let's plot the urban distribution we built earlier.
+Let’s plot the urban distribution we built earlier.
 
 .. code:: ipython3
 
@@ -303,7 +296,7 @@ We can also send a number of kwargs to the PDF plot to change its
 appearance. We can add ``plot_kws`` to the matplotlib plot call (things
 like linewidth, color, etc). We can add ``fig_kws`` which are sent when
 creating the figure (think figsize, etc). We can set ``fill_kws`` that
-are sent to the matplotlib fill\_between call if and only if
+are sent to the matplotlib fill_between call if and only if
 ``fill=True``.
 
 .. code:: ipython3
@@ -449,7 +442,7 @@ less than :math:`D_p=2.5\;\mu m`, we do the following:
 
 
 If we want to calculate the total number of particles within some size
-range, we can add the ``dmin`` argument. For example, let's find the
+range, we can add the ``dmin`` argument. For example, let’s find the
 total number of particles between 1 and 2.5 microns:
 
 .. code:: ipython3
@@ -497,7 +490,7 @@ we set the particle density :math:`\rho=1.65\;gcm^{-3}`:
 
 
 
-Although we wouldn't normally plot the CDF, we easily can to visualize
+Although we wouldn’t normally plot the CDF, we easily can to visualize
 where most of the [number, surface area, mass] is within the
 distribution using the ``opcsim.plots.cdfplot`` function:
 
@@ -523,5 +516,4 @@ mass is distributed:
 
 
 .. image:: distribution_files/distribution_40_0.png
-
 

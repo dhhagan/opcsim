@@ -3,13 +3,13 @@
 Getting Started
 ---------------
 
-If you are familiar with Python and Python installations, feel free to skip
+If you are familiar with Python and installing python libraries, feel free to skip
 below to the installation section.
 
 ``opcsim`` requires python2.7+ or python3.3+ to be installed on your computer. If
 you do not have an existing installation, I would recommend checking out the
 `Anaconda Python distribution <https://www.continuum.io/downloads>`_. If you
-encounter issues installing Anaconda, check out StackOverflow or a simple
+encounter issues installing Anaconda, check out `StackOverflow <https://stackoverflow.com/search?q=anaconda>`_ or a simple
 Google search.
 
 Once you have python installed, you can go ahead and install the
@@ -30,12 +30,22 @@ Installation
 ------------
 
 There are several ways to install the package from source depending on your
-local dev environment and familiarity with installing python packages. If you
+local development environment and familiarity with installing python libraries. If you
 are new to python (and don't have `git` installed), install using the `Install
 from Source` option.
 
-Install using `pip`
-~~~~~~~~~~~~~~~~~~~
+Install directly from pypi (best option)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Installing directly from pypi using pip will be the easiest way forward and will
+automagically install any dependencies that aren't already installed.
+
+.. code-block: shell
+
+    $ pip install opcsim [--upgrade]
+
+Install from GitHub using `pip`
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Note: must have git installed
 
@@ -46,6 +56,10 @@ Note: must have git installed
 
 Clone Repository and Install from GitHub
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+If you plan on contributing to ``opcsim``, you will probably want to fork the
+library, and then clone it to your local environment. You can then install from
+source directly.
 
 .. code-block:: shell
 
@@ -84,4 +98,7 @@ Bugs and Issues
 
 Please report any bugs or issues you find through the `GitHub issues tracker
 <https://github.com/dhhagan/opcsim/issues/new>`_. Please provide as much
-information as possible that will make it easier to solve/fix the problem.
+information as possible that will make it easier to solve/fix the problem. Useful
+information to include would be the operating system, python version, and version
+of the ``opcsim`` library as well as any dependencies. If there are issues with
+graphics, screenshots are very helpful!

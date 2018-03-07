@@ -32,13 +32,6 @@ for plotting throughout this tutorial.
     sns.set(context='notebook', style='ticks', palette='dark', font_scale=1.75, 
             rc={'figure.figsize': (12,6), **opcsim.plots.rc_log})
 
-
-.. parsed-literal::
-
-    /Users/dh/Documents/GitHub/opcsim/opcsim/opcsim/__init__.py:18: UserWarning: Module opcsim was already imported from /Users/dh/Documents/GitHub/opcsim/opcsim/opcsim/__init__.py, but /usr/local/lib/python3.6/site-packages/opcsim-0.1.0-py3.6.egg is being added to sys.path
-      __version__ = get_distribution('opcsim').version
-
-
 The OPC Model
 =============
 
@@ -135,7 +128,7 @@ Typically, we use the logarithmic mean rather than the arithmetic mean,
 though we have made both available through the ``opcsim.midpoints``
 utility function.
 
-For example, let's calculate the bins for an OPC like the Dylos DC1100
+For example, let’s calculate the bins for an OPC like the Dylos DC1100
 Pro. This OPC has two bins (0.5-2.5, 2.5-10). How do we build the bins?
 
 .. code:: ipython3
@@ -156,7 +149,7 @@ Pro. This OPC has two bins (0.5-2.5, 2.5-10). How do we build the bins?
 
 
 
-If we build bins from 'scratch' as above, when we initiate the OPC
+If we build bins from ‘scratch’ as above, when we initiate the OPC
 model, we need to only include the bins as an argument:
 
 .. code:: ipython3
@@ -172,7 +165,7 @@ function that accepts the particle diameter and returns a float. By
 default, counting efficiency is set to return :math:`\eta=1` at all
 diameters. You can provide any function you want.
 
-Let's define some counting efficiency functions that we can then
+Let’s define some counting efficiency functions that we can then
 incorporate into various simulated OPCs:
 
 .. code:: ipython3
@@ -186,7 +179,7 @@ incorporate into various simulated OPCs:
     # Define a function that rises linearly from 100nm to 1um, and then stays at 1
     η_linear = lambda dp: [np.piecewise(i, [i < 1., i >= 1.], [i, 1]) for i in dp]
 
-Let's go ahead and visualize these functions really quick to get a
+Let’s go ahead and visualize these functions really quick to get a
 better idea
 
 .. code:: ipython3
@@ -216,10 +209,10 @@ better idea
 
 
 Now that we have a better understanding of what the counting efficiency
-function looks like (and how you can define your own), let's go ahead
+function looks like (and how you can define your own), let’s go ahead
 and show how to build an OPC that uses one of these functions.
 
-Let's go ahead and build a 10-bin OPC that uses the tanh counting
+Let’s go ahead and build a 10-bin OPC that uses the tanh counting
 efficiency from above:
 
 .. code:: ipython3
@@ -227,13 +220,13 @@ efficiency from above:
     opc_tanh = opcsim.OPC(n_bins=10, ce=η_tanh)
 
 That more or less covers how we build an OPC. Next, how do we determine
-what an OPC "sees" given an aerosol distribution?
+what an OPC “sees” given an aerosol distribution?
 
 Evaluate the OPC for a Given ``AerosolDistribution``
 ====================================================
 
 To evaluate the OPC, we need to determine how many particles the OPC
-'sees' in each size bin. Once we have this value, we can convert to
+‘sees’ in each size bin. Once we have this value, we can convert to
 surface area, volume, or mass in order to compare to the true amount of
 mass present in the underlying aerosol distribution.
 
@@ -256,11 +249,11 @@ There are two methods we use to do this:
    The subintegration method takes a more continuous approach; the total
    number of particles in each bin is calculated by integrating the
    product of the CDF and the counting efficiency function within each
-   individual bin. This provides a more "accurate" result. Essentially,
+   individual bin. This provides a more “accurate” result. Essentially,
    if you assume the OPC has 100% counting efficiency, this would return
    the actual number of particles present in the given bin.
 
-We assume that an OPC "sees" particle number concentration, and not some
+We assume that an OPC “sees” particle number concentration, and not some
 correlation to particle volume. Thus, each evaluation is completed by
 first evaluating the aerosol distribution in number-weighted space, and
 then converting to number, surface area, or volume by multiplying by the
@@ -348,12 +341,12 @@ could either multiply the above results by the log difference of the
 bins, or we can use one of the other methods made available.
 
 The ``opcsim.OPC.number`` method returns the total number of particles
-the OPC "sees" in each bin per a given distribution. You can also access
-the "True" number of particles in each bin (i.e. the integrated CDF of
+the OPC “sees” in each bin per a given distribution. You can also access
+the “True” number of particles in each bin (i.e. the integrated CDF of
 the underyling aerosol distribution) by changing the ``measured``
 argument to be ``False``.
 
-For example, let's grab the total number of particles/cc in each bin of
+For example, let’s grab the total number of particles/cc in each bin of
 the previous OPC per the Urban distribution:
 
 .. code:: ipython3
@@ -422,7 +415,7 @@ distribution, how can we easily visualize it? Well, we have the handy
 function ``opcsim.plots.histplot`` to do that! All we need is the data
 to plot (evaluated PDF) and the OPC bins.
 
-Let's go ahead and plot the response of a 10-bin OPC to the Urban
+Let’s go ahead and plot the response of a 10-bin OPC to the Urban
 Aerosol Distribution:
 
 .. code:: ipython3
@@ -446,7 +439,7 @@ Aerosol Distribution:
 .. image:: model_files/model_34_0.png
 
 
-Why don't we go ahead and overlay the distribution itself:
+Why don’t we go ahead and overlay the distribution itself:
 
 .. code:: ipython3
 
@@ -464,7 +457,7 @@ Why don't we go ahead and overlay the distribution itself:
 
 
 The above plots are in number-space. The primary use of these low-cost
-sensors is to estimate mass, so why don't we go ahead and plot this in
+sensors is to estimate mass, so why don’t we go ahead and plot this in
 volume space?
 
 .. code:: ipython3
@@ -506,7 +499,6 @@ does it change if we use the ``simple`` method instead?
 .. image:: model_files/model_40_0.png
 
 
-So it doesn't look too different from this picture, but it can have
+So it doesn’t look too different from this picture, but it can have
 reasonable impacts. That should be a fairly in depth introduction to
 setting up, evaluating, and visualizing a simulated OPC.
-

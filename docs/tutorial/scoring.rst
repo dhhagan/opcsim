@@ -4,8 +4,8 @@
 Evaluating the Results of a Simulated OPC
 =========================================
 
-To determine the efficacy of our simulated OPC's, we must derive some
-sort of metric to use to compare to other modeled OPC's and other
+To determine the efficacy of our simulated OPC’s, we must derive some
+sort of metric to use to compare to other modeled OPC’s and other
 distributions. Perusing through the current literature, you will find
 two primary methods that encapsulate how this is done.
 
@@ -31,7 +31,7 @@ function which requires just the ``opcsim.OPC`` model and the
 and maximum diameters to evaluate the volume CDF under; however, this
 will not change the number calculation from the OPC.
 
-For example, let's compute the ``nv_score`` for the 1-bin OPC that is
+For example, let’s compute the ``nv_score`` for the 1-bin OPC that is
 default against the urban distribution.
 
 .. code:: ipython3
@@ -43,13 +43,6 @@ default against the urban distribution.
     # turn off warnings temporarily
     import warnings
     warnings.simplefilter('ignore')
-
-
-.. parsed-literal::
-
-    /Users/dh/Documents/GitHub/opcsim/opcsim/opcsim/__init__.py:18: UserWarning: Module opcsim was already imported from /Users/dh/Documents/GitHub/opcsim/opcsim/opcsim/__init__.py, but /usr/local/lib/python3.6/site-packages/opcsim-0.1.0-py3.6.egg is being added to sys.path
-      __version__ = get_distribution('opcsim').version
-
 
 .. code:: ipython3
 
@@ -71,10 +64,10 @@ default against the urban distribution.
 
 
 
-What is the meaning of this number? Nothing, really. On it's own, this
+What is the meaning of this number? Nothing, really. On it’s own, this
 value is pretty useless. It is the slope between the number of particles
-your OPC "sees" and the total volume under 2.5 microns in the urban
-distribution. Now, if we change the distribution, what happens? Let's
+your OPC “sees” and the total volume under 2.5 microns in the urban
+distribution. Now, if we change the distribution, what happens? Let’s
 try computing the same score for the rural distribution:
 
 .. code:: ipython3
@@ -118,7 +111,7 @@ function which requires just the ``opcsim.OPC`` model and the
 and maximum diameters to evaluate the volume CDF under; however, this
 will not change the volume calculation from the OPC.
 
-For example, let's compute the ``vv_score`` for the 1-bin OPC that is
+For example, let’s compute the ``vv_score`` for the 1-bin OPC that is
 default against the urban distribution.
 
 .. code:: ipython3
@@ -216,10 +209,8 @@ happens when we score this method for a variety of different OPCs?
 
 The number correlation method stayed the same for all OPCs! Why? Well,
 right now we have simulated each of these with a counting efficiency of
-1 which means they see 100% of the particles. While this doesn't change
+1 which means they see 100% of the particles. While this doesn’t change
 the number of particles we see in total, it does change the volume!
 
 This ends the introduction to using the metrics to score your
 OPC/Distribution model.
-
-
