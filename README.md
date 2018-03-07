@@ -24,32 +24,40 @@ and [seaborn][9].
 
 ## Installation
 
-To install the latest stable release:
+To install (or upgrade to) the latest stable release:
 
-    $ pip install opcsim
+    $ pip install opcsim [--upgrade]
 
 To install the development version directly from GitHub using pip:
 
     $ pip install git+https://github.com/dhhagan/opcsim.git
 
+In addition, you can either clone the repository and install from source or download/unzip the zip file and install from source:
+
+    $ git clone https://github.com/dhhagan/opcsim.git
+    $ cd /opcsim
+    $ python setup.py install
+
 
 ## Testing
+
+All tests are run via Travis.ci pre-merge. For results of these tests, please click on the link in the above travis badge. In addition, you can run tests locally.
 
 To run tests locally:
 
     $ python setup.py test
 
-To run the tests locally using coverage:
+To run the tests locally using coverage (adds `coverage` as a dependency):
 
     $ coverage run --source opcsim setup.py test
 
     # View the report
     $ coverage report -m
 
+
 ## Development
 
-Opcsim development takes place on GitHub. Issues and bugs can be submitted and
-tracked via the [GitHub Issue Tracker][10] for this repository.
+**opcsim** development takes place on GitHub. Issues and bugs can be submitted and tracked via the [GitHub Issue Tracker][10] for this repository.
 
 
 [1]: https://dhhagan.github.io/opcsim/
