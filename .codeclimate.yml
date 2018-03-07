@@ -1,3 +1,9 @@
-exclude_paths:
+exclude_patterns:
     - "docs/"
     - "tests/"
+argument-count:
+    config:
+        threshold: 8
+file-lines:
+    config:
+        threshold: 500
