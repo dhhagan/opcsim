@@ -88,7 +88,7 @@ class SetupTestCase(unittest.TestCase):
         with self.assertRaises(Exception):
             d.pdf(dp, base='error')
 
-    def test_cdf(self):
+    def test_cdf_number(self):
         # Use a sample Urban distribution
         d = opcsim.load_distribution("Urban")
 
@@ -102,6 +102,9 @@ class SetupTestCase(unittest.TestCase):
         with self.assertRaises(Exception):
             d.cdf(0.1, weight='error')
 
+    def test_cdf_surface(self):
+        d = opcsim.load_distribution("Urban")
+
         # Test the surface area weighted versions
         cdf_sa = d.cdf(dmax=1.0, weight='surface')
         cdf_sa2 = d.cdf(dmax=2.5, weight='surface')
@@ -109,6 +112,9 @@ class SetupTestCase(unittest.TestCase):
 
         self.assertGreaterEqual(cdf_sa2, cdf_sa)
         self.assertEqual(round(cdf_sa_diff, 3), round(cdf_sa2 - cdf_sa, 3))
+
+    def test_cdf_volume(self):
+        d = opcsim.load_distribution("Urban")
 
         # Test the surface area weighted versions
         cdf_v = d.cdf(dmax=1.0, weight='volume')
@@ -125,6 +131,9 @@ class SetupTestCase(unittest.TestCase):
         cdf = d.cdf(dmax=2.5, mode='Mode I')
 
         self.assertIsNotNone(cdf)
+
+    def test_cdf_mass(self):
+        d = opcsim.load_distribution("Urban")
 
         # Test the mass weighted versions
         cdf_m = d.cdf(dmax=1.0, weight='mass')

@@ -50,6 +50,17 @@ class SetupTestCase(unittest.TestCase):
         ax = opcsim.plots.pdfplot(d, with_modes=True)
         self.assertIsNotNone(ax)
 
+    def test_pdf_plot_with_fill(self):
+        opc = opcsim.OPC()
+        d = opcsim.load_distribution("Urban")
+
+        ax = opcsim.plots.pdfplot(d, fill=True)
+
+        self.assertIsNotNone(ax)
+
+        # Try with a different weight
+        ax = opcsim.plots.pdfplot(d, weight='volume')
+
     def test_cdfplot(self):
         opc = opcsim.OPC()
         d = opcsim.load_distribution("Urban")
