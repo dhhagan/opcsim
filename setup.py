@@ -3,7 +3,7 @@ try:
 except ImportError:
     from distutils.core import setup
 
-__version__ = '0.2.0-dev'
+__version__ = '0.2.1-dev'
 
 DISTNAME = 'opcsim'
 AUTHOR = 'David H Hagan'

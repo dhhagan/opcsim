@@ -237,7 +237,7 @@ values by providing an array for the ``dp`` value:
 
 .. parsed-literal::
 
-    array([ 3606.21395766,  1712.82519467,   659.56432207])
+    array([3606.21395766, 1712.82519467,  659.56432207])
 
 
 
@@ -290,7 +290,7 @@ Let’s plot the urban distribution we built earlier.
 
 
 kwargs for the PDF Plot
-~~~~~~~~~~~~~~~~~~~~~~~
+-----------------------
 
 We can also send a number of kwargs to the PDF plot to change its
 appearance. We can add ``plot_kws`` to the matplotlib plot call (things
@@ -470,7 +470,7 @@ What about the total mass of particles less than :math:`D_p=1 \; \mu m`?
 
 .. parsed-literal::
 
-    5.4345309918199618
+    5.434530991819962
 
 
 
@@ -486,7 +486,7 @@ we set the particle density :math:`\rho=1.65\;gcm^{-3}`:
 
 .. parsed-literal::
 
-    9.0013585563081548
+    9.001358556308155
 
 
 
@@ -497,6 +497,9 @@ distribution using the ``opcsim.plots.cdfplot`` function:
 .. code:: ipython3
 
     ax = opcsim.plots.cdfplot(urban)
+    
+    ax.set_ylim(0, None)
+    sns.despine()
 
 
 

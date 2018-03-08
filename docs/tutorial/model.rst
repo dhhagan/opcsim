@@ -85,7 +85,7 @@ diameter, and the last entry is the right bin boundary.
 
 .. parsed-literal::
 
-    array([[ 0.5       ,  1.11803399,  2.5       ]])
+    array([[0.5       , 1.11803399, 2.5       ]])
 
 
 
@@ -107,16 +107,16 @@ total number of bins:
 
 .. parsed-literal::
 
-    array([[  0.3       ,   0.36710275,   0.44921476],
-           [  0.44921476,   0.54969325,   0.67264635],
-           [  0.67264635,   0.82310108,   1.0072089 ],
-           [  1.0072089 ,   1.23249719,   1.50817703],
-           [  1.50817703,   1.84551978,   2.25831796],
-           [  2.25831796,   2.76344911,   3.38156589],
-           [  3.38156589,   4.13794047,   5.06349775],
-           [  5.06349775,   6.19607983,   7.58199316],
-           [  7.58199316,   9.2779018 ,  11.35314422],
-           [ 11.35314422,  13.89256822,  17.        ]])
+    array([[ 0.3       ,  0.36710275,  0.44921476],
+           [ 0.44921476,  0.54969325,  0.67264635],
+           [ 0.67264635,  0.82310108,  1.0072089 ],
+           [ 1.0072089 ,  1.23249719,  1.50817703],
+           [ 1.50817703,  1.84551978,  2.25831796],
+           [ 2.25831796,  2.76344911,  3.38156589],
+           [ 3.38156589,  4.13794047,  5.06349775],
+           [ 5.06349775,  6.19607983,  7.58199316],
+           [ 7.58199316,  9.2779018 , 11.35314422],
+           [11.35314422, 13.89256822, 17.        ]])
 
 
 
@@ -144,8 +144,8 @@ Pro. This OPC has two bins (0.5-2.5, 2.5-10). How do we build the bins?
 
 .. parsed-literal::
 
-    array([[  0.5       ,   1.11803399,   2.5       ],
-           [  2.5       ,   5.        ,  10.        ]])
+    array([[ 0.5       ,  1.11803399,  2.5       ],
+           [ 2.5       ,  5.        , 10.        ]])
 
 
 
@@ -194,12 +194,14 @@ better idea
     ax.plot(diams, η_linear(diams), marker='^', label="$\eta=linear$")
     
     ax.semilogx()
-    ax.legend(loc='best')
     
     sns.despine(offset=5)
     
     ax.set_xlabel("Diameter")
     ax.set_ylabel("Counting Efficiency")
+    
+    # Move the legend
+    ax.legend(bbox_to_anchor=(1.1, 1.05))
     
     ax.xaxis.set_major_formatter(mticks.FormatStrFormatter("%.3g"))
 
@@ -293,8 +295,8 @@ following:
 
 .. parsed-literal::
 
-    array([  3.32717067e+02,   4.44738784e+01,   2.75920424e+00,
-             7.85362827e-02,   1.01796109e-03])
+    array([3.32717067e+02, 4.44738784e+01, 2.75920424e+00, 7.85362827e-02,
+           1.01796109e-03])
 
 
 
@@ -309,8 +311,8 @@ To compare to the ``simple`` method, we can grab that data as well:
 
 .. parsed-literal::
 
-    array([  3.04815785e+02,   3.57911500e+01,   1.87041608e+00,
-             4.33304183e-02,   4.44549802e-04])
+    array([3.04815785e+02, 3.57911500e+01, 1.87041608e+00, 4.33304183e-02,
+           4.44549802e-04])
 
 
 
@@ -326,8 +328,8 @@ want to grab :math:`dV/dlogD_p`?
 
 .. parsed-literal::
 
-    array([  8.88552496e+00,   4.23842272e+00,   9.38370544e-01,
-             9.53129938e-02,   4.40863558e-03])
+    array([8.88552496e+00, 4.23842272e+00, 9.38370544e-01, 9.53129938e-02,
+           4.40863558e-03])
 
 
 
@@ -358,8 +360,8 @@ the previous OPC per the Urban distribution:
 
 .. parsed-literal::
 
-    array([  6.12744230e+01,   8.19047626e+00,   5.08145402e-01,
-             1.44635364e-02,   1.87471533e-04])
+    array([6.12744230e+01, 8.19047626e+00, 5.08145402e-01, 1.44635364e-02,
+           1.87471533e-04])
 
 
 
@@ -380,8 +382,8 @@ To get the surface area within each bin, we do the following:
 
 .. parsed-literal::
 
-    array([  2.64749631e+01,   8.26404722e+00,   1.19728940e+00,
-             7.95816850e-02,   2.40880403e-03])
+    array([2.64749631e+01, 8.26404722e+00, 1.19728940e+00, 7.95816850e-02,
+           2.40880403e-03])
 
 
 
@@ -402,8 +404,8 @@ To get the volume within each bin, we do the following:
 
 .. parsed-literal::
 
-    array([  1.63639160e+00,   7.80563826e-01,   1.72813839e-01,
-             1.75531984e-02,   8.11910864e-04])
+    array([1.63639160e+00, 7.80563826e-01, 1.72813839e-01, 1.75531984e-02,
+           8.11910864e-04])
 
 
 
@@ -489,7 +491,8 @@ does it change if we use the ``simple`` method instead?
     # Add the distribution to the plot
     ax = opcsim.plots.pdfplot(urban, weight='volume', ax=ax)
     
-    ax.legend(["Urban PDF", "subint", "simple"], loc='best')
+    # Add a legend and set limits
+    ax.legend(["Urban PDF", "subint", "simple"], bbox_to_anchor=(1.5, 1.05))
     ax.set_xlim(0.01, 10)
     
     sns.despine()

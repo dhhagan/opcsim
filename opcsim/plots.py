@@ -83,6 +83,7 @@ def histplot(data, bins, ax=None, plot_kws={}, fig_kws={}, **kwargs):
         >>> d = opcsim.load_distribution("Urban")
         >>> ax = opcsim.plots.histplot(opc.evaluate(d), opc.bins)
         >>> ax.set_ylabel("$dN/dlogD_p$")
+        >>> sns.despine()
 
     We can also plot the same OPC in volume (mass) space
 
@@ -92,6 +93,7 @@ def histplot(data, bins, ax=None, plot_kws={}, fig_kws={}, **kwargs):
         >>> ax = opcsim.plots.histplot(
         ...         opc.evaluate(d, weight='volume'), opc.bins)
         >>> ax.set_ylabel("$dV/dlogD_p$")
+        >>> sns.despine()
 
     How about overlaying two OPC's
 
@@ -105,6 +107,7 @@ def histplot(data, bins, ax=None, plot_kws={}, fig_kws={}, **kwargs):
         ...             label="5 bin OPC", ax=ax)
         >>> ax.set_ylabel("$dN/dlogD_p$")
         >>> ax.legend(loc='best')
+        >>> sns.despine()
 
 
     What if we want to fill in the boxes?
@@ -116,6 +119,7 @@ def histplot(data, bins, ax=None, plot_kws={}, fig_kws={}, **kwargs):
         >>> ax = opcsim.plots.histplot(opc.evaluate(d),
         ...             opc.bins, plot_kws=plot_kws)
         >>> ax.set_ylabel("$dN/dlogD_p$")
+        >>> sns.despine()
 
     """
     # Set the default figure kws
@@ -137,14 +141,13 @@ def histplot(data, bins, ax=None, plot_kws={}, fig_kws={}, **kwargs):
                         color=nc,
                         linewidth=5,
                         fill=False,
-                        label=kwargs.pop('label', None)
-                        )
+                        label=kwargs.pop('label', None))
 
     # Set the plot_kws
     plot_kws = dict(default_plot_kws, **plot_kws)
 
     # Plot the bar plot
-    ax.bar(left=bins[:, 0], height=data, width=bins[:, -1] - bins[:, 0],
+    ax.bar(x=bins[:, 0], height=data, width=bins[:, -1] - bins[:, 0],
             align='edge', **plot_kws)
 
     # Set the xaxis to be log10
@@ -159,7 +162,7 @@ def histplot(data, bins, ax=None, plot_kws={}, fig_kws={}, **kwargs):
 
 def pdfplot(distribution, ax=None, weight='number', base='log10', with_modes=False,
             fill=False, plot_kws={}, fig_kws={}, fill_kws={}, **kwargs):
-    """Plot the PDF of a particle size distribution.
+    """Plot the PDF of an aerosol size distribution.
 
     Parameters
     ----------
@@ -292,9 +295,10 @@ def pdfplot(distribution, ax=None, weight='number', base='log10', with_modes=Fal
     # Get data
     if with_modes is True:
         for m in distribution.modes:
-            nc = next(ax._get_lines.prop_cycler)['color']
-
             data = distribution.pdf(dp, base=base, weight=weight, mode=m['label'])
+
+            # Pop off color from the plot_kws
+            plot_kws['color'] = next(ax._get_lines.prop_cycler)['color']
 
             ax.plot(dp, data, label=m['label'], ls='--', **plot_kws)
 

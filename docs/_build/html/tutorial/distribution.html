@@ -99,7 +99,10 @@
 </li>
 </ul>
 </li>
-<li><a class="reference internal" href="#visualizing-the-distribution">Visualizing the Distribution</a></li>
+<li><a class="reference internal" href="#visualizing-the-distribution">Visualizing the Distribution</a><ul>
+<li><a class="reference internal" href="#kwargs-for-the-pdf-plot">kwargs for the PDF Plot</a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#cumulative-distribution-function">Cumulative Distribution Function</a><ul>
 <li><a class="reference internal" href="#number-cdf">Number CDF</a></li>
 <li><a class="reference internal" href="#surface-area-cdf">Surface Area CDF</a></li>
@@ -350,7 +353,7 @@ values by providing an array for the <code class="docutils literal"><span class=
 <div class="code ipython3 highlight-default"><div class="highlight"><pre><span></span><span class="n">urban</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">]))</span>
 </pre></div>
 </div>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">array</span><span class="p">([</span> <span class="mf">3606.21395766</span><span class="p">,</span>  <span class="mf">1712.82519467</span><span class="p">,</span>   <span class="mf">659.56432207</span><span class="p">])</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">array</span><span class="p">([</span><span class="mf">3606.21395766</span><span class="p">,</span> <span class="mf">1712.82519467</span><span class="p">,</span>  <span class="mf">659.56432207</span><span class="p">])</span>
 </pre></div>
 </div>
 <p>To calculate the volume-weighted PDF at some particle diameter
@@ -386,6 +389,8 @@ the plot using normal matplotlib syntax.</p>
 </pre></div>
 </div>
 <img alt="../_images/distribution_20_0.png" src="../_images/distribution_20_0.png" />
+<div class="section" id="kwargs-for-the-pdf-plot">
+<h2>kwargs for the PDF Plot<a class="headerlink" href="#kwargs-for-the-pdf-plot" title="Permalink to this headline">¶</a></h2>
 <p>We can also send a number of kwargs to the PDF plot to change its
 appearance. We can add <code class="docutils literal"><span class="pre">plot_kws</span></code> to the matplotlib plot call (things
 like linewidth, color, etc). We can add <code class="docutils literal"><span class="pre">fig_kws</span></code> which are sent when
@@ -464,6 +469,7 @@ surface area, and volume weighted views:</p>
 </div>
 <img alt="../_images/distribution_28_0.png" src="../_images/distribution_28_0.png" />
 </div>
+</div>
 <div class="section" id="cumulative-distribution-function">
 <h1>Cumulative Distribution Function<a class="headerlink" href="#cumulative-distribution-function" title="Permalink to this headline">¶</a></h1>
 <p>We can easily obtain the integrated value for number of particles, total
@@ -512,7 +518,7 @@ total number of particles between 1 and 2.5 microns:</p>
 <div class="code ipython3 highlight-default"><div class="highlight"><pre><span></span><span class="n">urban</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">dmax</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="s1">&#39;volume&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="mf">5.4345309918199618</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="mf">5.434530991819962</span>
 </pre></div>
 </div>
 <p>Last, how about the total mass of particles in the Urban distribution if
@@ -520,13 +526,16 @@ we set the particle density <span class="math">\(\rho=1.65\;gcm^{-3}\)</span>:</
 <div class="code ipython3 highlight-default"><div class="highlight"><pre><span></span><span class="n">urban</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">dmax</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="s1">&#39;mass&#39;</span><span class="p">,</span> <span class="n">rho</span><span class="o">=</span><span class="mf">1.65</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="mf">9.0013585563081548</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="mf">9.001358556308155</span>
 </pre></div>
 </div>
 <p>Although we wouldn’t normally plot the CDF, we easily can to visualize
 where most of the [number, surface area, mass] is within the
 distribution using the <code class="docutils literal"><span class="pre">opcsim.plots.cdfplot</span></code> function:</p>
 <div class="code ipython3 highlight-default"><div class="highlight"><pre><span></span><span class="n">ax</span> <span class="o">=</span> <span class="n">opcsim</span><span class="o">.</span><span class="n">plots</span><span class="o">.</span><span class="n">cdfplot</span><span class="p">(</span><span class="n">urban</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">()</span>
 </pre></div>
 </div>
 <img alt="../_images/distribution_38_0.png" src="../_images/distribution_38_0.png" />
@@ -562,7 +571,7 @@ mass is distributed:</p>
     </p>
     <p>
         &copy; Copyright 2018, David H Hagan.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.6.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.7.<br/>
     </p>
   </div>
 </footer>

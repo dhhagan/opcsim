@@ -60,7 +60,7 @@ default against the urban distribution.
 
 .. parsed-literal::
 
-    0.95435396966129893
+    0.9543539696612989
 
 
 
@@ -123,7 +123,7 @@ default against the urban distribution.
 
 .. parsed-literal::
 
-    0.69834998173998797
+    0.698349981739988
 
 
 
@@ -141,7 +141,7 @@ How much does it change when the distribution changes?
 
 .. parsed-literal::
 
-    0.95078674577390077
+    0.9507867457739008
 
 
 
