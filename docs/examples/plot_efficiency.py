@@ -31,7 +31,7 @@ ax.set_ylim(0, None)
 ax.set_xlim(.01, 1)
 
 # Add the legend to the plot
-ax.legend(bbox_to_anchor=(1.25, 1.05))
+ax.legend(bbox_to_anchor=(0.6, 1.05))
 
 # Remove the top and right spines
-sns.despine(offset=5)
+sns.despine()

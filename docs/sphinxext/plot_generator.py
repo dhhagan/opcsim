@@ -113,9 +113,7 @@ Example gallery
 """
 
 
-def create_thumbnail(infile, thumbfile,
-                     width=275, height=275,
-                     cx=0.5, cy=0.5, border=4):
+def create_thumbnail(infile, thumbfile, width=275, height=275, cx=0.5, cy=0.5, border=4):
     baseout, extout = op.splitext(thumbfile)
 
     im = image.imread(infile)
@@ -126,7 +124,7 @@ def create_thumbnail(infile, thumbfile,
     yslice = slice(y0, y0 + height)
 
     thumb = im[yslice, xslice]
-    #thumb = im
+
     thumb[:border, :, :3] = thumb[-border:, :, :3] = 0
     thumb[:, :border, :3] = thumb[:, -border:, :3] = 0
 
@@ -135,8 +133,19 @@ def create_thumbnail(infile, thumbfile,
 
     ax = fig.add_axes([0, 0, 1, 1], aspect='auto',
                       frameon=False, xticks=[], yticks=[])
-    ax.imshow(thumb, aspect='auto', resample=True,
+    try:
+        ax.imshow(thumb, aspect='auto', resample=True,
               interpolation='bilinear')
+    except Exception as e:
+        # Added this hack to get around an error with empty matrices
+        thumb = im
+
+        thumb[:border, :, :3] = thumb[-border:, :, :3] = 0
+        thumb[:, :border, :3] = thumb[:, -border:, :3] = 0
+
+        ax.imshow(thumb, aspect='auto', resample=True,
+                interpolation='bilinear')
+
     fig.savefig(thumbfile, dpi=dpi)
     return fig
 
