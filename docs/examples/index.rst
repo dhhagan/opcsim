@@ -65,23 +65,23 @@ Example gallery
 .. toctree::
    :hidden:
 
-   ./build_your_own_distribution
+   ./ten_bin_opc
 
    ./cumulative_mass
 
-   ./opc_with_dist
+   ./volume_mass_comparison
 
    ./opc_with_dist_number_and_vol
 
    ./plot_efficiency
 
-   ./ten_bin_opc
+   ./opc_with_dist
 
-   ./three_weights
+   ./build_your_own_distribution
 
    ./urban_distribution_pdf
 
-   ./volume_mass_comparison
+   ./three_weights
 
 
 
@@ -89,10 +89,10 @@ Example gallery
 .. raw:: html
 
     <div class='figure align-center'>
-    <a href=./build_your_own_distribution.html>
-    <img src=../_static/build_your_own_distribution_thumb.png>
+    <a href=./ten_bin_opc.html>
+    <img src=../_static/ten_bin_opc_thumb.png>
     <span class='figure-label'>
-    <p>pdfplot</p>
+    <p>histplot</p>
     </span>
     </a>
     </div>
@@ -115,10 +115,10 @@ Example gallery
 .. raw:: html
 
     <div class='figure align-center'>
-    <a href=./opc_with_dist.html>
-    <img src=../_static/opc_with_dist_thumb.png>
+    <a href=./volume_mass_comparison.html>
+    <img src=../_static/volume_mass_comparison_thumb.png>
     <span class='figure-label'>
-    <p>histplot</p>
+    <p>pdfplot</p>
     </span>
     </a>
     </div>
@@ -154,8 +154,8 @@ Example gallery
 .. raw:: html
 
     <div class='figure align-center'>
-    <a href=./ten_bin_opc.html>
-    <img src=../_static/ten_bin_opc_thumb.png>
+    <a href=./opc_with_dist.html>
+    <img src=../_static/opc_with_dist_thumb.png>
     <span class='figure-label'>
     <p>histplot</p>
     </span>
@@ -167,8 +167,8 @@ Example gallery
 .. raw:: html
 
     <div class='figure align-center'>
-    <a href=./three_weights.html>
-    <img src=../_static/three_weights_thumb.png>
+    <a href=./build_your_own_distribution.html>
+    <img src=../_static/build_your_own_distribution_thumb.png>
     <span class='figure-label'>
     <p>pdfplot</p>
     </span>
@@ -193,8 +193,8 @@ Example gallery
 .. raw:: html
 
     <div class='figure align-center'>
-    <a href=./volume_mass_comparison.html>
-    <img src=../_static/volume_mass_comparison_thumb.png>
+    <a href=./three_weights.html>
+    <img src=../_static/three_weights_thumb.png>
     <span class='figure-label'>
     <p>pdfplot</p>
     </span>

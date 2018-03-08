@@ -1,6 +1,6 @@
 [![PyPI version](https://badge.fury.io/py/opcsim.svg)](https://badge.fury.io/py/opcsim)
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/dhhagan/opcsim/blob/master/LICENSE)
-[![Build Status](https://travis-ci.com/dhhagan/opcsim.svg?token=h93DryaPQEsWsPpUCPym&branch=master)](https://travis-ci.com/dhhagan/opcsim)
+[![Build Status](https://travis-ci.org/dhhagan/opcsim.svg?branch=master)](https://travis-ci.org/dhhagan/opcsim)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/62e396e65ce4ade478fc/test_coverage)](https://codeclimate.com/github/dhhagan/opcsim/test_coverage)
 [![Maintainability](https://api.codeclimate.com/v1/badges/62e396e65ce4ade478fc/maintainability)](https://codeclimate.com/github/dhhagan/opcsim/maintainability)
 
@@ -13,6 +13,8 @@ their response to various aerosol distributions.
 Full online documentation can be found [here][1].
 
 The docs include a [tutorial][2], an [example gallery][3], and an [API Reference][4].
+
+In addition, documentation can be built locally for development purposes. To do so, please check out the complete details in the *contributing to opcsim* section of the documentation.
 
 ## Dependencies
 

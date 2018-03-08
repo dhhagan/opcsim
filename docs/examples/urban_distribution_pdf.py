@@ -5,7 +5,7 @@ _thumb: .4, .4
 """
 import seaborn as sns
 import opcsim
-sns.set(style='ticks')
+sns.set(style='ticks', font_scale=1.25)
 
 # Load the example urban distribution
 d = opcsim.load_distribution("Urban")
@@ -18,6 +18,9 @@ ax.set_title("Urban Distribution", fontsize=18)
 
 # Add a legend
 ax.legend(loc='best')
+
+# Set the ylim
+ax.set_ylim(0, None)
 
 # Remove the top and right spines
 sns.despine()

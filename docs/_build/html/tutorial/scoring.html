@@ -3,14 +3,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Evaluating the Results of a Simulated OPC &#8212; opcsim 0.1.0 documentation</title>
+    <title>Evaluating the Results of a Simulated OPC &#8212; opcsim 0.2.1.dev0 documentation</title>
     <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../_static/style.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.1.0',
+        VERSION:     '0.2.1.dev0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -49,7 +49,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           opcsim</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.1.0</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.2.1.dev0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -70,8 +70,8 @@
       role="menu"
       aria-labelledby="dLabelGlobalToc"><ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../introduction.html">An Introduction to <cite>opcsim</cite></a></li>
-<li class="toctree-l1"><a class="reference internal" href="../installing.html">Getting Started</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../installing.html#installation">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installing.html">Installation and Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing to <em>opcsim</em></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../api.html">API Reference</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../tutorial.html">opcsim Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../examples/index.html">Example gallery</a></li>
@@ -157,10 +157,6 @@ default against the urban distribution.</p>
 <span class="n">warnings</span><span class="o">.</span><span class="n">simplefilter</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">/</span><span class="n">Users</span><span class="o">/</span><span class="n">dh</span><span class="o">/</span><span class="n">Documents</span><span class="o">/</span><span class="n">GitHub</span><span class="o">/</span><span class="n">opcsim</span><span class="o">/</span><span class="n">opcsim</span><span class="o">/</span><span class="n">opcsim</span><span class="o">/</span><span class="fm">__init__</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">18</span><span class="p">:</span> <span class="ne">UserWarning</span><span class="p">:</span> <span class="n">Module</span> <span class="n">opcsim</span> <span class="n">was</span> <span class="n">already</span> <span class="n">imported</span> <span class="kn">from</span> <span class="o">/</span><span class="n">Users</span><span class="o">/</span><span class="n">dh</span><span class="o">/</span><span class="n">Documents</span><span class="o">/</span><span class="n">GitHub</span><span class="o">/</span><span class="n">opcsim</span><span class="o">/</span><span class="n">opcsim</span><span class="o">/</span><span class="n">opcsim</span><span class="o">/</span><span class="fm">__init__</span><span class="o">.</span><span class="n">py</span><span class="p">,</span> <span class="n">but</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python3</span><span class="o">.</span><span class="mi">6</span><span class="o">/</span><span class="n">site</span><span class="o">-</span><span class="n">packages</span><span class="o">/</span><span class="n">opcsim</span><span class="o">-</span><span class="mf">0.1</span><span class="o">.</span><span class="mi">0</span><span class="o">-</span><span class="n">py3</span><span class="o">.</span><span class="mf">6.</span><span class="n">egg</span> <span class="ow">is</span> <span class="n">being</span> <span class="n">added</span> <span class="n">to</span> <span class="n">sys</span><span class="o">.</span><span class="n">path</span>
-  <span class="n">__version__</span> <span class="o">=</span> <span class="n">get_distribution</span><span class="p">(</span><span class="s1">&#39;opcsim&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">version</span>
-</pre></div>
-</div>
 <div class="code ipython3 highlight-default"><div class="highlight"><pre><span></span><span class="c1"># Build the OPC</span>
 <span class="n">opc</span> <span class="o">=</span> <span class="n">opcsim</span><span class="o">.</span><span class="n">OPC</span><span class="p">()</span>
 
@@ -171,7 +167,7 @@ default against the urban distribution.</p>
 <span class="n">opcsim</span><span class="o">.</span><span class="n">metrics</span><span class="o">.</span><span class="n">nv_score</span><span class="p">(</span><span class="n">opc</span><span class="p">,</span> <span class="n">urban</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="mf">0.95435396966129893</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="mf">0.9543539696612989</span>
 </pre></div>
 </div>
 <p>What is the meaning of this number? Nothing, really. On it’s own, this
@@ -214,7 +210,7 @@ default against the urban distribution.</p>
 <div class="code ipython3 highlight-default"><div class="highlight"><pre><span></span><span class="n">opcsim</span><span class="o">.</span><span class="n">metrics</span><span class="o">.</span><span class="n">vv_score</span><span class="p">(</span><span class="n">opc</span><span class="p">,</span> <span class="n">urban</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="mf">0.69834998173998797</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="mf">0.698349981739988</span>
 </pre></div>
 </div>
 <p>What does this value mean? Well, it is simply a ratio of OPC volume to
@@ -223,7 +219,7 @@ Actual Volume, so this is the fraction of volume seen by the OPC.</p>
 <div class="code ipython3 highlight-default"><div class="highlight"><pre><span></span><span class="n">opcsim</span><span class="o">.</span><span class="n">metrics</span><span class="o">.</span><span class="n">vv_score</span><span class="p">(</span><span class="n">opc</span><span class="p">,</span> <span class="n">rural</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="mf">0.95078674577390077</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="mf">0.9507867457739008</span>
 </pre></div>
 </div>
 <p>While these numbers look relatively great, it may just be a fluke! What
@@ -310,8 +306,8 @@ OPC/Distribution model.</p>
       
     </p>
     <p>
-        &copy; Copyright 2017, David H Hagan.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.4.<br/>
+        &copy; Copyright 2018, David H Hagan.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.6.<br/>
     </p>
   </div>
 </footer>

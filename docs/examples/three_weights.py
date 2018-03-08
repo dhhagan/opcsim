@@ -22,5 +22,9 @@ opcsim.plots.pdfplot(d, weight='surface', ax=ax[1])
 # Plot the volume-weighted pdf
 opcsim.plots.pdfplot(d, weight='volume', ax=ax[2])
 
+# Remove the xaxis labels
+ax[0].set_xlabel("")
+ax[1].set_xlabel("")
+
 # Remove the top and right spines
 sns.despine()

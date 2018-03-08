@@ -6,7 +6,7 @@ _thumb: .6, .5
 import seaborn as sns
 import opcsim
 
-sns.set(style='ticks', font_scale=1.75)
+sns.set(style='ticks', font_scale=1.5)
 
 # Load the example urban distribution
 urban = opcsim.load_distribution("Urban")
@@ -22,8 +22,8 @@ ax = opcsim.plots.cdfplot(rural, weight='mass', ax=ax)
 ax.legend(loc='best')
 
 # Set the x and y-axis limits
-#ax.set_ylim(0, None)
-#ax.set_xlim(.01, None)
+ax.set_ylim(0, None)
+ax.set_xlim(.01, None)
 
 # Remove the top and right spines
 sns.despine()
