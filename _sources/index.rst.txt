@@ -90,6 +90,7 @@ To view the source code or report a bug, please visit the `github repository
 
    introduction
    installing
+   contributing
    api
    tutorial
    examples/index

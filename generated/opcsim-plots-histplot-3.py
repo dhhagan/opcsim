@@ -5,3 +5,4 @@ ax = opcsim.plots.histplot(opcb.evaluate(d), opcb.bins,
             label="5 bin OPC", ax=ax)
 ax.set_ylabel("$dN/dlogD_p$")
 ax.legend(loc='best')
+sns.despine()
