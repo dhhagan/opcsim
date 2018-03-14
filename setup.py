@@ -15,6 +15,8 @@ DOWNLOAD_URL = 'https://github.com/dhhagan/opcsim'
 # Check dependencies
 def check_dependencies():
     install_requires = []
+    dependency_links = []
+
     try:
         import numpy
     except ImportError:
@@ -40,11 +42,17 @@ def check_dependencies():
     except ImportError:
         install_requires.append('seaborn')
 
-    return install_requires
+    try:
+        import mie
+    except ImportError:
+        install_requires.append('mie>=0.4')
+        dependency_links.append("git+https://github.com/darothen/py-mie.git")
+
+    return install_requires, dependency_links
 
 if __name__ == '__main__':
 
-    _install_requires = check_dependencies()
+    _install_requires, _dependency_links = check_dependencies()
 
     setup(
         name=DISTNAME,
@@ -61,6 +69,7 @@ if __name__ == '__main__':
         keywords=['atmospheric chemistry'],
         test_suite='tests',
         install_requires=_install_requires,
+        dependency_links=_dependency_links,
         classifiers=[
             'Development Status :: 3 - Alpha',
             'Operating System :: OS Independent',
