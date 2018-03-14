@@ -21,7 +21,7 @@ before_script: # configure a headless display to test plot generation
 
 before_install:
   - sudo apt-get install -qq python-numpy python-scipy python-matplotlib
-  - sudo apt-get install gfortran g77
+  - sudo apt-get install gfortran
 
 install:
   - "pip install coverage==4.3.4"
