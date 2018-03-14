@@ -3,7 +3,7 @@ try:
 except ImportError:
     from distutils.core import setup
 
-__version__ = '0.2.1-dev'
+__version__ = '0.2.2-dev'
 
 DISTNAME = 'opcsim'
 AUTHOR = 'David H Hagan'
@@ -45,7 +45,7 @@ def check_dependencies():
     try:
         import mie
     except ImportError:
-        install_requires.append('mie>=0.4')
+        install_requires.append('py-mie')
         dependency_links.append("git+https://github.com/darothen/py-mie.git")
 
     return install_requires, dependency_links
