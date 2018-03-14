@@ -14,8 +14,7 @@ DOWNLOAD_URL = 'https://github.com/dhhagan/opcsim'
 
 # Check dependencies
 def check_dependencies():
-    install_requires = []
-    dependency_links = []
+    install_requires, dependency_links = [], []
 
     try:
         import numpy
@@ -46,7 +45,7 @@ def check_dependencies():
         import mie
     except ImportError:
         install_requires.append('py-mie')
-        dependency_links.append("git+https://github.com/darothen/py-mie.git")
+        dependency_links.append("git+https://github.com/darothern/py-mie.git#egg=0.4.0")
 
     return install_requires, dependency_links
 
