@@ -45,13 +45,16 @@ def check_dependencies():
         import mie
     except ImportError:
         install_requires.append('py-mie')
-        dependency_links.append("git+https://github.com/darothern/py-mie.git#egg=0.4.0")
+        dependency_links.append("git+https://github.com/darothen/py-mie.git@master#egg=py-mie-0.4.1")
 
     return install_requires, dependency_links
 
 if __name__ == '__main__':
 
     _install_requires, _dependency_links = check_dependencies()
+
+    print ("\n")
+    print (_install_requires, _dependency_links)
 
     setup(
         name=DISTNAME,
