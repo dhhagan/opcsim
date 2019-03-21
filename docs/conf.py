@@ -23,8 +23,6 @@ import matplotlib as mpl
 
 mpl.use("Agg")
 
-sys.path.insert(0, os.path.abspath('sphinxext'))
-
 # -- General configuration ------------------------------------------------
 
 # If your documentation needs a minimal Sphinx version, state it here.
@@ -34,20 +32,17 @@ sys.path.insert(0, os.path.abspath('sphinxext'))
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
+sys.path.insert(0, os.path.abspath('sphinxext'))
 extensions = [
     'sphinx.ext.autodoc',
     'sphinx.ext.doctest',
-    'sphinx.ext.intersphinx',
     'sphinx.ext.coverage',
     'sphinx.ext.mathjax',
-    'sphinx.ext.viewcode',
     'sphinx.ext.autosummary',
-    'sphinx.ext.githubpages',
+    'sphinx.ext.intersphinx',
     'matplotlib.sphinxext.plot_directive',
-    'plot_generator',
-    'numpydoc',
-    'ipython_directive',
-    'ipython_console_highlighting',
+    'gallery_generator',
+    'numpydoc'
     ]
 
 autosummary_generate = True
@@ -75,7 +70,7 @@ project = 'opcsim'
 
 import time
 
-copyright = '{}, David H Hagan'.format(time.strftime("%Y"))
+copyright = '2017-{}, David H Hagan'.format(time.strftime("%Y"))
 author = 'David H Hagan'
 
 # The version info for the project you're documenting, acts as replacement for
@@ -196,7 +191,11 @@ texinfo_documents = [
 ]
 
 # Example configuration for intersphinx: refer to the Python standard library.
-intersphinx_mapping = {'https://docs.python.org/': None}
+intersphinx_mapping = {'numpy': ('http://docs.scipy.org/doc/numpy/', None),
+                       'scipy': ('http://docs.scipy.org/doc/scipy/reference/', None),
+                       'matplotlib': ('http://matplotlib.org/', None),
+                       'pandas': ('https://pandas.pydata.org/pandas-docs/stable/', None),
+                       'statsmodels': ('http://www.statsmodels.org/stable/', None)}
 
 def setup(app):
     app.add_javascript('copybutton.js')

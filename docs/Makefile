@@ -20,7 +20,7 @@ I18NSPHINXOPTS  = $(PAPEROPT_$(PAPER)) $(SPHINXOPTS) .
 help:
 	@$(SPHINXBUILD) -M help "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
 
-.PHONY: help Makefile
+.PHONY: help clean html Makefile
 
 # Catch-all target: route all unknown targets to Sphinx using the new
 # "make mode" option.  $(O) is meant as a shortcut for $(SPHINXOPTS).
@@ -36,15 +36,19 @@ clean:
 	-rm -rf tutorial/*.rst
 	-rm -rf generated/*
 
-notebooks:
+tutorials:
+	make -C tutorial
 
-	@echo "Making Notebooks"
-	make -C tutorial notebooks
+introduction:
+	tools/nb_to_doc.py introduction
+
+notebooks: tutorials introduction
 
 html:
 	$(SPHINXBUILD) -b html $(ALLSPHINXOPTS) $(BUILDDIR)/html
 	@echo
 	@echo "Build finished. The HTML pages are in $(BUILDDIR)/html."
+
 
 upload:
 	@echo "Uploading to github@gh-pages"

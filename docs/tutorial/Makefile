@@ -1,5 +1,6 @@
-notebooks:
+rst_files := $(patsubst %.ipynb,%.rst,$(wildcard *.ipynb))
 
-	tools/nb_to_doc.py distribution
-	tools/nb_to_doc.py model
-	tools/nb_to_doc.py scoring
+tutorial: ${rst_files}
+
+%.rst: %.ipynb
+	../tools/nb_to_doc.py $*
