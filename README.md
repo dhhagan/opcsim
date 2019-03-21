@@ -28,7 +28,7 @@ and [seaborn][9].
 
 To install (or upgrade to) the latest stable release:
 
-    $ pip install opcsim [--upgrade]
+    $ pip install opcsim [--upgrade] --process-dependency-links
 
 To install the development version directly from GitHub using pip:
 
