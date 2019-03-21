@@ -18,7 +18,7 @@ In addition, documentation can be built locally for development purposes. To do 
 
 ## Dependencies
 
-Opcsim supports Python 2.7 and 3.4+.
+Opcsim supports Python 2.7 and 3.5+.
 
 Installation requires [scipy][5], [numpy][6], [pandas][7], [matplotlib][8],
 and [seaborn][9].
