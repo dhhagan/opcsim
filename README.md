@@ -32,7 +32,7 @@ To install (or upgrade to) the latest stable release:
 
 To install the development version directly from GitHub using pip:
 
-    $ pip install git+https://github.com/dhhagan/opcsim.git
+    $ pip install git+https://github.com/dhhagan/opcsim.git --process-dependency-links
 
 In addition, you can either clone the repository and install from source or download/unzip the zip file and install from source:
 
