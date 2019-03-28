@@ -9,14 +9,14 @@ from subprocess import check_call as sh
 def convert_nb(nbname):
 
     # Execute the notebook
-    sh(["ipython", "nbconvert", "--to", "notebook",
+    sh(["jupyter", "nbconvert", "--to", "notebook",
         "--execute", "--inplace", nbname + ".ipynb"])
 
     # Convert to .rst for Sphinx
-    sh(["ipython", "nbconvert", "--to", "rst", nbname + ".ipynb"])
+    sh(["jupyter", "nbconvert", "--to", "rst", nbname + ".ipynb"])
 
     # Clear notebook output
-    sh(["ipython", "nbconvert", "--to", "notebook", "--inplace",
+    sh(["jupyter", "nbconvert", "--to", "notebook", "--inplace",
         "--ClearOutputPreprocessor.enabled=True", nbname + ".ipynb"])
 
 

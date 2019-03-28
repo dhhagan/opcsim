@@ -104,6 +104,12 @@ pygments_style = 'sphinx'
 todo_include_todos = False
 
 
+# mathjax_config = {
+#     "jax": ["input/TeX", "output/CommonHTML"]
+# }
+
+mathjax_path = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"
+
 # -- Options for HTML output ----------------------------------------------
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
