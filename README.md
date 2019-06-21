@@ -2,7 +2,6 @@
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/dhhagan/opcsim/blob/master/LICENSE)
 [![Build Status](https://travis-ci.org/dhhagan/opcsim.svg?branch=master)](https://travis-ci.org/dhhagan/opcsim)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/62e396e65ce4ade478fc/test_coverage)](https://codeclimate.com/github/dhhagan/opcsim/test_coverage)
-[![Maintainability](https://api.codeclimate.com/v1/badges/62e396e65ce4ade478fc/maintainability)](https://codeclimate.com/github/dhhagan/opcsim/maintainability)
 
 # opcsim
 opcsim is a Python library for simulating low-cost Optical Particle Counters and

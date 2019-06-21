@@ -2,8 +2,8 @@ try:
     from setuptools import setup
 except ImportError:
     from distutils.core import setup
-
-__version__ = '0.2.1-rc1'
+    
+import versioneer
 
 DISTNAME = 'opcsim'
 AUTHOR = 'David H Hagan'
@@ -55,7 +55,8 @@ if __name__ == '__main__':
 
     setup(
         name=DISTNAME,
-        version=__version__,
+        version=versioneer.get_version(),
+        cmdclass=versioneer.get_cmdclass(),
         packages=['opcsim', 'opcsim.equations'],
         description=DESCRIPTION,
         author=AUTHOR,
