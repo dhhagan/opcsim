@@ -114,8 +114,9 @@ To view the source code or report a bug, please visit the `github repository
       </div>
     <div class="panel-body">
 
-* Model OPCs
-* Visualize Aerosol Distributions
+* Simulate optical particle sensors
+* Understand how particle sensors react to changes in aerosol type and composition
+* Easily visualize aerosol distirbutions
 
 .. raw:: html
 

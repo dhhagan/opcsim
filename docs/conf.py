@@ -190,6 +190,8 @@ texinfo_documents = [
      'Miscellaneous'),
 ]
 
+mathjax_path = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"
+
 # Example configuration for intersphinx: refer to the Python standard library.
 intersphinx_mapping = {'numpy': ('http://docs.scipy.org/doc/numpy/', None),
                        'scipy': ('http://docs.scipy.org/doc/scipy/reference/', None),

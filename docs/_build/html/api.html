@@ -4,7 +4,7 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>API Reference &#8212; opcsim 0.2.1.dev0 documentation</title>
+    <title>API Reference &#8212; opcsim 0.3.0+1.g5b51520.dirty documentation</title>
     <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="_static/style.css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="_static/language_data.js"></script>
     <script type="text/javascript" src="_static/copybutton.js"></script>
-    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
     <script type="text/javascript" src="_static/js/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="_static/bootstrap-3.3.7/js/bootstrap.min.js"></script>
@@ -41,7 +41,7 @@
         </button>
         <a class="navbar-brand" href="index.html">
           opcsim</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.2.1.dev0</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.3.0+1.g5b51520.dirty</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -289,13 +289,25 @@
 </colgroup>
 <tbody valign="top">
 <tr class="row-odd"><td><a class="reference internal" href="generated/opcsim.load_distribution.html#opcsim.load_distribution" title="opcsim.load_distribution"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opcsim.load_distribution</span></code></a>(label)</td>
-<td>Load sample distributions as described by S+P Table 8.3.</td>
+<td>Load sample distributions as described by Seinfeld+Pandis Table 8.3.</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="generated/opcsim.utils.make_bins.html#opcsim.utils.make_bins" title="opcsim.utils.make_bins"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opcsim.utils.make_bins</span></code></a>(dmin,&nbsp;dmax,&nbsp;n_bins[,&nbsp;…])</td>
 <td>Returns a 3xn array of bin diameters.</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="generated/opcsim.utils.midpoints.html#opcsim.utils.midpoints" title="opcsim.utils.midpoints"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opcsim.utils.midpoints</span></code></a>(bins[,&nbsp;base])</td>
 <td>Returns a 3xn array of bin diameters.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="generated/opcsim.utils.k_kohler.html#opcsim.utils.k_kohler" title="opcsim.utils.k_kohler"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opcsim.utils.k_kohler</span></code></a>(diam_dry[,&nbsp;kappa,&nbsp;rh])</td>
+<td>Calculate the wet diameter of a particle based on the hygroscopic growth  parameter, kappa (k-Kohler theory).</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="generated/opcsim.utils.rho_eff.html#opcsim.utils.rho_eff" title="opcsim.utils.rho_eff"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opcsim.utils.rho_eff</span></code></a>(rho[,&nbsp;weights,&nbsp;diams])</td>
+<td>Calculate the effective density of a particle by calculating the  wet and dry percentages and taking the weighted sum.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="generated/opcsim.utils.k_eff.html#opcsim.utils.k_eff" title="opcsim.utils.k_eff"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opcsim.utils.k_eff</span></code></a>(kappas[,&nbsp;weights,&nbsp;diams])</td>
+<td>Calculate the effective k-kohler coefficient from  an array of kappa values and their weights.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="generated/opcsim.utils.ri_eff.html#opcsim.utils.ri_eff" title="opcsim.utils.ri_eff"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opcsim.utils.ri_eff</span></code></a>(species[,&nbsp;weights,&nbsp;diams])</td>
+<td>Calculate the effective refractive index for an</td>
 </tr>
 </tbody>
 </table>

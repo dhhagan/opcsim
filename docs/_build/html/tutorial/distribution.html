@@ -4,7 +4,7 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>The Aerosol Distribution Tutorial &#8212; opcsim 0.2.1.dev0 documentation</title>
+    <title>The Aerosol Distribution Tutorial &#8212; opcsim 0.3.0+1.g5b51520.dirty documentation</title>
     <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/style.css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <script type="text/javascript" src="../_static/language_data.js"></script>
     <script type="text/javascript" src="../_static/copybutton.js"></script>
-    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
     <script type="text/javascript" src="../_static/js/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-3.3.7/js/bootstrap.min.js"></script>
@@ -41,7 +41,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           opcsim</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.2.1.dev0</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.3.0+1.g5b51520.dirty</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -81,7 +81,10 @@
       role="menu"
       aria-labelledby="dLabelLocalToc"><ul>
 <li><a class="reference internal" href="#">The Aerosol Distribution Tutorial</a></li>
-<li><a class="reference internal" href="#the-aerosol-distribution">The Aerosol Distribution</a></li>
+<li><a class="reference internal" href="#the-aerosol-distribution">The Aerosol Distribution</a><ul>
+<li><a class="reference internal" href="#incorporating-optical-and-chemical-properties-of-aerosols">Incorporating Optical and Chemical Properties of Aerosols</a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#probability-distribution-function">Probability Distribution Function</a><ul>
 <li><a class="reference internal" href="#number-distribution">Number Distribution</a></li>
 <li><a class="reference internal" href="#surface-area-distribution">Surface Area Distribution</a></li>
@@ -93,6 +96,7 @@
 </li>
 <li><a class="reference internal" href="#visualizing-the-distribution">Visualizing the Distribution</a><ul>
 <li><a class="reference internal" href="#kwargs-for-the-pdf-plot">kwargs for the PDF Plot</a></li>
+<li><a class="reference internal" href="#visualizing-the-effects-of-relative-humidity-on-particle-growth">Visualizing the Effects of Relative Humidity on Particle Growth</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#cumulative-distribution-function">Cumulative Distribution Function</a><ul>
@@ -250,6 +254,42 @@ distribution you would like to use as an argument. Options include:</p>
 <div class="code ipython3 highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">urban</span> <span class="o">=</span> <span class="n">opcsim</span><span class="o">.</span><span class="n">load_distribution</span><span class="p">(</span><span class="s2">&quot;Urban&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
+<div class="section" id="incorporating-optical-and-chemical-properties-of-aerosols">
+<h2>Incorporating Optical and Chemical Properties of Aerosols<a class="headerlink" href="#incorporating-optical-and-chemical-properties-of-aerosols" title="Permalink to this headline">¶</a></h2>
+<p>This library was created for evaluating particle sensors’ response to
+aerosol distributions. Thus, it is extremely important to consider the
+effects of aerosol optical properties as well. In addition to the size
+parameters described above, each mode has a few additional properties
+you can set:</p>
+<ul class="simple">
+<li><strong>kappa</strong>: the k-kohler coefficient for describing water uptake</li>
+<li><strong>rho</strong>: the particle density</li>
+<li><strong>refr</strong>: the complex refractive index</li>
+</ul>
+<p>Each of these is set at the individual mode level and has defaults of
+<span class="math notranslate nohighlight">\(\kappa=0\)</span>, <span class="math notranslate nohighlight">\(\rho=1\)</span>, and <span class="math notranslate nohighlight">\(RI=1.5+0i\)</span>.</p>
+<p>Thus, if we wanted to create a distribution with a single mode of
+Ammonium Sulfate:</p>
+<div class="code ipython3 highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">amm_sulf</span> <span class="o">=</span> <span class="n">opcsim</span><span class="o">.</span><span class="n">AerosolDistribution</span><span class="p">(</span><span class="s2">&quot;Ammonium Sulfate&quot;</span><span class="p">)</span>
+
+<span class="c1"># add a single mode of ammonium sulfate</span>
+<span class="n">amm_sulf</span><span class="o">.</span><span class="n">add_mode</span><span class="p">(</span>
+    <span class="n">n</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
+    <span class="n">gm</span><span class="o">=</span><span class="mf">0.08</span><span class="p">,</span>
+    <span class="n">gsd</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span>
+    <span class="n">label</span><span class="o">=</span><span class="s2">&quot;mode_1&quot;</span><span class="p">,</span>
+    <span class="n">refr</span><span class="o">=</span><span class="p">(</span><span class="mf">1.521</span><span class="o">+</span><span class="mi">0</span><span class="n">j</span><span class="p">),</span>
+    <span class="n">rho</span><span class="o">=</span><span class="mf">1.77</span><span class="p">,</span>
+    <span class="n">kappa</span><span class="o">=</span><span class="mf">0.53</span>
+<span class="p">)</span>
+
+<span class="n">amm_sulf</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">AerosolDistribution</span><span class="p">:</span> <span class="n">Ammonium</span> <span class="n">Sulfate</span>
+</pre></div>
+</div>
+</div>
 </div>
 <div class="section" id="probability-distribution-function">
 <h1>Probability Distribution Function<a class="headerlink" href="#probability-distribution-function" title="Permalink to this headline">¶</a></h1>
@@ -290,7 +330,7 @@ distribution, we would get:</p>
 <span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">()</span>
 </pre></div>
 </div>
-<img alt="../_images/distribution_10_0.png" src="../_images/distribution_10_0.png" />
+<img alt="../_images/distribution_12_0.png" src="../_images/distribution_12_0.png" />
 </div>
 <div class="section" id="surface-area-distribution">
 <h2>Surface Area Distribution<a class="headerlink" href="#surface-area-distribution" title="Permalink to this headline">¶</a></h2>
@@ -380,7 +420,7 @@ the plot using normal matplotlib syntax.</p>
 <span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">();</span>
 </pre></div>
 </div>
-<img alt="../_images/distribution_20_0.png" src="../_images/distribution_20_0.png" />
+<img alt="../_images/distribution_22_0.png" src="../_images/distribution_22_0.png" />
 <div class="section" id="kwargs-for-the-pdf-plot">
 <h2>kwargs for the PDF Plot<a class="headerlink" href="#kwargs-for-the-pdf-plot" title="Permalink to this headline">¶</a></h2>
 <p>We can also send a number of kwargs to the PDF plot to change its
@@ -398,7 +438,7 @@ are sent to the matplotlib fill_between call if and only if
 <span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">();</span>
 </pre></div>
 </div>
-<img alt="../_images/distribution_22_0.png" src="../_images/distribution_22_0.png" />
+<img alt="../_images/distribution_24_0.png" src="../_images/distribution_24_0.png" />
 <p>We can also go ahead and plot each individual mode along with the entire
 distribution using the <code class="docutils literal notranslate"><span class="pre">with_modes</span></code> argument:</p>
 <div class="code ipython3 highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ax</span> <span class="o">=</span> <span class="n">opcsim</span><span class="o">.</span><span class="n">plots</span><span class="o">.</span><span class="n">pdfplot</span><span class="p">(</span><span class="n">urban</span><span class="p">,</span> <span class="n">with_modes</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -412,11 +452,11 @@ distribution using the <code class="docutils literal notranslate"><span class="p
 <span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">();</span>
 </pre></div>
 </div>
-<img alt="../_images/distribution_24_0.png" src="../_images/distribution_24_0.png" />
+<img alt="../_images/distribution_26_0.png" src="../_images/distribution_26_0.png" />
 <p>Still staying in number space, we can go ahead and plot all of the
 available sample distributions to get a feel for just how different they
 are!</p>
-<div class="code ipython3 highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span><span class="mi">7</span><span class="p">))</span>
+<div class="code ipython3 highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
 
 <span class="c1"># Iterate over every sample in the library</span>
 <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">sample</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">opcsim</span><span class="o">.</span><span class="n">distributions</span><span class="o">.</span><span class="n">DISTRIBUTION_DATA</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
@@ -438,7 +478,7 @@ are!</p>
 <span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">()</span>
 </pre></div>
 </div>
-<img alt="../_images/distribution_26_0.png" src="../_images/distribution_26_0.png" />
+<img alt="../_images/distribution_28_0.png" src="../_images/distribution_28_0.png" />
 <p>Finally, we can also go ahead and look at one distribution in number,
 surface area, and volume weighted views:</p>
 <div class="code ipython3 highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">9</span><span class="p">),</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -459,7 +499,46 @@ surface area, and volume weighted views:</p>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-<img alt="../_images/distribution_28_0.png" src="../_images/distribution_28_0.png" />
+<img alt="../_images/distribution_30_0.png" src="../_images/distribution_30_0.png" />
+</div>
+<div class="section" id="visualizing-the-effects-of-relative-humidity-on-particle-growth">
+<h2>Visualizing the Effects of Relative Humidity on Particle Growth<a class="headerlink" href="#visualizing-the-effects-of-relative-humidity-on-particle-growth" title="Permalink to this headline">¶</a></h2>
+<p>If we define a distribution that has a non-zero kappa value, we can
+visualize changes in particle size due to water uptake as follows:</p>
+<div class="code ipython3 highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">amm_sulf</span> <span class="o">=</span> <span class="n">opcsim</span><span class="o">.</span><span class="n">AerosolDistribution</span><span class="p">(</span><span class="s2">&quot;Ammonium Sulfate&quot;</span><span class="p">)</span>
+
+<span class="c1"># add a single mode of ammonium sulfate</span>
+<span class="n">amm_sulf</span><span class="o">.</span><span class="n">add_mode</span><span class="p">(</span>
+    <span class="n">n</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
+    <span class="n">gm</span><span class="o">=</span><span class="mf">0.08</span><span class="p">,</span>
+    <span class="n">gsd</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span>
+    <span class="n">label</span><span class="o">=</span><span class="s2">&quot;mode_1&quot;</span><span class="p">,</span>
+    <span class="n">refr</span><span class="o">=</span><span class="p">(</span><span class="mf">1.521</span><span class="o">+</span><span class="mi">0</span><span class="n">j</span><span class="p">),</span>
+    <span class="n">rho</span><span class="o">=</span><span class="mf">1.77</span><span class="p">,</span>
+    <span class="n">kappa</span><span class="o">=</span><span class="mf">0.53</span>
+<span class="p">)</span>
+
+<span class="c1"># set up a range of rh&#39;s to evaluate and plot</span>
+<span class="n">rh</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">95</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+
+<span class="c1"># define a color palette with the right number of colors</span>
+<span class="n">cpal</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">color_palette</span><span class="p">(</span><span class="s2">&quot;GnBu_d&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">rh</span><span class="p">))</span>
+
+<span class="c1"># set up a figure</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+
+<span class="c1"># iterate over each rh and plot</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">each</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">rh</span><span class="p">):</span>
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">opcsim</span><span class="o">.</span><span class="n">plots</span><span class="o">.</span><span class="n">pdfplot</span><span class="p">(</span><span class="n">amm_sulf</span><span class="p">,</span> <span class="n">rh</span><span class="o">=</span><span class="n">each</span><span class="p">,</span> <span class="n">plot_kws</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="n">cpal</span><span class="p">[</span><span class="n">i</span><span class="p">]),</span>
+                              <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="s1">&#39;volume&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;RH=</span><span class="si">{:.0f}</span><span class="s2">%&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">each</span><span class="p">))</span>
+
+<span class="c1"># tidy up</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="mf">1.01</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="../_images/distribution_32_0.png" src="../_images/distribution_32_0.png" />
 </div>
 </div>
 <div class="section" id="cumulative-distribution-function">
@@ -530,7 +609,7 @@ distribution using the <code class="docutils literal notranslate"><span class="p
 <span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">()</span>
 </pre></div>
 </div>
-<img alt="../_images/distribution_38_0.png" src="../_images/distribution_38_0.png" />
+<img alt="../_images/distribution_42_0.png" src="../_images/distribution_42_0.png" />
 <p>Lastly, we can plot the total volume CDF to get an idea of where the
 mass is distributed:</p>
 <div class="code ipython3 highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ax</span> <span class="o">=</span> <span class="n">opcsim</span><span class="o">.</span><span class="n">plots</span><span class="o">.</span><span class="n">cdfplot</span><span class="p">(</span><span class="n">urban</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="s1">&#39;mass&#39;</span><span class="p">,</span> <span class="n">rho</span><span class="o">=</span><span class="mf">1.65</span><span class="p">)</span>
@@ -539,7 +618,7 @@ mass is distributed:</p>
 <span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">()</span>
 </pre></div>
 </div>
-<img alt="../_images/distribution_40_0.png" src="../_images/distribution_40_0.png" />
+<img alt="../_images/distribution_44_0.png" src="../_images/distribution_44_0.png" />
 </div>
 </div>
 

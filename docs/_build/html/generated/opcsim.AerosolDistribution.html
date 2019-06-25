@@ -4,7 +4,7 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>opcsim.AerosolDistribution &#8212; opcsim 0.2.1.dev0 documentation</title>
+    <title>opcsim.AerosolDistribution &#8212; opcsim 0.3.0+1.g5b51520.dirty documentation</title>
     <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/style.css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <script type="text/javascript" src="../_static/language_data.js"></script>
     <script type="text/javascript" src="../_static/copybutton.js"></script>
-    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
     <script type="text/javascript" src="../_static/js/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-3.3.7/js/bootstrap.min.js"></script>
@@ -41,7 +41,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           opcsim</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.2.1.dev0</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.3.0+1.g5b51520.dirty</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -161,13 +161,13 @@ modes, define as (Seinfeld and Pandis equation 8.54):</p>
 <tr class="row-odd"><td><a class="reference internal" href="#opcsim.AerosolDistribution.__init__" title="opcsim.AerosolDistribution.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>([label])</td>
 <td>Initialize an Aerosol Distribution.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="opcsim.AerosolDistribution.add_mode.html#opcsim.AerosolDistribution.add_mode" title="opcsim.AerosolDistribution.add_mode"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_mode</span></code></a>(n,&nbsp;gm,&nbsp;gsd[,&nbsp;label])</td>
+<tr class="row-even"><td><a class="reference internal" href="opcsim.AerosolDistribution.add_mode.html#opcsim.AerosolDistribution.add_mode" title="opcsim.AerosolDistribution.add_mode"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_mode</span></code></a>(n,&nbsp;gm,&nbsp;gsd[,&nbsp;label,&nbsp;kappa,&nbsp;rho,&nbsp;refr])</td>
 <td>Add a mode to the distribution as defined using N, GM, and GSD.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="opcsim.AerosolDistribution.cdf.html#opcsim.AerosolDistribution.cdf" title="opcsim.AerosolDistribution.cdf"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cdf</span></code></a>(dmax[,&nbsp;dmin,&nbsp;weight,&nbsp;mode,&nbsp;rho])</td>
+<tr class="row-odd"><td><a class="reference internal" href="opcsim.AerosolDistribution.cdf.html#opcsim.AerosolDistribution.cdf" title="opcsim.AerosolDistribution.cdf"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cdf</span></code></a>(dmax[,&nbsp;dmin,&nbsp;weight,&nbsp;mode,&nbsp;rh,&nbsp;rho])</td>
 <td>Evaluate and return the cumulative probability distribution function between <cite>dmin</cite> and <cite>dmax</cite>.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="opcsim.AerosolDistribution.pdf.html#opcsim.AerosolDistribution.pdf" title="opcsim.AerosolDistribution.pdf"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pdf</span></code></a>(dp[,&nbsp;base,&nbsp;weight,&nbsp;mode,&nbsp;rho])</td>
+<tr class="row-even"><td><a class="reference internal" href="opcsim.AerosolDistribution.pdf.html#opcsim.AerosolDistribution.pdf" title="opcsim.AerosolDistribution.pdf"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pdf</span></code></a>(dp[,&nbsp;base,&nbsp;weight,&nbsp;mode,&nbsp;rh,&nbsp;rho])</td>
 <td>Evaluate and return the probability distribution function at particle diameter <cite>dp</cite>.</td>
 </tr>
 </tbody>

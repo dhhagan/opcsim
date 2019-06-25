@@ -111,3 +111,8 @@ Utility Functions
 
     opcsim.utils.make_bins
     opcsim.utils.midpoints
+
+    opcsim.utils.k_kohler
+    opcsim.utils.rho_eff
+    opcsim.utils.k_eff
+    opcsim.utils.ri_eff

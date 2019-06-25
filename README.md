@@ -58,7 +58,7 @@ To run the tests locally using coverage (adds `coverage` as a dependency):
 
 ## Development
 
-**opcsim** development takes place on GitHub. Issues and bugs can be submitted and tracked via the [GitHub Issue Tracker][10] for this repository.
+**opcsim** development takes place on GitHub. Issues and bugs can be submitted and tracked via the [GitHub Issue Tracker][10] for this repository. Versioning is done via the python [versioneer][11] library.
 
 
 [1]: https://dhhagan.github.io/opcsim/
@@ -71,3 +71,4 @@ To run the tests locally using coverage (adds `coverage` as a dependency):
 [8]: http://matplotlib.org/
 [9]: https://seaborn.pydata.org/
 [10]: https://github.com/dhhagan/opcsim/issues
+[11]: https://github.com/warner/python-versioneer

@@ -112,6 +112,51 @@ To read in the urban distribution, we would do the following:
 
     urban = opcsim.load_distribution("Urban")
 
+Incorporating Optical and Chemical Properties of Aerosols
+---------------------------------------------------------
+
+This library was created for evaluating particle sensors’ response to
+aerosol distributions. Thus, it is extremely important to consider the
+effects of aerosol optical properties as well. In addition to the size
+parameters described above, each mode has a few additional properties
+you can set:
+
+-  **kappa**: the k-kohler coefficient for describing water uptake
+-  **rho**: the particle density
+-  **refr**: the complex refractive index
+
+Each of these is set at the individual mode level and has defaults of
+:math:`\kappa=0`, :math:`\rho=1`, and :math:`RI=1.5+0i`.
+
+Thus, if we wanted to create a distribution with a single mode of
+Ammonium Sulfate:
+
+.. code:: ipython3
+
+    amm_sulf = opcsim.AerosolDistribution("Ammonium Sulfate")
+    
+    # add a single mode of ammonium sulfate
+    amm_sulf.add_mode(
+        n=1000, 
+        gm=0.08, 
+        gsd=1.5, 
+        label="mode_1", 
+        refr=(1.521+0j), 
+        rho=1.77, 
+        kappa=0.53
+    )
+    
+    amm_sulf
+
+
+
+
+.. parsed-literal::
+
+    AerosolDistribution: Ammonium Sulfate
+
+
+
 Probability Distribution Function
 =================================
 
@@ -159,7 +204,7 @@ distribution, we would get:
 
 
 
-.. image:: distribution_files/distribution_10_0.png
+.. image:: distribution_files/distribution_12_0.png
 
 
 Surface Area Distribution
@@ -284,7 +329,7 @@ Let’s plot the urban distribution we built earlier.
 
 
 
-.. image:: distribution_files/distribution_20_0.png
+.. image:: distribution_files/distribution_22_0.png
 
 
 kwargs for the PDF Plot
@@ -309,7 +354,7 @@ are sent to the matplotlib fill_between call if and only if
 
 
 
-.. image:: distribution_files/distribution_22_0.png
+.. image:: distribution_files/distribution_24_0.png
 
 
 We can also go ahead and plot each individual mode along with the entire
@@ -329,7 +374,7 @@ distribution using the ``with_modes`` argument:
 
 
 
-.. image:: distribution_files/distribution_24_0.png
+.. image:: distribution_files/distribution_26_0.png
 
 
 Still staying in number space, we can go ahead and plot all of the
@@ -338,7 +383,7 @@ are!
 
 .. code:: ipython3
 
-    fig, ax = plt.subplots(1, figsize=(14,7))
+    fig, ax = plt.subplots(1, figsize=(12,6))
     
     # Iterate over every sample in the library
     for i, sample in enumerate(opcsim.distributions.DISTRIBUTION_DATA.keys()):
@@ -361,7 +406,7 @@ are!
 
 
 
-.. image:: distribution_files/distribution_26_0.png
+.. image:: distribution_files/distribution_28_0.png
 
 
 Finally, we can also go ahead and look at one distribution in number,
@@ -388,7 +433,52 @@ surface area, and volume weighted views:
 
 
 
-.. image:: distribution_files/distribution_28_0.png
+.. image:: distribution_files/distribution_30_0.png
+
+
+Visualizing the Effects of Relative Humidity on Particle Growth
+---------------------------------------------------------------
+
+If we define a distribution that has a non-zero kappa value, we can
+visualize changes in particle size due to water uptake as follows:
+
+.. code:: ipython3
+
+    amm_sulf = opcsim.AerosolDistribution("Ammonium Sulfate")
+    
+    # add a single mode of ammonium sulfate
+    amm_sulf.add_mode(
+        n=1000, 
+        gm=0.08, 
+        gsd=1.5, 
+        label="mode_1", 
+        refr=(1.521+0j), 
+        rho=1.77, 
+        kappa=0.53
+    )
+    
+    # set up a range of rh's to evaluate and plot
+    rh = np.linspace(5, 95, 10)
+    
+    # define a color palette with the right number of colors
+    cpal = sns.color_palette("GnBu_d", len(rh))
+    
+    # set up a figure
+    fig, ax = plt.subplots(1, figsize=(8, 6))
+    
+    # iterate over each rh and plot
+    for i, each in enumerate(rh):
+        ax = opcsim.plots.pdfplot(amm_sulf, rh=each, plot_kws=dict(color=cpal[i]),
+                                  ax=ax, weight='volume', label="RH={:.0f}%".format(each))
+    
+    # tidy up
+    ax.set_ylim(0, None)
+    ax.legend(bbox_to_anchor=(1.01, 1))
+    sns.despine()
+
+
+
+.. image:: distribution_files/distribution_32_0.png
 
 
 Cumulative Distribution Function
@@ -501,7 +591,7 @@ distribution using the ``opcsim.plots.cdfplot`` function:
 
 
 
-.. image:: distribution_files/distribution_38_0.png
+.. image:: distribution_files/distribution_42_0.png
 
 
 Lastly, we can plot the total volume CDF to get an idea of where the
@@ -516,5 +606,6 @@ mass is distributed:
 
 
 
-.. image:: distribution_files/distribution_40_0.png
+.. image:: distribution_files/distribution_44_0.png
+
 

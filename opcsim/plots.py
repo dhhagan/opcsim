@@ -251,8 +251,7 @@ def pdfplot(distribution, ax=None, weight='number', base='log10', with_modes=Fal
         raise ValueError("Invalid weight: ['number', 'surface', 'volume', 'mass']")
 
     # Set the default dp values to plot against
-    dp = kwargs.get('dp', np.logspace(-3, 1, 1000))
-    rho = kwargs.get('rho', 1.)
+    dp = kwargs.pop('dp', np.logspace(-3, 1, 1000))
 
     # Set the default figure kws
     default_fig_kws = dict()
@@ -284,7 +283,7 @@ def pdfplot(distribution, ax=None, weight='number', base='log10', with_modes=Fal
     label = kwargs.pop('label', distribution.label)
 
     # Get the data to plot
-    data = distribution.pdf(dp, base=base, weight=weight, rho=rho)
+    data = distribution.pdf(dp, base=base, weight=weight, **kwargs)
 
     # If fill is selected, fill the gap, otherwise just plot a line
     ax.plot(dp, data, label=label, **plot_kws)
