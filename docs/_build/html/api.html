@@ -4,7 +4,7 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>API Reference &#8212; opcsim 0.3.0+1.g5b51520.dirty documentation</title>
+    <title>API Reference &#8212; opcsim 0.3.0+2.g27176f7.dirty documentation</title>
     <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="_static/style.css" />
@@ -41,7 +41,7 @@
         </button>
         <a class="navbar-brand" href="index.html">
           opcsim</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.3.0+1.g5b51520.dirty</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.3.0+2.g27176f7.dirty</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -87,6 +87,7 @@
 <li><a class="reference internal" href="#models">Models</a><ul>
 </ul>
 </li>
+<li><a class="reference internal" href="#mie-theory-calculations">Mie Theory Calculations</a></li>
 <li><a class="reference internal" href="#visualization">Visualization</a></li>
 <li><a class="reference internal" href="#evaluation-and-scoring">Evaluation and Scoring</a></li>
 <li><a class="reference internal" href="#equations">Equations</a></li>
@@ -192,6 +193,29 @@
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="generated/opcsim.OPC.volume.html#opcsim.OPC.volume" title="opcsim.OPC.volume"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opcsim.OPC.volume</span></code></a>(distribution[,&nbsp;measured])</td>
 <td>Return the total volume of particles an OPC ‘sees’ in each bin.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="mie-theory-calculations">
+<span id="mie-theory-api"></span><h2>Mie Theory Calculations<a class="headerlink" href="#mie-theory-calculations" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="generated/opcsim.mie.coef_pi_tau.html#opcsim.mie.coef_pi_tau" title="opcsim.mie.coef_pi_tau"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opcsim.mie.coef_pi_tau</span></code></a>(theta,&nbsp;x)</td>
+<td>Compute the angle-dependant functions (pi and tau) using upward recurrence.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="generated/opcsim.mie.coef_ab.html#opcsim.mie.coef_ab" title="opcsim.mie.coef_ab"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opcsim.mie.coef_ab</span></code></a>(refr,&nbsp;x)</td>
+<td>Compute the external field coefficients using the logarithmic derivative.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="generated/opcsim.mie.s1s2.html#opcsim.mie.s1s2" title="opcsim.mie.s1s2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opcsim.mie.s1s2</span></code></a>(refr,&nbsp;x,&nbsp;theta)</td>
+<td>Compute the complex scattering amplitudes S1 and S2 at angle theta.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="generated/opcsim.mie.cscat.html#opcsim.mie.cscat" title="opcsim.mie.cscat"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opcsim.mie.cscat</span></code></a>(dp,&nbsp;wl,&nbsp;theta1,&nbsp;theta2[,&nbsp;…])</td>
+<td>Compute the scattering cross section between two angles according to Jaenicke and Hanusch (1993).</td>
 </tr>
 </tbody>
 </table>
@@ -307,7 +331,7 @@
 <td>Calculate the effective k-kohler coefficient from  an array of kappa values and their weights.</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="generated/opcsim.utils.ri_eff.html#opcsim.utils.ri_eff" title="opcsim.utils.ri_eff"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opcsim.utils.ri_eff</span></code></a>(species[,&nbsp;weights,&nbsp;diams])</td>
-<td>Calculate the effective refractive index for an</td>
+<td>Calculate the effective refractive index for an  array of refractive indices and their respective weights.</td>
 </tr>
 </tbody>
 </table>

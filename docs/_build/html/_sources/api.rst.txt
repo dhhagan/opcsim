@@ -49,6 +49,21 @@ Models
     opcsim.OPC.surface_area
     opcsim.OPC.volume
 
+
+.. _mie_theory_api:
+
+Mie Theory Calculations
+-----------------------
+
+.. autosummary::
+    :toctree: generated/
+
+    opcsim.mie.coef_pi_tau
+    opcsim.mie.coef_ab
+    opcsim.mie.s1s2
+    opcsim.mie.cscat
+
+
 .. _plots_api:
 
 Visualization

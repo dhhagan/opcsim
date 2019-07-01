@@ -31,7 +31,7 @@ class OPC(object):
         ce : callable, optional
             Function to be used to calculate the counting efficiency. Should map
             bin diameters (Dp) to a single value.
-        bins : 3xn array, optional
+        bins : 3xn ndarray, optional
             Array of bin diameters. If not set, the bin diameters will be
             automatically set by assuming equalivant bins in logspace between
             dmin and dmax.
