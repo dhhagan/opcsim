@@ -18,16 +18,15 @@ class SetupTestCase(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def test_histplot(self):
-        opc = opcsim.OPC()
-        d = opcsim.load_distribution("Urban")
+    # def test_histplot(self):
+    #     opc = opcsim.OPC()
+    #     d = opcsim.load_distribution("Urban")
 
-        ax = opcsim.plots.histplot(opc.evaluate(d), opc.bins)
+    #     ax = opcsim.plots.histplot(opc.evaluate(d), opc.bins)
 
-        self.assertIsNotNone(ax)
+    #     self.assertIsNotNone(ax)
 
     def test_pdfplot(self):
-        opc = opcsim.OPC()
         d = opcsim.load_distribution("Urban")
 
         ax = opcsim.plots.pdfplot(d)
@@ -51,7 +50,6 @@ class SetupTestCase(unittest.TestCase):
         self.assertIsNotNone(ax)
 
     def test_pdf_plot_with_fill(self):
-        opc = opcsim.OPC()
         d = opcsim.load_distribution("Urban")
 
         ax = opcsim.plots.pdfplot(d, fill=True)
@@ -62,7 +60,6 @@ class SetupTestCase(unittest.TestCase):
         ax = opcsim.plots.pdfplot(d, weight='volume')
 
     def test_cdfplot(self):
-        opc = opcsim.OPC()
         d = opcsim.load_distribution("Urban")
 
         ax = opcsim.plots.cdfplot(d)

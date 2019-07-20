@@ -215,7 +215,7 @@ class AerosolDistribution(object):
         """
         self.modes.append(
             {
-                'label':label, 
+                'label':label if label else "Mode {}".format(len(self.modes)), 
                 'N':n, 'GM':gm, 
                 'GSD':gsd, 
                 "kappa": kappa, 
