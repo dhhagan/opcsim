@@ -4,7 +4,8 @@ import math
 import scipy
 
 from .distributions import AerosolDistribution
-from .utils import make_bins, midpoints, squash_dips, power_law_fit
+from .utils import make_bins, midpoints, squash_dips, power_law_fit, \
+    ri_eff, rho_eff, k_kohler
 from .mie import cscat
 import functools
 
@@ -16,6 +17,7 @@ RI_COMMON = {
     "black_carbon": complex(1.95, 0.79),
     "sulfuric_acid": complex(1.427, 0),
     "soa": complex(1.4, 0.002),
+    "h20": complex(1.333, 0.)
 }
 
 
@@ -190,7 +192,7 @@ class OPC(object):
         # save the fitted boundaries for potential future use
         self._cscat_boundaries = yvals
 
-    def evaluate(self, distribution, **kwargs):
+    def evaluate(self, distribution, rh=0., **kwargs):
         """Return the histogram for a given AerosolDistribution.
 
         We evaluate an OPC for a given distribution by calculating the Cscat value
@@ -207,6 +209,8 @@ class OPC(object):
         ----------
         distribution: AerosolDistribution
             A valid instance of the AerosolDistribution class.
+        rh: float
+            The relative humidity in % (0-100)
 
         Returns
         -------
@@ -233,13 +237,18 @@ class OPC(object):
         rv = np.array([])
         for m in distribution.modes:
             # divide our PDF into bins to make the computations a bit easier
-            n = np.array([round(distribution.cdf(dmin=a, dmax=b, mode=m["label"]), 0)
+            n = np.array([round(distribution.cdf(dmin=a, dmax=b, mode=m["label"], rh=rh), 0)
                                 for a, b in zip(bounds[0:-1], bounds[1:])])
-        
+            
+            # calculate the % dry based on hygroscopic growth
+            refr = ri_eff([m["refr"], RI_COMMON['h20']], diams=[
+                          m['GM'], k_kohler(diam_dry=m["GM"], kappa=m["kappa"], rh=rh) - m['GM']])
+
             # iterate over each bin and calculate the Cscat value and build an array
             for dp, dn in zip(self.midpoints, n):
+                # ammend the RI based on the RH
                 v = cscat(
-                    dp, wl=self.wl, refr=m["refr"], theta1=self.theta[0], theta2=self.theta[1])
+                    dp, wl=self.wl, refr=refr, theta1=self.theta[0], theta2=self.theta[1])
                 
                 rv = np.append(rv, np.repeat(np.array([v]), int(dn)))
         
@@ -252,7 +261,7 @@ class OPC(object):
 
         return rv
     
-    def histogram(self, distribution, weight="number", base="log10", **kwargs):
+    def histogram(self, distribution, weight="number", base="log10", rh=0., **kwargs):
         """Return a histogram containing the [weight] of particles in each OPC bin.
 
         This represents what the OPC 'sees'. All calculations are made assuming the 
@@ -265,6 +274,8 @@ class OPC(object):
             Choose how to weight the pdf. Default is `number`.
         base : {'none' | 'log10'}
             Base algorithm to use. Default is 'log10'.
+        rh: float
+            The relative humidity in percent (0-100).
 
         Returns
         -------
@@ -285,7 +296,7 @@ class OPC(object):
         rho = kwargs.pop("rho", 1.65)
 
         # get the binned values in units of dN/bin
-        rv = self.evaluate(distribution, **kwargs)
+        rv = self.evaluate(distribution, rh=rh, **kwargs)
 
         if weight not in ["number", "surface", "volume", "mass"]:
             raise ValueError("Invalid `weight` parameter")
@@ -308,7 +319,7 @@ class OPC(object):
 
         return self.bins[:, 0], rv, self.ddp
     
-    def integrate(self, distribution, dmin=0., dmax=1., weight="number", **kwargs):
+    def integrate(self, distribution, dmin=0., dmax=1., weight="number", rh=0., **kwargs):
         """Integrate the distribution according to the OPC for any [weight].
 
         By default, this method returns the total number of particles between 0-1 microns.
@@ -327,6 +338,8 @@ class OPC(object):
             The maximum particle diameter [microns] to integrate to.
         weight : {'number' | 'surface' | 'volume'}
             Choose how to weight the pdf. Default is `number`.
+        rh: float
+            The relative humidity in percent (0-100).
 
         Returns
         -------
@@ -345,7 +358,7 @@ class OPC(object):
         rho = kwargs.pop("rho", 1.65)
 
         # calculate dN
-        rv = self.evaluate(distribution, **kwargs)
+        rv = self.evaluate(distribution, rh=rh, **kwargs)
 
         if weight not in ["number", "surface", "volume", "mass"]:
             raise ValueError("Invalid argument for `weight`")
