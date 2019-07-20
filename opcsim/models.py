@@ -56,7 +56,7 @@ class OPC(object):
 
         >>> opc = opcsim.OPC2(wl=0.658, n_bins=5, dmin=0.5, dmax=2.5, theta=(30., 90.))
 
-        Initialize an OPC with known bins.
+        Initialize an OPC with known bins as defined by its bin boundaries.
         
         >>> opc = opcsim.OPC2(wl=0.658, bins=[0.38, 0.54, 0.78, 1.05, 1.5, 2.5], theta=(32., 88.))
 
@@ -147,6 +147,21 @@ class OPC(object):
         Examples
         --------
 
+        Calibrate an OPC using PSL's
+
+        >>> opc = opcsim.OPC(n_bins=5)
+        >>> opc.calibrate(material="psl", method="smooth")
+
+        Calibrate an OPC using a custom material
+        
+        >>> opc = opcsim.OPC(n_bins=5)
+        >>> opc.calibrate(material=complex(1.9, 0.4), method="smooth")
+
+        Calibrate an OPC where the calibration curve is a fitted line (PSL's)
+        
+        >>> opc = opcsim.OPC(n_bins=5)
+        >>> opc.calibrate(material="psl", method="linear")
+
         """
         # determine the complex refractive index
         if type(material) == str:
@@ -167,7 +182,7 @@ class OPC(object):
         # generate the fitted Cscat values based on the method chosen
         if method == "smooth":
             yvals = squash_dips(yvals)
-        elif method == "fit_linear":
+        elif method == "linear":
             # define the function we fit dp to Cscat
             def f(dp, a, b):
                 return a * np.power(dp, b)
@@ -219,6 +234,22 @@ class OPC(object):
 
         Examples
         --------
+
+        Evaluate an OPC for the Urban distribution
+
+        >>> opc = opcsim.OPC(n_bins=5)
+        >>> opc.calibrate(material="psl")
+        >>> d = opcsim.load_distribution("urban")
+        >>> vals = opc.evaluate(d, rh=0.)
+
+        Evaluate a distribution of Ammonium Sulfate at various RH's
+        
+        >>> opc = opcsim.OPC(n_bins=5)
+        >>> d = opcsim.AerosolDistribution()
+        >>> d.add_mode(n=1000, gm=500e-3, gsd=1.5, kappa=0.53, refr=complex(1.521, 0), rho=1.77)
+        >>> vals_0 = opc.evaluate(d, rh=0.)
+        >>> vals_50 = opc.evaluate(d, rh=50.)
+        >>> vals_100 = opc.evaluate(d, rh=100.)
 
         """
         if not self.calibration_function:
@@ -285,11 +316,36 @@ class OPC(object):
             directly plotted as a histogram using matplotlib bar plots. By 
             default, dN/dlogDp is returned.
 
-        See Also
-        --------
-
         Examples
         --------
+
+        Evaluate an OPC for the Urban distribution and return dN/dlogDp
+
+        >>> opc = opcsim.OPC(n_bins=5)
+        >>> opc.calibrate(material="psl")
+        >>> d = opcsim.load_distribution("urban")
+        >>> lb, hist, ddp = opc.histogram(d, weight="number", rh=0.)
+
+        Evaluate an OPC for the Urban distribution and return dV/dlogDp
+
+        >>> opc = opcsim.OPC(n_bins=5)
+        >>> opc.calibrate(material="psl")
+        >>> d = opcsim.load_distribution("urban")
+        >>> lb, hist, ddp = opc.histogram(d, weight="volume", rh=0.)
+
+        Evaluate an OPC for the Urban distribution and return dN/dDp
+
+        >>> opc = opcsim.OPC(n_bins=5)
+        >>> opc.calibrate(material="psl")
+        >>> d = opcsim.load_distribution("urban")
+        >>> lb, hist, ddp = opc.histogram(d, weight="number", base=None, rh=0.)
+
+        Evaluate a distribution of Ammonium Sulfate at 50% RH
+        
+        >>> opc = opcsim.OPC(n_bins=5)
+        >>> d = opcsim.AerosolDistribution()
+        >>> d.add_mode(n=1000, gm=500e-3, gsd=1.5, kappa=0.53, refr=complex(1.521, 0), rho=1.77)
+        >>> lb, hist, ddp = opc.histogram(d, weight="number", base="log10", rh=50.)
 
         """
         # get the density if needed [units of g/cc]
@@ -348,11 +404,30 @@ class OPC(object):
             the total number of particles (i.e. weight='number') 
             are returned.
 
-        See Also
-        --------
-
         Examples
         --------
+
+        Calculate the total number of particles between 0-1 microns
+        for the Urban distribution.
+
+        >>> opc = opcsim.OPC(n_bins=5)
+        >>> opc.calibrate(material="psl")
+        >>> d = opcsim.load_distribution("urban")
+        >>> ntot = opc.integrate(d, dmin=0., dmax=1., weight="number", rh=0.)
+
+        Calculate PM1 for the Urban Distribution when RH = 0%
+
+        >>> opc = opcsim.OPC(n_bins=5)
+        >>> opc.calibrate(material="psl")
+        >>> d = opcsim.load_distribution("urban")
+        >>> ntot = opc.integrate(d, dmin=0., dmax=1., weight="mass", rh=0., rho=1.5)
+
+        Calculate PM2.5 for the Urban Distribution when RH = 50%
+
+        >>> opc = opcsim.OPC(n_bins=5)
+        >>> opc.calibrate(material="psl")
+        >>> d = opcsim.load_distribution("urban")
+        >>> ntot = opc.integrate(d, dmin=0., dmax=2.5, weight="mass", rh=50., rho=1.5)
 
         """
         rho = kwargs.pop("rho", 1.65)

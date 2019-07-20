@@ -287,7 +287,7 @@ class SetupTestCase(unittest.TestCase):
 
         # calibrate the OPC for PSL's
         self.assertIsNone(opc.calibration_function)
-        opc.calibrate(material="psl", method="fit_linear")
+        opc.calibrate(material="psl", method="linear")
         self.assertIsNotNone(opc.calibration_function)
 
         # try for an integer
