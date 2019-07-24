@@ -23,3 +23,4 @@ opc = opcsim.OPC(wl=0.658, n_bins=10, dmin=0.3)
 
 # Remove the top and right spines
 sns.despine()
+

@@ -6,9 +6,9 @@ The Aerosol Distribution Tutorial
 =================================
 
 The following tutorial will show you how an aerosol distribution is
-represented in the opcsim model. You will learn how to import sample
-datasets and create your own distribution from scratch. Additional
-visualization tools are also discussed.
+represented in the opcsim model. You will learn how to use the sample
+datasets and how to create your own distribution from scratch.
+Additional visualization tools are also discussed.
 
 First, we import the python libraries we need and set the styles used
 for plotting throughout this tutorial.
@@ -31,7 +31,8 @@ for plotting throughout this tutorial.
     warnings.simplefilter('ignore')
     
     # Let's set some default seaborn settings
-    sns.set(context='notebook', style='ticks', palette='dark', font_scale=1.75, rc={'figure.figsize': (10,5)})
+    sns.set(context='notebook', style='ticks', palette='dark',
+            font_scale=1.75, rc={'figure.figsize': (10, 5)})
 
 The Aerosol Distribution
 ========================
@@ -121,9 +122,10 @@ effects of aerosol optical properties as well. In addition to the size
 parameters described above, each mode has a few additional properties
 you can set:
 
--  **kappa**: the k-kohler coefficient for describing water uptake
--  **rho**: the particle density
--  **refr**: the complex refractive index
+-  **kappa**: the :math:`\kappa`-kohler coefficient for describing water
+   uptake
+-  **rho**: the particle density, :math:`\rho`
+-  **refr**: the complex refractive index, :math:`n`
 
 Each of these is set at the individual mode level and has defaults of
 :math:`\kappa=0`, :math:`\rho=1`, and :math:`RI=1.5+0i`.
@@ -136,15 +138,8 @@ Ammonium Sulfate:
     amm_sulf = opcsim.AerosolDistribution("Ammonium Sulfate")
     
     # add a single mode of ammonium sulfate
-    amm_sulf.add_mode(
-        n=1000, 
-        gm=0.08, 
-        gsd=1.5, 
-        label="mode_1", 
-        refr=(1.521+0j), 
-        rho=1.77, 
-        kappa=0.53
-    )
+    amm_sulf.add_mode(n=1000, gm=0.08, gsd=1.5, label="mode_1", 
+                refr=(1.521+0j), rho=1.77, kappa=0.53)
     
     amm_sulf
 
@@ -156,6 +151,12 @@ Ammonium Sulfate:
     AerosolDistribution: Ammonium Sulfate
 
 
+
+If you wanted, you could also add multiple modes with different optical
+properties. In addition, there are a few helper functions, found in the
+utilities, that make it simple to make homogeneous aerosol mixtures. At
+this point in time, the library does not support heterogeneous mixtures
+or core-shell models, though it may in the future if their is demand.
 
 Probability Distribution Function
 =================================
@@ -204,7 +205,7 @@ distribution, we would get:
 
 
 
-.. image:: distribution_files/distribution_12_0.png
+.. image:: distribution_files/distribution_13_0.png
 
 
 Surface Area Distribution
@@ -329,7 +330,7 @@ Let’s plot the urban distribution we built earlier.
 
 
 
-.. image:: distribution_files/distribution_22_0.png
+.. image:: distribution_files/distribution_23_0.png
 
 
 kwargs for the PDF Plot
@@ -354,7 +355,7 @@ are sent to the matplotlib fill_between call if and only if
 
 
 
-.. image:: distribution_files/distribution_24_0.png
+.. image:: distribution_files/distribution_25_0.png
 
 
 We can also go ahead and plot each individual mode along with the entire
@@ -374,7 +375,7 @@ distribution using the ``with_modes`` argument:
 
 
 
-.. image:: distribution_files/distribution_26_0.png
+.. image:: distribution_files/distribution_27_0.png
 
 
 Still staying in number space, we can go ahead and plot all of the
@@ -406,7 +407,7 @@ are!
 
 
 
-.. image:: distribution_files/distribution_28_0.png
+.. image:: distribution_files/distribution_29_0.png
 
 
 Finally, we can also go ahead and look at one distribution in number,
@@ -414,7 +415,7 @@ surface area, and volume weighted views:
 
 .. code:: ipython3
 
-    fig, ax = plt.subplots(3, figsize=(12,9), sharex=True)
+    fig, ax = plt.subplots(3, figsize=(10,9), sharex=True)
     
     opcsim.plots.pdfplot(urban, weight='number', ax=ax[0])
     opcsim.plots.pdfplot(urban, weight='surface', ax=ax[1])
@@ -433,7 +434,7 @@ surface area, and volume weighted views:
 
 
 
-.. image:: distribution_files/distribution_30_0.png
+.. image:: distribution_files/distribution_31_0.png
 
 
 Visualizing the Effects of Relative Humidity on Particle Growth
@@ -447,15 +448,8 @@ visualize changes in particle size due to water uptake as follows:
     amm_sulf = opcsim.AerosolDistribution("Ammonium Sulfate")
     
     # add a single mode of ammonium sulfate
-    amm_sulf.add_mode(
-        n=1000, 
-        gm=0.08, 
-        gsd=1.5, 
-        label="mode_1", 
-        refr=(1.521+0j), 
-        rho=1.77, 
-        kappa=0.53
-    )
+    amm_sulf.add_mode(n=1000, gm=0.08, gsd=1.5, label="mode_1", 
+                refr=complex(1.521, 0), rho=1.77, kappa=0.53)
     
     # set up a range of rh's to evaluate and plot
     rh = np.linspace(5, 95, 10)
@@ -478,7 +472,7 @@ visualize changes in particle size due to water uptake as follows:
 
 
 
-.. image:: distribution_files/distribution_32_0.png
+.. image:: distribution_files/distribution_33_0.png
 
 
 Cumulative Distribution Function
@@ -591,7 +585,7 @@ distribution using the ``opcsim.plots.cdfplot`` function:
 
 
 
-.. image:: distribution_files/distribution_42_0.png
+.. image:: distribution_files/distribution_43_0.png
 
 
 Lastly, we can plot the total volume CDF to get an idea of where the
@@ -606,6 +600,6 @@ mass is distributed:
 
 
 
-.. image:: distribution_files/distribution_44_0.png
+.. image:: distribution_files/distribution_45_0.png
 
 

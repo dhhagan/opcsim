@@ -17,7 +17,9 @@ RI_COMMON = {
     "black_carbon": complex(1.95, 0.79),
     "sulfuric_acid": complex(1.427, 0),
     "soa": complex(1.4, 0.002),
-    "h20": complex(1.333, 0.)
+    "h20": complex(1.333, 0.),
+    "urban_low": complex(1.6, 0.034),
+    "urban_high": complex(1.73, 0.086)
 }
 
 
@@ -229,8 +231,11 @@ class OPC(object):
 
         Returns
         -------
+        cscat: array
+            The entire array of Cscat values for each particle in the distribution. 
+            The size of this array is the number of particles in the distribution.
         dN: array
-            The number of particles in each OPC bin.
+            The number of particles in each OPC bin (size is the number of bins)
 
         Examples
         --------
@@ -240,16 +245,16 @@ class OPC(object):
         >>> opc = opcsim.OPC(wl=0.658, n_bins=5)
         >>> opc.calibrate(material="psl")
         >>> d = opcsim.load_distribution("urban")
-        >>> vals = opc.evaluate(d, rh=0.)
+        >>> _, vals = opc.evaluate(d, rh=0.)
 
         Evaluate a distribution of Ammonium Sulfate at various RH's
         
         >>> opc = opcsim.OPC(wl=0.658, n_bins=5)
         >>> d = opcsim.AerosolDistribution()
         >>> d.add_mode(n=1000, gm=500e-3, gsd=1.5, kappa=0.53, refr=complex(1.521, 0), rho=1.77)
-        >>> vals_0 = opc.evaluate(d, rh=0.)
-        >>> vals_50 = opc.evaluate(d, rh=50.)
-        >>> vals_100 = opc.evaluate(d, rh=100.)
+        >>> _, vals_0 = opc.evaluate(d, rh=0.)
+        >>> _, vals_50 = opc.evaluate(d, rh=50.)
+        >>> _, vals_100 = opc.evaluate(d, rh=100.)
 
         """
         if not self.calibration_function:
@@ -278,8 +283,6 @@ class OPC(object):
             refr = ri_eff([m["refr"], RI_COMMON['h20']], diams=[
                           m['GM'], k_kohler(diam_dry=m["GM"], kappa=m["kappa"], rh=rh) - m['GM']])
 
-            
-
             # iterate over each bin and calculate the Cscat value and build an array
             for dp, dn in zip(diams, n):
                 # ammend the RI based on the RH
@@ -289,13 +292,13 @@ class OPC(object):
                 rv = np.append(rv, np.repeat(np.array([v]), int(dn)))
         
         # convert the array of Cscat values into counts per bin
-        rv = np.array([np.count_nonzero(self.calibration_function(values=rv) == x)
+        binned = np.array([np.count_nonzero(self.calibration_function(values=rv) == x)
                        for x in np.arange(self.n_bins)])
         
         # force to be floats
-        rv = rv.astype(float)
+        binned = binned.astype(float)
 
-        return rv
+        return rv, binned
     
     def histogram(self, distribution, weight="number", base="log10", rh=0., **kwargs):
         """Return a histogram containing the [weight] of particles in each OPC bin.
@@ -357,7 +360,7 @@ class OPC(object):
         rho = kwargs.pop("rho", 1.65)
 
         # get the binned values in units of dN/bin
-        rv = self.evaluate(distribution, rh=rh, **kwargs)
+        _, rv = self.evaluate(distribution, rh=rh, **kwargs)
 
         if weight not in ["number", "surface", "volume", "mass"]:
             raise ValueError("Invalid `weight` parameter")
@@ -438,7 +441,7 @@ class OPC(object):
         rho = kwargs.pop("rho", 1.65)
 
         # calculate dN
-        rv = self.evaluate(distribution, rh=rh, **kwargs)
+        _, rv = self.evaluate(distribution, rh=rh, **kwargs)
 
         if weight not in ["number", "surface", "volume", "mass"]:
             raise ValueError("Invalid argument for `weight`")
