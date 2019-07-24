@@ -82,8 +82,6 @@ Example gallery
 
    ./opc_with_dist_number_and_vol
 
-   ./plot_efficiency
-
    ./opc_with_dist
 
    ./hygroscopic_growth_pdf
@@ -144,19 +142,6 @@ Example gallery
     <img src=../_static/opc_with_dist_number_and_vol_thumb.png>
     <span class='figure-label'>
     <p>histplot</p>
-    </span>
-    </a>
-    </div>
-
-
-
-.. raw:: html
-
-    <div class='figure align-center'>
-    <a href=./plot_efficiency.html>
-    <img src=../_static/plot_efficiency_thumb.png>
-    <span class='figure-label'>
-    <p>pdfplot</p>
     </span>
     </a>
     </div>

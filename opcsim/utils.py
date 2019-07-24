@@ -276,7 +276,7 @@ def power_law_fit(diams, cscat, fit_kws={}):
     return f(diams, *popt)
 
 
-def squash_dips(cscat):
+def squash_dips(cscat_vals):
     """Remove any dips in an array by interpolating 
     around those points. If there are no dips and all 
     points are monotonically increasing, the same 
@@ -293,7 +293,7 @@ def squash_dips(cscat):
         An array of smoothed scattering cross-section values.
 
     """
-    cpy = cscat.copy()
+    cpy = cscat_vals.copy()
 
     if (np.diff(cpy) < 0).any():
         idx = np.where(np.diff(cpy) < 0)[0]

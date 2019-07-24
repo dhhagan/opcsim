@@ -4,7 +4,7 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>API Reference &#8212; opcsim 0.3.0+2.g27176f7.dirty documentation</title>
+    <title>API Reference &#8212; opcsim 0.3.0+6.ga4a7e6e.dirty documentation</title>
     <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="_static/style.css" />
@@ -41,7 +41,7 @@
         </button>
         <a class="navbar-brand" href="index.html">
           opcsim</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.3.0+2.g27176f7.dirty</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.3.0+6.ga4a7e6e.dirty</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -89,7 +89,6 @@
 </li>
 <li><a class="reference internal" href="#mie-theory-calculations">Mie Theory Calculations</a></li>
 <li><a class="reference internal" href="#visualization">Visualization</a></li>
-<li><a class="reference internal" href="#evaluation-and-scoring">Evaluation and Scoring</a></li>
 <li><a class="reference internal" href="#equations">Equations</a></li>
 <li><a class="reference internal" href="#utility-functions">Utility Functions</a></li>
 </ul>
@@ -167,8 +166,8 @@
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="generated/opcsim.OPC.html#opcsim.OPC" title="opcsim.OPC"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opcsim.OPC</span></code></a>([n_bins,&nbsp;dmin,&nbsp;dmax,&nbsp;ce,&nbsp;bins])</td>
-<td>Define an Optical Particle Counter (OPC) using key instrument parameters.</td>
+<tr class="row-odd"><td><a class="reference internal" href="generated/opcsim.OPC.html#opcsim.OPC" title="opcsim.OPC"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opcsim.OPC</span></code></a>(wl[,&nbsp;bins,&nbsp;n_bins,&nbsp;dmin,&nbsp;dmax,&nbsp;theta])</td>
+<td>Define an Optical Particle Counter (OPC).</td>
 </tr>
 </tbody>
 </table>
@@ -179,20 +178,17 @@
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="generated/opcsim.OPC.evaluate.html#opcsim.OPC.evaluate" title="opcsim.OPC.evaluate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opcsim.OPC.evaluate</span></code></a>(distribution[,&nbsp;weight,&nbsp;base])</td>
-<td>Evaluate the OPC given the PDF of an aerosol distribution.</td>
+<tr class="row-odd"><td><a class="reference internal" href="generated/opcsim.OPC.calibrate.html#opcsim.OPC.calibrate" title="opcsim.OPC.calibrate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opcsim.OPC.calibrate</span></code></a>(material[,&nbsp;method,&nbsp;…])</td>
+<td>Calibrate the OPC assuming a specific material.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="generated/opcsim.OPC.histogram.html#opcsim.OPC.histogram" title="opcsim.OPC.histogram"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opcsim.OPC.histogram</span></code></a>(distribution[,&nbsp;weight,&nbsp;…])</td>
-<td>Return a histogram corresponding to how an OPC “sees” an aerosol distribution.</td>
+<tr class="row-even"><td><a class="reference internal" href="generated/opcsim.OPC.evaluate.html#opcsim.OPC.evaluate" title="opcsim.OPC.evaluate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opcsim.OPC.evaluate</span></code></a>(distribution[,&nbsp;rh])</td>
+<td>Return the histogram for a given AerosolDistribution.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="generated/opcsim.OPC.number.html#opcsim.OPC.number" title="opcsim.OPC.number"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opcsim.OPC.number</span></code></a>(distribution,&nbsp;**kwargs)</td>
-<td>Return the total number of particles an OPC ‘sees’ in each bin.</td>
+<tr class="row-odd"><td><a class="reference internal" href="generated/opcsim.OPC.histogram.html#opcsim.OPC.histogram" title="opcsim.OPC.histogram"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opcsim.OPC.histogram</span></code></a>(distribution[,&nbsp;weight,&nbsp;…])</td>
+<td>Return a histogram containing the [weight] of particles in each OPC bin.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="generated/opcsim.OPC.surface_area.html#opcsim.OPC.surface_area" title="opcsim.OPC.surface_area"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opcsim.OPC.surface_area</span></code></a>(distribution,&nbsp;**kwargs)</td>
-<td>Return the total surface area of particles an OPC ‘sees’ in each bin.</td>
-</tr>
-<tr class="row-odd"><td><a class="reference internal" href="generated/opcsim.OPC.volume.html#opcsim.OPC.volume" title="opcsim.OPC.volume"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opcsim.OPC.volume</span></code></a>(distribution[,&nbsp;measured])</td>
-<td>Return the total volume of particles an OPC ‘sees’ in each bin.</td>
+<tr class="row-even"><td><a class="reference internal" href="generated/opcsim.OPC.integrate.html#opcsim.OPC.integrate" title="opcsim.OPC.integrate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opcsim.OPC.integrate</span></code></a>(distribution[,&nbsp;dmin,&nbsp;…])</td>
+<td>Integrate the distribution according to the OPC for any [weight].</td>
 </tr>
 </tbody>
 </table>
@@ -214,7 +210,7 @@
 <tr class="row-odd"><td><a class="reference internal" href="generated/opcsim.mie.s1s2.html#opcsim.mie.s1s2" title="opcsim.mie.s1s2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opcsim.mie.s1s2</span></code></a>(refr,&nbsp;x,&nbsp;theta)</td>
 <td>Compute the complex scattering amplitudes S1 and S2 at angle theta.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="generated/opcsim.mie.cscat.html#opcsim.mie.cscat" title="opcsim.mie.cscat"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opcsim.mie.cscat</span></code></a>(dp,&nbsp;wl,&nbsp;theta1,&nbsp;theta2[,&nbsp;…])</td>
+<tr class="row-even"><td><a class="reference internal" href="generated/opcsim.mie.cscat.html#opcsim.mie.cscat" title="opcsim.mie.cscat"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opcsim.mie.cscat</span></code></a>(dp,&nbsp;wl,&nbsp;refr,&nbsp;theta1,&nbsp;theta2)</td>
 <td>Compute the scattering cross section between two angles according to Jaenicke and Hanusch (1993).</td>
 </tr>
 </tbody>
@@ -236,23 +232,6 @@
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="generated/opcsim.plots.cdfplot.html#opcsim.plots.cdfplot" title="opcsim.plots.cdfplot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opcsim.plots.cdfplot</span></code></a>(distribution[,&nbsp;ax,&nbsp;…])</td>
 <td>Plot the CDF of a particle size distribution.</td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="section" id="evaluation-and-scoring">
-<span id="scoring-api"></span><h2>Evaluation and Scoring<a class="headerlink" href="#evaluation-and-scoring" title="Permalink to this headline">¶</a></h2>
-<table border="1" class="longtable docutils">
-<colgroup>
-<col width="10%" />
-<col width="90%" />
-</colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="generated/opcsim.metrics.nv_score.html#opcsim.metrics.nv_score" title="opcsim.metrics.nv_score"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opcsim.metrics.nv_score</span></code></a>(model,&nbsp;distribution)</td>
-<td>Calculate and return the number-to-volume ratio.</td>
-</tr>
-<tr class="row-even"><td><a class="reference internal" href="generated/opcsim.metrics.vv_score.html#opcsim.metrics.vv_score" title="opcsim.metrics.vv_score"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opcsim.metrics.vv_score</span></code></a>(model,&nbsp;distribution)</td>
-<td>Calculate and return the volume-to-volume ratio.</td>
 </tr>
 </tbody>
 </table>

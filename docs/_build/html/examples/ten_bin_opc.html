@@ -4,7 +4,7 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Urban Response of a 10-bin OPC &#8212; opcsim 0.3.0+2.g27176f7.dirty documentation</title>
+    <title>Urban Response of a 10-bin OPC &#8212; opcsim 0.3.0+6.ga4a7e6e.dirty documentation</title>
     <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/style.css" />
@@ -41,7 +41,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           opcsim</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.3.0+2.g27176f7.dirty</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.3.0+6.ga4a7e6e.dirty</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -122,10 +122,10 @@
 <span class="n">d</span> <span class="o">=</span> <span class="n">opcsim</span><span class="o">.</span><span class="n">load_distribution</span><span class="p">(</span><span class="s2">&quot;Urban&quot;</span><span class="p">)</span>
 
 <span class="c1"># Build a 10-bin OPC</span>
-<span class="n">opc</span> <span class="o">=</span> <span class="n">opcsim</span><span class="o">.</span><span class="n">OPC</span><span class="p">(</span><span class="n">n_bins</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">dmin</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+<span class="n">opc</span> <span class="o">=</span> <span class="n">opcsim</span><span class="o">.</span><span class="n">OPC</span><span class="p">(</span><span class="n">wl</span><span class="o">=</span><span class="mf">0.658</span><span class="p">,</span> <span class="n">n_bins</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">dmin</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
 
 <span class="c1"># Plot the histogram response</span>
-<span class="n">ax</span> <span class="o">=</span> <span class="n">opcsim</span><span class="o">.</span><span class="n">plots</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">opc</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">d</span><span class="p">),</span> <span class="n">bins</span><span class="o">=</span><span class="n">opc</span><span class="o">.</span><span class="n">bins</span><span class="p">)</span>
+<span class="c1"># ax = opcsim.plots.histplot(opc.evaluate(d), bins=opc.bins)</span>
 
 <span class="c1"># Remove the top and right spines</span>
 <span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">()</span>

@@ -3,9 +3,9 @@
     </div>
     <div class=col-md-9 content>
 
-opcsim.OPC.number
-=================
+opcsim.OPC.calibrate
+====================
 
 .. currentmodule:: opcsim
 
-.. automethod:: OPC.number
+.. automethod:: OPC.calibrate

@@ -4,7 +4,7 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Build Your Own Aerosol Distribution &#8212; opcsim 0.3.0+2.g27176f7.dirty documentation</title>
+    <title>Build Your Own Aerosol Distribution &#8212; opcsim 0.3.0+6.ga4a7e6e.dirty documentation</title>
     <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/style.css" />
@@ -41,7 +41,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           opcsim</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.3.0+2.g27176f7.dirty</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.3.0+6.ga4a7e6e.dirty</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -123,7 +123,8 @@
 <span class="n">d</span> <span class="o">=</span> <span class="n">opcsim</span><span class="o">.</span><span class="n">AerosolDistribution</span><span class="p">()</span>
 
 <span class="c1"># Add a mode with 1000 particles/cc, GM=100nm, and GSD=1.5</span>
-<span class="n">d</span><span class="o">.</span><span class="n">add_mode</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">gm</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">gsd</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Mode I&quot;</span><span class="p">)</span>
+<span class="n">d</span><span class="o">.</span><span class="n">add_mode</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">gm</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">gsd</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Mode I&quot;</span><span class="p">,</span> 
+    <span class="n">kappa</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span> <span class="n">rho</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">refr</span><span class="o">=</span><span class="nb">complex</span><span class="p">(</span><span class="mf">1.5</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
 
 <span class="c1"># Overlay the distribution</span>
 <span class="n">ax</span> <span class="o">=</span> <span class="n">opcsim</span><span class="o">.</span><span class="n">plots</span><span class="o">.</span><span class="n">pdfplot</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>

@@ -43,11 +43,10 @@ Models
 .. autosummary::
     :toctree: generated/
 
+    opcsim.OPC.calibrate
     opcsim.OPC.evaluate
     opcsim.OPC.histogram
-    opcsim.OPC.number
-    opcsim.OPC.surface_area
-    opcsim.OPC.volume
+    opcsim.OPC.integrate
 
 
 .. _mie_theory_api:
@@ -75,18 +74,6 @@ Visualization
     opcsim.plots.histplot
     opcsim.plots.pdfplot
     opcsim.plots.cdfplot
-
-
-.. _scoring_api:
-
-Evaluation and Scoring
-----------------------
-
-.. autosummary::
-    :toctree: generated/
-
-    opcsim.metrics.nv_score
-    opcsim.metrics.vv_score
 
 
 .. _equations_api:

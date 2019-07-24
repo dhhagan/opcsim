@@ -3,9 +3,9 @@
     </div>
     <div class=col-md-9 content>
 
-opcsim.OPC.volume
-=================
+opcsim.OPC.integrate
+====================
 
 .. currentmodule:: opcsim
 
-.. automethod:: OPC.volume
+.. automethod:: OPC.integrate

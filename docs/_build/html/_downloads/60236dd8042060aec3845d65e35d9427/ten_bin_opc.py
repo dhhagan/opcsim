@@ -11,10 +11,10 @@ sns.set(style='ticks', font_scale=1.5)
 d = opcsim.load_distribution("Urban")
 
 # Build a 10-bin OPC
-opc = opcsim.OPC(n_bins=10, dmin=0.3)
+opc = opcsim.OPC(wl=0.658, n_bins=10, dmin=0.3)
 
 # Plot the histogram response
-ax = opcsim.plots.histplot(opc.evaluate(d), bins=opc.bins)
+# ax = opcsim.plots.histplot(opc.evaluate(d), bins=opc.bins)
 
 # Remove the top and right spines
 sns.despine()

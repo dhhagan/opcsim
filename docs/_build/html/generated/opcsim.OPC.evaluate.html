@@ -4,7 +4,7 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>opcsim.OPC.evaluate &#8212; opcsim 0.3.0+2.g27176f7.dirty documentation</title>
+    <title>opcsim.OPC.evaluate &#8212; opcsim 0.3.0+6.ga4a7e6e.dirty documentation</title>
     <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/style.css" />
@@ -22,7 +22,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="opcsim.OPC.histogram" href="opcsim.OPC.histogram.html" />
-    <link rel="prev" title="opcsim.OPC" href="opcsim.OPC.html" />
+    <link rel="prev" title="opcsim.OPC.calibrate" href="opcsim.OPC.calibrate.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
@@ -41,7 +41,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           opcsim</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.3.0+2.g27176f7.dirty</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.3.0+6.ga4a7e6e.dirty</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -115,64 +115,54 @@
 <h1>opcsim.OPC.evaluate<a class="headerlink" href="#opcsim-opc-evaluate" title="Permalink to this headline">¶</a></h1>
 <dl class="method">
 <dt id="opcsim.OPC.evaluate">
-<code class="descclassname">OPC.</code><code class="descname">evaluate</code><span class="sig-paren">(</span><em>distribution</em>, <em>weight='number'</em>, <em>base='log10'</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#opcsim.OPC.evaluate" title="Permalink to this definition">¶</a></dt>
-<dd><p>Evaluate the OPC given the PDF of an aerosol distribution.</p>
-<p>Two methods of evaluation: ‘simple’ and ‘subint’. The ‘simple’ method
-evaluates the PDF at each given bin midpoint, setting this value to be
-the number of particles the OPC senses in that bin.</p>
-<p>The ‘subint’ method performs an integration across each bin, taking into
-account the change in counting efficiency within the bin. This becomes
-much more important with wider bins, where the PDF can span orders of
-magnitude.</p>
-<p>The default is to perform the integration, as we feel this is the most
-accurate and honest way to evaluate what an OPC truly ‘sees’ within a
-given size bin.</p>
+<code class="descclassname">OPC.</code><code class="descname">evaluate</code><span class="sig-paren">(</span><em>distribution</em>, <em>rh=0.0</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#opcsim.OPC.evaluate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the histogram for a given AerosolDistribution.</p>
+<p>We evaluate an OPC for a given distribution by calculating the Cscat value
+for every particle in the distribution and assigning it to a bin of the OPC.
+Since we are beginning with a PDF and not a distribution, we must first 
+discretize our PDF - we can choose the number of bins to convert of PDF 
+into which allows us to limit the computation needed by only performing 
+calculations for a small subset of the actual particles (i.e. we can do one
+calculation for a tiny bin and then replicate it without needing to re-do the 
+Mie calculations).</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
-<dt><strong>distribution</strong> <span class="classifier-delimiter">:</span> <span class="classifier">AerosolDistribution</span></dt>
-<dd><p class="first last">A valid AerosolDistribution instance that can be evaluated.</p>
+<dt><strong>distribution: AerosolDistribution</strong></dt>
+<dd><p class="first last">A valid instance of the AerosolDistribution class.</p>
 </dd>
-<dt><strong>weight</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{‘number’ | ‘surface’ | ‘volume’ | ‘mass’}</span></dt>
-<dd><p class="first last">Choose how to weight the pdf. Default is <cite>number</cite>.</p>
-</dd>
-<dt><strong>base</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{‘none’ | ‘log’ | ‘log10’}</span></dt>
-<dd><p class="first last">Base algorithm to use. Default is ‘log10’.</p>
-</dd>
-<dt><strong>method</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{‘subint’ | ‘simple’}</span></dt>
-<dd><p class="first last">Details the mechanism used for integrating the PDF/CDF. Default is
-‘subint’.</p>
+<dt><strong>rh: float</strong></dt>
+<dd><p class="first last">The relative humidity in % (0-100)</p>
 </dd>
 </dl>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>d[weight]/d[base]Dp</strong> <span class="classifier-delimiter">:</span> <span class="classifier">array</span></dt>
-<dd><p class="first last">An array containing the evaluated AerosolDistribution PDF at all
-midpoint particle diameters.</p>
+<dt><strong>dN: array</strong></dt>
+<dd><p class="first last">The number of particles in each OPC bin.</p>
 </dd>
 </dl>
 </td>
 </tr>
 </tbody>
 </table>
-<div class="admonition seealso">
-<p class="first admonition-title">See also</p>
-<p class="last"><a class="reference internal" href="opcsim.AerosolDistribution.html#opcsim.AerosolDistribution" title="opcsim.AerosolDistribution"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opcsim.AerosolDistribution</span></code></a></p>
-</div>
 <p class="rubric">Examples</p>
-<p>Evaluate the Urban Aerosol Distribution using a 2-bin OPC:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="n">opcsim</span><span class="o">.</span><span class="n">load_distribution</span><span class="p">(</span><span class="s2">&quot;Urban&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">opc</span> <span class="o">=</span> <span class="n">opcsim</span><span class="o">.</span><span class="n">OPC</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">dNdlogDp</span> <span class="o">=</span> <span class="n">opc</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+<p>Evaluate an OPC for the Urban distribution</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">opc</span> <span class="o">=</span> <span class="n">opcsim</span><span class="o">.</span><span class="n">OPC</span><span class="p">(</span><span class="n">n_bins</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">opc</span><span class="o">.</span><span class="n">calibrate</span><span class="p">(</span><span class="n">material</span><span class="o">=</span><span class="s2">&quot;psl&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="n">opcsim</span><span class="o">.</span><span class="n">load_distribution</span><span class="p">(</span><span class="s2">&quot;urban&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vals</span> <span class="o">=</span> <span class="n">opc</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">rh</span><span class="o">=</span><span class="mf">0.</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Evaluate the same OPC, but weight by volume/mass:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="n">opcsim</span><span class="o">.</span><span class="n">load_distribution</span><span class="p">(</span><span class="s2">&quot;Urban&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">opc</span> <span class="o">=</span> <span class="n">opcsim</span><span class="o">.</span><span class="n">OPC</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">dVdlogDp</span> <span class="o">=</span> <span class="n">opc</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="s1">&#39;volume&#39;</span><span class="p">)</span>
+<p>Evaluate a distribution of Ammonium Sulfate at various RH’s</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">opc</span> <span class="o">=</span> <span class="n">opcsim</span><span class="o">.</span><span class="n">OPC</span><span class="p">(</span><span class="n">n_bins</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="n">opcsim</span><span class="o">.</span><span class="n">AerosolDistribution</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">d</span><span class="o">.</span><span class="n">add_mode</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">gm</span><span class="o">=</span><span class="mf">500e-3</span><span class="p">,</span> <span class="n">gsd</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">kappa</span><span class="o">=</span><span class="mf">0.53</span><span class="p">,</span> <span class="n">refr</span><span class="o">=</span><span class="nb">complex</span><span class="p">(</span><span class="mf">1.521</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">rho</span><span class="o">=</span><span class="mf">1.77</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vals_0</span> <span class="o">=</span> <span class="n">opc</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">rh</span><span class="o">=</span><span class="mf">0.</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vals_50</span> <span class="o">=</span> <span class="n">opc</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">rh</span><span class="o">=</span><span class="mf">50.</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vals_100</span> <span class="o">=</span> <span class="n">opc</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">rh</span><span class="o">=</span><span class="mf">100.</span><span class="p">)</span>
 </pre></div>
 </div>
 </dd></dl>

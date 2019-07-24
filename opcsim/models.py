@@ -24,7 +24,7 @@ RI_COMMON = {
 class OPC(object):
     """Define an Optical Particle Counter (OPC).
     """
-    def __init__(self, wl, bins=None, n_bins=None, dmin=0.5, 
+    def __init__(self, wl, bins=None, n_bins=5, dmin=0.5, 
             dmax=2.5, theta=(30., 90.), **kwargs):
         """
 
@@ -70,13 +70,12 @@ class OPC(object):
         self.theta = theta
         self.label = kwargs.pop("label", None)
         self.calibration_function = None
+        self.calibration_refr = None
+        self.calibration_vals = None
         self._cscat_boundaries = None
 
         # generate the bins
         if self.bins is None:
-            if self.n_bins is None:
-                raise Exception("You must set either n_bins or bins.")
-
             self.bins = make_bins(self.dmin, self.dmax, self.n_bins)
         else:
             self.bins = np.asarray(self.bins)
@@ -203,6 +202,8 @@ class OPC(object):
         # the calibration function must take just one argument (cscat(s)) and return 
         # a bin number(s)
         self.calibration_function = functools.partial(self._digitize_opc_bins, cscat_boundaries=yvals)
+        self.calibration_refr = refr
+        self.calibration_vals = yvals
 
         # save the fitted boundaries for potential future use
         self._cscat_boundaries = yvals
@@ -218,7 +219,6 @@ class OPC(object):
         calculations for a small subset of the actual particles (i.e. we can do one
         calculation for a tiny bin and then replicate it without needing to re-do the 
         Mie calculations).
-
 
         Parameters
         ----------
@@ -237,14 +237,14 @@ class OPC(object):
 
         Evaluate an OPC for the Urban distribution
 
-        >>> opc = opcsim.OPC(n_bins=5)
+        >>> opc = opcsim.OPC(wl=0.658, n_bins=5)
         >>> opc.calibrate(material="psl")
         >>> d = opcsim.load_distribution("urban")
         >>> vals = opc.evaluate(d, rh=0.)
 
         Evaluate a distribution of Ammonium Sulfate at various RH's
         
-        >>> opc = opcsim.OPC(n_bins=5)
+        >>> opc = opcsim.OPC(wl=0.658, n_bins=5)
         >>> d = opcsim.AerosolDistribution()
         >>> d.add_mode(n=1000, gm=500e-3, gsd=1.5, kappa=0.53, refr=complex(1.521, 0), rho=1.77)
         >>> vals_0 = opc.evaluate(d, rh=0.)
@@ -490,10 +490,6 @@ class OPC(object):
             or too large, it will be dropped. Thus, the size of bins is less than 
             or equal to the size of values.
 
-        Examples
-        --------
-        
-
         """
         _binb = np.asarray(cscat_boundaries)
         _vals = np.asarray(values)
@@ -512,10 +508,7 @@ class OPC(object):
         return digitized
 
     def __repr__(self): # pragma: no cover
-        if self.label:
-            return "{} (ƛ = {:.0f} nm)".format(self.label, self.wl*1e3)
-
-        return self
+        return str(self.__class__)
 
 
 __all__ = [

@@ -6,6 +6,7 @@ import itertools
 
 from .distributions import AerosolDistribution
 from .models import OPC
+from .mie import cscat
 
 lrg_number_fmt = mtick.ScalarFormatter()
 lrg_number_fmt.set_powerlimits((-3, 4))
@@ -160,6 +161,7 @@ def histplot(data, bins, ax=None, plot_kws={}, fig_kws={}, **kwargs):
 
     return ax
 
+
 def pdfplot(distribution, ax=None, weight='number', base='log10', with_modes=False,
             fill=False, plot_kws={}, fig_kws={}, fill_kws={}, **kwargs):
     """Plot the PDF of an aerosol size distribution.
@@ -313,6 +315,7 @@ def pdfplot(distribution, ax=None, weight='number', base='log10', with_modes=Fal
 
     return ax
 
+
 def cdfplot(distribution, ax=None, weight='number', plot_kws={},
             fig_kws={}, **kwargs):
     """Plot the CDF of a particle size distribution.
@@ -410,8 +413,46 @@ def cdfplot(distribution, ax=None, weight='number', plot_kws={},
 
     return ax
 
+
+def calplot(opc, ax=None, plot_kws={}, fig_kws={}, **kwargs):
+    """
+    """
+    # Make a new axis object if one wasnt' set
+    if ax is None:
+        plt.figure(**fig_kws)
+        ax = plt.gca()
+    
+    xs = kwargs.pop("dp", np.logspace(-1.5, 1.5, 250))
+    label = kwargs.pop("label", None)
+
+    # Set the plot_kws as a mapping of default and kwargs
+    default_plot_kws = dict(alpha=1, linewidth=3)
+
+    # Set the plot_kws
+    plot_kws = dict(default_plot_kws, **plot_kws)
+
+    # compute the Cscat values
+    yvals = np.array([cscat(x, wl=opc.wl, refr=opc.calibration_refr,
+                            theta1=opc.theta[0], theta2=opc.theta[1]) for x in xs])
+    
+    nc = next(ax._get_lines.prop_cycler)['color']
+
+    ax.plot(xs, yvals, color=nc, label=label, **plot_kws)
+    ax.scatter(opc.bin_boundaries, opc.calibration_vals, s=50)
+
+    ax.semilogx()
+    ax.semilogy()
+    ax.xaxis.set_major_formatter(mtick.FormatStrFormatter("%.3g"))
+
+    ax.set_xlabel("$D_p \; [\mu m]$")
+    ax.set_ylabel("$C_{scat}\; [cm^2/particle]$")
+
+    return ax
+
+
 __all__ = [
     'histplot',
     'pdfplot',
-    'cdfplot'
+    'cdfplot',
+    'calplot'
 ]
