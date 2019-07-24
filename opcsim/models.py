@@ -264,6 +264,9 @@ class OPC(object):
         bounds = np.logspace(start=np.log10(bounds[0]), stop=np.log10(
             bounds[1]), num=kwargs.pop("n_bins", int(min(ntot/10, 250))))
 
+        # we need to calculate the midpoint of the new bounds to compute the cscats!
+        diams = np.mean([bounds[:-1], bounds[1:]], axis=0)
+
         # for each mode...
         rv = np.array([])
         for m in distribution.modes:
@@ -275,8 +278,10 @@ class OPC(object):
             refr = ri_eff([m["refr"], RI_COMMON['h20']], diams=[
                           m['GM'], k_kohler(diam_dry=m["GM"], kappa=m["kappa"], rh=rh) - m['GM']])
 
+            
+
             # iterate over each bin and calculate the Cscat value and build an array
-            for dp, dn in zip(self.midpoints, n):
+            for dp, dn in zip(diams, n):
                 # ammend the RI based on the RH
                 v = cscat(
                     dp, wl=self.wl, refr=refr, theta1=self.theta[0], theta2=self.theta[1])
