@@ -119,7 +119,7 @@ class SetupTestCase(unittest.TestCase):
         self.assertIsNotNone(opc.calibration_function)
 
         # test the histogram
-        rv, h = opc.evaluate(d)
+        h = opc.evaluate(d)
 
     def test_opc_histogram(self):
         n_bins = 10

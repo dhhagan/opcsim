@@ -204,7 +204,7 @@ def k_eff(kappas, weights=None, diams=None):
     return (kappas * weights).sum()
 
 
-def ri_eff(species, weights=None, diams=None):
+def ri_eff(species, weights=None):
     """Calculate the effective refractive index for an 
     array of refractive indices and their respective weights. 
     Alternatively, an array of diameters can be passed which 
@@ -220,8 +220,6 @@ def ri_eff(species, weights=None, diams=None):
         An array of refractive indices.
     weights: ndarray, optional
         An array of volumetric weights.
-    diams: ndarray
-        An array of diameters used to calculate the weights.
     
     Returns
     -------
@@ -229,12 +227,6 @@ def ri_eff(species, weights=None, diams=None):
         The effective refractive index.
     """
     species = np.asarray(species)
-
-    # if diams are present, compute their weights
-    if diams is not None:
-        diams = np.asarray(diams)
-        weights = (diams**3) / (diams**3).sum()
-
     weights = np.asarray(weights)
 
     # calculate the real and imag parts separately
@@ -303,4 +295,3 @@ def squash_dips(cscat_vals):
                 cpy[i] = np.mean([cpy[i-1], cpy[i+1]])
     
     return cpy
-

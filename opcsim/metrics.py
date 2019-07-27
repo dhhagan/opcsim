@@ -2,6 +2,95 @@
 """
 
 import numpy as np
+import pandas as pd
+from .models import OPC
+from .utils import k_kohler, ri_eff
+from .mie import cscat
+
+def classify_bin_accuracy(**kwargs):
+    """Classify the accuracy of an OPC for counting 
+    an aerosol distribution. It will return a confusion matrix
+    of size n_bins x n_bins.
+    """
+    return
+
+
+def compute_bin_assessment(opc, refr, kappa, rh_values=[0., 35., 95.]):
+    """Assess the ability of an OPC to assign particles to their correct bin.
+
+    Parameters
+    ----------
+    opc: opcsim.OPC
+    refr: complex
+        The complex refractive index of the material to assess
+    kappa: float
+        The kappa value to use for hygroscopic growth
+    rh_values: list-like
+        A list of relative humidities to assess the OPC at.
+
+    Returns
+    -------
+    rv: pd.DataFrame
+        A dataframe containing the results with self-explanatory columns.
+
+    Examples
+    --------
+
+    """
+    assert(isinstance(opc, OPC)), "opc must be an instance of the opcsim.OPC class"
+
+    # init the dataframe to hold our results
+    dtypes = np.dtype([
+        ("bin_true", int),
+        ("bin_lo", int),
+        ("bin_hi", int),
+        ("refr_eff", complex),
+        ("rh", float),
+        ("cscat_hi_ratio", float),
+        ("cscat_lo_ratio", float)
+    ])
+
+    rv = pd.DataFrame(np.empty(0, dtype=dtypes))
+
+    for rh in rh_values:
+        for i, _bins in enumerate(opc.bins):
+            # compute the wet diameter
+            wet_diam_lo = k_kohler(diam_dry=_bins[0], kappa=kappa, rh=rh)
+            wet_diam_hi = k_kohler(diam_dry=_bins[-1], kappa=kappa, rh=rh)
+
+            # compute the pct_dry
+            pct_dry = (_bins[0]**3) / (wet_diam_lo**3)
+
+            # compute the effective RI
+            ri = ri_eff(species=[refr, complex(1.333, 0)], weights=[pct_dry, 1-pct_dry])
+
+            # compute the scattering cross-section
+            cscat_lo_exp = cscat(
+                dp=_bins[0], wl=opc.wl, refr=refr, theta1=opc.theta[0], theta2=opc.theta[1])
+            cscat_hi_exp = cscat(
+                dp=_bins[-1], wl=opc.wl, refr=refr, theta1=opc.theta[0], theta2=opc.theta[1])
+
+            cscat_lo = cscat(
+                dp=wet_diam_lo, wl=opc.wl, refr=ri, theta1=opc.theta[0], theta2=opc.theta[1])
+            cscat_hi = cscat(
+                dp=wet_diam_hi, wl=opc.wl, refr=ri, theta1=opc.theta[0], theta2=opc.theta[1])
+
+            # assign bins
+            bin_assign_lo = opc.calibration_function(values=[cscat_lo])
+            bin_assign_hi = opc.calibration_function(values=[cscat_hi])
+
+            # add results to the dataframe
+            rv = rv.append({
+                "bin_true": i,
+                "bin_lo": bin_assign_lo[0] if len(bin_assign_lo) > 0 else -99,
+                "bin_hi": bin_assign_hi[0] if len(bin_assign_hi) > 0 else -99,
+                "refr_eff": ri,
+                "rh": rh,
+                "cscat_hi_ratio": cscat_hi / cscat_hi_exp,
+                "cscat_lo_ratio": cscat_lo / cscat_lo_exp,
+            }, ignore_index=True)
+
+    return rv
 
 # def nv_score(model, distribution, dmin=0.0, dmax=2.5, **kwargs):
 #     """Calculate and return the number-to-volume ratio.

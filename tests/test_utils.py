@@ -66,10 +66,6 @@ class SetupTestCase(unittest.TestCase):
         r1 = opcsim.utils.ri_eff(
             species=[complex(1.5, 0), complex(2.0, 1.0)], weights=[0.5, 0.5])
         self.assertEqual(r1, complex(1.75, 0.5))
-    
-        # compute based on diameters
-        r1 = opcsim.utils.ri_eff(species=[complex(1.5, 0), complex(0, 0)], diams=[1., 0.])
-        self.assertEqual(r1, complex(1.5, 0))
 
     def power_law_fit(self):
         xs = np.linspace(1, 10, 10)

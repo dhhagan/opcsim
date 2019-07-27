@@ -267,21 +267,23 @@ class OPC(object):
         ntot = distribution.cdf(dmin=0, dmax=100., weight='number')
 
         bounds = np.logspace(start=np.log10(bounds[0]), stop=np.log10(
-            bounds[1]), num=kwargs.pop("n_bins", int(min(ntot/10, 250))))
+            bounds[1]), num=kwargs.pop("n_bins", int(min(ntot/3, 250))))
 
         # we need to calculate the midpoint of the new bounds to compute the cscats!
         diams = np.mean([bounds[:-1], bounds[1:]], axis=0)
 
         # for each mode...
-        rv = np.array([])
+        rv = np.zeros(self.n_bins)
+
         for m in distribution.modes:
             # divide our PDF into bins to make the computations a bit easier
-            n = np.array([round(distribution.cdf(dmin=a, dmax=b, mode=m["label"], rh=rh), 0)
+            n = np.array([distribution.cdf(dmin=a, dmax=b, mode=m["label"], rh=rh)
                                 for a, b in zip(bounds[0:-1], bounds[1:])])
             
             # calculate the % dry based on hygroscopic growth
-            refr = ri_eff([m["refr"], RI_COMMON['h20']], diams=[
-                          m['GM'], k_kohler(diam_dry=m["GM"], kappa=m["kappa"], rh=rh) - m['GM']])
+            pct_dry = 1. / (k_kohler(diam_dry=1., kappa=m["kappa"], rh=rh)**3)
+
+            refr = ri_eff([m["refr"], RI_COMMON['h20']], weights=[pct_dry, 1-pct_dry])
 
             # iterate over each bin and calculate the Cscat value and build an array
             for dp, dn in zip(diams, n):
@@ -289,16 +291,12 @@ class OPC(object):
                 v = cscat(
                     dp, wl=self.wl, refr=refr, theta1=self.theta[0], theta2=self.theta[1])
                 
-                rv = np.append(rv, np.repeat(np.array([v]), int(dn)))
-        
-        # convert the array of Cscat values into counts per bin
-        binned = np.array([np.count_nonzero(self.calibration_function(values=rv) == x)
-                       for x in np.arange(self.n_bins)])
-        
-        # force to be floats
-        binned = binned.astype(float)
+                bin_assign = self.calibration_function(values=[v])
 
-        return rv, binned
+                if len(bin_assign) > 0:
+                    rv[bin_assign] += dn
+        
+        return rv
     
     def histogram(self, distribution, weight="number", base="log10", rh=0., **kwargs):
         """Return a histogram containing the [weight] of particles in each OPC bin.
@@ -360,7 +358,7 @@ class OPC(object):
         rho = kwargs.pop("rho", 1.65)
 
         # get the binned values in units of dN/bin
-        _, rv = self.evaluate(distribution, rh=rh, **kwargs)
+        rv = self.evaluate(distribution, rh=rh, **kwargs)
 
         if weight not in ["number", "surface", "volume", "mass"]:
             raise ValueError("Invalid `weight` parameter")
@@ -441,7 +439,7 @@ class OPC(object):
         rho = kwargs.pop("rho", 1.65)
 
         # calculate dN
-        _, rv = self.evaluate(distribution, rh=rh, **kwargs)
+        rv = self.evaluate(distribution, rh=rh, **kwargs)
 
         if weight not in ["number", "surface", "volume", "mass"]:
             raise ValueError("Invalid argument for `weight`")
