@@ -106,7 +106,7 @@ class OPC(object):
     def midpoints(self):
         return self.bins[:, 1]
 
-    def calibrate(self, material, method='smooth', log_weight=True, mie_kws={}, fit_kws={}):
+    def calibrate(self, material, method='spline', log_weight=True, mie_kws={}, fit_kws={}):
         """Calibrate the OPC assuming a specific material. 
 
         By calibration, we mean a method used to relate the peak height, 
@@ -128,7 +128,7 @@ class OPC(object):
             wavelength if you are looking for the best results.
         method: string or callable
             The method to use for creating a calibration curve. Options 
-            include (1) 'smooth' which removes any non-monotonicly increasing 
+            include (1) 'spline' which removes any non-monotonicly increasing 
             points from the Cscat to Dp curve; or (2) 'linear' fits a linear model 
             (in log-log space) between Cscat and Dp.
         log_weight: bool
@@ -151,12 +151,12 @@ class OPC(object):
         Calibrate an OPC using PSL's
 
         >>> opc = opcsim.OPC(n_bins=5)
-        >>> opc.calibrate(material="psl", method="smooth")
+        >>> opc.calibrate(material="psl", method="spline")
 
         Calibrate an OPC using a custom material
         
         >>> opc = opcsim.OPC(n_bins=5)
-        >>> opc.calibrate(material=complex(1.9, 0.4), method="smooth")
+        >>> opc.calibrate(material=complex(1.9, 0.4), method="spline")
 
         Calibrate an OPC where the calibration curve is a fitted line (PSL's)
         
@@ -181,7 +181,7 @@ class OPC(object):
                                 theta2=self.theta[1], **mie_kws) for dp in self.bin_boundaries])
         
         # generate the fitted Cscat values based on the method chosen
-        if method == "smooth":
+        if method == "spline":
             yvals = squash_dips(yvals)
         elif method == "linear":
             # define the function we fit dp to Cscat

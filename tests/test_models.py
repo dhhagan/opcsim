@@ -63,14 +63,14 @@ class SetupTestCase(unittest.TestCase):
         
         # calibrate the OPC for PSL's
         self.assertIsNone(opc.calibration_function)
-        opc.calibrate(material="psl", method="smooth")
+        opc.calibrate(material="psl")
         self.assertIsNotNone(opc.calibration_function)
 
         # test the calibration for a spec'd material
         # create an opc based on the above
 
         # calibrate the OPC for a random RI
-        opc.calibrate(material=complex(1.5, 0), method="smooth")
+        opc.calibrate(material=complex(1.5, 0))
         self.assertIsNotNone(opc.calibration_function)
 
         # try fitting the data this time...
@@ -84,12 +84,12 @@ class SetupTestCase(unittest.TestCase):
         self.assertIsNotNone(opc.calibration_function)
 
         # try for an integer
-        opc.calibrate(material=1.5, method="smooth")
+        opc.calibrate(material=1.5)
         self.assertIsNotNone(opc.calibration_function)
 
         # try for a bad string
         with self.assertRaises(ValueError):
-            opc.calibrate(material="random_thing", method="smooth")
+            opc.calibrate(material="random_thing")
 
         # non-existent calibration method
         with self.assertRaises(ValueError):
@@ -115,7 +115,7 @@ class SetupTestCase(unittest.TestCase):
 
         # calibrate the OPC for PSL's
         self.assertIsNone(opc.calibration_function)
-        opc.calibrate(material="psl", method="smooth")
+        opc.calibrate(material="psl")
         self.assertIsNotNone(opc.calibration_function)
 
         # test the histogram
@@ -136,7 +136,7 @@ class SetupTestCase(unittest.TestCase):
         opc = opcsim.OPC(wl=wl, n_bins=n_bins, dmin=dmin,
                          dmax=dmax, theta=theta)
 
-        opc.calibrate(material="psl", method="smooth")
+        opc.calibrate(material="psl")
         self.assertIsNotNone(opc.calibration_function)
 
         # create the histogram
@@ -173,7 +173,7 @@ class SetupTestCase(unittest.TestCase):
         opc = opcsim.OPC(wl=wl, n_bins=n_bins, dmin=dmin,
                          dmax=dmax, theta=theta)
         
-        opc.calibrate(material="psl", method="smooth")
+        opc.calibrate(material="psl")
         self.assertIsNotNone(opc.calibration_function)
 
         # integrate in number space

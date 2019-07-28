@@ -438,12 +438,11 @@ def calplot(opc, ax=None, plot_kws={}, fig_kws={}, **kwargs):
     nc = next(ax._get_lines.prop_cycler)['color']
 
     ax.plot(xs, yvals, color=nc, label=label, **plot_kws)
-    ax.scatter(opc.bin_boundaries, opc.calibration_vals, s=50)
+    ax.scatter(opc.bin_boundaries, opc.calibration_vals, s=50, color=nc)
 
     ax.semilogx()
     ax.semilogy()
     ax.xaxis.set_major_formatter(mtick.FormatStrFormatter("%.3g"))
-
     ax.set_xlabel("$D_p \; [\mu m]$")
     ax.set_ylabel("$C_{scat}\; [cm^2/particle]$")
 
