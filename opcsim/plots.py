@@ -438,7 +438,7 @@ def calplot(opc, ax=None, plot_kws={}, fig_kws={}, **kwargs):
     nc = next(ax._get_lines.prop_cycler)['color']
 
     ax.plot(xs, yvals, color=nc, label=label, **plot_kws)
-    ax.scatter(opc.bin_boundaries, opc.calibration_vals, s=50, color=nc)
+    ax.plot(opc.bin_boundaries, opc.calibration_vals, "o-", color=next(ax._get_lines.prop_cycler["color"]))
 
     ax.semilogx()
     ax.semilogy()
