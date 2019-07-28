@@ -95,8 +95,8 @@ def compute_bin_assessment(opc, refr, kappa, rh_values=[0., 35., 95.]):
     rv["bin_lo"] = rv["bin_lo"].astype(int)
     rv["bin_hi"] = rv["bin_hi"].astype(int)
     rv["rh"] = rv["rh"].astype(float)
-    rv["cscat_hi_ratio"] = rv["cscat_hi_ratio"].atype(float)
-    rv["cscat_lo_ratio"] = rv["cscat_lo_ratio"].atype(float)
+    rv["cscat_hi_ratio"] = rv["cscat_hi_ratio"].astype(float)
+    rv["cscat_lo_ratio"] = rv["cscat_lo_ratio"].astype(float)
 
     return rv
 
