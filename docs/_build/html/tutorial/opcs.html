@@ -1,0 +1,1344 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Using OPCSIM to Build and Model an Optical Particle Counter (OPC) &#8212; opcsim 0.3.0+20.gb4a82c2.dirty documentation</title>
+    <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/style.css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script type="text/javascript" src="../_static/copybutton.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+    <script type="text/javascript" src="../_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../_static/bootstrap-3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Using OPCSIM to Simulate a Nephelometer" href="nephelometer.html" />
+    <link rel="prev" title="The Aerosol Distribution Tutorial" href="aerosol_distributions.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head><body>
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../index.html">
+          opcsim</a>
+        <span class="navbar-text navbar-version pull-left"><b>0.3.0+20.gb4a82c2.dirty</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+                <li><a href="../api.html">API</a></li>
+                <li><a href="../tutorial.html">Tutorial</a></li>
+                <li><a href="../examples/index.html">Gallery</a></li>
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduciton</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installing.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api.html#opc">OPC</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api.html#nephelometer">Nephelometer</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/index.html">Example gallery</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li><a class="reference internal" href="#">Using OPCSIM to Build and Model an Optical Particle Counter (OPC)</a></li>
+<li><a class="reference internal" href="#the-opc-model">The OPC Model</a><ul>
+<li><a class="reference internal" href="#building-more-specific-opcs">Building more specific OPC’s</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#calibration">Calibration</a><ul>
+<li><a class="reference internal" href="#calibration-method-1-spline">Calibration Method 1: <code class="docutils literal notranslate"><span class="pre">spline</span></code></a></li>
+<li><a class="reference internal" href="#calibration-method-2-linear">Calibration Method 2: <code class="docutils literal notranslate"><span class="pre">linear</span></code></a></li>
+<li><a class="reference internal" href="#calibration-method-3-piecewise">calibration Method 3: <code class="docutils literal notranslate"><span class="pre">piecewise</span></code></a><ul>
+<li><a class="reference internal" href="#calibration-materials">Calibration Materials</a></li>
+<li><a class="reference internal" href="#current-options">Current Options</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#evaluating-an-opc-for-a-given-aerosol-distribution">Evaluating an OPC for a given Aerosol Distribution</a><ul>
+<li><a class="reference internal" href="#iterating-across-the-particle-size-distribution">Iterating across the Particle Size Distribution</a></li>
+<li><a class="reference internal" href="#visualizing-the-opc-histogram">Visualizing the OPC Histogram</a></li>
+<li><a class="reference internal" href="#classifying-bin-misassignment">Classifying Bin Misassignment</a><ul>
+<li><a class="reference internal" href="#compute-bin-assessment"><code class="docutils literal notranslate"><span class="pre">compute_bin_assessment</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+            
+            
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12 content">
+      
+  <div class="section" id="using-opcsim-to-build-and-model-an-optical-particle-counter-opc">
+<span id="model-tutorial"></span><h1>Using OPCSIM to Build and Model an Optical Particle Counter (OPC)<a class="headerlink" href="#using-opcsim-to-build-and-model-an-optical-particle-counter-opc" title="Permalink to this headline">¶</a></h1>
+<p>The following tutorial will show you how a low-cost OPC is represented
+when using the opcsim software. You will learn how to build a model OPC,
+how to mimic a calibration for specific aerosols, and how to evaluate
+the OPC against a simulated aerosol distribution. Visualization tools
+will also be discussed.</p>
+<p>First, we import the python libraries we need and set the styles used
+for plotting throughout this tutorial.</p>
+<div class="code ipython3 highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Make imports</span>
+<span class="kn">import</span> <span class="nn">opcsim</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">matplotlib.ticker</span> <span class="k">as</span> <span class="nn">mticks</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+
+<span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
+
+<span class="c1"># turn off warnings temporarily</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">simplefilter</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
+
+<span class="c1"># Let&#39;s set some default seaborn settings</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">context</span><span class="o">=</span><span class="s1">&#39;notebook&#39;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s1">&#39;ticks&#39;</span><span class="p">,</span> <span class="n">palette</span><span class="o">=</span><span class="s1">&#39;dark&#39;</span><span class="p">,</span> <span class="n">font_scale</span><span class="o">=</span><span class="mf">1.75</span><span class="p">,</span>
+        <span class="n">rc</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;figure.figsize&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">6</span><span class="p">),</span> <span class="o">**</span><span class="n">opcsim</span><span class="o">.</span><span class="n">plots</span><span class="o">.</span><span class="n">rc_log</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="the-opc-model">
+<h1>The OPC Model<a class="headerlink" href="#the-opc-model" title="Permalink to this headline">¶</a></h1>
+<p>The <code class="docutils literal notranslate"><span class="pre">opcsim.OPC</span></code> class provides a simple way to model most of the
+functionality of low-cost optical particle counters. This model is based
+on just a few instrument parameters which should be defined in the
+manufacturer’s speficication sheet.</p>
+<p>An OPC is defined by just the laser wavelength (<code class="docutils literal notranslate"><span class="pre">wl</span></code>), the exact
+<code class="docutils literal notranslate"><span class="pre">bins</span></code> the OPC uses as its output, and the angles for which the
+scattered light is collected between (<code class="docutils literal notranslate"><span class="pre">theta</span></code>). Other work has
+considered much more detail that this, including the electrical
+properties and characteristics of the photodetector, etc. However, this
+typically requires knowledge or information that is not commonly
+available in the datasheet of a low-cost particle counter, and thus we
+try to provide a method that does not rely on this information.</p>
+<p>Within the software itself, there is flexibility in how exactly you
+define the bins. In the end, you will end up with a 3xn array of values,
+where n is the number of bins. Each bin is then defined by its left bin
+boundary, midpoint, and right bin boundary.</p>
+<p>To simulate an OPC using the <code class="docutils literal notranslate"><span class="pre">opcsim.OPC</span></code> class, we initiate as
+follows:</p>
+<div class="code ipython3 highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">opc</span> <span class="o">=</span> <span class="n">opcsim</span><span class="o">.</span><span class="n">OPC</span><span class="p">(</span><span class="n">wl</span><span class="o">=</span><span class="mf">0.658</span><span class="p">,</span> <span class="n">n_bins</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">theta</span><span class="o">=</span><span class="p">(</span><span class="mf">32.</span><span class="p">,</span> <span class="mf">88.</span><span class="p">))</span>
+
+<span class="n">opc</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;class &#39;opcsim.models.OPC&#39;&gt;
+</pre></div>
+</div>
+<p>When initiated with no arguments, the default arguments are used and can
+be looked up in the API documentation. This sets
+<span class="math notranslate nohighlight">\(dmin=0.5\;\mu m\)</span>, <span class="math notranslate nohighlight">\(dmax=2.5\;\mu m\)</span>, and
+<span class="math notranslate nohighlight">\(n_{bins}=5\)</span>. We can view the number of bins using the
+<code class="docutils literal notranslate"><span class="pre">OPC.n_bins</span></code> attribute.</p>
+<div class="code ipython3 highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">opc</span><span class="o">.</span><span class="n">n_bins</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">5</span>
+</pre></div>
+</div>
+<p>We can also view the bin boundaries and midpoint diameters using the
+<code class="docutils literal notranslate"><span class="pre">OPC.bins</span></code> attribute. Here, we receieve a <strong>3xn</strong> array where the
+first entry is the left bin boundary, the middle is the midpoint
+diameter as defined by its geometric mean, and the last entry is the
+right bin boundary.</p>
+<div class="code ipython3 highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">opc</span><span class="o">.</span><span class="n">bins</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">array</span><span class="p">([[</span><span class="mf">0.5</span>       <span class="p">,</span> <span class="mf">0.58730947</span><span class="p">,</span> <span class="mf">0.68986483</span><span class="p">],</span>
+       <span class="p">[</span><span class="mf">0.68986483</span><span class="p">,</span> <span class="mf">0.8103283</span> <span class="p">,</span> <span class="mf">0.95182697</span><span class="p">],</span>
+       <span class="p">[</span><span class="mf">0.95182697</span><span class="p">,</span> <span class="mf">1.11803399</span><span class="p">,</span> <span class="mf">1.3132639</span> <span class="p">],</span>
+       <span class="p">[</span><span class="mf">1.3132639</span> <span class="p">,</span> <span class="mf">1.54258466</span><span class="p">,</span> <span class="mf">1.81194916</span><span class="p">],</span>
+       <span class="p">[</span><span class="mf">1.81194916</span><span class="p">,</span> <span class="mf">2.12834981</span><span class="p">,</span> <span class="mf">2.5</span>       <span class="p">]])</span>
+</pre></div>
+</div>
+<div class="section" id="building-more-specific-opcs">
+<h2>Building more specific OPC’s<a class="headerlink" href="#building-more-specific-opcs" title="Permalink to this headline">¶</a></h2>
+<p>We can build more complex - or specified - models by increasing the
+number of bins in a couple of ways: (1) we can change the minimum or
+maximum cutoffs, or the total number of bins:</p>
+<div class="code ipython3 highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">opc_10bins</span> <span class="o">=</span> <span class="n">opcsim</span><span class="o">.</span><span class="n">OPC</span><span class="p">(</span><span class="n">wl</span><span class="o">=</span><span class="mf">0.658</span><span class="p">,</span> <span class="n">n_bins</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">dmin</span><span class="o">=</span><span class="mf">0.38</span><span class="p">,</span> <span class="n">dmax</span><span class="o">=</span><span class="mf">17.5</span><span class="p">)</span>
+
+<span class="n">opc_10bins</span><span class="o">.</span><span class="n">bins</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">array</span><span class="p">([[</span> <span class="mf">0.38</span>      <span class="p">,</span>  <span class="mf">0.46019969</span><span class="p">,</span>  <span class="mf">0.55732566</span><span class="p">],</span>
+       <span class="p">[</span> <span class="mf">0.55732566</span><span class="p">,</span>  <span class="mf">0.67495025</span><span class="p">,</span>  <span class="mf">0.81739972</span><span class="p">],</span>
+       <span class="p">[</span> <span class="mf">0.81739972</span><span class="p">,</span>  <span class="mf">0.98991341</span><span class="p">,</span>  <span class="mf">1.19883643</span><span class="p">],</span>
+       <span class="p">[</span> <span class="mf">1.19883643</span><span class="p">,</span>  <span class="mf">1.45185303</span><span class="p">,</span>  <span class="mf">1.75826924</span><span class="p">],</span>
+       <span class="p">[</span> <span class="mf">1.75826924</span><span class="p">,</span>  <span class="mf">2.12935514</span><span class="p">,</span>  <span class="mf">2.57875939</span><span class="p">],</span>
+       <span class="p">[</span> <span class="mf">2.57875939</span><span class="p">,</span>  <span class="mf">3.12301123</span><span class="p">,</span>  <span class="mf">3.78212839</span><span class="p">],</span>
+       <span class="p">[</span> <span class="mf">3.78212839</span><span class="p">,</span>  <span class="mf">4.58035343</span><span class="p">,</span>  <span class="mf">5.54704531</span><span class="p">],</span>
+       <span class="p">[</span> <span class="mf">5.54704531</span><span class="p">,</span>  <span class="mf">6.71775925</span><span class="p">,</span>  <span class="mf">8.13555449</span><span class="p">],</span>
+       <span class="p">[</span> <span class="mf">8.13555449</span><span class="p">,</span>  <span class="mf">9.85257798</span><span class="p">,</span> <span class="mf">11.93198238</span><span class="p">],</span>
+       <span class="p">[</span><span class="mf">11.93198238</span><span class="p">,</span> <span class="mf">14.45024885</span><span class="p">,</span> <span class="mf">17.5</span>       <span class="p">]])</span>
+</pre></div>
+</div>
+<p>If we are trying to model a specific OPC that has pre-defined bins, we
+can also do that with the help of some utility methods. The bins
+argument in the OPC class requires a <strong>3xn</strong> array as seen above. Often,
+you may only have the bin boundary information and not the midpoints. We
+can define the bins as an array of the bin boundaries, where there are 1
+more entries than total number of bins, as follows:</p>
+<div class="code ipython3 highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">opc</span> <span class="o">=</span> <span class="n">opcsim</span><span class="o">.</span><span class="n">OPC</span><span class="p">(</span><span class="n">wl</span><span class="o">=</span><span class="mf">0.658</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="p">[</span><span class="mf">0.38</span><span class="p">,</span> <span class="mf">0.54</span><span class="p">,</span> <span class="mf">0.78</span><span class="p">,</span> <span class="mf">1.05</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">])</span>
+
+<span class="n">opc</span><span class="o">.</span><span class="n">bins</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">array</span><span class="p">([[</span><span class="mf">0.38</span>      <span class="p">,</span> <span class="mf">0.45299007</span><span class="p">,</span> <span class="mf">0.54</span>      <span class="p">],</span>
+       <span class="p">[</span><span class="mf">0.54</span>      <span class="p">,</span> <span class="mf">0.64899923</span><span class="p">,</span> <span class="mf">0.78</span>      <span class="p">],</span>
+       <span class="p">[</span><span class="mf">0.78</span>      <span class="p">,</span> <span class="mf">0.90498619</span><span class="p">,</span> <span class="mf">1.05</span>      <span class="p">],</span>
+       <span class="p">[</span><span class="mf">1.05</span>      <span class="p">,</span> <span class="mf">1.25499004</span><span class="p">,</span> <span class="mf">1.5</span>       <span class="p">],</span>
+       <span class="p">[</span><span class="mf">1.5</span>       <span class="p">,</span> <span class="mf">1.93649167</span><span class="p">,</span> <span class="mf">2.5</span>       <span class="p">]])</span>
+</pre></div>
+</div>
+<p>This more or less covers how we can build various OPC’s - if you are
+still unsure of what to do in a specific case, feel free to post
+questions on the GitHub repository under the ‘Issues’ tab.</p>
+</div>
+</div>
+<div class="section" id="calibration">
+<h1>Calibration<a class="headerlink" href="#calibration" title="Permalink to this headline">¶</a></h1>
+<p>OPC’s count and size each particle individualy - the size of a particle
+is determined by the signal amplitude measured by the photo-detector,
+which is proportional to the product of the intensity of incoming light
+and the particle’s scattering cross-section. This model assumes light
+intensity is constant, thus every particle experiences the same light
+intensity. Assuming this is valid, we can state the size of a particle
+is proportional ot the scattering cross-section of that particle.</p>
+<p>The output we receieve from an OPC is a histogram with the total number
+of particles in a specified size bin. So how do we know which bin a
+given particle belongs to? We must calibrate our OPC and tell it, based
+on the <span class="math notranslate nohighlight">\(C_{scat}\)</span> value, which bin a particle belongs to. While
+the literature dives deep into complicated, and possibly more accurate
+ways to do this, we offer three easy methods that can often be found in
+today’s low-cost devices:</p>
+<ol class="arabic simple">
+<li><code class="docutils literal notranslate"><span class="pre">spline</span></code> - a simple mapping between <span class="math notranslate nohighlight">\(C_{scat}\)</span> and
+<span class="math notranslate nohighlight">\(D_p\)</span></li>
+<li><code class="docutils literal notranslate"><span class="pre">linear</span></code> - fit a power law (linear in log-log space) to the
+<span class="math notranslate nohighlight">\(C_{scat}\)</span> values at every bin boundary</li>
+<li><code class="docutils literal notranslate"><span class="pre">piecewise</span></code> - the same as <code class="docutils literal notranslate"><span class="pre">linear</span></code> except we split into two
+different curves</li>
+</ol>
+<ul class="simple">
+<li>all particles are spheres</li>
+<li>light intensity is constant</li>
+<li>all particles fall squarely within the laser</li>
+</ul>
+<p>We will walk through how to calibrate using each approach, but first,
+let’s take a look at a typical scattering pattern for an OPC with a 658
+nm laser and a collection angle of 32-88 degrees.</p>
+<div class="code ipython3 highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># build a generic OPC with 10-bins</span>
+<span class="n">opc</span> <span class="o">=</span> <span class="n">opcsim</span><span class="o">.</span><span class="n">OPC</span><span class="p">(</span><span class="n">wl</span><span class="o">=</span><span class="mf">0.658</span><span class="p">,</span> <span class="n">theta</span><span class="o">=</span><span class="p">(</span><span class="mf">32.0</span><span class="p">,</span> <span class="mf">88.0</span><span class="p">),</span> <span class="n">n_bins</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+
+<span class="n">opc</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;class &#39;opcsim.models.OPC&#39;&gt;
+</pre></div>
+</div>
+<div class="code ipython3 highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># generate an array of particle diameters</span>
+<span class="n">dp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mf">1.25</span><span class="p">,</span> <span class="mi">250</span><span class="p">)</span>
+<span class="n">vals</span> <span class="o">=</span> <span class="p">[</span><span class="n">opcsim</span><span class="o">.</span><span class="n">mie</span><span class="o">.</span><span class="n">cscat</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">wl</span><span class="o">=</span><span class="mf">0.658</span><span class="p">,</span> <span class="n">refr</span><span class="o">=</span><span class="nb">complex</span><span class="p">(</span><span class="mf">1.59</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">theta1</span><span class="o">=</span><span class="mf">32.</span><span class="p">,</span> <span class="n">theta2</span><span class="o">=</span><span class="mf">88.</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">dp</span><span class="p">]</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">dp</span><span class="p">,</span> <span class="n">vals</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">semilogx</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">semilogy</span><span class="p">()</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Calibration Curve for PSLs&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">1.02</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;$D_p\;[\mu m]$&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;$C_</span><span class="si">{scat}</span><span class="s2">$&quot;</span><span class="p">)</span>
+
+<span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">(</span><span class="n">offset</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+<img alt="../_images/opcs_16_0.png" src="../_images/opcs_16_0.png" />
+<p>As we can see in the figure above, there are <span class="math notranslate nohighlight">\(C_{scat}\)</span> values
+that are not monotonically increasing as the particle diameter
+increases, which may make it difficult to assign that value to 1 bin
+specifically. This is a very well known and documented issue with OPC’s
+and should play a role in choosing bin boundaries. Additionally, it only
+gets more complicated as the particle optical properties change!</p>
+<p>Now, we will examine the two simple approaches to modeling our ways out
+of this.</p>
+<div class="section" id="calibration-method-1-spline">
+<h2>Calibration Method 1: <code class="docutils literal notranslate"><span class="pre">spline</span></code><a class="headerlink" href="#calibration-method-1-spline" title="Permalink to this headline">¶</a></h2>
+<p>One of the most common ways to associate a <span class="math notranslate nohighlight">\(C_{scat}\)</span> value with a
+corresponding particle size is to use spline interpolation. Essentially,
+this entails evaluating the <span class="math notranslate nohighlight">\(C_{scat}\)</span> curve at every bin boundary
+and grouping all <span class="math notranslate nohighlight">\(C_{scat}\)</span> values within range of those two
+boundaries as belonging to that bin. This work fairly well when the bins
+are chosen intelligently for a given aerosol type. However, this is not
+only the case and there are non-monotonically increasing bins from
+time-to-time. To remove issues associated with this “dips”, we implement
+a solution where we interpolate across any “dips”. This is far from
+perfect, but gives us reasonable results.</p>
+<p>Note that this can make it quite difficult for particles to get assigned
+to certain bins, especially if the <span class="math notranslate nohighlight">\(C_{scat}\)</span> values plateau -
+this can be somewhat solved by combining these bins into one bin to
+reduce the uncertainty in bin assignment, though it will make the
+correct particle sizing in that bin less precise as well.</p>
+<p>Note that it is also possible to write your own calibration function, so
+do not fret!</p>
+<div class="code ipython3 highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># calibrate using spline</span>
+<span class="n">opc</span><span class="o">.</span><span class="n">calibrate</span><span class="p">(</span><span class="s2">&quot;psl&quot;</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;spline&quot;</span><span class="p">)</span>
+
+<span class="c1"># show the Cscat values corresponding to each bin boundary</span>
+<span class="n">opc</span><span class="o">.</span><span class="n">calibration_function</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>functools.partial(&lt;bound method OPC._digitize_opc_bins of &lt;class &#39;opcsim.models.OPC&#39;&gt;&gt;, cscat_boundaries=array([2.86492750e-09, 4.48206290e-09, 5.25272279e-09, 6.02393845e-09,
+       6.64256044e-09, 9.09772227e-09, 1.08326613e-08, 1.25676003e-08,
+       1.40492264e-08, 1.99683184e-08, 4.17442631e-08]))
+</pre></div>
+</div>
+<p>Let’s take a look at the calibration:</p>
+<div class="code ipython3 highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+
+<span class="n">ax</span> <span class="o">=</span> <span class="n">opcsim</span><span class="o">.</span><span class="n">plots</span><span class="o">.</span><span class="n">calplot</span><span class="p">(</span><span class="n">opc</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">dp</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">250</span><span class="p">),</span> <span class="n">plot_kws</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">alpha</span><span class="o">=.</span><span class="mi">5</span><span class="p">))</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="mf">0.1</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mf">1e-10</span><span class="p">,</span> <span class="mf">1e-6</span><span class="p">)</span>
+
+<span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="../_images/opcs_21_0.png" src="../_images/opcs_21_0.png" />
+</div>
+<div class="section" id="calibration-method-2-linear">
+<h2>Calibration Method 2: <code class="docutils literal notranslate"><span class="pre">linear</span></code><a class="headerlink" href="#calibration-method-2-linear" title="Permalink to this headline">¶</a></h2>
+<p>The second approach to generating our map of <span class="math notranslate nohighlight">\(C_{scat}\)</span> to
+<span class="math notranslate nohighlight">\(D_p\)</span> values is to fit a line to the data in log-log space. While
+this method is simple, and is often used because you only need to
+calibrate to a few different sizes of particles, it can lead to drastic
+oversizing in some regions and undersizing in others.</p>
+<div class="code ipython3 highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">opc</span><span class="o">.</span><span class="n">calibrate</span><span class="p">(</span><span class="s2">&quot;psl&quot;</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;linear&quot;</span><span class="p">)</span>
+
+<span class="n">opc</span><span class="o">.</span><span class="n">calibration_function</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>functools.partial(&lt;bound method OPC._digitize_opc_bins of &lt;class &#39;opcsim.models.OPC&#39;&gt;&gt;, cscat_boundaries=array([3.12354813e-09, 3.85694293e-09, 4.76253547e-09, 5.88075700e-09,
+       7.26153183e-09, 8.96650627e-09, 1.10718009e-08, 1.36714091e-08,
+       1.68813933e-08, 2.08450672e-08, 2.57393936e-08]))
+</pre></div>
+</div>
+<div class="code ipython3 highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+
+<span class="n">ax</span> <span class="o">=</span> <span class="n">opcsim</span><span class="o">.</span><span class="n">plots</span><span class="o">.</span><span class="n">calplot</span><span class="p">(</span><span class="n">opc</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">dp</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">250</span><span class="p">),</span> <span class="n">plot_kws</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">alpha</span><span class="o">=.</span><span class="mi">5</span><span class="p">))</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="mf">0.1</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mf">1e-10</span><span class="p">,</span> <span class="mf">1e-6</span><span class="p">)</span>
+
+<span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="../_images/opcs_24_0.png" src="../_images/opcs_24_0.png" />
+</div>
+<div class="section" id="calibration-method-3-piecewise">
+<h2>calibration Method 3: <code class="docutils literal notranslate"><span class="pre">piecewise</span></code><a class="headerlink" href="#calibration-method-3-piecewise" title="Permalink to this headline">¶</a></h2>
+<p>Similarly, we can fit a <code class="docutils literal notranslate"><span class="pre">piecewise</span></code> linear fit, where there are two
+linear fits, separated based on the <span class="math notranslate nohighlight">\(C_{scat}\)</span> value at a
+pre-determined breakpoint as defined by the user.</p>
+<div class="code ipython3 highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">opc</span><span class="o">.</span><span class="n">calibrate</span><span class="p">(</span><span class="s2">&quot;psl&quot;</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;piecewise&quot;</span><span class="p">)</span>
+
+<span class="n">opc</span><span class="o">.</span><span class="n">calibration_function</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>functools.partial(&lt;bound method OPC._digitize_opc_bins of &lt;class &#39;opcsim.models.OPC&#39;&gt;&gt;, cscat_boundaries=array([3.19752250e-09, 3.91392940e-09, 4.79084770e-09, 5.86424010e-09,
+       7.17812672e-09, 8.46293429e-09, 1.06857637e-08, 1.34924297e-08,
+       1.70362796e-08, 2.15109384e-08, 2.71608873e-08]))
+</pre></div>
+</div>
+<div class="code ipython3 highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+
+<span class="n">ax</span> <span class="o">=</span> <span class="n">opcsim</span><span class="o">.</span><span class="n">plots</span><span class="o">.</span><span class="n">calplot</span><span class="p">(</span><span class="n">opc</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">dp</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">250</span><span class="p">),</span> <span class="n">plot_kws</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">alpha</span><span class="o">=.</span><span class="mi">5</span><span class="p">))</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="mf">0.1</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mf">1e-10</span><span class="p">,</span> <span class="mf">1e-6</span><span class="p">)</span>
+
+<span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="../_images/opcs_27_0.png" src="../_images/opcs_27_0.png" />
+<div class="section" id="calibration-materials">
+<h3>Calibration Materials<a class="headerlink" href="#calibration-materials" title="Permalink to this headline">¶</a></h3>
+<p>Above, we covered the methods used to calibrate, but you may have
+noticed the first argument to those calls was the material used to
+calibrate. The calibration material can be defined in one of two ways -
+you can either choose from a material in the table below or you can
+specify any complex refractive index. Note that the table below uses
+approximate literature values which were determined at close to 658 nm.
+Thus, if you are looking for the best results, you may want to specificy
+the refractive index of your material at the wavelength of light you are
+using.</p>
+<p>The material lookup table is quite limited - if you would like to add to
+this table, please open an issue on GitHub.</p>
+</div>
+<div class="section" id="current-options">
+<h3>Current Options<a class="headerlink" href="#current-options" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="docutils">
+<colgroup>
+<col width="30%" />
+<col width="46%" />
+<col width="24%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">option</th>
+<th class="head">Material</th>
+<th class="head">Refractive Index</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">psl</span></code></td>
+<td>Polystyrene Latex Spheres</td>
+<td>1.592 + 0i</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">ammonium_sulfate</span></code></td>
+<td>Ammonium Sulfate</td>
+<td>1.521 + 0i</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">sodium_chloride</span></code></td>
+<td>Sodium Chloride</td>
+<td>1.5405 + 0i</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">sodium_nitrate</span></code></td>
+<td>Sodium Nitrate</td>
+<td>1.448 + 0i</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">black_carbon</span></code></td>
+<td>Black Carbon</td>
+<td>1.95 + 0.79i</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">sulfuric_acid</span></code></td>
+<td>Sulfuric Acid</td>
+<td>1.427 + 0i</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">soa</span></code></td>
+<td>Secondary Organic Aerosol</td>
+<td>1.4 + 0.002i</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">urban_high</span></code></td>
+<td>High estimate for Urban Aerosol</td>
+<td>1.6 + 0.034i</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">urban_low</span></code></td>
+<td>Low estimate for Urban Aerosol</td>
+<td>1.73 + 0.086i</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="section" id="evaluating-an-opc-for-a-given-aerosol-distribution">
+<h1>Evaluating an OPC for a given Aerosol Distribution<a class="headerlink" href="#evaluating-an-opc-for-a-given-aerosol-distribution" title="Permalink to this headline">¶</a></h1>
+<p>The entire point of this software is to model how various OPC’s and
+other particle sensors “see” aerosols in the real world. The Aerosol
+Distribution tutorial showed how we can model realistic aerosol
+distributions. This section will review how the OPC’s we just built
+“see” these distributions. Generally speaking, the process works as
+follows:</p>
+<ol class="arabic simple">
+<li>For every particle in the aerosol distribution, we calculate the
+scattering cross-section</li>
+<li>For each of the scattering cross-section’s we just calculated, we
+assign them to a bin of the OPC based on the calibration curve we
+generated</li>
+<li>We end up with a histogram in the form of the cumulative number of
+particles in each OPC bin, just as we would if we were using a
+commercially available OPC</li>
+</ol>
+<p>The base method we use to obtain these numbers is <code class="docutils literal notranslate"><span class="pre">OPC.evaluate</span></code>. This
+method returns the number of particles the OPC “sees” in each bin for a
+given aerosol distribution. One component that hasn’t yet been discussed
+is how the OPC reacts as relative humidity changes. Each of these
+methods takes an argument for relative humidity (<code class="docutils literal notranslate"><span class="pre">rh</span></code>) which will
+automatically calculate the change in particle size due to hygroscopic
+growth per <span class="math notranslate nohighlight">\(\kappa\)</span>-kohler theory; the refractive index and
+density will also change accordingly based on the amount of growth that
+takes place.</p>
+<p>To evaluate a distribution, we need to first define the
+AerosolDistribution and the OPC.</p>
+<ul class="simple">
+<li>Show examples for a few different scenarios, including growth due to
+RH</li>
+<li>show examples for different calibration approaches</li>
+</ul>
+<div class="code ipython3 highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># build a single mode of ammonium sulfate</span>
+<span class="n">d</span> <span class="o">=</span> <span class="n">opcsim</span><span class="o">.</span><span class="n">AerosolDistribution</span><span class="p">(</span><span class="s2">&quot;Amm. Sulfate&quot;</span><span class="p">)</span>
+
+<span class="n">d</span><span class="o">.</span><span class="n">add_mode</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mf">1e3</span><span class="p">,</span> <span class="n">gm</span><span class="o">=</span><span class="mf">250e-3</span><span class="p">,</span> <span class="n">gsd</span><span class="o">=</span><span class="mf">1.65</span><span class="p">,</span> <span class="n">kappa</span><span class="o">=</span><span class="mf">0.53</span><span class="p">,</span> <span class="n">rho</span><span class="o">=</span><span class="mf">1.77</span><span class="p">,</span> <span class="n">refr</span><span class="o">=</span><span class="nb">complex</span><span class="p">(</span><span class="mf">1.521</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+
+<span class="n">d</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">AerosolDistribution</span><span class="p">:</span> <span class="n">Amm</span><span class="o">.</span> <span class="n">Sulfate</span>
+</pre></div>
+</div>
+<div class="code ipython3 highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># build an OPC</span>
+<span class="n">opc</span> <span class="o">=</span> <span class="n">opcsim</span><span class="o">.</span><span class="n">OPC</span><span class="p">(</span><span class="n">wl</span><span class="o">=</span><span class="mf">0.658</span><span class="p">,</span> <span class="n">n_bins</span><span class="o">=</span><span class="mi">24</span><span class="p">,</span> <span class="n">dmin</span><span class="o">=</span><span class="mf">0.25</span><span class="p">,</span> <span class="n">dmax</span><span class="o">=</span><span class="mf">40.</span><span class="p">)</span>
+
+<span class="n">opc</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;class &#39;opcsim.models.OPC&#39;&gt;
+</pre></div>
+</div>
+<p>Let’s go ahead and calibrate the OPC using ammonium sulfate:</p>
+<div class="code ipython3 highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">opc</span><span class="o">.</span><span class="n">calibrate</span><span class="p">(</span><span class="s2">&quot;ammonium_sulfate&quot;</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;spline&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Now, let’s go ahead and evaluate the OPC for the previously defined
+distribution. This will return the number of particles in each bin:</p>
+<div class="code ipython3 highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">vals</span> <span class="o">=</span> <span class="n">opc</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">rh</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span>
+
+<span class="n">vals</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">array</span><span class="p">([</span><span class="mf">1.63828722e+02</span><span class="p">,</span> <span class="mf">1.38275380e+02</span><span class="p">,</span> <span class="mf">9.79487110e+01</span><span class="p">,</span> <span class="mf">5.82297216e+01</span><span class="p">,</span>
+       <span class="mf">2.90517641e+01</span><span class="p">,</span> <span class="mf">1.21637799e+01</span><span class="p">,</span> <span class="mf">4.41451983e+00</span><span class="p">,</span> <span class="mf">1.20624354e+00</span><span class="p">,</span>
+       <span class="mf">2.21934242e-01</span><span class="p">,</span> <span class="mf">7.11360375e-02</span><span class="p">,</span> <span class="mf">7.77406249e-03</span><span class="p">,</span> <span class="mf">1.70456694e-03</span><span class="p">,</span>
+       <span class="mf">1.16797839e-04</span><span class="p">,</span> <span class="mf">4.77037132e-05</span><span class="p">,</span> <span class="mf">1.81163887e-06</span><span class="p">,</span> <span class="mf">1.08749418e-07</span><span class="p">,</span>
+       <span class="mf">6.16523721e-09</span><span class="p">,</span> <span class="mf">2.34763320e-10</span><span class="p">,</span> <span class="mf">0.00000000e+00</span><span class="p">,</span> <span class="mf">0.00000000e+00</span><span class="p">,</span>
+       <span class="mf">0.00000000e+00</span><span class="p">,</span> <span class="mf">0.00000000e+00</span><span class="p">,</span> <span class="mf">0.00000000e+00</span><span class="p">,</span> <span class="mf">0.00000000e+00</span><span class="p">])</span>
+</pre></div>
+</div>
+<div class="section" id="iterating-across-the-particle-size-distribution">
+<h2>Iterating across the Particle Size Distribution<a class="headerlink" href="#iterating-across-the-particle-size-distribution" title="Permalink to this headline">¶</a></h2>
+<p>Another important task for evaluation OPC’s is comparing the integrated
+values across some pre-defined particle size range. We can accomplish
+this by using the <code class="docutils literal notranslate"><span class="pre">OPC.integrate</span></code> method to calculate either the total
+number of particles, total surface area, total volume, or total mass
+betweeen any two diameters.</p>
+<p>Example:</p>
+<div class="code ipython3 highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">opc</span><span class="o">.</span><span class="n">integrate</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">dmin</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span> <span class="n">dmax</span><span class="o">=</span><span class="mf">2.5</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="s1">&#39;number&#39;</span><span class="p">,</span> <span class="n">rh</span><span class="o">=</span><span class="mf">0.</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mf">505.41153723883406</span>
+</pre></div>
+</div>
+<div class="code ipython3 highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">opc</span><span class="o">.</span><span class="n">integrate</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">dmin</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span> <span class="n">dmax</span><span class="o">=</span><span class="mf">2.5</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="s1">&#39;number&#39;</span><span class="p">,</span> <span class="n">rh</span><span class="o">=</span><span class="mf">85.</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mf">754.771941379744</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="visualizing-the-opc-histogram">
+<h2>Visualizing the OPC Histogram<a class="headerlink" href="#visualizing-the-opc-histogram" title="Permalink to this headline">¶</a></h2>
+<p>Last, it is fairly useful and important for us to be able to easily
+visualize our results. There are functions built-in to compute the
+histogram to use with <code class="docutils literal notranslate"><span class="pre">opcsim.plots.histplot</span></code> to easily plot the
+particle size distribution.</p>
+<p>Let’s go ahead and visualize our results from earlier:</p>
+<div class="code ipython3 highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># compute the histogram</span>
+<span class="n">lb</span><span class="p">,</span> <span class="n">data1</span><span class="p">,</span> <span class="n">ddp</span> <span class="o">=</span> <span class="n">opc</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="s2">&quot;number&quot;</span><span class="p">,</span> <span class="n">base</span><span class="o">=</span><span class="s2">&quot;log10&quot;</span><span class="p">,</span> <span class="n">rh</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span>
+<span class="n">lb</span><span class="p">,</span> <span class="n">data2</span><span class="p">,</span> <span class="n">ddp</span> <span class="o">=</span> <span class="n">opc</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="s2">&quot;number&quot;</span><span class="p">,</span> <span class="n">base</span><span class="o">=</span><span class="s2">&quot;log10&quot;</span><span class="p">,</span> <span class="n">rh</span><span class="o">=</span><span class="mf">95.0</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="code ipython3 highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+
+<span class="n">ax</span> <span class="o">=</span> <span class="n">opcsim</span><span class="o">.</span><span class="n">plots</span><span class="o">.</span><span class="n">pdfplot</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="s2">&quot;number&quot;</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">opcsim</span><span class="o">.</span><span class="n">plots</span><span class="o">.</span><span class="n">pdfplot</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="s2">&quot;number&quot;</span><span class="p">,</span> <span class="n">rh</span><span class="o">=</span><span class="mf">95.0</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">opcsim</span><span class="o">.</span><span class="n">plots</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data1</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="n">opc</span><span class="o">.</span><span class="n">bins</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;RH=0%&quot;</span><span class="p">,</span>
+                           <span class="n">plot_kws</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=.</span><span class="mi">35</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">))</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">opcsim</span><span class="o">.</span><span class="n">plots</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data2</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="n">opc</span><span class="o">.</span><span class="n">bins</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;RH=95%&quot;</span><span class="p">,</span>
+                           <span class="n">plot_kws</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="mf">0.01</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="o">.</span><span class="mi">7</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+
+<span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="../_images/opcs_41_0.png" src="../_images/opcs_41_0.png" />
+<p>On the left, we have the PDF of the particle size distribution at 0% RH
+in dark blue with the histogram, as seen by the OPC, in light blue. In
+dark red, we have the PDF of the particle size distribution at 95% RH -
+as you can see, it has shifted right substantially. There is also the
+histogram, shown as red boxes, of how the OPC “see’s” the size
+distribution at 95% RH. Interestingly, you see the lower part of the
+distribution (below around 600 nm) simply moves right; however, above
+that point, the bin assignments start to get screwy. This is due to the
+Mie Resonance taking hold and making it hard to assign the
+<span class="math notranslate nohighlight">\(C_{scat}\)</span> value to the correct bin.</p>
+</div>
+<div class="section" id="classifying-bin-misassignment">
+<h2>Classifying Bin Misassignment<a class="headerlink" href="#classifying-bin-misassignment" title="Permalink to this headline">¶</a></h2>
+<p>One way to gain an underestanding of how reliable/accurate the OPC is is
+to estimate the range of bins particles of a specific size could be
+assigned to. For example, if we calibrated our OPC with Ammonium Sulfate
+at 0% RH, and then only evaluated Ammonium Sulfate at that same RH, we
+would be fairly confident in our ability to resolve the correct bin.
+However, if we suddenly were in a more humid environment, how would we
+do?</p>
+<p>There are a fwe <code class="docutils literal notranslate"><span class="pre">metrics</span></code> methods available by default to help
+understand the expected range of bin assignments - each is detailed
+below.</p>
+<div class="section" id="compute-bin-assessment">
+<h3><code class="docutils literal notranslate"><span class="pre">compute_bin_assessment</span></code><a class="headerlink" href="#compute-bin-assessment" title="Permalink to this headline">¶</a></h3>
+<p>The objective of this method is to assess the ability of an OPC to
+assign particles to the correct bin. It uses a calibrated OPC to
+evaluate a material of some refractive index and kappa value at various
+relative humidities. The method returns a dataframe containing data
+including: the correct bin assignment, the lower estimate for bin
+assignment, the upper estimate for bin assignment, the effective
+refractive index, the relative humidity, and the lower and upper limit’s
+of scattered light to expected scattered light.</p>
+<p>Our primary focus here is estimating the effects of changes in relative
+humidity, which (1) causes the aerosols to grow as they uptake water and
+(2) causes the refractive index to change.</p>
+<div class="code ipython3 highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">rv</span> <span class="o">=</span> <span class="n">opcsim</span><span class="o">.</span><span class="n">metrics</span><span class="o">.</span><span class="n">compute_bin_assessment</span><span class="p">(</span><span class="n">opc</span><span class="p">,</span> <span class="n">refr</span><span class="o">=</span><span class="nb">complex</span><span class="p">(</span><span class="mf">1.521</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">kappa</span><span class="o">=</span><span class="mf">0.53</span><span class="p">)</span>
+
+<span class="n">rv</span>
+</pre></div>
+</div>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>bin_hi</th>
+      <th>bin_lo</th>
+      <th>bin_true</th>
+      <th>cscat_hi_ratio</th>
+      <th>cscat_lo_ratio</th>
+      <th>refr_eff</th>
+      <th>rh</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1.000000</td>
+      <td>1.000000</td>
+      <td>(1.521+0j)</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1.000000</td>
+      <td>1.000000</td>
+      <td>(1.521+0j)</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3</td>
+      <td>2</td>
+      <td>2</td>
+      <td>1.000000</td>
+      <td>1.000000</td>
+      <td>(1.521+0j)</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>4</td>
+      <td>3</td>
+      <td>3</td>
+      <td>1.000000</td>
+      <td>1.000000</td>
+      <td>(1.521+0j)</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>5</td>
+      <td>4</td>
+      <td>4</td>
+      <td>1.000000</td>
+      <td>1.000000</td>
+      <td>(1.521+0j)</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>6</td>
+      <td>5</td>
+      <td>5</td>
+      <td>1.000000</td>
+      <td>1.000000</td>
+      <td>(1.521+0j)</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>7</td>
+      <td>6</td>
+      <td>6</td>
+      <td>1.000000</td>
+      <td>1.000000</td>
+      <td>(1.521+0j)</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>8</td>
+      <td>7</td>
+      <td>7</td>
+      <td>1.000000</td>
+      <td>1.000000</td>
+      <td>(1.521+0j)</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>9</td>
+      <td>8</td>
+      <td>8</td>
+      <td>1.000000</td>
+      <td>1.000000</td>
+      <td>(1.521+0j)</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>10</td>
+      <td>9</td>
+      <td>9</td>
+      <td>1.000000</td>
+      <td>1.000000</td>
+      <td>(1.521+0j)</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>11</td>
+      <td>10</td>
+      <td>10</td>
+      <td>1.000000</td>
+      <td>1.000000</td>
+      <td>(1.521+0j)</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>12</td>
+      <td>11</td>
+      <td>11</td>
+      <td>1.000000</td>
+      <td>1.000000</td>
+      <td>(1.521+0j)</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>13</td>
+      <td>12</td>
+      <td>12</td>
+      <td>1.000000</td>
+      <td>1.000000</td>
+      <td>(1.521+0j)</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>14</td>
+      <td>13</td>
+      <td>13</td>
+      <td>1.000000</td>
+      <td>1.000000</td>
+      <td>(1.521+0j)</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>15</td>
+      <td>14</td>
+      <td>14</td>
+      <td>1.000000</td>
+      <td>1.000000</td>
+      <td>(1.521+0j)</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>16</td>
+      <td>15</td>
+      <td>15</td>
+      <td>1.000000</td>
+      <td>1.000000</td>
+      <td>(1.521+0j)</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>17</td>
+      <td>16</td>
+      <td>16</td>
+      <td>1.000000</td>
+      <td>1.000000</td>
+      <td>(1.521+0j)</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>18</td>
+      <td>17</td>
+      <td>17</td>
+      <td>1.000000</td>
+      <td>1.000000</td>
+      <td>(1.521+0j)</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>19</td>
+      <td>18</td>
+      <td>18</td>
+      <td>1.000000</td>
+      <td>1.000000</td>
+      <td>(1.521+0j)</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>20</td>
+      <td>19</td>
+      <td>19</td>
+      <td>1.000000</td>
+      <td>1.000000</td>
+      <td>(1.521+0j)</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>20</th>
+      <td>21</td>
+      <td>20</td>
+      <td>20</td>
+      <td>1.000000</td>
+      <td>1.000000</td>
+      <td>(1.521+0j)</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>21</th>
+      <td>22</td>
+      <td>21</td>
+      <td>21</td>
+      <td>1.000000</td>
+      <td>1.000000</td>
+      <td>(1.521+0j)</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>22</th>
+      <td>23</td>
+      <td>22</td>
+      <td>22</td>
+      <td>1.000000</td>
+      <td>1.000000</td>
+      <td>(1.521+0j)</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>23</th>
+      <td>-99</td>
+      <td>23</td>
+      <td>23</td>
+      <td>1.000000</td>
+      <td>1.000000</td>
+      <td>(1.521+0j)</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>24</th>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1.312445</td>
+      <td>1.341463</td>
+      <td>(1.4792597247157389+0j)</td>
+      <td>35.0</td>
+    </tr>
+    <tr>
+      <th>25</th>
+      <td>2</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1.190388</td>
+      <td>1.312445</td>
+      <td>(1.4792597247157389+0j)</td>
+      <td>35.0</td>
+    </tr>
+    <tr>
+      <th>26</th>
+      <td>3</td>
+      <td>2</td>
+      <td>2</td>
+      <td>1.092271</td>
+      <td>1.190388</td>
+      <td>(1.479259724715739+0j)</td>
+      <td>35.0</td>
+    </tr>
+    <tr>
+      <th>27</th>
+      <td>4</td>
+      <td>3</td>
+      <td>3</td>
+      <td>1.059064</td>
+      <td>1.092271</td>
+      <td>(1.479259724715739+0j)</td>
+      <td>35.0</td>
+    </tr>
+    <tr>
+      <th>28</th>
+      <td>5</td>
+      <td>4</td>
+      <td>4</td>
+      <td>1.061993</td>
+      <td>1.059064</td>
+      <td>(1.4792597247157389+0j)</td>
+      <td>35.0</td>
+    </tr>
+    <tr>
+      <th>29</th>
+      <td>6</td>
+      <td>5</td>
+      <td>5</td>
+      <td>1.006953</td>
+      <td>1.061993</td>
+      <td>(1.479259724715739+0j)</td>
+      <td>35.0</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>42</th>
+      <td>19</td>
+      <td>18</td>
+      <td>18</td>
+      <td>1.140724</td>
+      <td>1.142485</td>
+      <td>(1.4792597247157389+0j)</td>
+      <td>35.0</td>
+    </tr>
+    <tr>
+      <th>43</th>
+      <td>20</td>
+      <td>19</td>
+      <td>19</td>
+      <td>1.134138</td>
+      <td>1.140724</td>
+      <td>(1.479259724715739+0j)</td>
+      <td>35.0</td>
+    </tr>
+    <tr>
+      <th>44</th>
+      <td>21</td>
+      <td>20</td>
+      <td>20</td>
+      <td>1.106745</td>
+      <td>1.134138</td>
+      <td>(1.479259724715739+0j)</td>
+      <td>35.0</td>
+    </tr>
+    <tr>
+      <th>45</th>
+      <td>22</td>
+      <td>21</td>
+      <td>21</td>
+      <td>1.114665</td>
+      <td>1.106745</td>
+      <td>(1.479259724715739+0j)</td>
+      <td>35.0</td>
+    </tr>
+    <tr>
+      <th>46</th>
+      <td>23</td>
+      <td>22</td>
+      <td>22</td>
+      <td>1.100155</td>
+      <td>1.114665</td>
+      <td>(1.4792597247157389+0j)</td>
+      <td>35.0</td>
+    </tr>
+    <tr>
+      <th>47</th>
+      <td>-99</td>
+      <td>23</td>
+      <td>23</td>
+      <td>1.122860</td>
+      <td>1.100155</td>
+      <td>(1.479259724715739+0j)</td>
+      <td>35.0</td>
+    </tr>
+    <tr>
+      <th>48</th>
+      <td>3</td>
+      <td>2</td>
+      <td>0</td>
+      <td>9.154365</td>
+      <td>16.614693</td>
+      <td>(1.3499828364950315+0j)</td>
+      <td>95.0</td>
+    </tr>
+    <tr>
+      <th>49</th>
+      <td>4</td>
+      <td>3</td>
+      <td>1</td>
+      <td>4.143139</td>
+      <td>9.154365</td>
+      <td>(1.3499828364950315+0j)</td>
+      <td>95.0</td>
+    </tr>
+    <tr>
+      <th>50</th>
+      <td>5</td>
+      <td>4</td>
+      <td>2</td>
+      <td>2.678093</td>
+      <td>4.143139</td>
+      <td>(1.3499828364950315+0j)</td>
+      <td>95.0</td>
+    </tr>
+    <tr>
+      <th>51</th>
+      <td>7</td>
+      <td>5</td>
+      <td>3</td>
+      <td>2.376691</td>
+      <td>2.678093</td>
+      <td>(1.3499828364950315+0j)</td>
+      <td>95.0</td>
+    </tr>
+    <tr>
+      <th>52</th>
+      <td>9</td>
+      <td>7</td>
+      <td>4</td>
+      <td>3.120545</td>
+      <td>2.376691</td>
+      <td>(1.3499828364950315+0j)</td>
+      <td>95.0</td>
+    </tr>
+    <tr>
+      <th>53</th>
+      <td>9</td>
+      <td>9</td>
+      <td>5</td>
+      <td>3.206905</td>
+      <td>3.120545</td>
+      <td>(1.3499828364950315+0j)</td>
+      <td>95.0</td>
+    </tr>
+    <tr>
+      <th>54</th>
+      <td>10</td>
+      <td>9</td>
+      <td>6</td>
+      <td>3.207352</td>
+      <td>3.206905</td>
+      <td>(1.3499828364950315+0j)</td>
+      <td>95.0</td>
+    </tr>
+    <tr>
+      <th>55</th>
+      <td>11</td>
+      <td>10</td>
+      <td>7</td>
+      <td>2.351012</td>
+      <td>3.207352</td>
+      <td>(1.3499828364950315+0j)</td>
+      <td>95.0</td>
+    </tr>
+    <tr>
+      <th>56</th>
+      <td>11</td>
+      <td>11</td>
+      <td>8</td>
+      <td>3.357221</td>
+      <td>2.351012</td>
+      <td>(1.3499828364950315+0j)</td>
+      <td>95.0</td>
+    </tr>
+    <tr>
+      <th>57</th>
+      <td>13</td>
+      <td>11</td>
+      <td>9</td>
+      <td>3.205498</td>
+      <td>3.357221</td>
+      <td>(1.3499828364950315+0j)</td>
+      <td>95.0</td>
+    </tr>
+    <tr>
+      <th>58</th>
+      <td>14</td>
+      <td>13</td>
+      <td>10</td>
+      <td>3.704630</td>
+      <td>3.205498</td>
+      <td>(1.3499828364950315+0j)</td>
+      <td>95.0</td>
+    </tr>
+    <tr>
+      <th>59</th>
+      <td>15</td>
+      <td>14</td>
+      <td>11</td>
+      <td>3.258512</td>
+      <td>3.704630</td>
+      <td>(1.3499828364950315+0j)</td>
+      <td>95.0</td>
+    </tr>
+    <tr>
+      <th>60</th>
+      <td>16</td>
+      <td>15</td>
+      <td>12</td>
+      <td>4.030928</td>
+      <td>3.258512</td>
+      <td>(1.3499828364950315+0j)</td>
+      <td>95.0</td>
+    </tr>
+    <tr>
+      <th>61</th>
+      <td>17</td>
+      <td>16</td>
+      <td>13</td>
+      <td>3.421655</td>
+      <td>4.030928</td>
+      <td>(1.3499828364950315+0j)</td>
+      <td>95.0</td>
+    </tr>
+    <tr>
+      <th>62</th>
+      <td>18</td>
+      <td>17</td>
+      <td>14</td>
+      <td>3.419012</td>
+      <td>3.421655</td>
+      <td>(1.3499828364950315+0j)</td>
+      <td>95.0</td>
+    </tr>
+    <tr>
+      <th>63</th>
+      <td>19</td>
+      <td>18</td>
+      <td>15</td>
+      <td>3.590696</td>
+      <td>3.419012</td>
+      <td>(1.3499828364950315+0j)</td>
+      <td>95.0</td>
+    </tr>
+    <tr>
+      <th>64</th>
+      <td>20</td>
+      <td>19</td>
+      <td>16</td>
+      <td>3.472605</td>
+      <td>3.590696</td>
+      <td>(1.3499828364950315+0j)</td>
+      <td>95.0</td>
+    </tr>
+    <tr>
+      <th>65</th>
+      <td>21</td>
+      <td>20</td>
+      <td>17</td>
+      <td>3.674600</td>
+      <td>3.472605</td>
+      <td>(1.3499828364950315+0j)</td>
+      <td>95.0</td>
+    </tr>
+    <tr>
+      <th>66</th>
+      <td>22</td>
+      <td>21</td>
+      <td>18</td>
+      <td>3.587729</td>
+      <td>3.674600</td>
+      <td>(1.3499828364950315+0j)</td>
+      <td>95.0</td>
+    </tr>
+    <tr>
+      <th>67</th>
+      <td>23</td>
+      <td>22</td>
+      <td>19</td>
+      <td>3.542784</td>
+      <td>3.587729</td>
+      <td>(1.3499828364950315+0j)</td>
+      <td>95.0</td>
+    </tr>
+    <tr>
+      <th>68</th>
+      <td>-99</td>
+      <td>23</td>
+      <td>20</td>
+      <td>3.574876</td>
+      <td>3.542784</td>
+      <td>(1.3499828364950315+0j)</td>
+      <td>95.0</td>
+    </tr>
+    <tr>
+      <th>69</th>
+      <td>-99</td>
+      <td>-99</td>
+      <td>21</td>
+      <td>3.540213</td>
+      <td>3.574876</td>
+      <td>(1.3499828364950315+0j)</td>
+      <td>95.0</td>
+    </tr>
+    <tr>
+      <th>70</th>
+      <td>-99</td>
+      <td>-99</td>
+      <td>22</td>
+      <td>3.352330</td>
+      <td>3.540213</td>
+      <td>(1.3499828364950315+0j)</td>
+      <td>95.0</td>
+    </tr>
+    <tr>
+      <th>71</th>
+      <td>-99</td>
+      <td>-99</td>
+      <td>23</td>
+      <td>3.576379</td>
+      <td>3.352330</td>
+      <td>(1.3499828364950315+0j)</td>
+      <td>95.0</td>
+    </tr>
+  </tbody>
+</table>
+<p>72 rows × 7 columns</p>
+</div><p>Above, we see that when RH is low and their is little growth or change
+in refractive index, we mostly do a great job of assigning particles to
+the correct bin. However, when the RH increases substantially and
+significant watre uptake occurs, the combination of massive growth in
+the actual particle size, along with the substantial change in
+refractive index, leads to massive oversizing which will have large
+effects when converting from number distribution to volume and/or mass
+distribution.</p>
+</div>
+</div>
+</div>
+
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+        <br/>
+        
+<div id="sourcelink">
+  <a href="../_sources/tutorial/opcs.rst.txt"
+     rel="nofollow">Source</a>
+</div>
+      
+    </p>
+    <p>
+        &copy; Copyright 2017-2019, David H Hagan.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.5.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

@@ -31,6 +31,9 @@ Aerosol Distributions
 Models
 ------
 
+OPC
+===
+
 .. rubric:: OPC Class
 
 .. autosummary::
@@ -48,6 +51,24 @@ Models
     opcsim.OPC.histogram
     opcsim.OPC.integrate
 
+
+Nephelometer
+============
+
+.. rubric:: Nephelometer Class
+
+.. autosummary::
+    :toctree: generated/
+
+    opcsim.Nephelometer
+
+.. rubric:: Nephelometer Methods
+
+.. autosummary::
+    :toctree: generated/
+
+    opcsim.Nephelometer.calibrate
+    opcsim.Nephelometer.evaluate
 
 .. _mie_theory_api:
 
@@ -74,7 +95,36 @@ Visualization
     opcsim.plots.histplot
     opcsim.plots.pdfplot
     opcsim.plots.cdfplot
+    opcsim.plots.calplot
 
+
+.. metrics_api:
+
+Metrics Functions
+-----------------
+
+.. autosummary::
+    :toctree: generated/
+
+    opcsim.metrics.compute_bin_assessment
+
+.. _utils_api:
+
+Utility Functions
+-----------------
+
+.. autosummary::
+    :toctree: generated/
+
+    opcsim.load_distribution
+
+    opcsim.utils.make_bins
+    opcsim.utils.midpoints
+
+    opcsim.utils.k_kohler
+    opcsim.utils.rho_eff
+    opcsim.utils.k_eff
+    opcsim.utils.ri_eff
 
 .. _equations_api:
 
@@ -101,20 +151,4 @@ Equations
     opcsim.equations.cdf.vt
 
 
-.. _utils_api:
 
-Utility Functions
------------------
-
-.. autosummary::
-    :toctree: generated/
-
-    opcsim.load_distribution
-
-    opcsim.utils.make_bins
-    opcsim.utils.midpoints
-
-    opcsim.utils.k_kohler
-    opcsim.utils.rho_eff
-    opcsim.utils.k_eff
-    opcsim.utils.ri_eff

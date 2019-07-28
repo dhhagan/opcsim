@@ -205,7 +205,7 @@ distribution, we would get:
 
 
 
-.. image:: distribution_files/distribution_13_0.png
+.. image:: aerosol_distributions_files/aerosol_distributions_13_0.png
 
 
 Surface Area Distribution
@@ -330,7 +330,7 @@ Let’s plot the urban distribution we built earlier.
 
 
 
-.. image:: distribution_files/distribution_23_0.png
+.. image:: aerosol_distributions_files/aerosol_distributions_23_0.png
 
 
 kwargs for the PDF Plot
@@ -355,7 +355,7 @@ are sent to the matplotlib fill_between call if and only if
 
 
 
-.. image:: distribution_files/distribution_25_0.png
+.. image:: aerosol_distributions_files/aerosol_distributions_25_0.png
 
 
 We can also go ahead and plot each individual mode along with the entire
@@ -375,7 +375,7 @@ distribution using the ``with_modes`` argument:
 
 
 
-.. image:: distribution_files/distribution_27_0.png
+.. image:: aerosol_distributions_files/aerosol_distributions_27_0.png
 
 
 Still staying in number space, we can go ahead and plot all of the
@@ -407,7 +407,7 @@ are!
 
 
 
-.. image:: distribution_files/distribution_29_0.png
+.. image:: aerosol_distributions_files/aerosol_distributions_29_0.png
 
 
 Finally, we can also go ahead and look at one distribution in number,
@@ -434,7 +434,7 @@ surface area, and volume weighted views:
 
 
 
-.. image:: distribution_files/distribution_31_0.png
+.. image:: aerosol_distributions_files/aerosol_distributions_31_0.png
 
 
 Visualizing the Effects of Relative Humidity on Particle Growth
@@ -472,7 +472,7 @@ visualize changes in particle size due to water uptake as follows:
 
 
 
-.. image:: distribution_files/distribution_33_0.png
+.. image:: aerosol_distributions_files/aerosol_distributions_33_0.png
 
 
 Cumulative Distribution Function
@@ -585,7 +585,7 @@ distribution using the ``opcsim.plots.cdfplot`` function:
 
 
 
-.. image:: distribution_files/distribution_43_0.png
+.. image:: aerosol_distributions_files/aerosol_distributions_43_0.png
 
 
 Lastly, we can plot the total volume CDF to get an idea of where the
@@ -600,6 +600,6 @@ mass is distributed:
 
 
 
-.. image:: distribution_files/distribution_45_0.png
+.. image:: aerosol_distributions_files/aerosol_distributions_45_0.png
 
 

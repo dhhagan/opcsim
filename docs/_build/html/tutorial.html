@@ -4,7 +4,7 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>opcsim Tutorial &#8212; opcsim 0.3.0+9.g024c67e.dirty documentation</title>
+    <title>opcsim Tutorial &#8212; opcsim 0.3.0+20.gb4a82c2.dirty documentation</title>
     <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="_static/style.css" />
@@ -21,8 +21,8 @@
     <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="The Aerosol Distribution Tutorial" href="tutorial/distribution.html" />
-    <link rel="prev" title="opcsim.utils.ri_eff" href="generated/opcsim.utils.ri_eff.html" />
+    <link rel="next" title="The Aerosol Distribution Tutorial" href="tutorial/aerosol_distributions.html" />
+    <link rel="prev" title="opcsim.equations.cdf.vt" href="generated/opcsim.equations.cdf.vt.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
@@ -41,7 +41,7 @@
         </button>
         <a class="navbar-brand" href="index.html">
           opcsim</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.3.0+9.g024c67e.dirty</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.3.0+20.gb4a82c2.dirty</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -64,7 +64,9 @@
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduciton</a></li>
 <li class="toctree-l1"><a class="reference internal" href="installing.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
-<li class="toctree-l1"><a class="reference internal" href="api.html">API reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html#opc">OPC</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html#nephelometer">Nephelometer</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="examples/index.html">Example gallery</a></li>
 </ul>
@@ -120,26 +122,26 @@
 <h2>Aerosol Distributions<a class="headerlink" href="#aerosol-distributions" title="Permalink to this headline">¶</a></h2>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="tutorial/distribution.html">The Aerosol Distribution Tutorial</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tutorial/distribution.html#the-aerosol-distribution">The Aerosol Distribution</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="tutorial/distribution.html#incorporating-optical-and-chemical-properties-of-aerosols">Incorporating Optical and Chemical Properties of Aerosols</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/aerosol_distributions.html">The Aerosol Distribution Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/aerosol_distributions.html#the-aerosol-distribution">The Aerosol Distribution</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tutorial/aerosol_distributions.html#incorporating-optical-and-chemical-properties-of-aerosols">Incorporating Optical and Chemical Properties of Aerosols</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="tutorial/distribution.html#probability-distribution-function">Probability Distribution Function</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="tutorial/distribution.html#number-distribution">Number Distribution</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorial/distribution.html#surface-area-distribution">Surface Area Distribution</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorial/distribution.html#volume-distribution">Volume Distribution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/aerosol_distributions.html#probability-distribution-function">Probability Distribution Function</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tutorial/aerosol_distributions.html#number-distribution">Number Distribution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial/aerosol_distributions.html#surface-area-distribution">Surface Area Distribution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial/aerosol_distributions.html#volume-distribution">Volume Distribution</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="tutorial/distribution.html#visualizing-the-distribution">Visualizing the Distribution</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="tutorial/distribution.html#kwargs-for-the-pdf-plot">kwargs for the PDF Plot</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorial/distribution.html#visualizing-the-effects-of-relative-humidity-on-particle-growth">Visualizing the Effects of Relative Humidity on Particle Growth</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/aerosol_distributions.html#visualizing-the-distribution">Visualizing the Distribution</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tutorial/aerosol_distributions.html#kwargs-for-the-pdf-plot">kwargs for the PDF Plot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial/aerosol_distributions.html#visualizing-the-effects-of-relative-humidity-on-particle-growth">Visualizing the Effects of Relative Humidity on Particle Growth</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="tutorial/distribution.html#cumulative-distribution-function">Cumulative Distribution Function</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="tutorial/distribution.html#number-cdf">Number CDF</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorial/distribution.html#surface-area-cdf">Surface Area CDF</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorial/distribution.html#volume-cdf">Volume CDF</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/aerosol_distributions.html#cumulative-distribution-function">Cumulative Distribution Function</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tutorial/aerosol_distributions.html#number-cdf">Number CDF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial/aerosol_distributions.html#surface-area-cdf">Surface Area CDF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial/aerosol_distributions.html#volume-cdf">Volume CDF</a></li>
 </ul>
 </li>
 </ul>
@@ -149,22 +151,24 @@
 <h2>Simulating and Evaluating an OPC<a class="headerlink" href="#simulating-and-evaluating-an-opc" title="Permalink to this headline">¶</a></h2>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="tutorial/model.html">Using OPCSIM to Build and Model an Optical Particle Counter (OPC)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tutorial/model.html#the-opc-model">The OPC Model</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="tutorial/model.html#building-more-specific-opcs">Building more specific OPC’s</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/opcs.html">Using OPCSIM to Build and Model an Optical Particle Counter (OPC)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/opcs.html#the-opc-model">The OPC Model</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tutorial/opcs.html#building-more-specific-opcs">Building more specific OPC’s</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="tutorial/model.html#opc-calibration">OPC Calibration</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="tutorial/model.html#method-1-smooth">Method 1: <code class="docutils literal notranslate"><span class="pre">smooth</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorial/model.html#method-2-linear">Method 2: <code class="docutils literal notranslate"><span class="pre">linear</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorial/model.html#so-how-do-we-calibrate-our-sensor">So, how do we calibrate our sensor?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/opcs.html#calibration">Calibration</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tutorial/opcs.html#calibration-method-1-spline">Calibration Method 1: <code class="docutils literal notranslate"><span class="pre">spline</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial/opcs.html#calibration-method-2-linear">Calibration Method 2: <code class="docutils literal notranslate"><span class="pre">linear</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial/opcs.html#calibration-method-3-piecewise">calibration Method 3: <code class="docutils literal notranslate"><span class="pre">piecewise</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="tutorial/model.html#evaluating-an-opc-for-a-given-aerosol-distribution">Evaluating an OPC for a given Aerosol Distribution</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="tutorial/model.html#interating-across-the-particle-size-distribution">Interating across the Particle Size Distribution</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorial/model.html#visualizing-the-opc-histogram">Visualizing the OPC Histogram</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/opcs.html#evaluating-an-opc-for-a-given-aerosol-distribution">Evaluating an OPC for a given Aerosol Distribution</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tutorial/opcs.html#iterating-across-the-particle-size-distribution">Iterating across the Particle Size Distribution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial/opcs.html#visualizing-the-opc-histogram">Visualizing the OPC Histogram</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial/opcs.html#classifying-bin-misassignment">Classifying Bin Misassignment</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/nephelometer.html">Using OPCSIM to Simulate a Nephelometer</a></li>
 </ul>
 </div>
 </div>

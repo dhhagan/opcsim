@@ -4,7 +4,7 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Urban Response of a 10-bin OPC &#8212; opcsim 0.3.0+9.g024c67e.dirty documentation</title>
+    <title>Urban Response of a 10-bin OPC &#8212; opcsim 0.3.0+20.gb4a82c2.dirty documentation</title>
     <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/style.css" />
@@ -41,7 +41,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           opcsim</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.3.0+9.g024c67e.dirty</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.3.0+20.gb4a82c2.dirty</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -64,7 +64,9 @@
 <li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduciton</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../installing.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../api.html">API reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api.html#opc">OPC</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api.html#nephelometer">Nephelometer</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorial.html">Tutorial</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">Example gallery</a></li>
 </ul>
@@ -125,10 +127,10 @@
 <span class="n">opc</span> <span class="o">=</span> <span class="n">opcsim</span><span class="o">.</span><span class="n">OPC</span><span class="p">(</span><span class="n">wl</span><span class="o">=</span><span class="mf">0.658</span><span class="p">,</span> <span class="n">n_bins</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">dmin</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
 
 <span class="c1"># calibrate the OPC using PSl&#39;s</span>
-<span class="n">opc</span><span class="o">.</span><span class="n">calibrate</span><span class="p">(</span><span class="s2">&quot;psl&quot;</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;smooth&#39;</span><span class="p">)</span>
+<span class="n">opc</span><span class="o">.</span><span class="n">calibrate</span><span class="p">(</span><span class="s2">&quot;psl&quot;</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;spline&#39;</span><span class="p">)</span>
 
 <span class="c1"># compute the values</span>
-<span class="n">cscat</span><span class="p">,</span> <span class="n">vals</span> <span class="o">=</span> <span class="n">opc</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">rh</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span>
+<span class="n">vals</span> <span class="o">=</span> <span class="n">opc</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">rh</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span>
 
 <span class="c1"># Plot the histogram response</span>
 <span class="n">ax</span> <span class="o">=</span> <span class="n">opcsim</span><span class="o">.</span><span class="n">plots</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">vals</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="n">opc</span><span class="o">.</span><span class="n">bins</span><span class="p">)</span>

@@ -31,6 +31,9 @@ Aerosol Distributions
 Models
 ------
 
+OPC
+^^^
+
 .. rubric:: OPC Class
 
 .. autosummary::
@@ -48,6 +51,24 @@ Models
     opcsim.OPC.histogram
     opcsim.OPC.integrate
 
+
+Nephelometer
+^^^^^^^^^^^^
+
+.. rubric:: Nephelometer Class
+
+.. autosummary::
+    :toctree: generated/
+
+    opcsim.Nephelometer
+
+.. rubric:: Nephelometer Methods
+
+.. autosummary::
+    :toctree: generated/
+
+    opcsim.Nephelometer.calibrate
+    opcsim.Nephelometer.evaluate
 
 .. _mie_theory_api:
 
@@ -77,31 +98,6 @@ Visualization
     opcsim.plots.calplot
 
 
-.. _equations_api:
-
-Equations
----------
-
-.. autosummary::
-    :toctree: generated/
-
-    opcsim.equations.pdf.dn_ddp
-    opcsim.equations.pdf.ds_ddp
-    opcsim.equations.pdf.dv_ddp
-
-    opcsim.equations.pdf.dn_dlndp
-    opcsim.equations.pdf.ds_dlndp
-    opcsim.equations.pdf.dv_dlndp
-
-    opcsim.equations.pdf.dn_dlogdp
-    opcsim.equations.pdf.ds_dlogdp
-    opcsim.equations.pdf.dv_dlogdp
-
-    opcsim.equations.cdf.nt
-    opcsim.equations.cdf.st
-    opcsim.equations.cdf.vt
-
-
 .. metrics_api:
 
 Metrics Functions
@@ -129,3 +125,30 @@ Utility Functions
     opcsim.utils.rho_eff
     opcsim.utils.k_eff
     opcsim.utils.ri_eff
+
+.. _equations_api:
+
+Equations
+---------
+
+.. autosummary::
+    :toctree: generated/
+
+    opcsim.equations.pdf.dn_ddp
+    opcsim.equations.pdf.ds_ddp
+    opcsim.equations.pdf.dv_ddp
+
+    opcsim.equations.pdf.dn_dlndp
+    opcsim.equations.pdf.ds_dlndp
+    opcsim.equations.pdf.dv_dlndp
+
+    opcsim.equations.pdf.dn_dlogdp
+    opcsim.equations.pdf.ds_dlogdp
+    opcsim.equations.pdf.dv_dlogdp
+
+    opcsim.equations.cdf.nt
+    opcsim.equations.cdf.st
+    opcsim.equations.cdf.vt
+
+
+

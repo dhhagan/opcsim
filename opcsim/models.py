@@ -528,6 +528,145 @@ class OPC(object):
         return str(self.__class__)
 
 
+class Nephelometer(object):
+    """
+    """
+    def __init__(self, wl, theta=(7., 173.), **kwargs):
+        self.wl = wl
+        self.theta = theta
+        self.pm1_ratio = None
+        self.pm25_ratio = None
+        self.pm10_ratio = None
+    
+    def calibrate(self, distribution, rh=0., **kwargs):
+        """Calibrate a Nephelometer using any AerosolDistribution.
+
+        Parameters
+        ----------
+        distribution: opcsim.AerosolDistribution
+            The aerosol distribution used to calibrate the Nephelometer.
+        rh: float
+            The relative humidity at which the calibration takes place.
+            Default is 0 %.
+
+        Returns
+        -------
+        None
+
+        Examples
+        --------
+
+        Build and calibrate a Nephelometer to a simple 1-mode distribution of Ammonium Sulfate.
+
+        >>> neph = Nephelometer(wl=0.6, theta=(7., 173.))
+        >>>
+        >>> d = opcsim.AerosolDistribution("AmmSulf")
+        >>> d.add_mode(n=1000, gm=0.2, gsd=1.25, refr=complex(1.521, 0), rho=1.77, kappa=0.53)
+        >>> 
+        >>> neph.calibrate(d, rh=0.)
+
+        """
+        n_bins = kwargs.pop("n_bins", 100)
+
+        # compute the PM1, PM25, and PM10 masses
+        pm1 = distribution.cdf(dmin=0., dmax=1., weight="mass")
+        pm25 = distribution.cdf(dmin=0., dmax=2.5, weight="mass")
+        pm10 = distribution.cdf(dmin=0., dmax=10., weight="mass")
+
+        # compute the total scattered light across the distribution
+        total_cscat = self._sum_across_distribution(distribution, n_bins=n_bins, rh=rh)
+
+        # set the ratios
+        self.pm1_ratio = total_cscat / pm1
+        self.pm25_ratio = total_cscat / pm25
+        self.pm10_ratio = total_cscat / pm10
+
+    def _sum_across_distribution(self, distribution, n_bins=100, rh=0., **kwargs):
+        """
+        """
+        total_cscat = 0.
+
+        for m in distribution.modes:
+            gm = m["GM"]
+            gsd = m["GSD"]
+            refr = m["refr"]
+
+            # alter the GM and RI per the RH specifed
+            gm = k_kohler(diam_dry=gm, kappa=m["kappa"], rh=rh)
+
+            pct_dry = m["GM"]**3 / gm**3
+
+            refr = ri_eff(species=[refr, RI_COMMON["h2o"]], weights=[pct_dry, 1-pct_dry])
+
+            # compute the bounds
+            bounds = np.logspace(start=np.log10(gm/(gsd**4)), stop=np.log10(gm*(gsd**4)), num=n_bins)
+
+            # compute the midpoints of each bin
+            midpoints = np.mean([bounds[:-1], bounds[1:]], axis=0)
+
+            # compute the number of particles in each bin
+            n = np.array([distribution.cdf(dmin=a, dmax=b, mode=m["label"], rh=rh)
+                          for a, b in zip(bounds[:-1], bounds[1:])])
+            
+            # compute the mean Cscat for each bin
+            cscat = np.array([cscat(dp, wl=self.wl, refr=refr,
+                                    theta1=self.theta[0], theta2=self.theta[1]) for dp in midpoints])
+            
+            # add to the running total
+            total_cscat += (n*cscat).sum()
+
+        return total_cscat
+    
+    def evaluate(self, distribution, rh=0., **kwargs):
+        """Evaluate a Nephelometer for an AerosolDistribution at 
+        a given relative humidity.
+
+        Parameters
+        ----------
+        distribution: opcsim.AerosolDistribution
+            The aerosol distribution used to calibrate the Nephelometer.
+        rh: float
+            The relative humidity at which the calibration takes place.
+            Default is 0 %.
+
+        Returns
+        -------
+        cscat: float
+            The total summed scattering signal across the entire size distribution.
+        pm1: float
+            The total PM1 value in ug/m3
+        pm25: float
+            The total PM2.5 value in ug/m3
+        pm10: float
+            The total PM10 value in ug/m3
+        Cscat, pm1, pm25, pm10: floats
+            
+
+        Examples
+        --------
+
+        Build and calibrate a Nephelometer to a simple 1-mode distribution of Ammonium Sulfate.
+
+        >>> neph = Nephelometer(wl=0.6, theta=(7., 173.))
+        >>>
+        >>> d = opcsim.AerosolDistribution("AmmSulf")
+        >>> d.add_mode(n=1000, gm=0.2, gsd=1.25, refr=complex(1.521, 0), rho=1.77, kappa=0.53)
+        >>> 
+        >>> neph.calibrate(d, rh=0.)
+        >>>
+        >>> neph.evaluate(d, rh=85.)
+
+        """
+        total_cscat = self._sum_across_distribution(distribution, rh=rh, **kwargs)
+
+        pm1 = total_cscat / self.pm1_ratio
+        pm25 = total_cscat / self.pm25_ratio
+        pm10 = total_cscat / self.pm10_ratio
+
+        return total_cscat, pm1, pm25, pm10
+
+
 __all__ = [
-    'OPC'
+    'OPC',
+    'Nephelometer'
 ]
