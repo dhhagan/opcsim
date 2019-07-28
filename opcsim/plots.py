@@ -436,7 +436,7 @@ def calplot(opc, ax=None, plot_kws={}, fig_kws={}, **kwargs):
     
     nc = next(ax._get_lines.prop_cycler)['color']
 
-    ax.plot(xs, yvals, color=nc, label=label, **plot_kws, label="Mie")
+    ax.plot(xs, yvals, color=nc, label="Mie", **plot_kws)
     ax.plot(opc.bin_boundaries, yvals, "o", color=nc, label="Computed $C_{scat}$")
     ax.plot(opc.bin_boundaries, opc.calibration_vals, "-",
             color=next(ax._get_lines.prop_cycler)["color"], label="Calibration")
