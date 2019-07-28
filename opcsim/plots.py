@@ -423,7 +423,6 @@ def calplot(opc, ax=None, plot_kws={}, fig_kws={}, **kwargs):
         ax = plt.gca()
     
     xs = kwargs.pop("dp", np.logspace(-1.5, 1.5, 250))
-    label = kwargs.pop("label", None)
 
     # Set the plot_kws as a mapping of default and kwargs
     default_plot_kws = dict(alpha=1, linewidth=3)
@@ -437,14 +436,17 @@ def calplot(opc, ax=None, plot_kws={}, fig_kws={}, **kwargs):
     
     nc = next(ax._get_lines.prop_cycler)['color']
 
-    ax.plot(xs, yvals, color=nc, label=label, **plot_kws)
-    ax.plot(opc.bin_boundaries, opc.calibration_vals, "o-", color=next(ax._get_lines.prop_cycler)["color"])
+    ax.plot(xs, yvals, color=nc, label=label, **plot_kws, label="Mie")
+    ax.plot(opc.bin_boundaries, yvals, "o", color=nc, label="Computed $C_{scat}$")
+    ax.plot(opc.bin_boundaries, opc.calibration_vals, "-",
+            color=next(ax._get_lines.prop_cycler)["color"], label="Calibration")
 
     ax.semilogx()
     ax.semilogy()
     ax.xaxis.set_major_formatter(mtick.FormatStrFormatter("%.3g"))
     ax.set_xlabel("$D_p \; [\mu m]$")
     ax.set_ylabel("$C_{scat}\; [cm^2/particle]$")
+    ax.legend(loc="upper left")
 
     return ax
 
