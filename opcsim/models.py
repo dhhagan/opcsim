@@ -106,7 +106,7 @@ class OPC(object):
     def midpoints(self):
         return self.bins[:, 1]
 
-    def calibrate(self, material, method='spline', log_weight=True, mie_kws={}, fit_kws={}):
+    def calibrate(self, material, method='spline', mie_kws={}, fit_kws={}):
         """Calibrate the OPC assuming a specific material. 
 
         By calibration, we mean a method used to relate the peak height, 
@@ -131,10 +131,6 @@ class OPC(object):
             include (1) 'spline' which removes any non-monotonicly increasing 
             points from the Cscat to Dp curve; or (2) 'linear' fits a linear model 
             (in log-log space) between Cscat and Dp.
-        log_weight: bool
-            When generating a calibration curve using the 'linear_fit' method,
-            setting log_weight=True will generate an error matrix that weights 
-            the fit in log-units.
         mie_kws: dict
             Optional dictionary containing keyword arguments that is sent 
             directly to opcsim.mie.cscat when computing the scattering 
@@ -189,13 +185,28 @@ class OPC(object):
                 return a * np.power(dp, b)
             
             # if log-weight, set sigma to weight in log-units
-            if log_weight:
-                fit_kws["sigma"] = np.power(10, np.log10(yvals) + 1)
+            fit_kws["sigma"] = np.power(10, np.log10(yvals) + 1)
 
             # fit the data with optional kwargs
             popt, _ = scipy.optimize.curve_fit(f, self.bin_boundaries, yvals, **fit_kws)
 
             # set the yvals to the fitted values
+            yvals = f(self.bin_boundaries, *popt)
+        elif method == "piecewise":
+            # define the function to fit
+            def f(x, x0, a1, a2, b1, b2):
+                return np.piecewise(x, [x < x0], [
+                    lambda x: a1*np.power(x, b1),
+                    lambda x: a2*np.power(x, b2)
+                ])
+            
+            # if log-weight, set sigma
+            fit_kws["sigma"] = np.power(10, np.log10(yvals) + 1)
+
+            # fit the data with optional kwargs
+            popt, _ = scipy.optimize.curve_fit(f, self.bin_boundaries, yvals, **fit_kws)
+
+            # set the yvals to the fitted vals
             yvals = f(self.bin_boundaries, *popt)
         else:
             raise ValueError("The `method` chosen is not currently supported.")

@@ -40,17 +40,7 @@ def compute_bin_assessment(opc, refr, kappa, rh_values=[0., 35., 95.]):
     assert(isinstance(opc, OPC)), "opc must be an instance of the opcsim.OPC class"
 
     # init the dataframe to hold our results
-    dtypes = np.dtype([
-        ("bin_true", int),
-        ("bin_lo", int),
-        ("bin_hi", int),
-        ("refr_eff", complex),
-        ("rh", float),
-        ("cscat_hi_ratio", float),
-        ("cscat_lo_ratio", float)
-    ])
-
-    rv = pd.DataFrame(np.empty(0, dtype=dtypes))
+    rv = pd.DataFrame()
 
     for rh in rh_values:
         for i, _bins in enumerate(opc.bins):
