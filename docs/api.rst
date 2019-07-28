@@ -74,6 +74,7 @@ Visualization
     opcsim.plots.histplot
     opcsim.plots.pdfplot
     opcsim.plots.cdfplot
+    opcsim.plots.calplot
 
 
 .. _equations_api:
@@ -100,6 +101,16 @@ Equations
     opcsim.equations.cdf.st
     opcsim.equations.cdf.vt
 
+
+.. metrics_api:
+
+Metrics Functions
+-----------------
+
+.. autosummary::
+    :toctree: generated/
+
+    opcsim.metrics.compute_bin_assessment
 
 .. _utils_api:
 

@@ -7,13 +7,6 @@ from .models import OPC
 from .utils import k_kohler, ri_eff
 from .mie import cscat
 
-def classify_bin_accuracy(**kwargs):
-    """Classify the accuracy of an OPC for counting 
-    an aerosol distribution. It will return a confusion matrix
-    of size n_bins x n_bins.
-    """
-    return
-
 
 def compute_bin_assessment(opc, refr, kappa, rh_values=[0., 35., 95.]):
     """Assess the ability of an OPC to assign particles to their correct bin.
