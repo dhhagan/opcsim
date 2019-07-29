@@ -42,7 +42,9 @@ tutorials:
 introduction:
 	tools/nb_to_doc.py introduction
 
-notebooks: tutorials introduction
+notebooks: 
+	make -C tutorial
+	tools/nb_to_doc.py introduction
 
 html:
 	$(SPHINXBUILD) -b html $(ALLSPHINXOPTS) $(BUILDDIR)/html
