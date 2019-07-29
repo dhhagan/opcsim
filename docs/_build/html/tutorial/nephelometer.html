@@ -4,7 +4,7 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Using OPCSIM to Simulate a Nephelometer &#8212; opcsim 0.3.0+21.g2562f14.dirty documentation</title>
+    <title>Using OPCSIM to Simulate a Nephelometer &#8212; opcsim 0.3.0+22.g3cf8d63.dirty documentation</title>
     <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/style.css" />
@@ -41,7 +41,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           opcsim</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.3.0+21.g2562f14.dirty</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.3.0+22.g3cf8d63.dirty</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -79,7 +79,12 @@
   <ul class="dropdown-menu localtoc"
       role="menu"
       aria-labelledby="dLabelLocalToc"><ul>
-<li><a class="reference internal" href="#">Using OPCSIM to Simulate a Nephelometer</a></li>
+<li><a class="reference internal" href="#">Using OPCSIM to Simulate a Nephelometer</a><ul>
+<li><a class="reference internal" href="#nephelometer-representation">Nephelometer Representation</a></li>
+<li><a class="reference internal" href="#calibration">Calibration</a></li>
+<li><a class="reference internal" href="#evaluating-a-nephelometer-for-new-aerosol-distributions">Evaluating a Nephelometer for New Aerosol Distributions</a></li>
+</ul>
+</li>
 </ul>
 </ul>
 </li>
@@ -111,6 +116,10 @@
       
   <div class="section" id="using-opcsim-to-simulate-a-nephelometer">
 <span id="nephelometer-tutorial"></span><h1>Using OPCSIM to Simulate a Nephelometer<a class="headerlink" href="#using-opcsim-to-simulate-a-nephelometer" title="Permalink to this headline">¶</a></h1>
+<p>This section of the tutorial will walk you through how we model
+Nephelometers, how you can build/model a Nephelometer, and how we can
+evaluate Nephelometers across a wide range of conditions using this
+tool.</p>
 <div class="code ipython3 highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Make imports</span>
 <span class="kn">import</span> <span class="nn">opcsim</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -129,122 +138,136 @@
         <span class="n">rc</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;figure.figsize&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">6</span><span class="p">),</span> <span class="o">**</span><span class="n">opcsim</span><span class="o">.</span><span class="n">plots</span><span class="o">.</span><span class="n">rc_log</span><span class="p">})</span>
 </pre></div>
 </div>
-<div class="code ipython3 highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Nephelometer</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">wl</span><span class="p">,</span> <span class="n">theta</span><span class="o">=</span><span class="p">(</span><span class="mf">7.</span><span class="p">,</span> <span class="mf">173.</span><span class="p">),</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">wl</span> <span class="o">=</span> <span class="n">wl</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">theta</span> <span class="o">=</span> <span class="n">theta</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">calibration_function</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">pm1_ratio</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">pm25_ratio</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">pm10_ratio</span> <span class="o">=</span> <span class="kc">None</span>
+<div class="section" id="nephelometer-representation">
+<h2>Nephelometer Representation<a class="headerlink" href="#nephelometer-representation" title="Permalink to this headline">¶</a></h2>
+<p>In OPCSIM, we define a Nephelometer using two parameters: the wavelength
+of light used in the device and its viewing angle. Unlike photometers
+and some optical particle counters, most low-cost commercial
+nephelometers gather light across as wide a range of angles as possible.
+This minimizes some of the uncertainty associated with the Mie resonance
+and allows manufacturers to use cheap photo-detectors while still
+gathering enough signal to distinguish from noise.</p>
+<p>To build a Nephelometer, simply initialize using the
+<code class="docutils literal notranslate"><span class="pre">opcsim.Nephelometer</span></code> class:</p>
+<div class="code ipython3 highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># init a nephelometer with a 658 nm laser, gathering light from between 7-173 degrees</span>
+<span class="n">neph</span> <span class="o">=</span> <span class="n">opcsim</span><span class="o">.</span><span class="n">Nephelometer</span><span class="p">(</span><span class="n">wl</span><span class="o">=</span><span class="mf">0.658</span><span class="p">,</span> <span class="n">theta</span><span class="o">=</span><span class="p">(</span><span class="mf">7.</span><span class="p">,</span> <span class="mi">173</span><span class="p">))</span>
 
-    <span class="k">def</span> <span class="nf">calibrate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">distribution</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Set the calibration function that relates the total scattered light</span>
-<span class="sd">        to mass.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">n_bins</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;n_bins&quot;</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
-
-        <span class="c1"># compute PM1, PM25, and PM10 for the distribution</span>
-        <span class="n">pm1</span> <span class="o">=</span> <span class="n">distribution</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">dmin</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span> <span class="n">dmax</span><span class="o">=</span><span class="mf">1.</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="s2">&quot;mass&quot;</span><span class="p">)</span>
-        <span class="n">pm25</span> <span class="o">=</span> <span class="n">distribution</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">dmin</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span> <span class="n">dmax</span><span class="o">=</span><span class="mf">2.5</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="s2">&quot;mass&quot;</span><span class="p">)</span>
-        <span class="n">pm10</span> <span class="o">=</span> <span class="n">distribution</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">dmin</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span> <span class="n">dmax</span><span class="o">=</span><span class="mf">10.</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="s2">&quot;mass&quot;</span><span class="p">)</span>
-
-        <span class="nb">print</span> <span class="p">(</span><span class="n">pm1</span><span class="p">,</span> <span class="n">pm25</span><span class="p">,</span> <span class="n">pm10</span><span class="p">)</span>
-
-        <span class="c1"># compute the total scattered light the Nephelometer &quot;see&#39;s&quot;</span>
-        <span class="n">total_cscat</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sum_across_distribution</span><span class="p">(</span><span class="n">distribution</span><span class="p">,</span> <span class="n">n_bins</span><span class="o">=</span><span class="n">n_bins</span><span class="p">,</span> <span class="n">rh</span><span class="o">=</span><span class="mf">0.</span><span class="p">)</span>
-
-        <span class="c1"># set the ratios</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">pm1_ratio</span> <span class="o">=</span> <span class="n">total_cscat</span> <span class="o">/</span> <span class="n">pm1</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">pm25_ratio</span> <span class="o">=</span> <span class="n">total_cscat</span> <span class="o">/</span> <span class="n">pm25</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">pm10_ratio</span> <span class="o">=</span> <span class="n">total_cscat</span> <span class="o">/</span> <span class="n">pm10</span>
-
-        <span class="k">return</span>
-
-    <span class="k">def</span> <span class="nf">_sum_across_distribution</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">distribution</span><span class="p">,</span> <span class="n">n_bins</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">rh</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Return the total Cscat value when summed across an entire distribution.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">total_cscat</span> <span class="o">=</span> <span class="mf">0.</span>
-        <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">distribution</span><span class="o">.</span><span class="n">modes</span><span class="p">:</span>
-            <span class="n">gm</span> <span class="o">=</span> <span class="n">m</span><span class="p">[</span><span class="s2">&quot;GM&quot;</span><span class="p">]</span>
-            <span class="n">gsd</span> <span class="o">=</span> <span class="n">m</span><span class="p">[</span><span class="s2">&quot;GSD&quot;</span><span class="p">]</span>
-            <span class="n">refr</span> <span class="o">=</span> <span class="n">m</span><span class="p">[</span><span class="s2">&quot;refr&quot;</span><span class="p">]</span>
-
-            <span class="c1"># alter GM and RI per RH conditions</span>
-            <span class="n">gm</span> <span class="o">=</span> <span class="n">opcsim</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">k_kohler</span><span class="p">(</span><span class="n">diam_dry</span><span class="o">=</span><span class="n">gm</span><span class="p">,</span> <span class="n">kappa</span><span class="o">=</span><span class="n">m</span><span class="p">[</span><span class="s2">&quot;kappa&quot;</span><span class="p">],</span> <span class="n">rh</span><span class="o">=</span><span class="n">rh</span><span class="p">)</span>
-
-            <span class="n">pct_dry</span> <span class="o">=</span> <span class="n">m</span><span class="p">[</span><span class="s2">&quot;GM&quot;</span><span class="p">]</span><span class="o">**</span><span class="mi">3</span> <span class="o">/</span> <span class="n">gm</span><span class="o">**</span><span class="mi">3</span>
-
-            <span class="n">refr</span> <span class="o">=</span> <span class="n">opcsim</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">ri_eff</span><span class="p">(</span><span class="n">species</span><span class="o">=</span><span class="p">[</span><span class="n">refr</span><span class="p">,</span> <span class="nb">complex</span><span class="p">(</span><span class="mf">1.333</span><span class="p">,</span> <span class="mi">0</span><span class="p">)],</span> <span class="n">weights</span><span class="o">=</span><span class="p">[</span><span class="n">pct_dry</span><span class="p">,</span> <span class="mi">1</span><span class="o">-</span><span class="n">pct_dry</span><span class="p">])</span>
-
-            <span class="c1"># compute the range over which to make calculations - we use Dpg/sigma^4 to Dpg*sigma^4</span>
-            <span class="n">bounds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">gm</span><span class="o">/</span><span class="p">(</span><span class="n">gsd</span><span class="o">**</span><span class="mi">4</span><span class="p">)),</span> <span class="n">stop</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">gm</span><span class="o">*</span><span class="p">(</span><span class="n">gsd</span><span class="o">**</span><span class="mi">4</span><span class="p">)),</span> <span class="n">num</span><span class="o">=</span><span class="n">n_bins</span><span class="p">)</span>
-
-            <span class="c1"># compute the midpoints for each bin</span>
-            <span class="n">midpoints</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">([</span><span class="n">bounds</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">bounds</span><span class="p">[</span><span class="mi">1</span><span class="p">:]],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-
-            <span class="c1"># compute the number of particles in each bin</span>
-            <span class="n">n</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">distribution</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">dmin</span><span class="o">=</span><span class="n">a</span><span class="p">,</span> <span class="n">dmax</span><span class="o">=</span><span class="n">b</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="n">m</span><span class="p">[</span><span class="s2">&quot;label&quot;</span><span class="p">],</span> <span class="n">rh</span><span class="o">=</span><span class="n">rh</span><span class="p">)</span> <span class="k">for</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">bounds</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">bounds</span><span class="p">[</span><span class="mi">1</span><span class="p">:])])</span>
-
-            <span class="c1"># compute the mean Cscat value for each bin</span>
-            <span class="n">cscat</span> <span class="o">=</span> <span class="p">[</span><span class="n">opcsim</span><span class="o">.</span><span class="n">mie</span><span class="o">.</span><span class="n">cscat</span><span class="p">(</span><span class="n">dp</span><span class="p">,</span> <span class="n">wl</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">wl</span><span class="p">,</span> <span class="n">refr</span><span class="o">=</span><span class="n">refr</span><span class="p">,</span> <span class="n">theta1</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">theta</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">theta2</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">theta</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="k">for</span> <span class="n">dp</span> <span class="ow">in</span> <span class="n">midpoints</span><span class="p">]</span>
-
-            <span class="c1"># take the product of the two - results in total cm2</span>
-            <span class="n">signal</span> <span class="o">=</span> <span class="p">(</span><span class="n">n</span><span class="o">*</span><span class="n">cscat</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
-
-            <span class="c1"># add to the running total</span>
-            <span class="n">total_cscat</span> <span class="o">+=</span> <span class="n">signal</span>
-
-        <span class="k">return</span> <span class="n">total_cscat</span>
-
-    <span class="k">def</span> <span class="nf">evaluate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">distribution</span><span class="p">,</span> <span class="n">rh</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">total_cscat</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sum_across_distribution</span><span class="p">(</span><span class="n">distribution</span><span class="p">,</span> <span class="n">rh</span><span class="o">=</span><span class="n">rh</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-
-        <span class="n">pm1</span> <span class="o">=</span> <span class="n">total_cscat</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">pm1_ratio</span>
-        <span class="n">pm25</span> <span class="o">=</span> <span class="n">total_cscat</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">pm25_ratio</span>
-        <span class="n">pm10</span> <span class="o">=</span> <span class="n">total_cscat</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">pm10_ratio</span>
-
-        <span class="k">return</span> <span class="n">total_cscat</span><span class="p">,</span> <span class="n">pm1</span><span class="p">,</span> <span class="n">pm25</span><span class="p">,</span> <span class="n">pm10</span>
-
-<span class="n">d</span> <span class="o">=</span> <span class="n">opcsim</span><span class="o">.</span><span class="n">AerosolDistribution</span><span class="p">(</span><span class="s2">&quot;Cal1&quot;</span><span class="p">)</span>
-<span class="n">d</span><span class="o">.</span><span class="n">add_mode</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mf">1e3</span><span class="p">,</span> <span class="n">gm</span><span class="o">=</span><span class="mf">250e-3</span><span class="p">,</span> <span class="n">gsd</span><span class="o">=</span><span class="mf">1.65</span><span class="p">,</span> <span class="n">kappa</span><span class="o">=</span><span class="mf">0.53</span><span class="p">,</span> <span class="n">refr</span><span class="o">=</span><span class="nb">complex</span><span class="p">(</span><span class="mf">1.521</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">rho</span><span class="o">=</span><span class="mf">1.77</span><span class="p">)</span>
-
-<span class="n">tmp</span> <span class="o">=</span> <span class="n">Nephelometer</span><span class="p">(</span><span class="n">wl</span><span class="o">=</span><span class="mf">0.658</span><span class="p">)</span>
-
-<span class="n">tmp</span><span class="o">.</span><span class="n">calibrate</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+<span class="n">neph</span>
 </pre></div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mf">40.160330923901654</span> <span class="mf">44.716004553849146</span> <span class="mf">44.75994510431068</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">opcsim</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">Nephelometer</span> <span class="n">at</span> <span class="mh">0x104f86240</span><span class="o">&gt;</span>
 </pre></div>
 </div>
-<div class="code ipython3 highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">tmp</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
-</pre></div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="mf">1.5146881014163737e-06</span><span class="p">,</span>
- <span class="mf">40.160330923901654</span><span class="p">,</span>
- <span class="mf">44.716004553849146</span><span class="p">,</span>
- <span class="mf">44.75994510431068</span><span class="p">)</span>
-</pre></div>
-</div>
-<div class="code ipython3 highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">d2</span> <span class="o">=</span> <span class="n">opcsim</span><span class="o">.</span><span class="n">AerosolDistribution</span><span class="p">(</span><span class="s2">&quot;Cal2&quot;</span><span class="p">)</span>
-<span class="n">d2</span><span class="o">.</span><span class="n">add_mode</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mf">1e3</span><span class="p">,</span> <span class="n">gm</span><span class="o">=</span><span class="mf">250e-3</span><span class="p">,</span> <span class="n">gsd</span><span class="o">=</span><span class="mf">1.65</span><span class="p">,</span> <span class="n">kappa</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">refr</span><span class="o">=</span><span class="nb">complex</span><span class="p">(</span><span class="mf">1.592</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">rho</span><span class="o">=</span><span class="mf">1.</span><span class="p">)</span>
+<div class="section" id="calibration">
+<h2>Calibration<a class="headerlink" href="#calibration" title="Permalink to this headline">¶</a></h2>
+<p>Nephelometers gather the total scattered light from many anglees across
+an entire aerosol distribution. Typically, users of low-cost
+nephelometers co-locate their device with a reference device of higher
+(or known) quality and simply compare the output signal from the
+nephelometer to the integrated mass value (i.e.&nbsp;<span class="math notranslate nohighlight">\(PM_1\)</span>,
+<span class="math notranslate nohighlight">\(PM_{2.5}\)</span>, or <span class="math notranslate nohighlight">\(PM_{10}\)</span>) from the reference device. To keep
+things as simple and realistic as possible, we follow this approach.</p>
+<p>To calibrate a nephelometer in OPCSIM, you provide an aerosol
+distribution to the <code class="docutils literal notranslate"><span class="pre">calibrate</span></code> method - the actual mass values for
+<span class="math notranslate nohighlight">\(PM_1\)</span>, <span class="math notranslate nohighlight">\(PM_{2.5}\)</span>, and <span class="math notranslate nohighlight">\(PM_{10}\)</span> are calculated
+exactly and the total scattered light is computed as well. The ratio
+between the total scattered light and each of the mass loadings are
+stored as calibration factors and are used again when evaluating
+previously unseen distributions.</p>
+<p>To calibrate our nephelometer above to a synthetic distribution of
+Ammonium Sulfate:</p>
+<div class="code ipython3 highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">d1</span> <span class="o">=</span> <span class="n">opcsim</span><span class="o">.</span><span class="n">AerosolDistribution</span><span class="p">(</span><span class="s2">&quot;AmmSulf&quot;</span><span class="p">)</span>
 
-<span class="n">tmp</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">d2</span><span class="p">)</span>
+<span class="n">d1</span><span class="o">.</span><span class="n">add_mode</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mf">1e4</span><span class="p">,</span> <span class="n">gm</span><span class="o">=</span><span class="mf">125e-3</span><span class="p">,</span> <span class="n">gsd</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">refr</span><span class="o">=</span><span class="nb">complex</span><span class="p">(</span><span class="mf">1.521</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">kappa</span><span class="o">=</span><span class="mf">0.53</span><span class="p">,</span> <span class="n">rho</span><span class="o">=</span><span class="mf">1.77</span><span class="p">)</span>
+
+<span class="c1"># calibrate the nephelometer at 0% RH</span>
+<span class="n">neph</span><span class="o">.</span><span class="n">calibrate</span><span class="p">(</span><span class="n">d1</span><span class="p">,</span> <span class="n">rh</span><span class="o">=</span><span class="mf">0.</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="mf">1.748375082925014e-06</span><span class="p">,</span>
- <span class="mf">46.35629067377946</span><span class="p">,</span>
- <span class="mf">51.61481634192903</span><span class="p">,</span>
- <span class="mf">51.665536066659904</span><span class="p">)</span>
+<p>We can explore the calibration factors that were just determined - the
+units are a bit arbitrary, since we don’t consider the intensity/power
+of the laser as we assume it is constant. Thus, these units are
+something like <span class="math notranslate nohighlight">\(cm^2/(\mu g/ m^3)\)</span></p>
+<div class="code ipython3 highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">neph</span><span class="o">.</span><span class="n">pm1_ratio</span>
 </pre></div>
 </div>
-<div class="code ipython3 highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">d</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">dmin</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span> <span class="n">dmax</span><span class="o">=</span><span class="mf">1.</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="s2">&quot;mass&quot;</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mf">1.1744058563022677e-08</span>
 </pre></div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mf">40.160330923901654</span>
+<p>Similarly, we get ratio’s for <span class="math notranslate nohighlight">\(PM_{2.5}\)</span> and <span class="math notranslate nohighlight">\(PM_{10}\)</span>:</p>
+<div class="code ipython3 highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">neph</span><span class="o">.</span><span class="n">pm25_ratio</span>
 </pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mf">1.174352137965417e-08</span>
+</pre></div>
+</div>
+<div class="code ipython3 highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">neph</span><span class="o">.</span><span class="n">pm10_ratio</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mf">1.1743521375694491e-08</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="evaluating-a-nephelometer-for-new-aerosol-distributions">
+<h2>Evaluating a Nephelometer for New Aerosol Distributions<a class="headerlink" href="#evaluating-a-nephelometer-for-new-aerosol-distributions" title="Permalink to this headline">¶</a></h2>
+<p>The entire point of this tool is to be able to simulate what would
+happen under different circumstances. To do so, we use the <code class="docutils literal notranslate"><span class="pre">evaluate</span></code>
+method, which takes an AerosolDistribution as an argument (as well as an
+optional relative humidity) and returns the total scattered light,
+<span class="math notranslate nohighlight">\(PM_1\)</span>, <span class="math notranslate nohighlight">\(PM_{2.5}\)</span>, and <span class="math notranslate nohighlight">\(PM_{10}\)</span>.</p>
+<div class="code ipython3 highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># evaluate the same distribution we used to calibrate</span>
+<span class="n">neph</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">d1</span><span class="p">,</span> <span class="n">rh</span><span class="o">=</span><span class="mf">0.</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="mf">4.4544608528839e-07</span><span class="p">,</span> <span class="mf">37.92948433439533</span><span class="p">,</span> <span class="mf">37.93121934108556</span><span class="p">,</span> <span class="mf">37.9312193538752</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="code ipython3 highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># evaluate the same distribution we used to calibrate, but at a higher RH</span>
+<span class="n">neph</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">d1</span><span class="p">,</span> <span class="n">rh</span><span class="o">=</span><span class="mf">85.0</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="mf">2.0830803505720823e-06</span><span class="p">,</span>
+ <span class="mf">177.3731235580573</span><span class="p">,</span>
+ <span class="mf">177.38123712884374</span><span class="p">,</span>
+ <span class="mf">177.3812371886531</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>What if we went ahead and tried to evaluate on a totally unseen
+distribution? Let’s go ahead and evaluate on an <strong>urban</strong> distribution:</p>
+<div class="code ipython3 highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">d2</span> <span class="o">=</span> <span class="n">opcsim</span><span class="o">.</span><span class="n">load_distribution</span><span class="p">(</span><span class="s2">&quot;urban&quot;</span><span class="p">)</span>
+
+<span class="n">d2</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">AerosolDistribution</span><span class="p">:</span> <span class="n">urban</span>
+</pre></div>
+</div>
+<p>First, let’s determine the actual <span class="math notranslate nohighlight">\(PM_1\)</span>, <span class="math notranslate nohighlight">\(PM_{2.5}\)</span>, and
+<span class="math notranslate nohighlight">\(PM_{10}\)</span> loadings for this distribution:</p>
+<div class="code ipython3 highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;PM1 = </span><span class="si">{:.2f}</span><span class="s2"> ug/m3&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">d2</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">dmin</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span> <span class="n">dmax</span><span class="o">=</span><span class="mf">1.</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="s1">&#39;mass&#39;</span><span class="p">,</span> <span class="n">rho</span><span class="o">=</span><span class="mf">1.65</span><span class="p">)))</span>
+<span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;PM2.5 = </span><span class="si">{:.2f}</span><span class="s2"> ug/m3&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">d2</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">dmin</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span> <span class="n">dmax</span><span class="o">=</span><span class="mf">2.5</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="s1">&#39;mass&#39;</span><span class="p">,</span> <span class="n">rho</span><span class="o">=</span><span class="mf">1.65</span><span class="p">)))</span>
+<span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;PM10 = </span><span class="si">{:.2f}</span><span class="s2"> ug/m3&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">d2</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">dmin</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span> <span class="n">dmax</span><span class="o">=</span><span class="mf">10.</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="s1">&#39;mass&#39;</span><span class="p">,</span> <span class="n">rho</span><span class="o">=</span><span class="mf">1.65</span><span class="p">)))</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">PM1</span> <span class="o">=</span> <span class="mf">8.97</span> <span class="n">ug</span><span class="o">/</span><span class="n">m3</span>
+<span class="n">PM2</span><span class="o">.</span><span class="mi">5</span> <span class="o">=</span> <span class="mf">9.00</span> <span class="n">ug</span><span class="o">/</span><span class="n">m3</span>
+<span class="n">PM10</span> <span class="o">=</span> <span class="mf">9.00</span> <span class="n">ug</span><span class="o">/</span><span class="n">m3</span>
+</pre></div>
+</div>
+<p>Next, let’s evaluate the Nephelometer:</p>
+<div class="code ipython3 highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">neph</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">d2</span><span class="p">,</span> <span class="n">rh</span><span class="o">=</span><span class="mf">0.</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="mf">1.7166105544467465e-07</span><span class="p">,</span>
+ <span class="mf">14.61684259521375</span><span class="p">,</span>
+ <span class="mf">14.617511212784953</span><span class="p">,</span>
+ <span class="mf">14.617511217713684</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>So, we’re off by about a factor of 2, in part due to differences in
+assumed density and in part due to the fact the urban distribution
+scatters less light per unit mass than our calibration aerosol.</p>
 </div>
 </div>
 

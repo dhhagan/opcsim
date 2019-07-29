@@ -80,7 +80,8 @@ def histplot(data, bins, ax=None, plot_kws={}, fig_kws={}, **kwargs):
         :context: close-figs
 
         >>> import opcsim, seaborn as sns
-        >>> opc = opcsim.OPC(n_bins=10, dmin=0.3)
+        >>> opc = opcsim.OPC(wl=0.658, n_bins=10, dmin=0.3)
+        >>> opc.calibrate("psl")
         >>> d = opcsim.load_distribution("Urban")
         >>> ax = opcsim.plots.histplot(opc.evaluate(d), opc.bins)
         >>> ax.set_ylabel("$dN/dlogD_p$")
@@ -101,7 +102,8 @@ def histplot(data, bins, ax=None, plot_kws={}, fig_kws={}, **kwargs):
     .. plot::
         :context: close-figs
 
-        >>> opcb = opcsim.OPC(n_bins=5, dmin=0.3)
+        >>> opcb = opcsim.OPC(wl=0.658, n_bins=5, dmin=0.3)
+        >>> opcb.calibrate("psl")
         >>> ax = opcsim.plots.histplot(opc.evaluate(d),
         ...             opc.bins, label="10 bin OPC")
         >>> ax = opcsim.plots.histplot(opcb.evaluate(d), opcb.bins,

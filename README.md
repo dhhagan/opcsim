@@ -3,8 +3,10 @@
 [![Build Status](https://travis-ci.org/dhhagan/opcsim.svg?branch=master)](https://travis-ci.org/dhhagan/opcsim)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/62e396e65ce4ade478fc/test_coverage)](https://codeclimate.com/github/dhhagan/opcsim/test_coverage)
 
+
 # opcsim
-opcsim is a Python library for simulating low-cost Optical Particle Counters and
+
+opcsim is a Python library for simulating low-cost Optical Particle Sensors (both Optical Particle Counters and Nephelometers) and
 their response to various aerosol distributions.
 
 ## Documentation
