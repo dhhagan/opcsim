@@ -70,19 +70,6 @@ Nephelometer
     opcsim.Nephelometer.calibrate
     opcsim.Nephelometer.evaluate
 
-.. _mie_theory_api:
-
-Mie Theory Calculations
------------------------
-
-.. autosummary::
-    :toctree: generated/
-
-    opcsim.mie.coef_pi_tau
-    opcsim.mie.coef_ab
-    opcsim.mie.s1s2
-    opcsim.mie.cscat
-
 
 .. _plots_api:
 
@@ -125,6 +112,21 @@ Utility Functions
     opcsim.utils.rho_eff
     opcsim.utils.k_eff
     opcsim.utils.ri_eff
+
+    
+.. _mie_theory_api:
+
+Mie Theory Calculations
+-----------------------
+
+.. autosummary::
+    :toctree: generated/
+
+    opcsim.mie.coef_pi_tau
+    opcsim.mie.coef_ab
+    opcsim.mie.s1s2
+    opcsim.mie.cscat
+
 
 .. _equations_api:
 

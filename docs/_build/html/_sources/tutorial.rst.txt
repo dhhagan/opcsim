@@ -19,5 +19,12 @@ Simulating and Evaluating an OPC
     :maxdepth: 2
 
     tutorial/opcs
-    tutorial/nephelometer
     tutorial/scoring
+
+Simulating and Evaluating a nephelometer
+----------------------------------------
+
+.. toctree::
+    :maxdepth: 2
+
+    tutorial/nephelometer

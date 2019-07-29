@@ -18,13 +18,15 @@ class SetupTestCase(unittest.TestCase):
     def tearDown(self):
         pass
 
-    # def test_histplot(self):
-    #     opc = opcsim.OPC()
-    #     d = opcsim.load_distribution("Urban")
+    def test_histplot(self):
+        opc = opcsim.OPC(wl=0.658, n_bins=10)
+        opc.calibrate("psl")
 
-    #     ax = opcsim.plots.histplot(opc.evaluate(d), opc.bins)
+        d = opcsim.load_distribution("Urban")
 
-    #     self.assertIsNotNone(ax)
+        ax = opcsim.plots.histplot(opc.evaluate(d), opc.bins)
+
+        self.assertIsNotNone(ax)
 
     def test_pdfplot(self):
         d = opcsim.load_distribution("Urban")
@@ -77,3 +79,10 @@ class SetupTestCase(unittest.TestCase):
         # Test invalid weight
         with self.assertRaises(ValueError):
             ax = opcsim.plots.cdfplot(d, weight='mass2')
+
+    def test_calplot(self):
+        opc = opcsim.OPC(wl=0.658, n_bins=10)
+        
+        opc.calibrate("psl", method="spline")
+
+        ax = opcsim.plots.calplot(opc)

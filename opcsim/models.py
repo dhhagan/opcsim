@@ -17,14 +17,15 @@ RI_COMMON = {
     "black_carbon": complex(1.95, 0.79),
     "sulfuric_acid": complex(1.427, 0),
     "soa": complex(1.4, 0.002),
-    "h20": complex(1.333, 0.),
+    "h2o": complex(1.333, 0.),
     "urban_low": complex(1.6, 0.034),
     "urban_high": complex(1.73, 0.086)
 }
 
 
 class OPC(object):
-    """Define an Optical Particle Counter (OPC).
+    """Define an Optical Particle Counter (OPC) with unique properties 
+    for wavelength, bins, and viewing angle.
     """
     def __init__(self, wl, bins=None, n_bins=5, dmin=0.5, 
             dmax=2.5, theta=(30., 90.), **kwargs):
@@ -48,19 +49,19 @@ class OPC(object):
         
         Returns
         -------
-        OPC2:
-            An instance of the OPC2 class.
+        OPC:
+            An instance of the OPC class.
         
         Examples
         --------
 
         Initialize an OPC with 5 bins between 0.5 - 2.5 microns.
 
-        >>> opc = opcsim.OPC2(wl=0.658, n_bins=5, dmin=0.5, dmax=2.5, theta=(30., 90.))
+        >>> opc = opcsim.OPC(wl=0.658, n_bins=5, dmin=0.5, dmax=2.5, theta=(30., 90.))
 
         Initialize an OPC with known bins as defined by its bin boundaries.
         
-        >>> opc = opcsim.OPC2(wl=0.658, bins=[0.38, 0.54, 0.78, 1.05, 1.5, 2.5], theta=(32., 88.))
+        >>> opc = opcsim.OPC(wl=0.658, bins=[0.38, 0.54, 0.78, 1.05, 1.5, 2.5], theta=(32., 88.))
 
         """
         # set some params
@@ -96,14 +97,17 @@ class OPC(object):
 
     @property
     def dlogdp(self):
+        """Log-weighted bin width in microns"""
         return np.log10(self.bins[:, -1]) - np.log10(self.bins[:, 0])
 
     @property
     def ddp(self):
+        """Bin width in microns"""
         return self.bins[:, -1] - self.bins[:, 0]
 
     @property
     def midpoints(self):
+        """Bin midpoints in microns"""
         return self.bins[:, 1]
 
     def calibrate(self, material, method='spline', mie_kws={}, fit_kws={}):
@@ -294,7 +298,7 @@ class OPC(object):
             # calculate the % dry based on hygroscopic growth
             pct_dry = 1. / (k_kohler(diam_dry=1., kappa=m["kappa"], rh=rh)**3)
 
-            refr = ri_eff([m["refr"], RI_COMMON['h20']], weights=[pct_dry, 1-pct_dry])
+            refr = ri_eff([m["refr"], RI_COMMON['h2o']], weights=[pct_dry, 1-pct_dry])
 
             # iterate over each bin and calculate the Cscat value and build an array
             for dp, dn in zip(diams, n):
@@ -529,9 +533,30 @@ class OPC(object):
 
 
 class Nephelometer(object):
-    """
+    """Define a Nephelometer by its wavelength and range of viewing angles.
     """
     def __init__(self, wl, theta=(7., 173.), **kwargs):
+        """
+        Parameters
+        ----------
+        wl: float
+            The wavelength of laser used in the device
+        theta: tuple of floats
+            The viewing angle range in degrees
+
+        Returns
+        -------
+        Nephelometer
+            An instance of the opcsim.Nephelometer class
+
+        Examples
+        --------
+
+        Build a simple nephelometer
+
+        >>> neph = opcsim.Nephelometer(wl=0.658)
+
+        """
         self.wl = wl
         self.theta = theta
         self.pm1_ratio = None
@@ -609,11 +634,11 @@ class Nephelometer(object):
                           for a, b in zip(bounds[:-1], bounds[1:])])
             
             # compute the mean Cscat for each bin
-            cscat = np.array([cscat(dp, wl=self.wl, refr=refr,
+            mean_cscat = np.array([cscat(dp, wl=self.wl, refr=refr,
                                     theta1=self.theta[0], theta2=self.theta[1]) for dp in midpoints])
             
             # add to the running total
-            total_cscat += (n*cscat).sum()
+            total_cscat += (n*mean_cscat).sum()
 
         return total_cscat
     

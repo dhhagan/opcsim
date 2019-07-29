@@ -87,6 +87,10 @@ class SetupTestCase(unittest.TestCase):
         opc.calibrate(material=1.5)
         self.assertIsNotNone(opc.calibration_function)
 
+        # calibrate the OPC for PSL's
+        opc.calibrate(material="psl", method="piecewise")
+        self.assertIsNotNone(opc.calibration_function)
+
         # try for a bad string
         with self.assertRaises(ValueError):
             opc.calibrate(material="random_thing")
@@ -199,3 +203,29 @@ class SetupTestCase(unittest.TestCase):
         n1 = opc.integrate(d, dmin=0., dmax=1., weight="surface")
         n2 = opc.integrate(d, dmin=0., dmax=1., weight="volume")
         n3 = opc.integrate(d, dmin=0., dmax=1., weight="mass", rho=1.5)
+
+    def test_nephelometer(self):
+        neph = opcsim.Nephelometer(wl=0.658, theta=(7., 173.))
+
+        self.assertIsNone(neph.pm1_ratio)
+        self.assertIsNone(neph.pm25_ratio)
+        self.assertIsNone(neph.pm10_ratio)
+
+        # calibrate the device to a distribution
+        d = opcsim.AerosolDistribution()
+        d.add_mode(n=1000, gm=.2, gsd=1.5, kappa=0.53, refr=complex(1.592, 0), rho=1.77)
+
+        neph.calibrate(d, rh=0.)
+
+        self.assertIsNotNone(neph.pm1_ratio)
+        self.assertIsNotNone(neph.pm25_ratio)
+        self.assertIsNotNone(neph.pm10_ratio)
+
+        # test evaluate functionality
+        vals = neph.evaluate(d, rh=0.)
+        vals2 = neph.evaluate(d, rh=95.)
+
+        self.assertGreaterEqual(vals2[1], vals[1])
+        self.assertGreaterEqual(vals2[2], vals[2])
+        self.assertGreaterEqual(vals2[3], vals[3])
+
