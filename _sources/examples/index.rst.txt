@@ -82,9 +82,9 @@ Example gallery
 
    ./opc_with_dist_number_and_vol
 
-   ./plot_efficiency
-
    ./opc_with_dist
+
+   ./hygroscopic_growth_pdf
 
    ./build_your_own_distribution
 
@@ -151,10 +151,10 @@ Example gallery
 .. raw:: html
 
     <div class='figure align-center'>
-    <a href=./plot_efficiency.html>
-    <img src=../_static/plot_efficiency_thumb.png>
+    <a href=./opc_with_dist.html>
+    <img src=../_static/opc_with_dist_thumb.png>
     <span class='figure-label'>
-    <p>pdfplot</p>
+    <p>histplot</p>
     </span>
     </a>
     </div>
@@ -164,10 +164,10 @@ Example gallery
 .. raw:: html
 
     <div class='figure align-center'>
-    <a href=./opc_with_dist.html>
-    <img src=../_static/opc_with_dist_thumb.png>
+    <a href=./hygroscopic_growth_pdf.html>
+    <img src=../_static/hygroscopic_growth_pdf_thumb.png>
     <span class='figure-label'>
-    <p>histplot</p>
+    <p>pdfplot</p>
     </span>
     </a>
     </div>

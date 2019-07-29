@@ -4,7 +4,7 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>opcsim.OPC &#8212; opcsim 0.2.1.dev0 documentation</title>
+    <title>opcsim.OPC &#8212; opcsim 0.3.0+28.gcb19642.dirty documentation</title>
     <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/style.css" />
@@ -21,7 +21,7 @@
     <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="opcsim.OPC.evaluate" href="opcsim.OPC.evaluate.html" />
+    <link rel="next" title="opcsim.OPC.calibrate" href="opcsim.OPC.calibrate.html" />
     <link rel="prev" title="opcsim.AerosolDistribution.cdf" href="opcsim.AerosolDistribution.cdf.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
@@ -41,7 +41,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           opcsim</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.2.1.dev0</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.3.0+28.gcb19642.dirty</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -61,7 +61,6 @@
   <ul class="dropdown-menu globaltoc"
       role="menu"
       aria-labelledby="dLabelGlobalToc"><ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduciton</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../installing.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../api.html">API reference</a></li>
@@ -115,48 +114,41 @@
 <h1>opcsim.OPC<a class="headerlink" href="#opcsim-opc" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="opcsim.OPC">
-<em class="property">class </em><code class="descclassname">opcsim.</code><code class="descname">OPC</code><span class="sig-paren">(</span><em>n_bins=1</em>, <em>dmin=0.5</em>, <em>dmax=2.5</em>, <em>ce=&lt;function constant&gt;</em>, <em>bins=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#opcsim.OPC" title="Permalink to this definition">¶</a></dt>
-<dd><p>Define an Optical Particle Counter (OPC) using key instrument parameters.</p>
-<dl class="docutils">
-<dt>Key instrument parameters are defined as: the number of discrete size bins,</dt>
-<dd>the minimum particle diameter, the maximum particle diameter, and optionaly,
-the counting efficiency as a function of particle diameter.</dd>
-</dl>
+<em class="property">class </em><code class="descclassname">opcsim.</code><code class="descname">OPC</code><span class="sig-paren">(</span><em>wl</em>, <em>bins=None</em>, <em>n_bins=5</em>, <em>dmin=0.5</em>, <em>dmax=2.5</em>, <em>theta=(30.0</em>, <em>90.0)</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#opcsim.OPC" title="Permalink to this definition">¶</a></dt>
+<dd><p>Define an Optical Particle Counter (OPC) with unique properties 
+for wavelength, bins, and viewing angle.</p>
 <dl class="method">
 <dt id="opcsim.OPC.__init__">
-<code class="descname">__init__</code><span class="sig-paren">(</span><em>n_bins=1</em>, <em>dmin=0.5</em>, <em>dmax=2.5</em>, <em>ce=&lt;function constant&gt;</em>, <em>bins=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#opcsim.OPC.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Initialize the simulated OPC.</p>
-<table class="docutils field-list" frame="void" rules="none">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>wl</em>, <em>bins=None</em>, <em>n_bins=5</em>, <em>dmin=0.5</em>, <em>dmax=2.5</em>, <em>theta=(30.0</em>, <em>90.0)</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#opcsim.OPC.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
-<dt><strong>n_bins</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int, optional</span></dt>
-<dd><p class="first last">The number of discrete size bins</p>
+<dt><strong>wl: float</strong></dt>
+<dd><p class="first last">The laser wavelength in units of microns.</p>
 </dd>
-<dt><strong>dmin</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float, optional</span></dt>
-<dd><p class="first last">Minimum particle diameter the OPC can “see” in units of microns.</p>
+<dt><strong>bins: 3xn array</strong></dt>
+<dd><p class="first last">An array of bin diameters containing the (left boundary, midpoint, right boundary).</p>
 </dd>
-<dt><strong>dmax</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float, optional</span></dt>
-<dd><p class="first last">Maximum particle diameter the OPC can “see” in units of microns.</p>
+<dt><strong>n_bins: int</strong></dt>
+<dd><p class="first last">The number of desired bins. This should be used with dmin and dmax to generate 
+a 3xn array of bins.</p>
 </dd>
-<dt><strong>ce</strong> <span class="classifier-delimiter">:</span> <span class="classifier">callable, optional</span></dt>
-<dd><p class="first last">Function to be used to calculate the counting efficiency. Should map
-bin diameters (Dp) to a single value.</p>
+<dt><strong>dmin: float</strong></dt>
+<dd><p class="first last">The left-most bin boundary of the OPC.</p>
 </dd>
-<dt><strong>bins</strong> <span class="classifier-delimiter">:</span> <span class="classifier">3xn array, optional</span></dt>
-<dd><p class="first last">Array of bin diameters. If not set, the bin diameters will be
-automatically set by assuming equalivant bins in logspace between
-dmin and dmax.</p>
+<dt><strong>dmax: float</strong></dt>
+<dd><p class="first last">The right-most bin boundary of the OPC.</p>
 </dd>
-<dt><strong>kwargs</strong> <span class="classifier-delimiter">:</span> <span class="classifier">key, value pairings</span></dt>
-<dd><p class="first last">Additional keyword arguments.</p>
+<dt><strong>theta: tuple of floats</strong></dt>
+<dd><p class="first last">The viewing range in units of degrees.</p>
 </dd>
 </dl>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>OPC</strong> <span class="classifier-delimiter">:</span> <span class="classifier">class instance</span></dt>
+<dt><strong>OPC:</strong></dt>
 <dd><p class="first last">An instance of the OPC class.</p>
 </dd>
 </dl>
@@ -165,14 +157,12 @@ dmin and dmax.</p>
 </tbody>
 </table>
 <p class="rubric">Examples</p>
-<p>Initialize an OPC with 1 bin (Sharp, Shinyei, etc.)</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">opc</span> <span class="o">=</span> <span class="n">opcsim</span><span class="o">.</span><span class="n">OPC</span><span class="p">(</span><span class="n">n_bins</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<p>Initialize an OPC with 5 bins between 0.5 - 2.5 microns.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">opc</span> <span class="o">=</span> <span class="n">opcsim</span><span class="o">.</span><span class="n">OPC</span><span class="p">(</span><span class="n">wl</span><span class="o">=</span><span class="mf">0.658</span><span class="p">,</span> <span class="n">n_bins</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">dmin</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">dmax</span><span class="o">=</span><span class="mf">2.5</span><span class="p">,</span> <span class="n">theta</span><span class="o">=</span><span class="p">(</span><span class="mf">30.</span><span class="p">,</span> <span class="mf">90.</span><span class="p">))</span>
 </pre></div>
 </div>
-<p>Initialize an OPC with 2 bins (0.5-2.5 um, 2.5-10um)</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">bins</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">],</span> <span class="p">[</span><span class="mf">2.5</span><span class="p">,</span> <span class="mi">10</span><span class="p">]])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">opc</span> <span class="o">=</span> <span class="n">opcsim</span><span class="o">.</span><span class="n">OPC</span><span class="p">(</span><span class="n">bins</span><span class="o">=</span><span class="n">bins</span><span class="p">)</span>
+<p>Initialize an OPC with known bins as defined by its bin boundaries.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">opc</span> <span class="o">=</span> <span class="n">opcsim</span><span class="o">.</span><span class="n">OPC</span><span class="p">(</span><span class="n">wl</span><span class="o">=</span><span class="mf">0.658</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="p">[</span><span class="mf">0.38</span><span class="p">,</span> <span class="mf">0.54</span><span class="p">,</span> <span class="mf">0.78</span><span class="p">,</span> <span class="mf">1.05</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">],</span> <span class="n">theta</span><span class="o">=</span><span class="p">(</span><span class="mf">32.</span><span class="p">,</span> <span class="mf">88.</span><span class="p">))</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -184,23 +174,28 @@ dmin and dmax.</p>
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="#opcsim.OPC.__init__" title="opcsim.OPC.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>([n_bins,&nbsp;dmin,&nbsp;dmax,&nbsp;ce,&nbsp;bins])</td>
-<td>Initialize the simulated OPC.</td>
+<tr class="row-odd"><td><a class="reference internal" href="#opcsim.OPC.__init__" title="opcsim.OPC.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(wl[,&nbsp;bins,&nbsp;n_bins,&nbsp;dmin,&nbsp;dmax,&nbsp;theta])</td>
+<td><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="opcsim.OPC.evaluate.html#opcsim.OPC.evaluate" title="opcsim.OPC.evaluate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">evaluate</span></code></a>(distribution[,&nbsp;weight,&nbsp;base])</td>
-<td>Evaluate the OPC given the PDF of an aerosol distribution.</td>
+</tbody>
+</table>
+</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="opcsim.OPC.histogram.html#opcsim.OPC.histogram" title="opcsim.OPC.histogram"><code class="xref py py-obj docutils literal notranslate"><span class="pre">histogram</span></code></a>(distribution[,&nbsp;weight,&nbsp;base])</td>
-<td>Return a histogram corresponding to how an OPC “sees” an aerosol distribution.</td>
+<tr class="row-even"><td><a class="reference internal" href="opcsim.OPC.calibrate.html#opcsim.OPC.calibrate" title="opcsim.OPC.calibrate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">calibrate</span></code></a>(material[,&nbsp;method,&nbsp;mie_kws,&nbsp;fit_kws])</td>
+<td>Calibrate the OPC assuming a specific material.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="opcsim.OPC.number.html#opcsim.OPC.number" title="opcsim.OPC.number"><code class="xref py py-obj docutils literal notranslate"><span class="pre">number</span></code></a>(distribution,&nbsp;**kwargs)</td>
-<td>Return the total number of particles an OPC ‘sees’ in each bin.</td>
+<tr class="row-odd"><td><a class="reference internal" href="opcsim.OPC.evaluate.html#opcsim.OPC.evaluate" title="opcsim.OPC.evaluate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">evaluate</span></code></a>(distribution[,&nbsp;rh])</td>
+<td>Return the histogram for a given AerosolDistribution.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="opcsim.OPC.surface_area.html#opcsim.OPC.surface_area" title="opcsim.OPC.surface_area"><code class="xref py py-obj docutils literal notranslate"><span class="pre">surface_area</span></code></a>(distribution,&nbsp;**kwargs)</td>
-<td>Return the total surface area of particles an OPC ‘sees’ in each bin.</td>
+<tr class="row-even"><td><a class="reference internal" href="opcsim.OPC.histogram.html#opcsim.OPC.histogram" title="opcsim.OPC.histogram"><code class="xref py py-obj docutils literal notranslate"><span class="pre">histogram</span></code></a>(distribution[,&nbsp;weight,&nbsp;base,&nbsp;rh])</td>
+<td>Return a histogram containing the [weight] of particles in each OPC bin.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="opcsim.OPC.volume.html#opcsim.OPC.volume" title="opcsim.OPC.volume"><code class="xref py py-obj docutils literal notranslate"><span class="pre">volume</span></code></a>(distribution[,&nbsp;measured])</td>
-<td>Return the total volume of particles an OPC ‘sees’ in each bin.</td>
+<tr class="row-odd"><td><a class="reference internal" href="opcsim.OPC.integrate.html#opcsim.OPC.integrate" title="opcsim.OPC.integrate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">integrate</span></code></a>(distribution[,&nbsp;dmin,&nbsp;dmax,&nbsp;weight,&nbsp;rh])</td>
+<td>Integrate the distribution according to the OPC for any [weight].</td>
 </tr>
 </tbody>
 </table>
@@ -212,16 +207,13 @@ dmin and dmax.</p>
 </colgroup>
 <tbody valign="top">
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">ddp</span></code></td>
-<td></td>
+<td>Bin width in microns</td>
 </tr>
-<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">dlndp</span></code></td>
-<td></td>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">dlogdp</span></code></td>
+<td>Log-weighted bin width in microns</td>
 </tr>
-<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">dlogdp</span></code></td>
-<td></td>
-</tr>
-<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">midpoints</span></code></td>
-<td></td>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">midpoints</span></code></td>
+<td>Bin midpoints in microns</td>
 </tr>
 </tbody>
 </table>
