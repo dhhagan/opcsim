@@ -19,11 +19,10 @@ opcsim.OPC
    .. autosummary::
    
       ~OPC.__init__
+      ~OPC.calibrate
       ~OPC.evaluate
       ~OPC.histogram
-      ~OPC.number
-      ~OPC.surface_area
-      ~OPC.volume
+      ~OPC.integrate
    
    
 
@@ -34,7 +33,6 @@ opcsim.OPC
    .. autosummary::
    
       ~OPC.ddp
-      ~OPC.dlndp
       ~OPC.dlogdp
       ~OPC.midpoints
    

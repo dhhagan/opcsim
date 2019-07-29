@@ -6,6 +6,7 @@ import itertools
 
 from .distributions import AerosolDistribution
 from .models import OPC
+from .mie import cscat
 
 lrg_number_fmt = mtick.ScalarFormatter()
 lrg_number_fmt.set_powerlimits((-3, 4))
@@ -79,7 +80,8 @@ def histplot(data, bins, ax=None, plot_kws={}, fig_kws={}, **kwargs):
         :context: close-figs
 
         >>> import opcsim, seaborn as sns
-        >>> opc = opcsim.OPC(n_bins=10, dmin=0.3)
+        >>> opc = opcsim.OPC(wl=0.658, n_bins=10, dmin=0.3)
+        >>> opc.calibrate("psl")
         >>> d = opcsim.load_distribution("Urban")
         >>> ax = opcsim.plots.histplot(opc.evaluate(d), opc.bins)
         >>> ax.set_ylabel("$dN/dlogD_p$")
@@ -100,7 +102,8 @@ def histplot(data, bins, ax=None, plot_kws={}, fig_kws={}, **kwargs):
     .. plot::
         :context: close-figs
 
-        >>> opcb = opcsim.OPC(n_bins=5, dmin=0.3)
+        >>> opcb = opcsim.OPC(wl=0.658, n_bins=5, dmin=0.3)
+        >>> opcb.calibrate("psl")
         >>> ax = opcsim.plots.histplot(opc.evaluate(d),
         ...             opc.bins, label="10 bin OPC")
         >>> ax = opcsim.plots.histplot(opcb.evaluate(d), opcb.bins,
@@ -159,6 +162,7 @@ def histplot(data, bins, ax=None, plot_kws={}, fig_kws={}, **kwargs):
     ax.xaxis.set_major_formatter(mtick.FormatStrFormatter("%.3g"))
 
     return ax
+
 
 def pdfplot(distribution, ax=None, weight='number', base='log10', with_modes=False,
             fill=False, plot_kws={}, fig_kws={}, fill_kws={}, **kwargs):
@@ -251,8 +255,7 @@ def pdfplot(distribution, ax=None, weight='number', base='log10', with_modes=Fal
         raise ValueError("Invalid weight: ['number', 'surface', 'volume', 'mass']")
 
     # Set the default dp values to plot against
-    dp = kwargs.get('dp', np.logspace(-3, 1, 1000))
-    rho = kwargs.get('rho', 1.)
+    dp = kwargs.pop('dp', np.logspace(-3, 1, 1000))
 
     # Set the default figure kws
     default_fig_kws = dict()
@@ -284,7 +287,7 @@ def pdfplot(distribution, ax=None, weight='number', base='log10', with_modes=Fal
     label = kwargs.pop('label', distribution.label)
 
     # Get the data to plot
-    data = distribution.pdf(dp, base=base, weight=weight, rho=rho)
+    data = distribution.pdf(dp, base=base, weight=weight, **kwargs)
 
     # If fill is selected, fill the gap, otherwise just plot a line
     ax.plot(dp, data, label=label, **plot_kws)
@@ -313,6 +316,7 @@ def pdfplot(distribution, ax=None, weight='number', base='log10', with_modes=Fal
     ax.yaxis.set_major_formatter(lrg_number_fmt)
 
     return ax
+
 
 def cdfplot(distribution, ax=None, weight='number', plot_kws={},
             fig_kws={}, **kwargs):
@@ -411,8 +415,46 @@ def cdfplot(distribution, ax=None, weight='number', plot_kws={},
 
     return ax
 
+
+def calplot(opc, ax=None, plot_kws={}, fig_kws={}, **kwargs):
+    """
+    """
+    # Make a new axis object if one wasnt' set
+    if ax is None:
+        plt.figure(**fig_kws)
+        ax = plt.gca()
+    
+    xs = kwargs.pop("dp", np.logspace(-1.5, 1.5, 250))
+
+    # Set the plot_kws as a mapping of default and kwargs
+    default_plot_kws = dict(alpha=1, linewidth=3)
+
+    # Set the plot_kws
+    plot_kws = dict(default_plot_kws, **plot_kws)
+
+    # compute the Cscat values
+    yvals = np.array([cscat(x, wl=opc.wl, refr=opc.calibration_refr,
+                            theta1=opc.theta[0], theta2=opc.theta[1]) for x in xs])
+    
+    nc = next(ax._get_lines.prop_cycler)['color']
+
+    ax.plot(xs, yvals, color=nc, label="Mie", **plot_kws)
+    ax.plot(opc.bin_boundaries, opc.calibration_vals, "o-",
+            color=next(ax._get_lines.prop_cycler)["color"], label="Calibration")
+
+    ax.semilogx()
+    ax.semilogy()
+    ax.xaxis.set_major_formatter(mtick.FormatStrFormatter("%.3g"))
+    ax.set_xlabel("$D_p \; [\mu m]$")
+    ax.set_ylabel("$C_{scat}\; [cm^2/particle]$")
+    ax.legend(loc="upper left")
+
+    return ax
+
+
 __all__ = [
     'histplot',
     'pdfplot',
-    'cdfplot'
+    'cdfplot',
+    'calplot'
 ]

@@ -9,7 +9,7 @@ Aerosol Distributions
 .. toctree::
     :maxdepth: 2
 
-    tutorial/distribution
+    tutorial/aerosol_distributions
 
 
 Simulating and Evaluating an OPC
@@ -18,5 +18,13 @@ Simulating and Evaluating an OPC
 .. toctree::
     :maxdepth: 2
 
-    tutorial/model
+    tutorial/opcs
     tutorial/scoring
+
+Simulating and Evaluating a nephelometer
+----------------------------------------
+
+.. toctree::
+    :maxdepth: 2
+
+    tutorial/nephelometer

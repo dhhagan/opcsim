@@ -19,7 +19,9 @@ class SetupTestCase(unittest.TestCase):
         pass
 
     def test_histplot(self):
-        opc = opcsim.OPC()
+        opc = opcsim.OPC(wl=0.658, n_bins=10)
+        opc.calibrate("psl")
+
         d = opcsim.load_distribution("Urban")
 
         ax = opcsim.plots.histplot(opc.evaluate(d), opc.bins)
@@ -27,7 +29,6 @@ class SetupTestCase(unittest.TestCase):
         self.assertIsNotNone(ax)
 
     def test_pdfplot(self):
-        opc = opcsim.OPC()
         d = opcsim.load_distribution("Urban")
 
         ax = opcsim.plots.pdfplot(d)
@@ -51,7 +52,6 @@ class SetupTestCase(unittest.TestCase):
         self.assertIsNotNone(ax)
 
     def test_pdf_plot_with_fill(self):
-        opc = opcsim.OPC()
         d = opcsim.load_distribution("Urban")
 
         ax = opcsim.plots.pdfplot(d, fill=True)
@@ -62,7 +62,6 @@ class SetupTestCase(unittest.TestCase):
         ax = opcsim.plots.pdfplot(d, weight='volume')
 
     def test_cdfplot(self):
-        opc = opcsim.OPC()
         d = opcsim.load_distribution("Urban")
 
         ax = opcsim.plots.cdfplot(d)
@@ -80,3 +79,10 @@ class SetupTestCase(unittest.TestCase):
         # Test invalid weight
         with self.assertRaises(ValueError):
             ax = opcsim.plots.cdfplot(d, weight='mass2')
+
+    def test_calplot(self):
+        opc = opcsim.OPC(wl=0.658, n_bins=10)
+        
+        opc.calibrate("psl", method="spline")
+
+        ax = opcsim.plots.calplot(opc)

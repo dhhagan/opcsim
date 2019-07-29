@@ -2,10 +2,11 @@
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/dhhagan/opcsim/blob/master/LICENSE)
 [![Build Status](https://travis-ci.org/dhhagan/opcsim.svg?branch=master)](https://travis-ci.org/dhhagan/opcsim)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/62e396e65ce4ade478fc/test_coverage)](https://codeclimate.com/github/dhhagan/opcsim/test_coverage)
-[![Maintainability](https://api.codeclimate.com/v1/badges/62e396e65ce4ade478fc/maintainability)](https://codeclimate.com/github/dhhagan/opcsim/maintainability)
+
 
 # opcsim
-opcsim is a Python library for simulating low-cost Optical Particle Counters and
+
+opcsim is a Python library for simulating low-cost Optical Particle Sensors (both Optical Particle Counters and Nephelometers) and
 their response to various aerosol distributions.
 
 ## Documentation
@@ -59,7 +60,7 @@ To run the tests locally using coverage (adds `coverage` as a dependency):
 
 ## Development
 
-**opcsim** development takes place on GitHub. Issues and bugs can be submitted and tracked via the [GitHub Issue Tracker][10] for this repository.
+**opcsim** development takes place on GitHub. Issues and bugs can be submitted and tracked via the [GitHub Issue Tracker][10] for this repository. Versioning is done via the python [versioneer][11] library.
 
 
 [1]: https://dhhagan.github.io/opcsim/
@@ -72,3 +73,4 @@ To run the tests locally using coverage (adds `coverage` as a dependency):
 [8]: http://matplotlib.org/
 [9]: https://seaborn.pydata.org/
 [10]: https://github.com/dhhagan/opcsim/issues
+[11]: https://github.com/warner/python-versioneer

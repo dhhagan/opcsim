@@ -3,6 +3,7 @@
 """
 from .equations.pdf import *
 from .equations.cdf import *
+from .utils import k_kohler, rho_eff, RHO_H20
 
 DISTRIBUTION_DATA = {
     'urban': [
@@ -43,8 +44,7 @@ DISTRIBUTION_DATA = {
 }
 
 def _get_pdf_func(base, weight, dp, n, gm, gsd, rho=1.):
-    """
-    """
+    """"""
     weight  = weight.lower()
 
     if weight not in ['number', 'surface', 'volume', 'mass']:
@@ -82,8 +82,7 @@ def _get_pdf_func(base, weight, dp, n, gm, gsd, rho=1.):
             return dv_dlogdp(dp, n, gm, gsd) * rho * 1e-6
 
 def _get_cdf_func(n, gm, gsd, dmin=None, dmax=10., weight='number', rho=1.):
-    """
-    """
+    """"""
     weight = weight.lower()
     if weight not in ['number', 'surface', 'volume', 'mass']:
         raise Exception("Invalid argument for weight: ['number', 'surface', 'volume', 'mass']")
@@ -98,7 +97,7 @@ def _get_cdf_func(n, gm, gsd, dmin=None, dmax=10., weight='number', rho=1.):
         return vt(n, gm, gsd, dmin, dmax) * rho
 
 def load_distribution(label):
-    """Load sample distributions as described by S+P Table 8.3.
+    """Load sample distributions as described by Seinfeld+Pandis Table 8.3.
 
     There are currently 7 options including: Urban, Marine, Rural, Remote
     continental, Free troposphere, Polar, and Desert.
@@ -172,8 +171,10 @@ class AerosolDistribution(object):
 
         return None
 
-    def add_mode(self, n, gm, gsd, label=None):
-        """Add a mode to the distribution as defined using N, GM, and GSD.
+    def add_mode(self, n, gm, gsd, label=None, kappa=0., rho=1., refr=1.5+0j):
+        """Add a mode to the distribution as defined using N, GM, and GSD. Additionally,
+        each mode has optical and chemical properties that can be set including: the k-kohler 
+        coefficient, the density, and the refractive index.
 
         Parameters
         ----------
@@ -185,6 +186,15 @@ class AerosolDistribution(object):
             Geometric Standard Deviation
         label : string, optional
             Label for the mode
+        kappa: float, optional
+            The k-kohler coefficient to describe hygroscopic growth. Default is 0.
+        rho: float: optional
+            The particle density in units of g/cm3. Default is 1.
+        refr: complex: optional
+            The complex refractive index. Default is 1.5+0i. This should be the dry 
+            refractive index. If/when the distribution is evaluated at a non-zero RH,
+            the refractive index will be adjusted based on it's water content at that 
+            RH using the defined kappa value.
 
         Examples
         --------
@@ -203,17 +213,28 @@ class AerosolDistribution(object):
         >>> d.add_mode(n=960, gm=0.151, gsd=1.599, label="Mode 3")
 
         """
-        self.modes.append({'label':label, 'N':n, 'GM':gm, 'GSD':gsd})
+        self.modes.append(
+            {
+                'label':label if label else "Mode {}".format(len(self.modes)), 
+                'N':n, 'GM':gm, 
+                'GSD':gsd, 
+                "kappa": kappa, 
+                "rho": rho, 
+                "refr": refr
+                }
+            )
 
-        return
-
-    def pdf(self, dp, base='log10', weight='number', mode=None, rho=1.):
+    def pdf(self, dp, base='log10', weight='number', mode=None, rh=0., rho=None):
         """Evaluate and return the probability distribution function at
         particle diameter `dp`.
 
         Using equation 8.54 from Seinfeld and Pandis, we can evaluate the
         probability distribution function for a multi-modal aerosol
-        distribution by summing the individual pdf's.
+        distribution by summing the individual pdf's. By default, the calculations
+        are based on the dry diameter of the particle (assuming RH=0); however,
+        you can adjust the relative humidity using the **rh** parameter which 
+        will calculate the size based on growth per k-kohler theory using the 
+        k-kohler coefficient set for each individual mode.
 
         Parameters
         ----------
@@ -227,9 +248,11 @@ class AerosolDistribution(object):
             Choose to only evaluate the pdf for a single mode
             of the entire distribution. If set to `None`, the entire
             distribution will be evaluated.
-        rho : float
-            If evaluating the mass-weighted distribution, you can set the
-            density. Default is 1. Units should be micro-g/cm3.
+        rh: float: optional
+            The relative humidity as a percentage (0-100). Default is 0.
+        rho: float: optional
+            The particle density. If set, this will override the density set 
+            for individual modes.
 
         Returns
         -------
@@ -265,12 +288,20 @@ class AerosolDistribution(object):
             modes = self.modes
 
         for mode in modes:
-            value += _get_pdf_func(base, weight, dp, mode['N'], mode['GM'],
-                                    mode['GSD'], rho)
+            # calculate the wet diameter of the particle based on k-kohler theory
+            gm = k_kohler(diam_dry=mode['GM'], kappa=mode["kappa"], rh=rh)
+
+            # override rho if set 
+            rho = rho if rho else mode["rho"]
+
+            # calculate the effective density, taking into account hygroscopic growth
+            rho = rho_eff([rho, RHO_H20], diams=[mode['GM'], gm - mode['GM']])
+
+            value += _get_pdf_func(base, weight, dp, mode['N'], gm, mode['GSD'], rho)
 
         return value
 
-    def cdf(self, dmax, dmin=None, weight='number', mode=None, rho=1.):
+    def cdf(self, dmax, dmin=None, weight='number', mode=None, rh=0., rho=None):
         """Evaluate and return the cumulative probability distribution function
         between `dmin` and `dmax`.
 
@@ -279,7 +310,11 @@ class AerosolDistribution(object):
         distributions. For example, evaluating the cdf over the entire size
         range will return the total number of particles in that size range. If
         weighted by surface area or volume, it will return the integrated
-        surface area or volume respectively.
+        surface area or volume respectively. By default, the calculations
+        are based on the dry diameter of the particle (assuming RH=0); however,
+        you can adjust the relative humidity using the **rh** parameter which 
+        will calculate the size based on growth per k-kohler theory using the 
+        k-kohler coefficient set for each individual mode.
 
         Parameters
         ----------
@@ -293,9 +328,11 @@ class AerosolDistribution(object):
             Choose to only evaluate the pdf for a single mode
             of the entire distribution. If set to `None`, the entire
             distribution will be evaluated.
-        rho : float
-            If evaluating the mass-weighted distribution, you can set the
-            density. Default is 1. Units should be micro-g/cm3.
+        rh: float: optional
+            The relative humidity as a percentage (0-100). Default is 0.
+        rho: float: optional
+            The particle density. If set, this will override the density set 
+            for individual modes.
 
         Returns
         -------
@@ -331,9 +368,17 @@ class AerosolDistribution(object):
         else:
             modes = self.modes
 
-        for m in modes:
-            value += _get_cdf_func(m['N'], m['GM'], m['GSD'], dmin, dmax,
-                                    weight, rho)
+        for mode in modes:
+            # calculate the wet diameter of the particle based on k-kohler theory
+            gm = k_kohler(diam_dry=mode['GM'], kappa=mode["kappa"], rh=rh)
+
+            # override rho if set
+            rho = rho if rho else mode["rho"]
+
+            # calculate the effective density, taking into account hygroscopic growth
+            rho = rho_eff([rho, RHO_H20], diams=[mode['GM'], gm - mode['GM']])
+
+            value += _get_cdf_func(mode['N'], gm, mode['GSD'], dmin, dmax, weight, rho)
 
         return value
 
