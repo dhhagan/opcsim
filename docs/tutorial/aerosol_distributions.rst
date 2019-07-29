@@ -603,4 +603,3 @@ mass is distributed:
 .. image:: aerosol_distributions_files/aerosol_distributions_45_0.png
 
 
-
