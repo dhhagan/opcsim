@@ -14,6 +14,9 @@ d = opcsim.load_distribution("Urban")
 # Build a 10-bin OPC
 opc = opcsim.OPC(wl=0.658, n_bins=10, dmin=0.3)
 
+# calibrate the OPC
+opc.calibrate("psl")
+
 # Set up the subplots
 fig, (ax1, ax2) = plt.subplots(2)
 
