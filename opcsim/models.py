@@ -226,7 +226,7 @@ class OPC(object):
         self._cscat_boundaries = yvals
 
     def evaluate(self, distribution, rh=0., **kwargs):
-        """Return the histogram for a given AerosolDistribution.
+        """Return the total number of particles in each bin for a given AerosolDistribution.
 
         We evaluate an OPC for a given distribution by calculating the Cscat value
         for every particle in the distribution and assigning it to a bin of the OPC.
@@ -246,9 +246,6 @@ class OPC(object):
 
         Returns
         -------
-        cscat: array
-            The entire array of Cscat values for each particle in the distribution. 
-            The size of this array is the number of particles in the distribution.
         dN: array
             The number of particles in each OPC bin (size is the number of bins)
 
@@ -260,16 +257,16 @@ class OPC(object):
         >>> opc = opcsim.OPC(wl=0.658, n_bins=5)
         >>> opc.calibrate(material="psl")
         >>> d = opcsim.load_distribution("urban")
-        >>> _, vals = opc.evaluate(d, rh=0.)
+        >>> vals = opc.evaluate(d, rh=0.)
 
         Evaluate a distribution of Ammonium Sulfate at various RH's
         
         >>> opc = opcsim.OPC(wl=0.658, n_bins=5)
         >>> d = opcsim.AerosolDistribution()
         >>> d.add_mode(n=1000, gm=500e-3, gsd=1.5, kappa=0.53, refr=complex(1.521, 0), rho=1.77)
-        >>> _, vals_0 = opc.evaluate(d, rh=0.)
-        >>> _, vals_50 = opc.evaluate(d, rh=50.)
-        >>> _, vals_100 = opc.evaluate(d, rh=100.)
+        >>> vals_0 = opc.evaluate(d, rh=0.)
+        >>> vals_50 = opc.evaluate(d, rh=50.)
+        >>> als_100 = opc.evaluate(d, rh=100.)
 
         """
         if not self.calibration_function:
@@ -345,28 +342,28 @@ class OPC(object):
         >>> opc = opcsim.OPC(n_bins=5)
         >>> opc.calibrate(material="psl")
         >>> d = opcsim.load_distribution("urban")
-        >>> lb, hist, ddp = opc.histogram(d, weight="number", rh=0.)
+        >>> hist = opc.histogram(d, weight="number", rh=0.)
 
         Evaluate an OPC for the Urban distribution and return dV/dlogDp
 
         >>> opc = opcsim.OPC(n_bins=5)
         >>> opc.calibrate(material="psl")
         >>> d = opcsim.load_distribution("urban")
-        >>> lb, hist, ddp = opc.histogram(d, weight="volume", rh=0.)
+        >>> hist = opc.histogram(d, weight="volume", rh=0.)
 
         Evaluate an OPC for the Urban distribution and return dN/dDp
 
         >>> opc = opcsim.OPC(n_bins=5)
         >>> opc.calibrate(material="psl")
         >>> d = opcsim.load_distribution("urban")
-        >>> lb, hist, ddp = opc.histogram(d, weight="number", base=None, rh=0.)
+        >>> hist = opc.histogram(d, weight="number", base=None, rh=0.)
 
         Evaluate a distribution of Ammonium Sulfate at 50% RH
         
         >>> opc = opcsim.OPC(n_bins=5)
         >>> d = opcsim.AerosolDistribution()
         >>> d.add_mode(n=1000, gm=500e-3, gsd=1.5, kappa=0.53, refr=complex(1.521, 0), rho=1.77)
-        >>> lb, hist, ddp = opc.histogram(d, weight="number", base="log10", rh=50.)
+        >>> hist = opc.histogram(d, weight="number", base="log10", rh=50.)
 
         """
         # get the density if needed [units of g/cc]
@@ -390,11 +387,11 @@ class OPC(object):
 
         # divide the values by the proper base
         if base == "log10":
-            rv /= self.dlogdp
+            rv = rv / self.dlogdp
         else:
-            rv /= self.ddp
+            rv = rv / self.ddp
 
-        return self.bins[:, 0], rv, self.ddp
+        return rv
     
     def integrate(self, distribution, dmin=0., dmax=1., weight="number", rh=0., **kwargs):
         """Integrate the distribution according to the OPC for any [weight].
