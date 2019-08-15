@@ -144,23 +144,21 @@ class SetupTestCase(unittest.TestCase):
         self.assertIsNotNone(opc.calibration_function)
 
         # create the histogram
-        lb, h, ddp = opc.histogram(d, weight='number')
+        h = opc.histogram(d, weight='number')
 
-        self.assertTrue((lb == opc.bins[:, 0]).all())
-        self.assertTrue((ddp == opc.ddp).all())
         self.assertEqual(len(h), opc.n_bins)
 
         # calculate surface area, volume, and mass distributions
-        lb, h, ddp = opc.histogram(d, weight='surface')
-        lb, h, ddp = opc.histogram(d, weight='volume')
-        lb, h, ddp = opc.histogram(d, weight='mass', rho=1.65)
+        h = opc.histogram(d, weight='surface')
+        h = opc.histogram(d, weight='volume')
+        h = opc.histogram(d, weight='mass', rho=1.65)
 
         # test dN/dDp
-        lb, h, ddp = opc.histogram(d, weight="number", base=None)
+        h = opc.histogram(d, weight="number", base=None)
 
         # force error
         with self.assertRaises(ValueError):
-            lb, h, ddp = opc.histogram(d, weight="unknown")
+            h = opc.histogram(d, weight="unknown")
 
     def test_opc_integrate(self):
         n_bins = 10
