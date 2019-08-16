@@ -1,8 +1,7 @@
 [![PyPI version](https://badge.fury.io/py/opcsim.svg)](https://badge.fury.io/py/opcsim)
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/dhhagan/opcsim/blob/master/LICENSE)
 [![Build Status](https://travis-ci.org/dhhagan/opcsim.svg?branch=master)](https://travis-ci.org/dhhagan/opcsim)
-[![Test Coverage](https://api.codeclimate.com/v1/badges/62e396e65ce4ade478fc/test_coverage)](https://codeclimate.com/github/dhhagan/opcsim/test_coverage)
-
+[![codecov](https://codecov.io/gh/dhhagan/opcsim/branch/master/graph/badge.svg)](https://codecov.io/gh/dhhagan/opcsim)
 
 # opcsim
 
@@ -19,7 +18,7 @@ In addition, documentation can be built locally for development purposes. To do 
 
 ## Dependencies
 
-Opcsim supports Python 2.7 and 3.5+.
+Opcsim is supported for python3.5+.
 
 Installation requires [scipy][5], [numpy][6], [pandas][7], [matplotlib][8],
 and [seaborn][9].
