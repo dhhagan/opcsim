@@ -16,6 +16,10 @@ The docs include a [tutorial][2], an [example gallery][3], and an [API Reference
 
 In addition, documentation can be built locally for development purposes. To do so, please check out the complete details in the *contributing to opcsim* section of the documentation.
 
+## Docker
+
+[Insert docker shit here]
+
 ## Dependencies
 
 Opcsim is supported for python3.5+.
