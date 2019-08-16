@@ -4,7 +4,4 @@ WORKDIR /home/joyvan
 
 COPY examples/ examples/
 
-RUN pip install git+https://github.com/dhhagan/opcsim.git
-
-# launch jupyter lab
-CMD ["jupyter", "lab", "--no-browser", "--ip=0.0.0.0", "--allow-root", "--NotebookApp.token='token'"]
+RUN pip install opcsim
