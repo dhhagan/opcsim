@@ -1,0 +1,10 @@
+FROM jupyter/scipy-notebook:2ce7c06a61a1
+
+WORKDIR /home/joyvan
+
+COPY examples/ examples/
+
+RUN pip install git+https://github.com/dhhagan/opcsim.git
+
+# launch jupyter lab
+CMD ["jupyter", "lab", "--no-browser", "--ip=0.0.0.0", "--allow-root", "--NotebookApp.token='token'"]

@@ -2,6 +2,8 @@
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/dhhagan/opcsim/blob/master/LICENSE)
 [![Build Status](https://travis-ci.org/dhhagan/opcsim.svg?branch=master)](https://travis-ci.org/dhhagan/opcsim)
 [![codecov](https://codecov.io/gh/dhhagan/opcsim/branch/master/graph/badge.svg)](https://codecov.io/gh/dhhagan/opcsim)
+![Docker Pulls](https://img.shields.io/docker/pulls/dhhagan/opcsim)
+![Docker Stars](https://img.shields.io/docker/stars/dhhagan/opcsim)
 
 # opcsim
 
@@ -15,6 +17,16 @@ Full online documentation can be found [here][1].
 The docs include a [tutorial][2], an [example gallery][3], and an [API Reference][4].
 
 In addition, documentation can be built locally for development purposes. To do so, please check out the complete details in the *contributing to opcsim* section of the documentation.
+
+## Docker
+
+If you are familiar with Docker, there is a Docker image available to get up and running with OPCSIM with ease. To get started 
+with an ephemeral container with a jupyter lab interface, navigate to your preferred working directory and execute:
+
+```sh
+$ docker run --rm -p 8888:8888 -e JUPYTER_ENABLE_LAB=yes -v "$PWD":/home/joyvan/work dhhagan/opcsim:latest
+```
+
 
 ## Dependencies
 
