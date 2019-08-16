@@ -4,4 +4,4 @@ WORKDIR /home/joyvan
 
 COPY examples/ examples/
 
-RUN pip install opcsim
+RUN pip install git+https://github.com/dhhagan/opcsim.git
