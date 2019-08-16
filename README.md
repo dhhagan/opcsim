@@ -21,7 +21,7 @@ In addition, documentation can be built locally for development purposes. To do 
 ## Docker
 
 If you are familiar with Docker, there is a Docker image available to get up and running with OPCSIM with ease. To get started 
-with an ephemeral container with a jupyter lab interface, simply execute:
+with an ephemeral container with a jupyter lab interface, navigate to your preferred working directory and execute:
 
 ```sh
 $ docker run --rm -p 8888:8888 -e JUPYTER_ENABLE_LAB=yes -v "$PWD":/home/joyvan/work dhhagan/opcsim:latest
