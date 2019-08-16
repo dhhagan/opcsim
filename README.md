@@ -27,6 +27,8 @@ with an ephemeral container with a jupyter lab interface, navigate to your prefe
 $ docker run --rm -p 8888:8888 -e JUPYTER_ENABLE_LAB=yes -v "$PWD":/home/joyvan/work dhhagan/opcsim:latest
 ```
 
+Once executed, you should see the url with token in your terminal that will allow you to bring up the jupyter lab instance.
+
 
 ## Dependencies
 
@@ -42,14 +44,14 @@ To install (or upgrade to) the latest stable release:
 
 ```sh
 
-$ pip install opcsim [--upgrade] --process-dependency-links
+$ pip install opcsim [--upgrade]
 ```
 
 To install the development version directly from GitHub using pip:
 
 ```sh
 
-$ pip install git+https://github.com/dhhagan/opcsim.git --process-dependency-links
+$ pip install git+https://github.com/dhhagan/opcsim.git
 ```
 
 In addition, you can either clone the repository and install from source or download/unzip the zip file and install from source:
