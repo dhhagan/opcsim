@@ -8,7 +8,7 @@ If you are familiar with Python and installing python libraries, feel free to sk
 below to the installation section.
 
 
-``opcsim`` requires python2.7+ or python3.3+ to be installed on your computer. If
+``opcsim`` requires python3.5+ to be installed on your computer. If
 you do not have an existing installation, I would recommend checking out the
 `Anaconda Python distribution <https://www.continuum.io/downloads>`_. If you
 encounter issues installing Anaconda, check out `StackOverflow <https://stackoverflow.com/search?q=anaconda>`_ or a simple
@@ -20,7 +20,7 @@ Once you have python installed, you can go ahead and install the
 
 **Dependencies**
 
-+ Python2.7 or Python3.3+
++ Python3.5+
 + `numpy <http://www.numpy.org/>`_
 + `scipy <https://www.scipy.org/>`_
 + `pandas <http://pandas.pydata.org/>`_
