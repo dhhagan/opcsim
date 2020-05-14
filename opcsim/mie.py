@@ -2,6 +2,7 @@ import numpy as np
 import math
 import scipy.special as bessel
 
+
 def coef_pi_tau(theta, x):
     """Compute the angle-dependant functions (pi and tau) using upward recurrence.
 
@@ -51,6 +52,7 @@ def coef_pi_tau(theta, x):
         tau[n] = (n+1)*mu*pi[n] - (n+2)*pi[n-1]
 
     return pi, tau
+
 
 def coef_ab(refr, x):
     """Compute the external field coefficients using the logarithmic derivative.
@@ -127,6 +129,7 @@ def coef_ab(refr, x):
 
     return an, bn
 
+
 def s1s2(refr, x, theta):
     """Compute the complex scattering amplitudes S1 and S2 at angle theta.
 
@@ -176,6 +179,7 @@ def s1s2(refr, x, theta):
     S2 = (cn * (an*tau + bn*pi)).sum()
 
     return S1, S2
+
 
 def cscat(dp, wl, refr, theta1, theta2, nsteps=100, **kwargs):
     """Compute the scattering cross section between two angles according to Jaenicke and Hanusch (1993).

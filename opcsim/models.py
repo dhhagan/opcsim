@@ -328,9 +328,9 @@ class OPC(object):
 
         Returns
         -------
-        left_bin, d[weight]/d[base]Dp, bin_width : arrays
-            Returns three arrays containing the left bin boundary, the evaluated
-            PDF, and the width of the bin (dDp). This data can be
+        d[weight]/d[base]Dp : array
+            Returns an array with the evaluated
+            PDF. This data can be
             directly plotted as a histogram using matplotlib bar plots. By 
             default, dN/dlogDp is returned.
 

@@ -5,7 +5,7 @@ git checkout master
 echo "Building and deploying docs"
 cd docs
 make clean
-make tutorials introduction
+make tutorials
 make html
 cd ..
 
