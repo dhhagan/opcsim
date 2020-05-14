@@ -2,9 +2,8 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>opcsim.mie.coef_ab &#8212; opcsim v0.4.0+4.g1330c40.dirty documentation</title>
+    <meta charset="utf-8" />
+    <title>opcsim.mie.coef_ab &#8212; opcsim v0.4.1+0.g14bd507.dirty documentation</title>
     <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/style.css" />
@@ -41,7 +40,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           opcsim</a>
-        <span class="navbar-text navbar-version pull-left"><b>v0.4.0+4.g1330c40.dirty</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>v0.4.1+0.g14bd507.dirty</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -114,7 +113,7 @@
 <h1>opcsim.mie.coef_ab<a class="headerlink" href="#opcsim-mie-coef-ab" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="opcsim.mie.coef_ab">
-<code class="descclassname">opcsim.mie.</code><code class="descname">coef_ab</code><span class="sig-paren">(</span><em>refr</em>, <em>x</em><span class="sig-paren">)</span><a class="headerlink" href="#opcsim.mie.coef_ab" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">opcsim.mie.</code><code class="sig-name descname">coef_ab</code><span class="sig-paren">(</span><em class="sig-param">refr</em>, <em class="sig-param">x</em><span class="sig-paren">)</span><a class="headerlink" href="#opcsim.mie.coef_ab" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute the external field coefficients using the logarithmic derivative.</p>
 <p>Bohren and Huffman (1983) equations 4.88 and 4.89 show how to compute <span class="math notranslate nohighlight">\(a_n\)</span> and <span class="math notranslate nohighlight">\(b_n\)</span>
 using the logarithmic derivative (Aden, 1951).</p>
@@ -125,29 +124,22 @@ using the logarithmic derivative (Aden, 1951).</p>
 <p>where the logarithmic derivative is computed as:</p>
 <div class="math notranslate nohighlight">
 \[D_{n-1}=\frac{n}{\rho}-\frac{1}{D_n + n/\rho}\]</div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
-<dt><strong>refr: complex</strong></dt>
-<dd><p class="first last">The complex refractive index of the material.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>refr: complex</strong></dt><dd><p>The complex refractive index of the material.</p>
 </dd>
-<dt><strong>x: float</strong></dt>
-<dd><p class="first last">The dimensionless size parameter.</p>
+<dt><strong>x: float</strong></dt><dd><p>The dimensionless size parameter.</p>
 </dd>
 </dl>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>`a_n`, `b_n`: np.ndarray of floats</strong></dt>
-<dd><p class="first last">The external field coefficients.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>`a_n`, `b_n`: np.ndarray of floats</strong></dt><dd><p>The external field coefficients.</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 </div>
@@ -171,8 +163,8 @@ using the logarithmic derivative (Aden, 1951).</p>
       
     </p>
     <p>
-        &copy; Copyright 2017-2019, David H Hagan.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.5.<br/>
+        &copy; Copyright 2016-2020, David H Hagan and Jesse H Kroll.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.1.<br/>
     </p>
   </div>
 </footer>

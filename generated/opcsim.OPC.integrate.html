@@ -2,9 +2,8 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>opcsim.OPC.integrate &#8212; opcsim v0.4.0+4.g1330c40.dirty documentation</title>
+    <meta charset="utf-8" />
+    <title>opcsim.OPC.integrate &#8212; opcsim v0.4.1+0.g14bd507.dirty documentation</title>
     <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/style.css" />
@@ -41,7 +40,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           opcsim</a>
-        <span class="navbar-text navbar-version pull-left"><b>v0.4.0+4.g1330c40.dirty</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>v0.4.1+0.g14bd507.dirty</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -114,47 +113,37 @@
 <h1>opcsim.OPC.integrate<a class="headerlink" href="#opcsim-opc-integrate" title="Permalink to this headline">¶</a></h1>
 <dl class="method">
 <dt id="opcsim.OPC.integrate">
-<code class="descclassname">OPC.</code><code class="descname">integrate</code><span class="sig-paren">(</span><em>distribution</em>, <em>dmin=0.0</em>, <em>dmax=1.0</em>, <em>weight='number'</em>, <em>rh=0.0</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#opcsim.OPC.integrate" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">OPC.</code><code class="sig-name descname">integrate</code><span class="sig-paren">(</span><em class="sig-param">distribution</em>, <em class="sig-param">dmin=0.0</em>, <em class="sig-param">dmax=1.0</em>, <em class="sig-param">weight='number'</em>, <em class="sig-param">rh=0.0</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#opcsim.OPC.integrate" title="Permalink to this definition">¶</a></dt>
 <dd><p>Integrate the distribution according to the OPC for any [weight].</p>
 <p>By default, this method returns the total number of particles between 0-1 microns.
 It can be used to calculate PM values at any breakpoint. When calculating a PM value
 for a breakpoint that falls within a bin, a simple percentage of the bin is used. For
 example, if you calculate PM1 and the bin that contains 1-micron actually covers 0.5 
 to 1.5 microns, then 1/2 the mass from that bin will count towards the PM1 value.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
-<dt><strong>distribution: AerosolDistribution</strong></dt>
-<dd><p class="first last">The aerosol distribution to be evaluated.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>distribution: AerosolDistribution</strong></dt><dd><p>The aerosol distribution to be evaluated.</p>
 </dd>
-<dt><strong>dmin: float</strong></dt>
-<dd><p class="first last">The minimum particle diameter [microns] to integrate from.</p>
+<dt><strong>dmin: float</strong></dt><dd><p>The minimum particle diameter [microns] to integrate from.</p>
 </dd>
-<dt><strong>dmax: float</strong></dt>
-<dd><p class="first last">The maximum particle diameter [microns] to integrate to.</p>
+<dt><strong>dmax: float</strong></dt><dd><p>The maximum particle diameter [microns] to integrate to.</p>
 </dd>
-<dt><strong>weight</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{‘number’ | ‘surface’ | ‘volume’}</span></dt>
-<dd><p class="first last">Choose how to weight the pdf. Default is <cite>number</cite>.</p>
+<dt><strong>weight</strong><span class="classifier">{‘number’ | ‘surface’ | ‘volume’}</span></dt><dd><p>Choose how to weight the pdf. Default is <cite>number</cite>.</p>
 </dd>
-<dt><strong>rh: float</strong></dt>
-<dd><p class="first last">The relative humidity in percent (0-100).</p>
+<dt><strong>rh: float</strong></dt><dd><p>The relative humidity in percent (0-100).</p>
 </dd>
 </dl>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>rv: float</strong></dt>
-<dd><p class="first last">The total [weight] between dmin and dmax. By default, 
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>rv: float</strong></dt><dd><p>The total [weight] between dmin and dmax. By default, 
 the total number of particles (i.e. weight=’number’) 
 are returned.</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 <p class="rubric">Examples</p>
 <p>Calculate the total number of particles between 0-1 microns
 for the Urban distribution.</p>
@@ -201,8 +190,8 @@ for the Urban distribution.</p>
       
     </p>
     <p>
-        &copy; Copyright 2017-2019, David H Hagan.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.5.<br/>
+        &copy; Copyright 2016-2020, David H Hagan and Jesse H Kroll.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.1.<br/>
     </p>
   </div>
 </footer>

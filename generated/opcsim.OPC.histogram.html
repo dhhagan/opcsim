@@ -2,9 +2,8 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>opcsim.OPC.histogram &#8212; opcsim v0.4.0+4.g1330c40.dirty documentation</title>
+    <meta charset="utf-8" />
+    <title>opcsim.OPC.histogram &#8212; opcsim v0.4.1+0.g14bd507.dirty documentation</title>
     <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/style.css" />
@@ -41,7 +40,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           opcsim</a>
-        <span class="navbar-text navbar-version pull-left"><b>v0.4.0+4.g1330c40.dirty</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>v0.4.1+0.g14bd507.dirty</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -114,41 +113,32 @@
 <h1>opcsim.OPC.histogram<a class="headerlink" href="#opcsim-opc-histogram" title="Permalink to this headline">¶</a></h1>
 <dl class="method">
 <dt id="opcsim.OPC.histogram">
-<code class="descclassname">OPC.</code><code class="descname">histogram</code><span class="sig-paren">(</span><em>distribution</em>, <em>weight='number'</em>, <em>base='log10'</em>, <em>rh=0.0</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#opcsim.OPC.histogram" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">OPC.</code><code class="sig-name descname">histogram</code><span class="sig-paren">(</span><em class="sig-param">distribution</em>, <em class="sig-param">weight='number'</em>, <em class="sig-param">base='log10'</em>, <em class="sig-param">rh=0.0</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#opcsim.OPC.histogram" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a histogram containing the [weight] of particles in each OPC bin.</p>
 <p>This represents what the OPC ‘sees’. All calculations are made assuming the 
 center of the bin is reprentative of the entire bin.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
-<dt><strong>distribution: AerosolDistribution</strong></dt>
-<dd></dd>
-<dt><strong>weight</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{‘number’ | ‘surface’ | ‘volume’}</span></dt>
-<dd><p class="first last">Choose how to weight the pdf. Default is <cite>number</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>distribution: AerosolDistribution</strong></dt><dd></dd>
+<dt><strong>weight</strong><span class="classifier">{‘number’ | ‘surface’ | ‘volume’}</span></dt><dd><p>Choose how to weight the pdf. Default is <cite>number</cite>.</p>
 </dd>
-<dt><strong>base</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{‘none’ | ‘log10’}</span></dt>
-<dd><p class="first last">Base algorithm to use. Default is ‘log10’.</p>
+<dt><strong>base</strong><span class="classifier">{‘none’ | ‘log10’}</span></dt><dd><p>Base algorithm to use. Default is ‘log10’.</p>
 </dd>
-<dt><strong>rh: float</strong></dt>
-<dd><p class="first last">The relative humidity in percent (0-100).</p>
+<dt><strong>rh: float</strong></dt><dd><p>The relative humidity in percent (0-100).</p>
 </dd>
 </dl>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>left_bin, d[weight]/d[base]Dp, bin_width</strong> <span class="classifier-delimiter">:</span> <span class="classifier">arrays</span></dt>
-<dd><p class="first last">Returns three arrays containing the left bin boundary, the evaluated
-PDF, and the width of the bin (dDp). This data can be
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>d[weight]/d[base]Dp</strong><span class="classifier">array</span></dt><dd><p>Returns an array with the evaluated
+PDF. This data can be
 directly plotted as a histogram using matplotlib bar plots. By 
 default, dN/dlogDp is returned.</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 <p class="rubric">Examples</p>
 <p>Evaluate an OPC for the Urban distribution and return dN/dlogDp</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">opc</span> <span class="o">=</span> <span class="n">opcsim</span><span class="o">.</span><span class="n">OPC</span><span class="p">(</span><span class="n">n_bins</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
@@ -201,8 +191,8 @@ default, dN/dlogDp is returned.</p>
       
     </p>
     <p>
-        &copy; Copyright 2017-2019, David H Hagan.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.5.<br/>
+        &copy; Copyright 2016-2020, David H Hagan and Jesse H Kroll.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.1.<br/>
     </p>
   </div>
 </footer>
