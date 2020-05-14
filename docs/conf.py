@@ -70,8 +70,9 @@ project = 'opcsim'
 
 import time
 
-copyright = '2017-{}, David H Hagan'.format(time.strftime("%Y"))
-author = 'David H Hagan'
+author = 'David H Hagan and Jesse H Kroll'
+copyright = '2016-{}, {}'.format(time.strftime("%Y"), author)
+
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -168,7 +169,7 @@ latex_elements = {
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
     (master_doc, 'opcsim.tex', 'opcsim Documentation',
-     'David H Hagan', 'manual'),
+     'David H Hagan & Jesse H Kroll', 'manual'),
 ]
 
 

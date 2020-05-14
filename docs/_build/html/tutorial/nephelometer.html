@@ -2,9 +2,8 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Using OPCSIM to Simulate a Nephelometer &#8212; opcsim v0.4.0+4.g1330c40.dirty documentation</title>
+    <meta charset="utf-8" />
+    <title>Using OPCSIM to Simulate a Nephelometer &#8212; opcsim v0.4.0+6.g041c0e0.dirty documentation</title>
     <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/style.css" />
@@ -41,7 +40,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           opcsim</a>
-        <span class="navbar-text navbar-version pull-left"><b>v0.4.0+4.g1330c40.dirty</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>v0.4.0+6.g041c0e0.dirty</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -120,14 +119,14 @@
 Nephelometers, how you can build/model a Nephelometer, and how we can
 evaluate Nephelometers across a wide range of conditions using this
 tool.</p>
-<div class="code ipython3 highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Make imports</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Make imports</span>
 <span class="kn">import</span> <span class="nn">opcsim</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">matplotlib.ticker</span> <span class="k">as</span> <span class="nn">mticks</span>
 <span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
 
-<span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
 
 <span class="c1"># turn off warnings temporarily</span>
 <span class="kn">import</span> <span class="nn">warnings</span>
@@ -149,13 +148,13 @@ and allows manufacturers to use cheap photo-detectors while still
 gathering enough signal to distinguish from noise.</p>
 <p>To build a Nephelometer, simply initialize using the
 <code class="docutils literal notranslate"><span class="pre">opcsim.Nephelometer</span></code> class:</p>
-<div class="code ipython3 highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># init a nephelometer with a 658 nm laser, gathering light from between 7-173 degrees</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># init a nephelometer with a 658 nm laser, gathering light from between 7-173 degrees</span>
 <span class="n">neph</span> <span class="o">=</span> <span class="n">opcsim</span><span class="o">.</span><span class="n">Nephelometer</span><span class="p">(</span><span class="n">wl</span><span class="o">=</span><span class="mf">0.658</span><span class="p">,</span> <span class="n">theta</span><span class="o">=</span><span class="p">(</span><span class="mf">7.</span><span class="p">,</span> <span class="mi">173</span><span class="p">))</span>
 
 <span class="n">neph</span>
 </pre></div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">opcsim</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">Nephelometer</span> <span class="n">at</span> <span class="mh">0x103e781d0</span><span class="o">&gt;</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">opcsim</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">Nephelometer</span> <span class="n">at</span> <span class="mh">0x10398bc18</span><span class="o">&gt;</span>
 </pre></div>
 </div>
 </div>
@@ -165,7 +164,7 @@ gathering enough signal to distinguish from noise.</p>
 an entire aerosol distribution. Typically, users of low-cost
 nephelometers co-locate their device with a reference device of higher
 (or known) quality and simply compare the output signal from the
-nephelometer to the integrated mass value (i.e.&nbsp;<span class="math notranslate nohighlight">\(PM_1\)</span>,
+nephelometer to the integrated mass value (i.e. <span class="math notranslate nohighlight">\(PM_1\)</span>,
 <span class="math notranslate nohighlight">\(PM_{2.5}\)</span>, or <span class="math notranslate nohighlight">\(PM_{10}\)</span>) from the reference device. To keep
 things as simple and realistic as possible, we follow this approach.</p>
 <p>To calibrate a nephelometer in OPCSIM, you provide an aerosol
@@ -177,7 +176,7 @@ stored as calibration factors and are used again when evaluating
 previously unseen distributions.</p>
 <p>To calibrate our nephelometer above to a synthetic distribution of
 Ammonium Sulfate:</p>
-<div class="code ipython3 highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">d1</span> <span class="o">=</span> <span class="n">opcsim</span><span class="o">.</span><span class="n">AerosolDistribution</span><span class="p">(</span><span class="s2">&quot;AmmSulf&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">d1</span> <span class="o">=</span> <span class="n">opcsim</span><span class="o">.</span><span class="n">AerosolDistribution</span><span class="p">(</span><span class="s2">&quot;AmmSulf&quot;</span><span class="p">)</span>
 
 <span class="n">d1</span><span class="o">.</span><span class="n">add_mode</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mf">1e4</span><span class="p">,</span> <span class="n">gm</span><span class="o">=</span><span class="mf">125e-3</span><span class="p">,</span> <span class="n">gsd</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">refr</span><span class="o">=</span><span class="nb">complex</span><span class="p">(</span><span class="mf">1.521</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">kappa</span><span class="o">=</span><span class="mf">0.53</span><span class="p">,</span> <span class="n">rho</span><span class="o">=</span><span class="mf">1.77</span><span class="p">)</span>
 
@@ -189,20 +188,20 @@ Ammonium Sulfate:</p>
 units are a bit arbitrary, since we don’t consider the intensity/power
 of the laser as we assume it is constant. Thus, these units are
 something like <span class="math notranslate nohighlight">\(cm^2/(\mu g/ m^3)\)</span></p>
-<div class="code ipython3 highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">neph</span><span class="o">.</span><span class="n">pm1_ratio</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">neph</span><span class="o">.</span><span class="n">pm1_ratio</span>
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mf">1.1744058563022677e-08</span>
 </pre></div>
 </div>
 <p>Similarly, we get ratio’s for <span class="math notranslate nohighlight">\(PM_{2.5}\)</span> and <span class="math notranslate nohighlight">\(PM_{10}\)</span>:</p>
-<div class="code ipython3 highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">neph</span><span class="o">.</span><span class="n">pm25_ratio</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">neph</span><span class="o">.</span><span class="n">pm25_ratio</span>
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mf">1.174352137965417e-08</span>
 </pre></div>
 </div>
-<div class="code ipython3 highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">neph</span><span class="o">.</span><span class="n">pm10_ratio</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">neph</span><span class="o">.</span><span class="n">pm10_ratio</span>
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mf">1.1743521375694491e-08</span>
@@ -216,14 +215,14 @@ happen under different circumstances. To do so, we use the <code class="docutils
 method, which takes an AerosolDistribution as an argument (as well as an
 optional relative humidity) and returns the total scattered light,
 <span class="math notranslate nohighlight">\(PM_1\)</span>, <span class="math notranslate nohighlight">\(PM_{2.5}\)</span>, and <span class="math notranslate nohighlight">\(PM_{10}\)</span>.</p>
-<div class="code ipython3 highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># evaluate the same distribution we used to calibrate</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># evaluate the same distribution we used to calibrate</span>
 <span class="n">neph</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">d1</span><span class="p">,</span> <span class="n">rh</span><span class="o">=</span><span class="mf">0.</span><span class="p">)</span>
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="mf">4.4544608528839e-07</span><span class="p">,</span> <span class="mf">37.92948433439533</span><span class="p">,</span> <span class="mf">37.93121934108556</span><span class="p">,</span> <span class="mf">37.9312193538752</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="code ipython3 highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># evaluate the same distribution we used to calibrate, but at a higher RH</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># evaluate the same distribution we used to calibrate, but at a higher RH</span>
 <span class="n">neph</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">d1</span><span class="p">,</span> <span class="n">rh</span><span class="o">=</span><span class="mf">85.0</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -235,7 +234,7 @@ optional relative humidity) and returns the total scattered light,
 </div>
 <p>What if we went ahead and tried to evaluate on a totally unseen
 distribution? Let’s go ahead and evaluate on an <strong>urban</strong> distribution:</p>
-<div class="code ipython3 highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">d2</span> <span class="o">=</span> <span class="n">opcsim</span><span class="o">.</span><span class="n">load_distribution</span><span class="p">(</span><span class="s2">&quot;urban&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">d2</span> <span class="o">=</span> <span class="n">opcsim</span><span class="o">.</span><span class="n">load_distribution</span><span class="p">(</span><span class="s2">&quot;urban&quot;</span><span class="p">)</span>
 
 <span class="n">d2</span>
 </pre></div>
@@ -245,7 +244,7 @@ distribution? Let’s go ahead and evaluate on an <strong>urban</strong> distrib
 </div>
 <p>First, let’s determine the actual <span class="math notranslate nohighlight">\(PM_1\)</span>, <span class="math notranslate nohighlight">\(PM_{2.5}\)</span>, and
 <span class="math notranslate nohighlight">\(PM_{10}\)</span> loadings for this distribution:</p>
-<div class="code ipython3 highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;PM1 = </span><span class="si">{:.2f}</span><span class="s2"> ug/m3&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">d2</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">dmin</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span> <span class="n">dmax</span><span class="o">=</span><span class="mf">1.</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="s1">&#39;mass&#39;</span><span class="p">,</span> <span class="n">rho</span><span class="o">=</span><span class="mf">1.65</span><span class="p">)))</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;PM1 = </span><span class="si">{:.2f}</span><span class="s2"> ug/m3&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">d2</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">dmin</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span> <span class="n">dmax</span><span class="o">=</span><span class="mf">1.</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="s1">&#39;mass&#39;</span><span class="p">,</span> <span class="n">rho</span><span class="o">=</span><span class="mf">1.65</span><span class="p">)))</span>
 <span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;PM2.5 = </span><span class="si">{:.2f}</span><span class="s2"> ug/m3&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">d2</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">dmin</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span> <span class="n">dmax</span><span class="o">=</span><span class="mf">2.5</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="s1">&#39;mass&#39;</span><span class="p">,</span> <span class="n">rho</span><span class="o">=</span><span class="mf">1.65</span><span class="p">)))</span>
 <span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;PM10 = </span><span class="si">{:.2f}</span><span class="s2"> ug/m3&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">d2</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">dmin</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span> <span class="n">dmax</span><span class="o">=</span><span class="mf">10.</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="s1">&#39;mass&#39;</span><span class="p">,</span> <span class="n">rho</span><span class="o">=</span><span class="mf">1.65</span><span class="p">)))</span>
 </pre></div>
@@ -256,7 +255,7 @@ distribution? Let’s go ahead and evaluate on an <strong>urban</strong> distrib
 </pre></div>
 </div>
 <p>Next, let’s evaluate the Nephelometer:</p>
-<div class="code ipython3 highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">neph</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">d2</span><span class="p">,</span> <span class="n">rh</span><span class="o">=</span><span class="mf">0.</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">neph</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">d2</span><span class="p">,</span> <span class="n">rh</span><span class="o">=</span><span class="mf">0.</span><span class="p">)</span>
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="mf">1.7166105544467465e-07</span><span class="p">,</span>
@@ -290,8 +289,8 @@ scatters less light per unit mass than our calibration aerosol.</p>
       
     </p>
     <p>
-        &copy; Copyright 2017-2019, David H Hagan.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.5.<br/>
+        &copy; Copyright 2016-2020, David H Hagan and Jesse H Kroll.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.1.<br/>
     </p>
   </div>
 </footer>

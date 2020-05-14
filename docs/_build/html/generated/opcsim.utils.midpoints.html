@@ -2,9 +2,8 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>opcsim.utils.midpoints &#8212; opcsim v0.4.0+4.g1330c40.dirty documentation</title>
+    <meta charset="utf-8" />
+    <title>opcsim.utils.midpoints &#8212; opcsim v0.4.0+6.g041c0e0.dirty documentation</title>
     <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/style.css" />
@@ -41,7 +40,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           opcsim</a>
-        <span class="navbar-text navbar-version pull-left"><b>v0.4.0+4.g1330c40.dirty</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>v0.4.0+6.g041c0e0.dirty</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -114,33 +113,26 @@
 <h1>opcsim.utils.midpoints<a class="headerlink" href="#opcsim-utils-midpoints" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="opcsim.utils.midpoints">
-<code class="descclassname">opcsim.utils.</code><code class="descname">midpoints</code><span class="sig-paren">(</span><em>bins</em>, <em>base='log'</em><span class="sig-paren">)</span><a class="headerlink" href="#opcsim.utils.midpoints" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">opcsim.utils.</code><code class="sig-name descname">midpoints</code><span class="sig-paren">(</span><em class="sig-param">bins</em>, <em class="sig-param">base='log'</em><span class="sig-paren">)</span><a class="headerlink" href="#opcsim.utils.midpoints" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns a 3xn array of bin diameters.</p>
 <p>Build a 3xn array of bin diameters from a 2xn array that can then be fed
 directly into the OPC class. The default behaviour is to space the bins
 equally on a log10 basis.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
-<dt><strong>bins</strong> <span class="classifier-delimiter">:</span> <span class="classifier">2xn array</span></dt>
-<dd><p class="first last">A 2xn array with bin boundaries.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>bins</strong><span class="classifier">2xn array</span></dt><dd><p>A 2xn array with bin boundaries.</p>
 </dd>
-<dt><strong>base</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{‘log’ | ‘none’ | None}</span></dt>
-<dd></dd>
+<dt><strong>base</strong><span class="classifier">{‘log’ | ‘none’ | None}</span></dt><dd></dd>
 </dl>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>bins</strong> <span class="classifier-delimiter">:</span> <span class="classifier">array</span></dt>
-<dd><p class="first last">Returns a 3xn_bins array in the format of [left edge, midpoint, right edge]</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>bins</strong><span class="classifier">array</span></dt><dd><p>Returns a 3xn_bins array in the format of [left edge, midpoint, right edge]</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 <p class="rubric">Examples</p>
 <p>Build a set of bins for an OPC similar to a Dylos DC1100 Pro:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">],</span> <span class="p">[</span><span class="mf">2.5</span><span class="p">,</span> <span class="mi">10</span><span class="p">])</span>
@@ -170,8 +162,8 @@ equally on a log10 basis.</p>
       
     </p>
     <p>
-        &copy; Copyright 2017-2019, David H Hagan.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.5.<br/>
+        &copy; Copyright 2016-2020, David H Hagan and Jesse H Kroll.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.1.<br/>
     </p>
   </div>
 </footer>

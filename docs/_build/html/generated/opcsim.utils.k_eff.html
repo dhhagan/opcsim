@@ -2,9 +2,8 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>opcsim.utils.k_eff &#8212; opcsim v0.4.0+4.g1330c40.dirty documentation</title>
+    <meta charset="utf-8" />
+    <title>opcsim.utils.k_eff &#8212; opcsim v0.4.0+6.g041c0e0.dirty documentation</title>
     <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/style.css" />
@@ -41,7 +40,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           opcsim</a>
-        <span class="navbar-text navbar-version pull-left"><b>v0.4.0+4.g1330c40.dirty</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>v0.4.0+6.g041c0e0.dirty</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -114,39 +113,31 @@
 <h1>opcsim.utils.k_eff<a class="headerlink" href="#opcsim-utils-k-eff" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="opcsim.utils.k_eff">
-<code class="descclassname">opcsim.utils.</code><code class="descname">k_eff</code><span class="sig-paren">(</span><em>kappas</em>, <em>weights=None</em>, <em>diams=None</em><span class="sig-paren">)</span><a class="headerlink" href="#opcsim.utils.k_eff" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">opcsim.utils.</code><code class="sig-name descname">k_eff</code><span class="sig-paren">(</span><em class="sig-param">kappas</em>, <em class="sig-param">weights=None</em>, <em class="sig-param">diams=None</em><span class="sig-paren">)</span><a class="headerlink" href="#opcsim.utils.k_eff" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate the effective k-kohler coefficient from 
 an array of kappa values and their weights. Alternatively,
 an array of diameters can be passed which will be used to 
 calculate the volumetric weights.</p>
 <div class="math notranslate nohighlight">
 \[\kappa=\sum_{i=1} \epsilon_i \kappa_i\]</div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
-<dt><strong>kappas: ndarray</strong></dt>
-<dd><p class="first last">An array of k-kohler coefficients.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>kappas: ndarray</strong></dt><dd><p>An array of k-kohler coefficients.</p>
 </dd>
-<dt><strong>weights: ndarray, optional</strong></dt>
-<dd><p class="first last">An array of volumetric weights.</p>
+<dt><strong>weights: ndarray, optional</strong></dt><dd><p>An array of volumetric weights.</p>
 </dd>
-<dt><strong>diams: ndarray</strong></dt>
-<dd><p class="first last">An array of diameters used to calculate the weights.</p>
+<dt><strong>diams: ndarray</strong></dt><dd><p>An array of diameters used to calculate the weights.</p>
 </dd>
 </dl>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>k_eff: float</strong></dt>
-<dd><p class="first last">The effective k-kohler coefficient.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>k_eff: float</strong></dt><dd><p>The effective k-kohler coefficient.</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 </div>
@@ -170,8 +161,8 @@ calculate the volumetric weights.</p>
       
     </p>
     <p>
-        &copy; Copyright 2017-2019, David H Hagan.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.5.<br/>
+        &copy; Copyright 2016-2020, David H Hagan and Jesse H Kroll.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.1.<br/>
     </p>
   </div>
 </footer>

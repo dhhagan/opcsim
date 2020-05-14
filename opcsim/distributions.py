@@ -81,6 +81,7 @@ def _get_pdf_func(base, weight, dp, n, gm, gsd, rho=1.):
         elif weight == 'mass':
             return dv_dlogdp(dp, n, gm, gsd) * rho * 1e-6
 
+
 def _get_cdf_func(n, gm, gsd, dmin=None, dmax=10., weight='number', rho=1.):
     """"""
     weight = weight.lower()
@@ -95,6 +96,7 @@ def _get_cdf_func(n, gm, gsd, dmin=None, dmax=10., weight='number', rho=1.):
         return vt(n, gm, gsd, dmin, dmax)
     elif weight == 'mass':
         return vt(n, gm, gsd, dmin, dmax) * rho
+
 
 def load_distribution(label):
     """Load sample distributions as described by Seinfeld+Pandis Table 8.3.
@@ -129,6 +131,7 @@ def load_distribution(label):
         _tmp.add_mode(each[0], each[1], 10**each[2], each[3])
 
     return _tmp
+
 
 class AerosolDistribution(object):
     """Define an aerosol distribution.
@@ -171,7 +174,7 @@ class AerosolDistribution(object):
 
         return None
 
-    def add_mode(self, n, gm, gsd, label=None, kappa=0., rho=1., refr=1.5+0j):
+    def add_mode(self, n, gm, gsd, label=None, kappa=0., rho=1., refr=complex(1.5, 0)):
         """Add a mode to the distribution as defined using N, GM, and GSD. Additionally,
         each mode has optical and chemical properties that can be set including: the k-kohler 
         coefficient, the density, and the refractive index.
