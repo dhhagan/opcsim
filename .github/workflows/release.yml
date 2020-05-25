@@ -42,6 +42,7 @@ jobs:
                 password: ${{ secrets.DOCKER_PASSWORD }}
                 path: docker/
                 repository: dhhagan/opcsim
+                tags: latest
                 tag_with_ref: true
     
     build-docs:
