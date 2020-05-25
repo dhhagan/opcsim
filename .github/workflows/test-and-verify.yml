@@ -22,6 +22,10 @@ jobs:
       - name: Install dependencies
         run: poetry install
 
+      - name: Run tests and generate coverage report
+        run: |
+          poetry run pytest --cov=./ --cov-report=xml
+
       
       # - name: Generate coverage report
       #   run: |
