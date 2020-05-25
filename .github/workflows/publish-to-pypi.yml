@@ -1,11 +1,15 @@
-jobs:
-  build-n-publish:
-    name: Build and publish Python distributions to PyPI
-    runs-on: ubuntu-18.04
-    steps:
-      - uses: actions/checkout@master
-      - name: Set up python3.7
-        uses: actions/setup-python@v1
-        with:
-          python-version: 3.7
+# on:
+#   release:
+#     types: published
+
+# jobs:
+#   build-n-publish:
+#     name: Build and publish Python distributions to PyPI
+#     runs-on: ubuntu-18.04
+#     steps:
+#       - uses: actions/checkout@master
+#       - name: Set up python3.7
+#         uses: actions/setup-python@v1
+#         with:
+#           python-version: 3.7
 
