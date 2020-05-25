@@ -1,4 +1,4 @@
-name: Release to PyPI & Docker
+name: Build and publish docs to gh-pages
 on:
   create:
     tags:
