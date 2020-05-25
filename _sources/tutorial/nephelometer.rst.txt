@@ -54,7 +54,7 @@ To build a Nephelometer, simply initialize using the
 
 .. parsed-literal::
 
-    <opcsim.models.Nephelometer at 0x7fbfdffe54f0>
+    <opcsim.models.Nephelometer at 0x7efe1950d4f0>
 
 
 
