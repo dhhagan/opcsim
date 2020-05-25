@@ -1,5 +1,5 @@
-name: Run unittests and push to coveralls
-on: [push]
+name: Run unittests and push to Codecov
+on: [pull_request, push]
 jobs:
   tests:
     runs-on: ubuntu-latest
