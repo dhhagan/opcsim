@@ -1,5 +1,6 @@
 /docs/tutorial/garbage*
 /docker/examples/*.ipynb_checkpoints
+*.pytest_cache*
 
 README.PVT.md
 # deploy.sh

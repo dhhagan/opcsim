@@ -1,0 +1,30 @@
+[tool.poetry]
+name =  "opcsim"
+version = "0.5.0-rc.5"
+license = "MIT"
+description = "OPCSIM: simulating low-cost optical particle counters"
+authors = ["David H Hagan <dhagan@mit.edu>", "Jesse H Kroll <jhkroll@mit.edu>"]
+maintainers = ["David H Hagan <dhagan@mit.edu>"]
+readme = "README.md"
+homepage = "https://dhhagan.github.io/opcsim/"
+repository = "https://github.com/dhhagan/opcsim"
+documentation = "https://dhhagan.github.io/opcsim/"
+keywords = ["aerosols", "atmospheric chemistry"]
+packages = [
+    { include = "opcsim" },
+]
+
+[tool.poetry.dependencies]
+python = "^3.6.1"
+pandas = "^1.0.3"
+seaborn = "^0.10.1"
+numpy = "^1.18.4"
+scipy = "^1.4.1"
+matplotlib = "^3.2.1"
+
+[tool.poetry.dev-dependencies]
+pytest = "^3.4"
+pytest-cov = "^2.9.0"
+
+[tool.poetry.urls]
+"Bug Tracker" = "https://github.com/dhhagan/opcsim/issues"

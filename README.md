@@ -1,6 +1,6 @@
 [![PyPI version](https://badge.fury.io/py/opcsim.svg)](https://badge.fury.io/py/opcsim)
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/dhhagan/opcsim/blob/master/LICENSE)
-[![Build Status](https://travis-ci.org/dhhagan/opcsim.svg?branch=master)](https://travis-ci.org/dhhagan/opcsim)
+![build and test](https://github.com/dhhagan/opcsim/workflows/Run%20unittests%20and%20push%20to%20coveralls/badge.svg)
 [![codecov](https://codecov.io/gh/dhhagan/opcsim/branch/master/graph/badge.svg)](https://codecov.io/gh/dhhagan/opcsim)
 ![Docker Pulls](https://img.shields.io/docker/pulls/dhhagan/opcsim)
 ![Docker Stars](https://img.shields.io/docker/stars/dhhagan/opcsim)
@@ -32,7 +32,7 @@ Once executed, you should see the url with token in your terminal that will allo
 
 ## Dependencies
 
-Opcsim is supported for python3.5+.
+Opcsim is supported for python3.6.1+.
 
 Installation requires [scipy][5], [numpy][6], [pandas][7], [matplotlib][8],
 and [seaborn][9].
@@ -54,40 +54,30 @@ To install the development version directly from GitHub using pip:
 $ pip install git+https://github.com/dhhagan/opcsim.git
 ```
 
-In addition, you can either clone the repository and install from source or download/unzip the zip file and install from source:
+In addition, you can either clone the repository and install from source or download/unzip the zip file and install from source using poetry:
 
 ```sh
 
 $ git clone https://github.com/dhhagan/opcsim.git
 $ cd /opcsim
-$ python setup.py install
+$ poetry install
 ```
 
 ## Testing
 
-All tests are run via Travis.ci pre-merge. For results of these tests, please click on the link in the above travis badge. In addition, you can run tests locally.
+All tests are automagically run via GitHub actions and Travis.ci. For results of these tests, please click on the link in the above travis badge. In addition, you can run tests locally using poetry.
 
 To run tests locally:
 
 ```sh
 
-$ python setup.py test
-```
-
-To run the tests locally using coverage (adds `coverage` as a dependency):
-
-```sh
-
-$ coverage run --source opcsim setup.py test
-
-# View the report
-$ coverage report -m
+$ poetry run pytest tests
 ```
 
 
 ## Development
 
-**opcsim** development takes place on GitHub. Issues and bugs can be submitted and tracked via the [GitHub Issue Tracker][10] for this repository. Versioning is done via the python [versioneer][11] library.
+**opcsim** development takes place on GitHub. Issues and bugs can be submitted and tracked via the [GitHub Issue Tracker][10] for this repository. As of `v0.5.0`, *opcsim* uses [poetry][11] for versioning and managing dependencies and releases.
 
 
 [1]: https://dhhagan.github.io/opcsim/
@@ -100,4 +90,4 @@ $ coverage report -m
 [8]: http://matplotlib.org/
 [9]: https://seaborn.pydata.org/
 [10]: https://github.com/dhhagan/opcsim/issues
-[11]: https://github.com/warner/python-versioneer
+[11]: https://python-poetry.org/
