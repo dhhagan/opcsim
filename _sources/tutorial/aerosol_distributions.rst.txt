@@ -1,4 +1,3 @@
-
 .. _distribution_tutorial:
 
 
@@ -68,13 +67,15 @@ Table 8.3 in Seinfeld and Pandis (originally from Jaenicke (1993)) shows
 parameters for several model aerosol distributions. The urban aerosol
 distribution can be described as follows:
 
-==== ========= ============== ===================
-Mode :math:`N` :math:`D_{pg}` :math:`log\sigma_i`
-==== ========= ============== ===================
-I    7100      0.0117         0.232
-II   6320      0.0373         0.250
-III  960       0.151          0.204
-==== ========= ============== ===================
++--------+-------------+------------------+-----------------------+
+| Mode   | :math:`N`   | :math:`D_{pg}`   | :math:`log\sigma_i`   |
++========+=============+==================+=======================+
+| I      | 7100        | 0.0117           | 0.232                 |
++--------+-------------+------------------+-----------------------+
+| II     | 6320        | 0.0373           | 0.250                 |
++--------+-------------+------------------+-----------------------+
+| III    | 960         | 0.151            | 0.204                 |
++--------+-------------+------------------+-----------------------+
 
 How would we go about building this distribution? We can add as many
 modes as we would like, following the same method we used above. Also,
@@ -116,7 +117,7 @@ To read in the urban distribution, we would do the following:
 Incorporating Optical and Chemical Properties of Aerosols
 ---------------------------------------------------------
 
-This library was created for evaluating particle sensors’ response to
+This library was created for evaluating particle sensors' response to
 aerosol distributions. Thus, it is extremely important to consider the
 effects of aerosol optical properties as well. In addition to the size
 parameters described above, each mode has a few additional properties
@@ -166,9 +167,9 @@ Number Distribution
 
 Aerosol distributions are typically depicted using the probabliity
 distribution function (PDF). In Seinfeld and Pandis, they refer to it as
-the **Number Distribution Function**. When plotted in log-space
-(i.e. :math:`dN/dlogD_p`), the area under the curve is the aerosol
-number concentration.
+the **Number Distribution Function**. When plotted in log-space (i.e.
+:math:`dN/dlogD_p`), the area under the curve is the aerosol number
+concentration.
 
 Mathematically, the PDF in number-space looks like the following:
 
@@ -247,10 +248,10 @@ the function are the particle diameter (``dp``), the base (``none``,
 ``log``, or ``log10``), the weight (``number``, ``surface``, ``volume``,
 or ``mass``), and an optional ``mode`` parameter in case you would like
 to examine only one of the modes of the distribution at a time. The
-default arguments are set to be the most useful/common ones
-(i.e. ``weight='number'``, ``base='log10'``). If calculating the
-mass-weighted PDF, you can also provide an optional keyword argument
-``rho``; the default value for particle density is :math:`1\;gcm^{-3}`.
+default arguments are set to be the most useful/common ones (i.e.
+``weight='number'``, ``base='log10'``). If calculating the mass-weighted
+PDF, you can also provide an optional keyword argument ``rho``; the
+default value for particle density is :math:`1\;gcm^{-3}`.
 
 To calculate the number probability for the urban aerosol distribution
 at :math:`0.1 \; \mu m`, we can do the following:
@@ -316,7 +317,7 @@ the ``opcsim.AerosolDistribution`` object. The function returns a
 matplotlib axis object which makes it extremely easy to add to modify
 the plot using normal matplotlib syntax.
 
-Let’s plot the urban distribution we built earlier.
+Let's plot the urban distribution we built earlier.
 
 .. code:: ipython3
 
@@ -340,7 +341,7 @@ We can also send a number of kwargs to the PDF plot to change its
 appearance. We can add ``plot_kws`` to the matplotlib plot call (things
 like linewidth, color, etc). We can add ``fig_kws`` which are sent when
 creating the figure (think figsize, etc). We can set ``fill_kws`` that
-are sent to the matplotlib fill_between call if and only if
+are sent to the matplotlib fill\_between call if and only if
 ``fill=True``.
 
 .. code:: ipython3
@@ -524,7 +525,7 @@ less than :math:`D_p=2.5\;\mu m`, we do the following:
 
 
 If we want to calculate the total number of particles within some size
-range, we can add the ``dmin`` argument. For example, let’s find the
+range, we can add the ``dmin`` argument. For example, let's find the
 total number of particles between 1 and 2.5 microns:
 
 .. code:: ipython3
@@ -541,7 +542,7 @@ total number of particles between 1 and 2.5 microns:
 
 
 What about the total mass of particles less than :math:`D_p=1 \; \mu m`?
-(i.e. :math:`PM_1`)
+(i.e. :math:`PM_1`)
 
 .. code:: ipython3
 
@@ -572,7 +573,7 @@ we set the particle density :math:`\rho=1.65\;gcm^{-3}`:
 
 
 
-Although we wouldn’t normally plot the CDF, we easily can to visualize
+Although we wouldn't normally plot the CDF, we easily can to visualize
 where most of the [number, surface area, mass] is within the
 distribution using the ``opcsim.plots.cdfplot`` function:
 

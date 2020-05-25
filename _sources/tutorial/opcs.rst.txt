@@ -1,4 +1,3 @@
-
 .. _model_tutorial:
 
 
@@ -39,7 +38,7 @@ The OPC Model
 The ``opcsim.OPC`` class provides a simple way to model most of the
 functionality of low-cost optical particle counters. This model is based
 on just a few instrument parameters which should be defined in the
-manufacturer’s speficication sheet.
+manufacturer's speficication sheet.
 
 An OPC is defined by just the laser wavelength (``wl``), the exact
 ``bins`` the OPC uses as its output, and the angles for which the
@@ -115,7 +114,7 @@ right bin boundary.
 
 
 
-Building more specific OPC’s
+Building more specific OPC's
 ----------------------------
 
 We can build more complex - or specified - models by increasing the
@@ -172,17 +171,17 @@ more entries than total number of bins, as follows:
 
 
 
-This more or less covers how we can build various OPC’s - if you are
+This more or less covers how we can build various OPC's - if you are
 still unsure of what to do in a specific case, feel free to post
-questions on the GitHub repository under the ‘Issues’ tab.
+questions on the GitHub repository under the 'Issues' tab.
 
 Calibration
 ===========
 
-OPC’s count and size each particle individualy - the size of a particle
+OPC's count and size each particle individualy - the size of a particle
 is determined by the signal amplitude measured by the photo-detector,
 which is proportional to the product of the intensity of incoming light
-and the particle’s scattering cross-section. This model assumes light
+and the particle's scattering cross-section. This model assumes light
 intensity is constant, thus every particle experiences the same light
 intensity. Assuming this is valid, we can state the size of a particle
 is proportional ot the scattering cross-section of that particle.
@@ -193,7 +192,7 @@ given particle belongs to? We must calibrate our OPC and tell it, based
 on the :math:`C_{scat}` value, which bin a particle belongs to. While
 the literature dives deep into complicated, and possibly more accurate
 ways to do this, we offer three easy methods that can often be found in
-today’s low-cost devices:
+today's low-cost devices:
 
 1. ``spline`` - a simple mapping between :math:`C_{scat}` and
    :math:`D_p`
@@ -210,7 +209,7 @@ Assumptions we make
 -  all particles fall squarely within the laser
 
 We will walk through how to calibrate using each approach, but first,
-let’s take a look at a typical scattering pattern for an OPC with a 658
+let's take a look at a typical scattering pattern for an OPC with a 658
 nm laser and a collection angle of 32-88 degrees.
 
 .. code:: ipython3
@@ -248,15 +247,10 @@ nm laser and a collection angle of 32-88 degrees.
     
     sns.despine(offset=5)
 
-
-
-.. image:: opcs_files/opcs_16_0.png
-
-
 As we can see in the figure above, there are :math:`C_{scat}` values
 that are not monotonically increasing as the particle diameter
 increases, which may make it difficult to assign that value to 1 bin
-specifically. This is a very well known and documented issue with OPC’s
+specifically. This is a very well known and documented issue with OPC's
 and should play a role in choosing bin boundaries. Additionally, it only
 gets more complicated as the particle optical properties change!
 
@@ -273,8 +267,8 @@ and grouping all :math:`C_{scat}` values within range of those two
 boundaries as belonging to that bin. This work fairly well when the bins
 are chosen intelligently for a given aerosol type. However, this is not
 only the case and there are non-monotonically increasing bins from
-time-to-time. To remove issues associated with this “dips”, we implement
-a solution where we interpolate across any “dips”. This is far from
+time-to-time. To remove issues associated with this "dips", we implement
+a solution where we interpolate across any "dips". This is far from
 perfect, but gives us reasonable results.
 
 Note that this can make it quite difficult for particles to get assigned
@@ -305,7 +299,11 @@ do not fret!
 
 
 
-Let’s take a look at the calibration:
+
+.. image:: opcs_files/opcs_19_1.png
+
+
+Let's take a look at the calibration:
 
 .. code:: ipython3
 
@@ -344,7 +342,7 @@ oversizing in some regions and undersizing in others.
 .. parsed-literal::
 
     functools.partial(<bound method OPC._digitize_opc_bins of <class 'opcsim.models.OPC'>>, cscat_boundaries=array([3.12354813e-09, 3.85694293e-09, 4.76253547e-09, 5.88075700e-09,
-           7.26153183e-09, 8.96650627e-09, 1.10718009e-08, 1.36714091e-08,
+           7.26153183e-09, 8.96650626e-09, 1.10718009e-08, 1.36714091e-08,
            1.68813933e-08, 2.08450672e-08, 2.57393936e-08]))
 
 
@@ -383,8 +381,8 @@ pre-determined breakpoint as defined by the user.
 
 .. parsed-literal::
 
-    functools.partial(<bound method OPC._digitize_opc_bins of <class 'opcsim.models.OPC'>>, cscat_boundaries=array([3.19752250e-09, 3.91392940e-09, 4.79084770e-09, 5.86424010e-09,
-           7.17812672e-09, 8.46293429e-09, 1.06857637e-08, 1.34924297e-08,
+    functools.partial(<bound method OPC._digitize_opc_bins of <class 'opcsim.models.OPC'>>, cscat_boundaries=array([3.19752252e-09, 3.91392941e-09, 4.79084770e-09, 5.86424008e-09,
+           7.17812668e-09, 8.46293428e-09, 1.06857637e-08, 1.34924297e-08,
            1.70362796e-08, 2.15109384e-08, 2.71608873e-08]))
 
 
@@ -424,33 +422,41 @@ this table, please open an issue on GitHub.
 Current Options
 ~~~~~~~~~~~~~~~
 
-==================== =============================== ================
-option               Material                        Refractive Index
-==================== =============================== ================
-``psl``              Polystyrene Latex Spheres       1.592 + 0i
-``ammonium_sulfate`` Ammonium Sulfate                1.521 + 0i
-``sodium_chloride``  Sodium Chloride                 1.5405 + 0i
-``sodium_nitrate``   Sodium Nitrate                  1.448 + 0i
-``black_carbon``     Black Carbon                    1.95 + 0.79i
-``sulfuric_acid``    Sulfuric Acid                   1.427 + 0i
-``soa``              Secondary Organic Aerosol       1.4 + 0.002i
-``urban_high``       High estimate for Urban Aerosol 1.6 + 0.034i
-``urban_low``        Low estimate for Urban Aerosol  1.73 + 0.086i
-==================== =============================== ================
++------------------------+-----------------------------------+--------------------+
+| option                 | Material                          | Refractive Index   |
++========================+===================================+====================+
+| ``psl``                | Polystyrene Latex Spheres         | 1.592 + 0i         |
++------------------------+-----------------------------------+--------------------+
+| ``ammonium_sulfate``   | Ammonium Sulfate                  | 1.521 + 0i         |
++------------------------+-----------------------------------+--------------------+
+| ``sodium_chloride``    | Sodium Chloride                   | 1.5405 + 0i        |
++------------------------+-----------------------------------+--------------------+
+| ``sodium_nitrate``     | Sodium Nitrate                    | 1.448 + 0i         |
++------------------------+-----------------------------------+--------------------+
+| ``black_carbon``       | Black Carbon                      | 1.95 + 0.79i       |
++------------------------+-----------------------------------+--------------------+
+| ``sulfuric_acid``      | Sulfuric Acid                     | 1.427 + 0i         |
++------------------------+-----------------------------------+--------------------+
+| ``soa``                | Secondary Organic Aerosol         | 1.4 + 0.002i       |
++------------------------+-----------------------------------+--------------------+
+| ``urban_high``         | High estimate for Urban Aerosol   | 1.6 + 0.034i       |
++------------------------+-----------------------------------+--------------------+
+| ``urban_low``          | Low estimate for Urban Aerosol    | 1.73 + 0.086i      |
++------------------------+-----------------------------------+--------------------+
 
 Evaluating an OPC for a given Aerosol Distribution
 ==================================================
 
-The entire point of this software is to model how various OPC’s and
-other particle sensors “see” aerosols in the real world. The Aerosol
+The entire point of this software is to model how various OPC's and
+other particle sensors "see" aerosols in the real world. The Aerosol
 Distribution tutorial showed how we can model realistic aerosol
-distributions. This section will review how the OPC’s we just built
-“see” these distributions. Generally speaking, the process works as
+distributions. This section will review how the OPC's we just built
+"see" these distributions. Generally speaking, the process works as
 follows:
 
 1. For every particle in the aerosol distribution, we calculate the
    scattering cross-section
-2. For each of the scattering cross-section’s we just calculated, we
+2. For each of the scattering cross-section's we just calculated, we
    assign them to a bin of the OPC based on the calibration curve we
    generated
 3. We end up with a histogram in the form of the cumulative number of
@@ -458,8 +464,8 @@ follows:
    commercially available OPC
 
 The base method we use to obtain these numbers is ``OPC.evaluate``. This
-method returns the number of particles the OPC “sees” in each bin for a
-given aerosol distribution. One component that hasn’t yet been discussed
+method returns the number of particles the OPC "sees" in each bin for a
+given aerosol distribution. One component that hasn't yet been discussed
 is how the OPC reacts as relative humidity changes. Each of these
 methods takes an argument for relative humidity (``rh``) which will
 automatically calculate the change in particle size due to hygroscopic
@@ -508,13 +514,13 @@ AerosolDistribution and the OPC.
 
 
 
-Let’s go ahead and calibrate the OPC using ammonium sulfate:
+Let's go ahead and calibrate the OPC using ammonium sulfate:
 
 .. code:: ipython3
 
     opc.calibrate("ammonium_sulfate", method="spline")
 
-Now, let’s go ahead and evaluate the OPC for the previously defined
+Now, let's go ahead and evaluate the OPC for the previously defined
 distribution. This will return the number of particles in each bin:
 
 .. code:: ipython3
@@ -540,7 +546,7 @@ distribution. This will return the number of particles in each bin:
 Iterating across the Particle Size Distribution
 -----------------------------------------------
 
-Another important task for evaluation OPC’s is comparing the integrated
+Another important task for evaluation OPC's is comparing the integrated
 values across some pre-defined particle size range. We can accomplish
 this by using the ``OPC.integrate`` method to calculate either the total
 number of particles, total surface area, total volume, or total mass
@@ -582,7 +588,7 @@ visualize our results. There are functions built-in to compute the
 histogram to use with ``opcsim.plots.histplot`` to easily plot the
 particle size distribution.
 
-Let’s go ahead and visualize our results from earlier:
+Let's go ahead and visualize our results from earlier:
 
 .. code:: ipython3
 
@@ -616,7 +622,7 @@ On the left, we have the PDF of the particle size distribution at 0% RH
 in dark blue with the histogram, as seen by the OPC, in light blue. In
 dark red, we have the PDF of the particle size distribution at 95% RH -
 as you can see, it has shifted right substantially. There is also the
-histogram, shown as red boxes, of how the OPC “see’s” the size
+histogram, shown as red boxes, of how the OPC "see's" the size
 distribution at 95% RH. Interestingly, you see the lower part of the
 distribution (below around 600 nm) simply moves right; however, above
 that point, the bin assignments start to get screwy. This is due to the
@@ -647,7 +653,7 @@ evaluate a material of some refractive index and kappa value at various
 relative humidities. The method returns a dataframe containing data
 including: the correct bin assignment, the lower estimate for bin
 assignment, the upper estimate for bin assignment, the effective
-refractive index, the relative humidity, and the lower and upper limit’s
+refractive index, the relative humidity, and the lower and upper limit's
 of scattered light to expected scattered light.
 
 Our primary focus here is estimating the effects of changes in relative
@@ -694,7 +700,7 @@ humidity, which (1) causes the aerosols to grow as they uptake water and
       </thead>
       <tbody>
         <tr>
-          <td>0</td>
+          <th>0</th>
           <td>1</td>
           <td>0</td>
           <td>0</td>
@@ -704,7 +710,7 @@ humidity, which (1) causes the aerosols to grow as they uptake water and
           <td>0.0</td>
         </tr>
         <tr>
-          <td>1</td>
+          <th>1</th>
           <td>2</td>
           <td>1</td>
           <td>1</td>
@@ -714,7 +720,7 @@ humidity, which (1) causes the aerosols to grow as they uptake water and
           <td>0.0</td>
         </tr>
         <tr>
-          <td>2</td>
+          <th>2</th>
           <td>3</td>
           <td>2</td>
           <td>2</td>
@@ -724,7 +730,7 @@ humidity, which (1) causes the aerosols to grow as they uptake water and
           <td>0.0</td>
         </tr>
         <tr>
-          <td>3</td>
+          <th>3</th>
           <td>4</td>
           <td>3</td>
           <td>3</td>
@@ -734,7 +740,7 @@ humidity, which (1) causes the aerosols to grow as they uptake water and
           <td>0.0</td>
         </tr>
         <tr>
-          <td>4</td>
+          <th>4</th>
           <td>5</td>
           <td>4</td>
           <td>4</td>
@@ -744,7 +750,7 @@ humidity, which (1) causes the aerosols to grow as they uptake water and
           <td>0.0</td>
         </tr>
         <tr>
-          <td>...</td>
+          <th>...</th>
           <td>...</td>
           <td>...</td>
           <td>...</td>
@@ -754,7 +760,7 @@ humidity, which (1) causes the aerosols to grow as they uptake water and
           <td>...</td>
         </tr>
         <tr>
-          <td>67</td>
+          <th>67</th>
           <td>23</td>
           <td>22</td>
           <td>19</td>
@@ -764,7 +770,7 @@ humidity, which (1) causes the aerosols to grow as they uptake water and
           <td>95.0</td>
         </tr>
         <tr>
-          <td>68</td>
+          <th>68</th>
           <td>-99</td>
           <td>23</td>
           <td>20</td>
@@ -774,7 +780,7 @@ humidity, which (1) causes the aerosols to grow as they uptake water and
           <td>95.0</td>
         </tr>
         <tr>
-          <td>69</td>
+          <th>69</th>
           <td>-99</td>
           <td>-99</td>
           <td>21</td>
@@ -784,7 +790,7 @@ humidity, which (1) causes the aerosols to grow as they uptake water and
           <td>95.0</td>
         </tr>
         <tr>
-          <td>70</td>
+          <th>70</th>
           <td>-99</td>
           <td>-99</td>
           <td>22</td>
@@ -794,7 +800,7 @@ humidity, which (1) causes the aerosols to grow as they uptake water and
           <td>95.0</td>
         </tr>
         <tr>
-          <td>71</td>
+          <th>71</th>
           <td>-99</td>
           <td>-99</td>
           <td>23</td>

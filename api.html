@@ -1,23 +1,19 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
     <meta charset="utf-8" />
-    <title>API Reference &#8212; opcsim v0.4.1+0.g14bd507.dirty documentation</title>
+    <title>API Reference &#8212; opcsim 0.5.0a9 documentation</title>
     <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="_static/style.css" />
-    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-    <script type="text/javascript" src="_static/jquery.js"></script>
-    <script type="text/javascript" src="_static/underscore.js"></script>
-    <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="_static/language_data.js"></script>
-    <script type="text/javascript" src="_static/copybutton.js"></script>
-    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
-    <script type="text/javascript" src="_static/js/jquery-1.11.0.min.js"></script>
-    <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
-    <script type="text/javascript" src="_static/bootstrap-3.3.7/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="opcsim.AerosolDistribution" href="generated/opcsim.AerosolDistribution.html" />
@@ -26,6 +22,10 @@
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
 <meta name="apple-mobile-web-app-capable" content="yes">
+<script type="text/javascript" src="_static/js/jquery-1.11.0.min.js "></script>
+<script type="text/javascript" src="_static/js/jquery-fix.js "></script>
+<script type="text/javascript" src="_static/bootstrap-3.3.7/js/bootstrap.min.js "></script>
+<script type="text/javascript" src="_static/bootstrap-sphinx.js "></script>
 
   </head><body>
 
@@ -40,7 +40,7 @@
         </button>
         <a class="navbar-brand" href="index.html">
           opcsim</a>
-        <span class="navbar-text navbar-version pull-left"><b>v0.4.1+0.g14bd507.dirty</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.5.0a9</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -125,7 +125,7 @@
 
 <div class="container">
   <div class="row">
-    <div class="col-md-12 content">
+    <div class="body col-md-12 content" role="main">
       
   <div class="section" id="api-reference">
 <h1>API Reference<a class="headerlink" href="#api-reference" title="Permalink to this headline">¶</a></h1>
@@ -150,13 +150,13 @@
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="generated/opcsim.AerosolDistribution.add_mode.html#opcsim.AerosolDistribution.add_mode" title="opcsim.AerosolDistribution.add_mode"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opcsim.AerosolDistribution.add_mode</span></code></a>(n, gm, gsd)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/opcsim.AerosolDistribution.add_mode.html#opcsim.AerosolDistribution.add_mode" title="opcsim.AerosolDistribution.add_mode"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opcsim.AerosolDistribution.add_mode</span></code></a>(self, n, …)</p></td>
 <td><p>Add a mode to the distribution as defined using N, GM, and GSD.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="generated/opcsim.AerosolDistribution.pdf.html#opcsim.AerosolDistribution.pdf" title="opcsim.AerosolDistribution.pdf"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opcsim.AerosolDistribution.pdf</span></code></a>(dp[, base, …])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/opcsim.AerosolDistribution.pdf.html#opcsim.AerosolDistribution.pdf" title="opcsim.AerosolDistribution.pdf"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opcsim.AerosolDistribution.pdf</span></code></a>(self, dp[, …])</p></td>
 <td><p>Evaluate and return the probability distribution function at particle diameter <cite>dp</cite>.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="generated/opcsim.AerosolDistribution.cdf.html#opcsim.AerosolDistribution.cdf" title="opcsim.AerosolDistribution.cdf"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opcsim.AerosolDistribution.cdf</span></code></a>(dmax[, dmin, …])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/opcsim.AerosolDistribution.cdf.html#opcsim.AerosolDistribution.cdf" title="opcsim.AerosolDistribution.cdf"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opcsim.AerosolDistribution.cdf</span></code></a>(self, dmax[, …])</p></td>
 <td><p>Evaluate and return the cumulative probability distribution function between <cite>dmin</cite> and <cite>dmax</cite>.</p></td>
 </tr>
 </tbody>
@@ -185,16 +185,16 @@
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="generated/opcsim.OPC.calibrate.html#opcsim.OPC.calibrate" title="opcsim.OPC.calibrate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opcsim.OPC.calibrate</span></code></a>(material[, method, …])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/opcsim.OPC.calibrate.html#opcsim.OPC.calibrate" title="opcsim.OPC.calibrate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opcsim.OPC.calibrate</span></code></a>(self, material[, …])</p></td>
 <td><p>Calibrate the OPC assuming a specific material.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="generated/opcsim.OPC.evaluate.html#opcsim.OPC.evaluate" title="opcsim.OPC.evaluate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opcsim.OPC.evaluate</span></code></a>(distribution[, rh])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/opcsim.OPC.evaluate.html#opcsim.OPC.evaluate" title="opcsim.OPC.evaluate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opcsim.OPC.evaluate</span></code></a>(self, distribution[, rh])</p></td>
 <td><p>Return the total number of particles in each bin for a given AerosolDistribution.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="generated/opcsim.OPC.histogram.html#opcsim.OPC.histogram" title="opcsim.OPC.histogram"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opcsim.OPC.histogram</span></code></a>(distribution[, weight, …])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/opcsim.OPC.histogram.html#opcsim.OPC.histogram" title="opcsim.OPC.histogram"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opcsim.OPC.histogram</span></code></a>(self, distribution[, …])</p></td>
 <td><p>Return a histogram containing the [weight] of particles in each OPC bin.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="generated/opcsim.OPC.integrate.html#opcsim.OPC.integrate" title="opcsim.OPC.integrate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opcsim.OPC.integrate</span></code></a>(distribution[, dmin, …])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/opcsim.OPC.integrate.html#opcsim.OPC.integrate" title="opcsim.OPC.integrate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opcsim.OPC.integrate</span></code></a>(self, distribution[, …])</p></td>
 <td><p>Integrate the distribution according to the OPC for any [weight].</p></td>
 </tr>
 </tbody>
@@ -221,10 +221,10 @@
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="generated/opcsim.Nephelometer.calibrate.html#opcsim.Nephelometer.calibrate" title="opcsim.Nephelometer.calibrate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opcsim.Nephelometer.calibrate</span></code></a>(distribution)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/opcsim.Nephelometer.calibrate.html#opcsim.Nephelometer.calibrate" title="opcsim.Nephelometer.calibrate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opcsim.Nephelometer.calibrate</span></code></a>(self, distribution)</p></td>
 <td><p>Calibrate a Nephelometer using any AerosolDistribution.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="generated/opcsim.Nephelometer.evaluate.html#opcsim.Nephelometer.evaluate" title="opcsim.Nephelometer.evaluate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opcsim.Nephelometer.evaluate</span></code></a>(distribution[, rh])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/opcsim.Nephelometer.evaluate.html#opcsim.Nephelometer.evaluate" title="opcsim.Nephelometer.evaluate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opcsim.Nephelometer.evaluate</span></code></a>(self, distribution)</p></td>
 <td><p>Evaluate a Nephelometer for an AerosolDistribution at  a given relative humidity.</p></td>
 </tr>
 </tbody>
@@ -392,7 +392,7 @@
     </p>
     <p>
         &copy; Copyright 2016-2020, David H Hagan and Jesse H Kroll.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.1.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.0.3.<br/>
     </p>
   </div>
 </footer>

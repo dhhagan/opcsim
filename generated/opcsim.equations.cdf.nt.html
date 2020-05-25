@@ -1,23 +1,19 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
     <meta charset="utf-8" />
-    <title>opcsim.equations.cdf.nt &#8212; opcsim v0.4.1+0.g14bd507.dirty documentation</title>
+    <title>opcsim.equations.cdf.nt &#8212; opcsim 0.5.0a9 documentation</title>
     <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/style.css" />
-    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-    <script type="text/javascript" src="../_static/jquery.js"></script>
-    <script type="text/javascript" src="../_static/underscore.js"></script>
-    <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="../_static/language_data.js"></script>
-    <script type="text/javascript" src="../_static/copybutton.js"></script>
-    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
-    <script type="text/javascript" src="../_static/js/jquery-1.11.0.min.js"></script>
-    <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
-    <script type="text/javascript" src="../_static/bootstrap-3.3.7/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="opcsim.equations.cdf.st" href="opcsim.equations.cdf.st.html" />
@@ -26,6 +22,10 @@
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
 <meta name="apple-mobile-web-app-capable" content="yes">
+<script type="text/javascript" src="../_static/js/jquery-1.11.0.min.js "></script>
+<script type="text/javascript" src="../_static/js/jquery-fix.js "></script>
+<script type="text/javascript" src="../_static/bootstrap-3.3.7/js/bootstrap.min.js "></script>
+<script type="text/javascript" src="../_static/bootstrap-sphinx.js "></script>
 
   </head><body>
 
@@ -40,7 +40,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           opcsim</a>
-        <span class="navbar-text navbar-version pull-left"><b>v0.4.1+0.g14bd507.dirty</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.5.0a9</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -106,14 +106,14 @@
 
 <div class="container">
   <div class="row">
-    <div class="col-md-12 content">
+    <div class="body col-md-12 content" role="main">
       
   </div>
 <div class=col-md-9 content><div class="section" id="opcsim-equations-cdf-nt">
 <h1>opcsim.equations.cdf.nt<a class="headerlink" href="#opcsim-equations-cdf-nt" title="Permalink to this headline">¶</a></h1>
-<dl class="function">
+<dl class="py function">
 <dt id="opcsim.equations.cdf.nt">
-<code class="sig-prename descclassname">opcsim.equations.cdf.</code><code class="sig-name descname">nt</code><span class="sig-paren">(</span><em class="sig-param">n</em>, <em class="sig-param">gm</em>, <em class="sig-param">gsd</em>, <em class="sig-param">dmin=None</em>, <em class="sig-param">dmax=10.0</em><span class="sig-paren">)</span><a class="headerlink" href="#opcsim.equations.cdf.nt" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">opcsim.equations.cdf.</code><code class="sig-name descname">nt</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">n</span></em>, <em class="sig-param"><span class="n">gm</span></em>, <em class="sig-param"><span class="n">gsd</span></em>, <em class="sig-param"><span class="n">dmin</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">dmax</span><span class="o">=</span><span class="default_value">10.0</span></em><span class="sig-paren">)</span><a class="headerlink" href="#opcsim.equations.cdf.nt" title="Permalink to this definition">¶</a></dt>
 <dd><p>Evaluate the total number of particles between two diameters.</p>
 <p>The CDF of a lognormal distribution is calculated using equation
 8.39 from Seinfeld and Pandis.</p>
@@ -137,7 +137,7 @@
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><dl class="simple">
-<dt><strong>N | float</strong></dt><dd><p>Returns the total number of particles between dmin and dmax in units of
+<dt>N | float</dt><dd><p>Returns the total number of particles between dmin and dmax in units of
 [<span class="math notranslate nohighlight">\(particles*cm^{-3}\)</span>]</p>
 </dd>
 </dl>
@@ -145,12 +145,16 @@
 </dl>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
-<p><a class="reference internal" href="opcsim.equations.pdf.dn_ddp.html#opcsim.equations.pdf.dn_ddp" title="opcsim.equations.pdf.dn_ddp"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opcsim.equations.pdf.dn_ddp</span></code></a>, <a class="reference internal" href="opcsim.equations.pdf.dn_dlndp.html#opcsim.equations.pdf.dn_dlndp" title="opcsim.equations.pdf.dn_dlndp"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opcsim.equations.pdf.dn_dlndp</span></code></a>, <a class="reference internal" href="opcsim.equations.pdf.dn_dlogdp.html#opcsim.equations.pdf.dn_dlogdp" title="opcsim.equations.pdf.dn_dlogdp"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opcsim.equations.pdf.dn_dlogdp</span></code></a></p>
+<dl class="simple">
+<dt><a class="reference internal" href="opcsim.equations.pdf.dn_ddp.html#opcsim.equations.pdf.dn_ddp" title="opcsim.equations.pdf.dn_ddp"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opcsim.equations.pdf.dn_ddp</span></code></a></dt><dd></dd>
+<dt><a class="reference internal" href="opcsim.equations.pdf.dn_dlndp.html#opcsim.equations.pdf.dn_dlndp" title="opcsim.equations.pdf.dn_dlndp"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opcsim.equations.pdf.dn_dlndp</span></code></a></dt><dd></dd>
+<dt><a class="reference internal" href="opcsim.equations.pdf.dn_dlogdp.html#opcsim.equations.pdf.dn_dlogdp" title="opcsim.equations.pdf.dn_dlogdp"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opcsim.equations.pdf.dn_dlogdp</span></code></a></dt><dd></dd>
+</dl>
 </div>
 <p class="rubric">Examples</p>
 <p>Evaluate the number of particles in a simple distribution between 0 and
 2.5 <span class="math notranslate nohighlight">\(\mu m\)</span>:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="n">opcsim</span><span class="o">.</span><span class="n">AerosolDistribution</span><span class="p">()</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="n">opcsim</span><span class="o">.</span><span class="n">AerosolDistribution</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">d</span><span class="o">.</span><span class="n">add_mode</span><span class="p">(</span><span class="mf">1e3</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="s2">&quot;mode 1&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">n</span> <span class="o">=</span> <span class="n">opcsim</span><span class="o">.</span><span class="n">equations</span><span class="o">.</span><span class="n">cdf</span><span class="o">.</span><span class="n">nt</span><span class="p">(</span><span class="mf">1e3</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="n">dmax</span><span class="o">=</span><span class="mf">2.5</span><span class="p">)</span>
 </pre></div>
@@ -179,7 +183,7 @@
     </p>
     <p>
         &copy; Copyright 2016-2020, David H Hagan and Jesse H Kroll.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.1.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.0.3.<br/>
     </p>
   </div>
 </footer>
