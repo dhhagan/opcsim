@@ -8,15 +8,15 @@ jobs:
         python: [3.6, 3.7, 3.8]
     name: Python ${{ matrix.python }} tests
     steps:
-      - uses: actions/checkout@master
-      - name: Setup python
+      uses: actions/checkout@master
+      name: Setup python
 
-      - uses: actions/setup-python@master
-        with:
-          python-version: ${{ matrix.python }}
+      # - uses: actions/setup-python@master
+      #   with:
+      #     python-version: ${{ matrix.python }}
       
-      - name: Generate coverage report
-        run: |
-          pip install pytest
-          pip install pytest-cov
-          pytest --cov=./ --cov-report=xml
+      # - name: Generate coverage report
+      #   run: |
+      #     pip install pytest
+      #     pip install pytest-cov
+      #     pytest --cov=./ --cov-report=xml
