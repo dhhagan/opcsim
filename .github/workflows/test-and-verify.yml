@@ -11,9 +11,11 @@ jobs:
       - name: Checkout branch
         uses: actions/checkout@v2
 
-      # - uses: actions/setup-python@master
-      #   with:
-      #     python-version: ${{ matrix.python }}
+      - name: Setup Python ${{ matrix.python }}
+        uses: actions/setup-python@master
+        with:
+          python-version: ${{ matrix.python }}
+
       
       # - name: Generate coverage report
       #   run: |
