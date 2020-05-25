@@ -55,7 +55,7 @@ jobs:
             - name: Setup python 
               uses: actions/setup-python@master
               with:
-                python-version: 3.8
+                python-version: 3.7
             
             - name: Install poetry
               uses: dschep/install-poetry-action@v1.3
