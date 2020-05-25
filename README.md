@@ -1,6 +1,6 @@
 [![PyPI version](https://badge.fury.io/py/opcsim.svg)](https://badge.fury.io/py/opcsim)
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/dhhagan/opcsim/blob/master/LICENSE)
-![build and test](https://github.com/dhhagan/opcsim/workflows/Run%20unittests%20and%20push%20to%20coveralls/badge.svg)
+![run and build](https://github.com/dhhagan/opcsim/workflows/run%20and%20build/badge.svg)
 [![codecov](https://codecov.io/gh/dhhagan/opcsim/branch/master/graph/badge.svg)](https://codecov.io/gh/dhhagan/opcsim)
 ![Docker Pulls](https://img.shields.io/docker/pulls/dhhagan/opcsim)
 ![Docker Stars](https://img.shields.io/docker/stars/dhhagan/opcsim)
