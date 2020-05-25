@@ -1,4 +1,4 @@
-name: Run unittests and push to Codecov
+name: run and build
 on: [pull_request, push]
 jobs:
   tests:

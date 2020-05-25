@@ -1,4 +1,4 @@
-name: Build and publish docs to gh-pages
+name: docs/gh-pages
 on:
   create:
     tags:
