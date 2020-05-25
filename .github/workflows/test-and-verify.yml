@@ -32,6 +32,5 @@ jobs:
           token: ${{ secrets.CODECOV_TOKEN }}
           file: ./coverage.xml
           flags: unittests
-          env_vars: ubuntu-latest, ${{ matrix.python }}
           name: codecov-umbrella
           fail_ci_if_error: true
