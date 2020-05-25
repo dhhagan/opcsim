@@ -1,25 +1,22 @@
 name: Run unittests and push to coveralls
 on: [push]
 jobs:
-    runs-on: ${{ matrix.os }}
+  tests:
+    runs-on: ubuntu-latest
     strategy:
-        matrix:
-            os: [ubuntu-latest]
-            python: ["3.6", "3.7", "3.8"]
-    tests:
-        runs-on: ${{ matrix.os }}
-        name: Python ${{ matrix.python }} tests
-        steps:
-            - uses: actions/checkout@master
-            - name: Setup python
-              uses: actions/setup-python@master
-              with:
-                python-version: ${{ matrix.python }}
-            
-            - name: Generate coverage report
-              run: |
-                pip install pytest
-                pip install pytest-cov
-                pytest --cov=./ --cov-report=xml
+      matrix:
+        python: [3.6, 3.7, 3.8]
+    name: Python ${{ matrix.python }} tests
+    steps:
+      - uses: actions/checkout@master
+      - name: Setup python
 
-            #
+      - uses: actions/setup-python@master
+        with:
+          python-version: ${{ matrix.python }}
+      
+      - name: Generate coverage report
+        run: |
+          pip install pytest
+          pip install pytest-cov
+          pytest --cov=./ --cov-report=xml
