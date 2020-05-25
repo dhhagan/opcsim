@@ -8,8 +8,8 @@ jobs:
         python: [3.6, 3.7, 3.8]
     name: Python ${{ matrix.python }} tests
     steps:
-      uses: actions/checkout@master
-      name: Setup python
+      - uses: actions/checkout@master
+      - name: Setup python
 
       # - uses: actions/setup-python@master
       #   with:
