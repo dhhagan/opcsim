@@ -1,4 +1,6 @@
 [![PyPI version](https://badge.fury.io/py/opcsim.svg)](https://badge.fury.io/py/opcsim)
+[![DOI](https://zenodo.org/badge/72774719.svg)](https://zenodo.org/badge/latestdoi/72774719)
+
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/dhhagan/opcsim/blob/master/LICENSE)
 ![run and build](https://github.com/dhhagan/opcsim/workflows/run%20and%20build/badge.svg)
 [![codecov](https://codecov.io/gh/dhhagan/opcsim/branch/master/graph/badge.svg)](https://codecov.io/gh/dhhagan/opcsim)
