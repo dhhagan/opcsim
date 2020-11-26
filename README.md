@@ -12,6 +12,12 @@
 opcsim is a Python library for simulating low-cost Optical Particle Sensors (both Optical Particle Counters and Nephelometers) and
 their response to various aerosol distributions.
 
+## Citation
+
+The paper for this library can be found on the AMT website [here](https://amt.copernicus.org/articles/13/6343/2020/amt-13-6343-2020.html). It should be cited as:
+
+Hagan, D.H. and Kroll, J.H.: Assessing the accuracy of low-cost optical particle sensors using a physics-based approach, **Atmos. Meas. Tech.**, 13, 6343-6355, https://doi.org/10.5194/amt-13-6343-2020, 2020.
+
 ## Documentation
 
 Full online documentation can be found [here][1].
