@@ -5,7 +5,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python: [3.6, 3.7, 3.8]
+        python: ["3.8", "3.9", "3.10", "3.11"]
     name: Python ${{ matrix.python }} tests
     steps:
       - name: Checkout branch
@@ -17,14 +17,16 @@ jobs:
           python-version: ${{ matrix.python }}
 
       - name: Install poetry
-        uses: snok/install-poetry@v1.1.1
+        uses: snok/install-poetry@v1
+        with:
+          virtualenvs-create: true
       
       - name: Install dependencies
-        run: poetry install
+        run: poetry install --no-interaction
 
       - name: Run tests and generate coverage report
         run: |
-          poetry run pytest --cov=./ --cov-report=xml
+          poetry run pytest tests/ --cov=./ --cov-report=xml
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v1
