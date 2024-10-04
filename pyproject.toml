@@ -4,7 +4,7 @@ version = "1.1.0a0"
 license = "MIT"
 description = "OPCSIM: simulating low-cost optical particle counters"
 authors = ["David H Hagan <david.hagan@quant-aq.com>", "Jesse H Kroll <jhkroll@mit.edu>"]
-maintainers = ["David H Hagan <dhagan@mit.edu>"]
+maintainers = ["David H Hagan <david.hagan@quant-aq.com>"]
 readme = "README.md"
 homepage = "https://dhhagan.github.io/opcsim/"
 repository = "https://github.com/dhhagan/opcsim"
@@ -22,9 +22,9 @@ numpy = ">=1.20,<1.24.0 || >1.24.0"
 scipy = ">=1.7"
 matplotlib = ">=3.4,<3.6.1 || >=3.6.1"
 
-
 [tool.poetry.urls]
 "Bug Tracker" = "https://github.com/dhhagan/opcsim/issues"
+
 [tool.poetry.group.dev.dependencies]
 pandoc = "^2.4"
 sphinx-bootstrap-theme = "^0.8.1"
