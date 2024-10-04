@@ -1,10 +1,10 @@
 [tool.poetry]
 name =  "opcsim"
-version = "1.0.0"
+version = "1.1.0a1"
 license = "MIT"
 description = "OPCSIM: simulating low-cost optical particle counters"
-authors = ["David H Hagan <dhagan@mit.edu>", "Jesse H Kroll <jhkroll@mit.edu>"]
-maintainers = ["David H Hagan <dhagan@mit.edu>"]
+authors = ["David H Hagan <david.hagan@quant-aq.com>", "Jesse H Kroll <jhkroll@mit.edu>"]
+maintainers = ["David H Hagan <david.hagan@quant-aq.com>"]
 readme = "README.md"
 homepage = "https://dhhagan.github.io/opcsim/"
 repository = "https://github.com/dhhagan/opcsim"
@@ -15,21 +15,21 @@ packages = [
 ]
 
 [tool.poetry.dependencies]
-python = "^3.6.1"
-pandas = "^1.0.3"
-seaborn = "^0.10.1"
-numpy = "^1.18.4"
-scipy = "^1.4.1"
-matplotlib = "^3.2.1"
-
-[tool.poetry.dev-dependencies]
-pytest = "^3.4"
-pytest-cov = "^2.9.0"
-jupyter = "^1.0.0"
-sphinx = "^3.0.3"
-pandoc = "^1.0.2"
-sphinx-bootstrap-theme = "^0.7.1"
-numpydoc = "^0.9.2"
+python = ">=3.8,<3.12"
+pandas = ">=1.2"
+seaborn = ">=0.12"
+numpy = ">=1.20,<1.24.0 || >1.24.0"
+scipy = ">=1.7"
+matplotlib = ">=3.4,<3.6.1 || >=3.6.1"
 
 [tool.poetry.urls]
 "Bug Tracker" = "https://github.com/dhhagan/opcsim/issues"
+
+[tool.poetry.group.dev.dependencies]
+pandoc = "^2.4"
+sphinx-bootstrap-theme = "^0.8.1"
+pytest = "^8.1.1"
+pytest-cov = "^5.0.0"
+jupyter = "^1.0.0"
+sphinx = "<6.0.0"
+numpydoc = "^1.5"

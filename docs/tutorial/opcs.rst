@@ -1,4 +1,3 @@
-
 .. _model_tutorial:
 
 
@@ -344,7 +343,7 @@ oversizing in some regions and undersizing in others.
 .. parsed-literal::
 
     functools.partial(<bound method OPC._digitize_opc_bins of <class 'opcsim.models.OPC'>>, cscat_boundaries=array([3.12354813e-09, 3.85694293e-09, 4.76253547e-09, 5.88075700e-09,
-           7.26153183e-09, 8.96650627e-09, 1.10718009e-08, 1.36714091e-08,
+           7.26153183e-09, 8.96650626e-09, 1.10718009e-08, 1.36714091e-08,
            1.68813933e-08, 2.08450672e-08, 2.57393936e-08]))
 
 
@@ -383,8 +382,8 @@ pre-determined breakpoint as defined by the user.
 
 .. parsed-literal::
 
-    functools.partial(<bound method OPC._digitize_opc_bins of <class 'opcsim.models.OPC'>>, cscat_boundaries=array([3.19752250e-09, 3.91392940e-09, 4.79084770e-09, 5.86424010e-09,
-           7.17812672e-09, 8.46293429e-09, 1.06857637e-08, 1.34924297e-08,
+    functools.partial(<bound method OPC._digitize_opc_bins of <class 'opcsim.models.OPC'>>, cscat_boundaries=array([3.19752251e-09, 3.91392940e-09, 4.79084770e-09, 5.86424009e-09,
+           7.17812670e-09, 8.46293429e-09, 1.06857637e-08, 1.34924297e-08,
            1.70362796e-08, 2.15109384e-08, 2.71608873e-08]))
 
 
@@ -683,68 +682,68 @@ humidity, which (1) causes the aerosols to grow as they uptake water and
       <thead>
         <tr style="text-align: right;">
           <th></th>
-          <th>bin_hi</th>
-          <th>bin_lo</th>
           <th>bin_true</th>
-          <th>cscat_hi_ratio</th>
-          <th>cscat_lo_ratio</th>
+          <th>bin_lo</th>
+          <th>bin_hi</th>
           <th>refr_eff</th>
           <th>rh</th>
+          <th>cscat_hi_ratio</th>
+          <th>cscat_lo_ratio</th>
         </tr>
       </thead>
       <tbody>
         <tr>
+          <th>0</th>
+          <td>0</td>
           <td>0</td>
           <td>1</td>
-          <td>0</td>
-          <td>0</td>
-          <td>1.000000</td>
-          <td>1.000000</td>
           <td>1.521000+0.000000j</td>
           <td>0.0</td>
+          <td>1.000000</td>
+          <td>1.000000</td>
         </tr>
         <tr>
+          <th>1</th>
+          <td>1</td>
           <td>1</td>
           <td>2</td>
-          <td>1</td>
-          <td>1</td>
-          <td>1.000000</td>
-          <td>1.000000</td>
           <td>1.521000+0.000000j</td>
           <td>0.0</td>
+          <td>1.000000</td>
+          <td>1.000000</td>
         </tr>
         <tr>
+          <th>2</th>
+          <td>2</td>
           <td>2</td>
           <td>3</td>
-          <td>2</td>
-          <td>2</td>
-          <td>1.000000</td>
-          <td>1.000000</td>
           <td>1.521000+0.000000j</td>
           <td>0.0</td>
+          <td>1.000000</td>
+          <td>1.000000</td>
         </tr>
         <tr>
+          <th>3</th>
+          <td>3</td>
           <td>3</td>
           <td>4</td>
-          <td>3</td>
-          <td>3</td>
-          <td>1.000000</td>
-          <td>1.000000</td>
           <td>1.521000+0.000000j</td>
           <td>0.0</td>
+          <td>1.000000</td>
+          <td>1.000000</td>
         </tr>
         <tr>
+          <th>4</th>
+          <td>4</td>
           <td>4</td>
           <td>5</td>
-          <td>4</td>
-          <td>4</td>
-          <td>1.000000</td>
-          <td>1.000000</td>
           <td>1.521000+0.000000j</td>
           <td>0.0</td>
+          <td>1.000000</td>
+          <td>1.000000</td>
         </tr>
         <tr>
-          <td>...</td>
+          <th>...</th>
           <td>...</td>
           <td>...</td>
           <td>...</td>
@@ -754,54 +753,54 @@ humidity, which (1) causes the aerosols to grow as they uptake water and
           <td>...</td>
         </tr>
         <tr>
-          <td>67</td>
-          <td>23</td>
-          <td>22</td>
+          <th>67</th>
           <td>19</td>
+          <td>22</td>
+          <td>23</td>
+          <td>1.349983+0.000000j</td>
+          <td>95.0</td>
           <td>3.542784</td>
           <td>3.587729</td>
-          <td>1.349983+0.000000j</td>
-          <td>95.0</td>
         </tr>
         <tr>
-          <td>68</td>
-          <td>-99</td>
-          <td>23</td>
+          <th>68</th>
           <td>20</td>
+          <td>23</td>
+          <td>-99</td>
+          <td>1.349983+0.000000j</td>
+          <td>95.0</td>
           <td>3.574876</td>
           <td>3.542784</td>
-          <td>1.349983+0.000000j</td>
-          <td>95.0</td>
         </tr>
         <tr>
-          <td>69</td>
-          <td>-99</td>
-          <td>-99</td>
+          <th>69</th>
           <td>21</td>
+          <td>-99</td>
+          <td>-99</td>
+          <td>1.349983+0.000000j</td>
+          <td>95.0</td>
           <td>3.540213</td>
           <td>3.574876</td>
-          <td>1.349983+0.000000j</td>
-          <td>95.0</td>
         </tr>
         <tr>
-          <td>70</td>
-          <td>-99</td>
-          <td>-99</td>
+          <th>70</th>
           <td>22</td>
+          <td>-99</td>
+          <td>-99</td>
+          <td>1.349983+0.000000j</td>
+          <td>95.0</td>
           <td>3.352330</td>
           <td>3.540213</td>
-          <td>1.349983+0.000000j</td>
-          <td>95.0</td>
         </tr>
         <tr>
-          <td>71</td>
-          <td>-99</td>
-          <td>-99</td>
+          <th>71</th>
           <td>23</td>
-          <td>3.576379</td>
-          <td>3.352330</td>
+          <td>-99</td>
+          <td>-99</td>
           <td>1.349983+0.000000j</td>
           <td>95.0</td>
+          <td>3.576379</td>
+          <td>3.352330</td>
         </tr>
       </tbody>
     </table>

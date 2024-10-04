@@ -1,4 +1,4 @@
-from pkg_resources import get_distribution
+from importlib.metadata import version
 
 import warnings
 import pandas as pd
@@ -16,4 +16,4 @@ from .rc_style import set
 
 set()
 
-__version__ = get_distribution("opcsim").version
+__version__ = version("opcsim")

@@ -33,7 +33,7 @@ def compute_bin_assessment(opc, refr, kappa, rh_values=[0., 35., 95.]):
     assert(isinstance(opc, OPC)), "opc must be an instance of the opcsim.OPC class"
 
     # init the dataframe to hold our results
-    rv = pd.DataFrame()
+    rv = list()
 
     for rh in rh_values:
         for i, _bins in enumerate(opc.bins):
@@ -63,7 +63,7 @@ def compute_bin_assessment(opc, refr, kappa, rh_values=[0., 35., 95.]):
             bin_assign_hi = opc.calibration_function(values=[cscat_hi])
 
             # add results to the dataframe
-            rv = rv.append({
+            rv.append({
                 "bin_true": i,
                 "bin_lo": bin_assign_lo[0] if len(bin_assign_lo) > 0 else -99,
                 "bin_hi": bin_assign_hi[0] if len(bin_assign_hi) > 0 else -99,
@@ -71,7 +71,9 @@ def compute_bin_assessment(opc, refr, kappa, rh_values=[0., 35., 95.]):
                 "rh": rh,
                 "cscat_hi_ratio": cscat_hi / cscat_hi_exp,
                 "cscat_lo_ratio": cscat_lo / cscat_lo_exp,
-            }, ignore_index=True)
+            })
+            
+    rv = pd.DataFrame(rv)
     
     # force datatypes to be correct
     rv["bin_true"] = rv["bin_true"].astype(int)

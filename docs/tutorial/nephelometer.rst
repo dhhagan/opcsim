@@ -1,4 +1,3 @@
-
 .. _nephelometer_tutorial:
 
 
@@ -55,7 +54,7 @@ To build a Nephelometer, simply initialize using the
 
 .. parsed-literal::
 
-    <opcsim.models.Nephelometer at 0x104701160>
+    <opcsim.models.Nephelometer at 0x103153f70>
 
 
 
@@ -104,7 +103,7 @@ something like :math:`cm^2/(\mu g/ m^3)`
 
 .. parsed-literal::
 
-    1.1744058563022677e-08
+    1.1744058563022682e-08
 
 
 
@@ -119,7 +118,7 @@ Similarly, we get ratio’s for :math:`PM_{2.5}` and :math:`PM_{10}`:
 
 .. parsed-literal::
 
-    1.174352137965417e-08
+    1.1743521379654175e-08
 
 
 
@@ -132,7 +131,7 @@ Similarly, we get ratio’s for :math:`PM_{2.5}` and :math:`PM_{10}`:
 
 .. parsed-literal::
 
-    1.1743521375694491e-08
+    1.1743521375694496e-08
 
 
 
@@ -155,7 +154,7 @@ optional relative humidity) and returns the total scattered light,
 
 .. parsed-literal::
 
-    (4.4544608528839e-07, 37.92948433439533, 37.93121934108556, 37.9312193538752)
+    (4.454460852883902e-07, 37.92948433439533, 37.93121934108556, 37.9312193538752)
 
 
 
@@ -169,10 +168,10 @@ optional relative humidity) and returns the total scattered light,
 
 .. parsed-literal::
 
-    (2.0830803505720823e-06,
-     177.3731235580573,
-     177.38123712884374,
-     177.3812371886531)
+    (2.0830803505720828e-06,
+     177.37312355805727,
+     177.38123712884368,
+     177.38123718865307)
 
 
 
@@ -222,10 +221,10 @@ Next, let’s evaluate the Nephelometer:
 
 .. parsed-literal::
 
-    (1.7166105544467465e-07,
-     14.61684259521375,
-     14.617511212784953,
-     14.617511217713684)
+    (1.7166105544467467e-07,
+     14.616842595213745,
+     14.61751121278495,
+     14.617511217713679)
 
 
 

@@ -1,13 +1,10 @@
 name: docs/gh-pages
-on:
-  create:
-    tags:
-        - v*
+on: [workflow_dispatch]
 
 jobs:
     build-docs:
         name: Build docs and push to gh-pages
-        runs-on: ubuntu-18.04
+        runs-on: ubuntu-latest
         steps:
             - name: Checkout branch
               uses: actions/checkout@v2
@@ -18,16 +15,19 @@ jobs:
                 python-version: 3.8
             
             - name: Install poetry
-              uses: snok/install-poetry@v1.1.1
-            
+              uses: snok/install-poetry@v1
+              with:
+                virtualenvs-create: true
+
             - name: Install dependencies
-              run: poetry install
+              run: poetry install --no-interaction
             
             - name: Install pandoc
               run: sudo apt-get install pandoc
             
             - name: build docs
               run: |
+                source $(poetry env info --path)/activate
                 cd docs
                 make clean
                 make tutorials
@@ -35,9 +35,10 @@ jobs:
                 cd ..
             
             - name: deploy to gh-pages
-              uses: Cecilapp/GitHub-Pages-deploy@master
+              uses: Cecilapp/GitHub-Pages-deploy@v3
               env:
-                EMAIL: dhagan@mit.edu
-                GH_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-                BUILD_DIR: docs/_build/html
+                GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+              with:
+                email: david.hagan@quant-aq.com
+                build_dir: docs/_build/html
 
