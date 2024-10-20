@@ -256,6 +256,10 @@ def pdfplot(distribution, ax=None, weight='number', base='log10', with_modes=Fal
 
     # Set the default dp values to plot against
     dp = kwargs.pop('dp', np.logspace(-3, 1, 1000))
+    
+    # Get the current default color pallete
+    cp = sns.color_palette()
+    cc = map("C{}".format, itertools.cycle(range(len(cp))))
 
     # Set the default figure kws
     default_fig_kws = dict()
@@ -267,7 +271,7 @@ def pdfplot(distribution, ax=None, weight='number', base='log10', with_modes=Fal
         ax = plt.gca()
 
     # Plot the compete distribution
-    nc = next(ax._get_lines.prop_cycler)['color']
+    nc = next(cc)
 
     # Set the plot_kws as a mapping of default and kwargs
     default_plot_kws = dict(
@@ -301,7 +305,7 @@ def pdfplot(distribution, ax=None, weight='number', base='log10', with_modes=Fal
             data = distribution.pdf(dp, base=base, weight=weight, mode=m['label'])
 
             # Pop off color from the plot_kws
-            plot_kws['color'] = next(ax._get_lines.prop_cycler)['color']
+            plot_kws['color'] = next(cc)
 
             ax.plot(dp, data, label=m['label'], ls='--', **plot_kws)
 
@@ -395,7 +399,10 @@ def cdfplot(distribution, ax=None, weight='number', plot_kws={},
     plot_kws = dict(default_plot_kws, **plot_kws)
 
     # Plot the compete distribution
-    nc = next(ax._get_lines.prop_cycler)['color']
+    cp = sns.color_palette()
+    cc = map("C{}".format, itertools.cycle(range(len(cp))))
+    
+    nc = next(cc)
 
     # If label kwarg is present, use -> otherwise use default
     label = kwargs.pop('label', distribution.label)
@@ -436,11 +443,13 @@ def calplot(opc, ax=None, plot_kws={}, fig_kws={}, **kwargs):
     yvals = np.array([cscat(x, wl=opc.wl, refr=opc.calibration_refr,
                             theta1=opc.theta[0], theta2=opc.theta[1]) for x in xs])
     
-    nc = next(ax._get_lines.prop_cycler)['color']
+    cp = sns.color_palette()
+    cc = map("C{}".format, itertools.cycle(range(len(cp))))
+    nc = next(cc)
 
     ax.plot(xs, yvals, color=nc, label="Mie", **plot_kws)
     ax.plot(opc.bin_boundaries, opc.calibration_vals, "o-",
-            color=next(ax._get_lines.prop_cycler)["color"], label="Calibration")
+            color=next(cc), label="Calibration")
 
     ax.semilogx()
     ax.semilogy()
