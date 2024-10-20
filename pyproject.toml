@@ -1,6 +1,6 @@
 [tool.poetry]
 name =  "opcsim"
-version = "1.1.0a2"
+version = "1.1.0a3"
 license = "MIT"
 description = "OPCSIM: simulating low-cost optical particle counters"
 authors = ["David H Hagan <david.hagan@quant-aq.com>", "Jesse H Kroll <jhkroll@mit.edu>"]
